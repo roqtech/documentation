@@ -2,6 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/ui-components/chat-message-bell": "pages/ui-components/chat-message-bell.js",
-  "/ui-components/file-active-uploads": "pages/ui-components/file-active-uploads.js"
+  "/api-doc/files/create-file-upload": "pages/api-doc/files/create-file-upload.js"
 }

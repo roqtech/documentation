@@ -2,8 +2,6 @@ import { Callout } from 'nextra-theme-docs'
 
 # Files
 
-## Introduction
-
 ROQ provides a complete solution for file management including these features:
 
 * File upload using the UI component
@@ -18,16 +16,43 @@ ROQ provides a complete solution for file management including these features:
 
 ROQ’s file management provides there UI components which can be integrated into your application:
 
-* The `<FileDropZone />` component represents an area on your application where users can drag and drop files to be
-  uploaded.
+* The [File DropZone UI component](/ui-components/file-dropzone) represents an area on your application where users
+  can drag and drop files to be uploaded.
 *
 
 ## Basic concepts
 
+### File uploads
+
+<Callout type="info" emoji="ℹ️">
+  Files that are uploaded to ROQ Platform are stored on [Scaleway Object Storage](https://www.scaleway.com/en/object-storage/). The data center is located in Paris. 
+</Callout>
+
+Files can be uploaded via [File DropZone UI component](/ui-components/file-dropzone) or programmatically using the
+[createFileUpload API](/api-doc/files/create-file-upload). The upload is realized using signed URLs, which means the 
+files are uploaded directly from the user's browser to the object storage.
+
+### File status
+
+### File categories
+
+### File visibility
+
+A file can be either public or private. Public means that there is a permanent URL which can be used by anyone, while
+private files can only be accessed by user who are allowed to do so. The visibility of a file can be changed in the
+console or via API ([docs](/api-doc/files/change-visibility)).
+
+### File ownership and access management
+
+### File associations
+
+When a file is stored on ROQ Platform, then it always belongs to another entity. For instance PDF files can be uploaded
+and related to a contract:
+
 | Concept          | Description                                                                                                                                                                                |
 |------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| File visibility  | A file can be either public or private. Public means that there is a permanent URL which can be used by anyone, while private files can only be accessed by user who are allowed to do so. |
+| File visibility  |  |
 | File categories  | Often it makes sense to group files into project-specific categories, like “USER_FILES” or “CONTRACT_FILES”                                                                                |
 | Content types    | The list of all available types is available here: :question:                                                                                                                              |
 | File status      | The status of a file which can be one of: UPLOAD_PENDING, READY, CANCELLED or ERROR                                                                                                        |
-| File association | When a file is stored on ROQ Platform, then it always belongs to another entity. For instance PDF files can be uploaded and related to a contract:                                         |
+| File association |                                        |

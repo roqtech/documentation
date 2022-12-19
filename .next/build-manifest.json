@@ -25,15 +25,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/ui-components/chat-message-bell": [
+    "/api-doc/files/create-file-upload": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/ui-components/chat-message-bell.js"
-    ],
-    "/ui-components/file-active-uploads": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/ui-components/file-active-uploads.js"
+      "static/chunks/pages/api-doc/files/create-file-upload.js"
     ]
   },
   "ampFirstPages": []

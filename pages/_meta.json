@@ -1,15 +1,12 @@
 {
   "index": "Introduction",
   "getting-started": "Getting Started",
+  "feature-guides": "Feature Guides",
   "---": {
     "type": "separator"
   },
-  "feature-guides": "Feature Guides",
   "ui-components": "UI Components",
   "api-doc": "API Doc",
-  "----": {
-    "type": "separator"
-  },
   "customization": "Customization",
 
 

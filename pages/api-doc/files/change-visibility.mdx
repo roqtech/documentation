@@ -1,0 +1,35 @@
+import { Tab, Tabs } from 'nextra-theme-docs';
+
+# Change visibility of a file
+
+A file can be either public or private. Public means that there is a permanent URL which can be used by anyone, while
+private files can only be accessed by user who are allowed to do so. The visibility of a file can be changed in the
+console or via API using the `makeFilePublic()` and `makeFilePrivate()` methods.
+
+## makeFilePublic()
+
+To hide a file from public access, you can execute:
+
+<Tabs items={['GraphQL']}><Tab> 
+```graphql
+mutation makeFilePublic($fileId: ID!) {
+  makeFilePublic(fileId: $fileId) {
+    id
+  }
+}
+```
+</Tab></Tabs>
+
+## makeFilePrivate()
+
+To enable public access to a file, run:
+
+<Tabs items={['GraphQL']}><Tab>
+```graphql
+mutation makeFilePrivate($fileId: ID!) {
+  makeFilePrivate(fileId: $fileId) {
+    id
+  }
+}
+```
+</Tab></Tabs>
