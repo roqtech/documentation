@@ -1,0 +1,94 @@
+import { Callout } from 'nextra-theme-docs'
+
+# Notifications
+
+## Overview
+
+ROQ's notifications enable you to notify your users or user groups on various channels:
+* In-app notifications, loaded in real-time using a socket connection directly from your web app using
+the `<NotificationModal />` and `<NotificationBell />` UI components.
+* notifications via SMS or push messages to the mobile phones of your users
+* chat systems like Slack and Discord
+* and traditional e-mails.
+
+Notifications can be triggered programmatically using the Notify users API.
+
+## Manage templates
+
+### See all templates
+
+To see all templates open the "Notification" section of the console.
+
+### Create new template
+
+To set up a new notification template, click the "Create Template" button. Then you enter a KEY which will be used as a
+reference to trigger notifications using the `notify()` API. For more details about the API, please check: [Notify users
+API]().
+
+### Add channels to a template
+
+You can configure the channels of the notification template. ROQ's notification system provides these channels:
+
+* In-app notifications, using the `<NotificationModal />` and `<NotificationBell />` UI components
+* SMS
+* Push messages
+* Chat systems like Slack and Discord
+* and traditional e-mails.
+
+Each channel can be configured and activated individually.
+
+### Adding localized notification content
+
+You must enter the notification's content in the default locale of your environment. However, providing localized
+content for each locale is recommended if you have an international website using multiple languages.
+
+Please select a locale and enter the title accordingly. You can also choose an icon that will show in the Notification
+list component. You can enter plain text but also use variables like this:
+
+```text
+You got {{points}} points!
+```
+
+The points variable can be passed as a parameter of the [Notify users API]() like this:
+
+```graphql
+mutation {
+  notify(
+     ...
+      data: [
+        {
+          key: "points",
+          value: "100"
+        }
+      ]
+    }
+  ) { }
+  }
+}
+```
+
+Alternatively, you can also use these default variables:
+
+| Variable                  | Description                                                          |
+|---------------------------|----------------------------------------------------------------------|
+| `{{recipient.firstName}}` | The first of the user who receives the notification                  |
+| `{{recipient.lastName}}`  | The last of the user who receives the notification                   |
+| `{{BASE_URL}}`            | The base URL of your application that you configured in the console. |
+
+## Notify users
+By using ROQ’s API or SDK, you can notify the following:
+* a single user
+* users of one or many user groups
+* all of your users
+
+→ See [Notify users API]() for more information.
+
+## Managing integrations
+ROQ integrates with various distribution providers, e.g., Twilio, Sendgrid, and AWS SES. All you need to do is enter your API keys in the console’s integration section for each channel you want to use.
+
+## User preferences
+Users can define their preferences for every type of notification. For instance, alerts can be retrieved via push message, while product updates are delivered via e-mail.
+
+## Notification logs
+All sent notifications are logged and can be viewed in the console.
+

@@ -1,0 +1,130 @@
+import { Callout } from 'nextra-theme-docs'
+
+# Access Management
+
+## Introduction
+
+Access management in SaaS applications refers to controlling who can access the application and what actions they can
+perform. This is typically achieved through roles and permissions, which grant different access levels to other users.
+
+With ROQ's access management, you can:
+
+* define roles and assign them to your users
+* setup permissions and enforce them on your application.
+
+## What are roles and permissions?
+
+A **role** is represented by its name. For example, you may define a role called "admin" and another role called "
+member". You can also be more specific and use whatever term makes sense in your business, like "chef", "driver", or
+just "customer".
+
+Conceptually a role is a set of **permissions**. Roles are assigned directly to users. In some scenarios, users have
+multiple roles.
+
+You can easily read them in sentences like this:
+
+* A user is an admin
+* A user is a chef
+* A user is a driver
+
+**Permissions** define access to a specific type of object. For instance, you specify that a user has “read” access to
+the sales orders of a restaurant management software.
+
+## How it works
+
+Roles and permissions are defined in the console. Generally, permissions grant access to objects, e.g., "a user is
+allowed to make an order". You can specify the access level (read, create, update and delete) and set the scope. The
+scope determines if a user has access to either "all" records, only the own records, or to records related to users of a
+user group. These permissions are automatically enforced on all UI Components and APIs of ROQ.
+
+<Callout type="info" emoji="ℹ️">
+You can also define permissions that are applied to your project!
+</Callout>
+
+Some steps of preparation are needed; please refer to the instructions here: TODO Access Management - Project
+Integration. First, you must declare your custom domain objects with relations in the console and define your
+permissions based on these objects.
+
+Technically the access management works based on a query plan which ROQ computes based on the current user's
+roles&permissions and your objects&relations. The SDK is caching this information locally and only refreshes it
+periodically. This way, your application is independent of the availability of the ROQ Platform. Furthermore, there is
+no need to send all your data. ROQ only needs to know the schema of your database; the actual queries will be performed
+on your side.
+
+You can use two functions of the SDK in your project: `hasAccess` and `buildQueryPlan`
+
+## Check if a user has access to an object.
+
+The hasAccess method returns true if a user has access to something; otherwise false. You can use it for any object,
+whether it's an entity from your database, a URL, or a user interface component. See hasAccess SDK for more details.
+
+## Filter down data of a query
+
+When you retrieve data from your database, you'll often need to filter it by the user's role. For example, let’s say you
+have a REST endpoint called /sales-orders which returns a list of orders. Depending on the user's role, the result will
+be different: an "admin" will see all the orders, while a "customer" will see only their orders. This can result in
+complicated WHERE conditions, especially if you have more than these two simple roles.
+
+For this scenario, ROQ provides a query builder that automatically creates the required conditions. Using our ORM
+adapter, this can be easily integrated into your project. The generated queries can become quite complex if you have a
+deep schema. You can read more details about this method here: buildQueryPlan SDK
+
+## Managing roles
+
+A role has a name and a reference. The name should describe the role in an understandable way, like "admin", "chef" or "
+driver". We recommend using the terminology of your business to avoid confusion.
+
+Roles can be managed in ROQ's console.
+
+## Defining permissions
+
+Permissions are defined for each role individually. How you configure permissions varies depending on whether they are
+applied on your project side or at ROQ, but you'll still use the same roles for both systems.
+
+### Project's permissions
+
+To define permission for your own application, you need to select an object type (e.g., salesOrder). If you don't find
+the required object in the dropdown, then it wasn't declared in the preparation. In this case, please refer to the
+integration guide: Access Management - Project Integration
+
+For each object, you can set the access level:
+
+| Level  | Description                                                 |
+|--------|-------------------------------------------------------------|
+| Read   | The user is allowed to retrieve objects                     |
+| Create | Enables the user to create new objects of the selected type |
+| Update | Enables the user to update objects of the selected type     |
+| Delete | Enables the user to delete objects of the selected type     |
+
+In addition you can define the scope:
+
+| Scope      | Description                               |
+|------------|-------------------------------------------|
+| All        | The user is allowed to access all records |
+| Restricted | A given path restricts the access         |
+
+The **path** defines the correct way from one database table to another. For example, the path always starts at the
+table representing the user (often, this table is called user ). From here, you can select other tables that are
+related until you reach the table that holds objects of the selected type. For instance, a path to a sales order
+object could look like this: `user → salesOrder`. A path from a user to an order item could look like
+this: `user -> salesOrder -> salesOrderItem`
+
+{/* The console will automatically set this information if the path is clear. You only need to adopt it if there are
+multiple paths in your schema. */}
+
+
+Your custom database schema only defines these paths. Instead, ROQ uses them to build the query plan, which is then used
+to add WHERE conditions to your database queries.
+
+## ROQ Platform permissions
+
+Permissions that are applied on ROQ's side are defined similarly. The paths are already pre-defined, so you don't need
+to set them up, but the scope needs to be defined differently.
+
+Scopes:
+
+| Scope  | Description                                                             |
+|--------|-------------------------------------------------------------------------|
+| All    | The user is allowed to access all records                               |
+| Own    | The access is restricted to records that are directly related to a user |
+| Tenant | TODO                                                                    |

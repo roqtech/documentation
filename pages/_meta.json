@@ -1,0 +1,27 @@
+{
+  "index": "Introduction",
+  "getting-started": "Getting Started",
+  "---": {
+    "type": "separator"
+  },
+  "feature-guides": "Feature Guides",
+  "ui-components": "UI Components",
+  "api-doc": "API Doc",
+  "----": {
+    "type": "separator"
+  },
+  "customization": "Customization",
+
+
+  "about": {
+    "title": "About",
+    "type": "page"
+  },
+  "contact": {
+    "title": "Contact ↗",
+    "type": "page",
+    "href": "https://twitter.com/shuding_",
+    "newWindow": true
+
+  }
+}

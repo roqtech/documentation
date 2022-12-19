@@ -1,0 +1,37 @@
+import { Callout } from 'nextra-theme-docs'
+
+# Notification Modal UI component
+
+## Overview
+
+The `<NotificationModal />` component renders the notification center, including the user preferences.
+
+[See this component on Storybook]()
+
+![Notification Modal](/notification-modal.png)
+
+## Integration
+
+{/* TODO Props are not aligned with the actual UI component. */}
+
+You can integrate the component like this:
+
+```tsx
+<NotificationModal/>
+```
+
+Technically the component will open a socket connection to ROQ Platform, which informs about new notifications in real
+time, which will then be fetched using the [Fetch notifications API]().
+
+In most cases, no configuration is needed but you can fine-tune the behavior with these props:
+
+| Prop               | Type   | Description                                         | Default           |
+|--------------------|--------|-----------------------------------------------------|-------------------|
+| `pollInterval`     | number | Interval to reset all fetched notifications (in ms) | `900000` (15 min) |
+| `bodyHeightScroll` | number | Height at which scrolling starts                    | `null` (endless)  |
+
+Besides these props, you can inject any React component for styling purposes; see the styling guide
+{/* TODO */}
+
+If you want to react to internal events, you can use one of these
+callbacks: `onChangeType`,  `onFetchNotificationsSuccess`  and  `onReceiveUnseenCountChanged`.

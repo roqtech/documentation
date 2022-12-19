@@ -1,0 +1,109 @@
+# Getting started
+
+Welcome to the "Getting Started" page of our technical documentation! Here, you will find all the necessary information
+to help you get up and running ROQ’s features. This page provides you with step-by-step instructions for installing and
+configuring ROQ.
+
+## (1) Install ROQ package from NPM
+
+You can install ROQ’s SDK by running this NPM command:
+
+TODO
+```shell copy
+npm i roq
+```
+
+## (2) Set credentials on server-side
+
+Please create a free account here: https://console.roq.tech and get your environment credentials.
+To install ROQ you need the `apiKey`, `environmentId`, `jwtSecret` and the URL of ROQ's API endpoint called ROQ
+Platform.
+
+Now you can initialize the services using the credentials on the backend-side of your application:
+
+```tsx copy
+const {Platform} = require('...');
+
+const platform = new Platform({
+    environmentId: 'CHANGE_ME',
+    apiKey: 'CHANGE_ME',
+    jwtSecret: 'CHANGE_ME',
+    host: 'CHANGE_ME'
+});
+```
+
+## (3) Synchronize user data
+
+Before using ROQ’s feature, you need to synchronize some of your user data. This data is needed for two purposes
+
+1. For the creation of user-specific JWT tokens. These tokens are used for secure interaction between your application
+   and ROQ.
+2. The data is also used to send emails and notifications. For instance, you may want to address your users by their
+   first name in a notification template: Hi `{{recipient.firstName}}`
+
+It’s your decision which information you wish to synchronize to ROQ. It’s recommended to send the data to ROQ after you
+store it in your database. Technically you can use the `createUser()` mutation like this:
+
+```tsx copy
+userData: {
+    TODO
+}
+
+const {id: roqIdentifier} = platform.user.createUser(userData);
+```
+
+You need to save the returned ID in your database because the API needs it.
+
+ℹ️ See Create users API for more information.
+@TODO - Add link
+
+The token needs to be passed over to your client-side. The specific implementation depends on your framework.
+
+## (5) Install `<RoqProvider/>` on client-side
+
+To use ROQ's UI Components, you need to wrap your React application into the RoqProvider component. This provider is
+used for configuration and provides the required context to the other components.
+
+First, you need to determine the right place to add the wrapper:
+
+* **Pure React:** There is always an entry component, depending on your architecture approach.
+* **Next.js:** If using Next.js, then it's recommended to use the App component as described
+  here: https://nextjs.org/docs/advanced-features/custom-app
+
+Then you need to import the `index.css`, which holds the styling of ROQ’s UI components, and wrap your application into
+the `<RoqProvider />`
+
+```tsx copy
+import "rocomp/dist/index.css";
+
+const getUserToken = () => query(api);
+
+// ....
+
+<RoqProvider
+    config={{
+        host: 'https://...',
+        getToken: getUserToken,
+        socket: true
+    }}>
+    ...
+</RoqProvider>
+```
+
+There are multiple props and configuration parameters that can be set on the `RoqProvider` component:
+
+| Prop                        | Type     | Description                                                                                                                                                                     |
+|-----------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `config`                    | object   | An object that sets the global config with the parameters explained below.                                                                                                      |
+| `config:host`               | string   | Defines the URL of ROQ Platform. You can get this information from the console. Please note the hostname will be different for production and non-production environments.      |
+| `config:getToken`           | function | Reference to a function that returns the user's token that enables the interaction with ROQ Platform. Alternatively, you can pass the token directly using the token parameter. |
+| `config:socket?`            | boolean  | A boolean value must be true if a socket connection is established. This is required for notifications and chats. (default: false)                                              |
+| `locale?`                   | string   | The locale prop is used to translate the component. Setting the same locale used in the current user's session is recommended.                                                  |
+| `theme?`                    | string   | Currently selected theme. All components ship with a light and a dark theme (default: light)                                                                                    |
+| `customTheme?`              | string   | You can change the styling of the component by injection as a custom theme like this:                                                                                           |
+| `config:translationsTTL?`   | number   | Fetched translations are saved in the browser's local storage. This parameter lets you define the TTL in ms (default: 90000 ~ 15 minutes).                                      |
+| `config:translationsCache?` | boolean  | Boolean value to disable the translation cache (default: `true`)                                                                                                                |
+| `translate?`                | function | Custom translation function. You can read more about customizing translations here: Custom translations                                                                         |
+| `onError?`                  | function | The callback function, which is called when an error happens                                                                                                                    |                                                                                                                                                                          |
+
+🎉🎉🎉🎉🎉 That’s it! Now you are ready to select one of the UI components and to implement and business logic based on ROQ!

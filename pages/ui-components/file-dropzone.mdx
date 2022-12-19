@@ -1,0 +1,46 @@
+import { Callout } from 'nextra-theme-docs'
+
+# File Dropzone UI component
+
+## Introduction
+
+{/* TODO Add screenshot */}
+
+The `<FileDropZone />` component represents an area on your application where users can drag and drop files to be
+uploaded. The dropzone typically appears as a highlighted area or box on the screen, and users can drag files from their
+computer and drop them into the designated area. Once the files are dropped, they will begin to upload to the website or
+application. This can be a convenient and user-friendly way to upload files, especially if the user has multiple files
+to upload at once.
+
+[See this component on Storybook]()
+
+## Integration
+
+You can easily add the `<FileDropZone />` component to your application by using this code:
+
+```tsx
+<FileDropZone
+    accept={[
+        'image/*',
+        'application/pdf',
+        'application/m*'
+    ]}
+    fileAssociationOptions={[]}
+    fileCategory="USER_FILES"
+    onUploadFail={function noRefCheck() {
+    }}
+    onUploadSuccess={function noRefCheck() {
+    }}
+/>
+```
+
+| Prop            | Type     | Description                                          | Default |
+|-----------------|----------|------------------------------------------------------|---------|
+| accept          | string[] | List of mime-types that the drop zone should support | All     |
+| fileCategory    | string   | File category key defined in the console             |         |
+| onUploadFail    | function | Callback, invoked when upload gets failed            |         |
+| onUploadSuccess | function | Callback, invoked when upload gets successful        |         | 
+
+ 
+
+ 
