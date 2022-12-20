@@ -1,61 +1,140 @@
 import { Tab, Tabs } from 'nextra-theme-docs';
-import { Callout } from 'nextra-theme-docs'
+import { Callout } from 'nextra-theme-docs';
+import Image from 'next/image';
 
-# Create file upload
+# Files API
 
-<Callout type="info" emoji="ℹ️">
-  Files that are uploaded to ROQ Platform are stored on [Scaleway Object Storage](https://www.scaleway.com/en/object-storage/). The data center is located in Paris. 
-</Callout>
+## Introduction
 
-To upload file via API you need to proceed the following steps. Alternatively you can use ROQ's [File Upload UI
-component](/ui-components/file-upload).
+ROQ provides a complete solution for management of public and private files. Please read the
+[files feature guide](/feature-guides/files) for all information.
 
-1. Generate a signed URL using the `createFileUpload()` API
-2. Upload file via the signed URL
-3. Set status of the file using the `updateFileStatus()` API
+## files()
 
-## createFileUpload()
+You can get a list of files using the `files()` query.
 
-The `createFileUpload` API returns a "signed URL" which is then used to upload the file directly from the user's browser
-to the object storage.
+**Access management:** The query returns all files that are accessible for the
+current user.
 
-{/* TODO Replace code  */}
+**Associations:** You can use the filters to find files which are associated with other objects;
+see [createFileAssociation()](#createfileassociation). The typical flow looks loke this: First, you fetch the ID of an
+object from your database and then query the related
+files. For instance, the query shown below requests all files that are associated with a specific _"contract"_.
+
+**Visibility:** For files marked as _“public”_, the returned URL is static. If the file is marked as _“private”_, then
+the
+URL is
+referred to as a signed URL which is created for only one purpose. A signed URL works only for a short amount of time
+and is not intended to be published.
+
+{/* TODO Does files return a signed URL if the fiel is private */}
+
+{/* TODO entityIdentifiers will be renamed to entityReferences */}
 
 <Tabs items={['GraphQL']}><Tab>
 
 ```graphql
-mutation createFileUpload($createFileDto: FileCreateDto!) {
-  createFileUpload(createFileDto: $createFileDto) {
-    id
-    uploadUrl
-    formFields
+query {
+  files(filter: {
+    entityName: {
+      equalTo: "contract"
+    },
+    entityIdentifiers: {
+      equalTo:"123"
+    }}) {
+    data {
+      id
+      name
+      contentType
+      url
+      isPublic
+    }
   }
 }
 ```
 
 </Tab></Tabs>
 
+| Parameter           | Type   | Description                                                                                 |
+|---------------------|--------|---------------------------------------------------------------------------------------------|
+| `entityName`        | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
+| `entityIdentifiers` | object | References (or IDs) of the related objects from your database                               |
 
-## Upload file via CURL
+{/* TODO entityIdentifiers will be renamed to entityReferences */}
 
-You should use the UI component
+## file()
+
+To download a single file, you can use the `file()` query.
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+query {
+  file(fileId: "123") {
+    id
+    name
+    url
+    isPublic
+  }
+}
+```
+
+</Tab></Tabs>
+
+## createFileUpload()
+
+To upload file via API you need to proceed the following steps. However, it's recommended to use ROQ's [File Upload UI
+component](/ui-components/file-upload) instead of building it yourself.
+
+1. Generate a signed URL using the `createFileUpload()` API
+2. Upload file via the signed URL
+3. Set status of the file using the `updateFileStatus()` API
+
+The `createFileUpload` API returns a "signed URL" which is then used to upload the file directly from the user's browser
+to the object storage.
+
+{/* TODO Name of variable createFileDto will be changed to file  */}
+{/* TODO add a real content type  */}
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+mutation {
+  createFileUpload(
+    file: {
+      name: "abc123"
+      contentType: "image/png"
+      fileCategory: "xyz789"
+    }
+  ) {
+    id
+    uploadUrl
+  }
+}
+
+```
+
+</Tab></Tabs>
+
+| Parameter      | Type   | Description                                                                               |
+|----------------|--------|-------------------------------------------------------------------------------------------|
+| `name`         | string | Name of the uploaded file                                                                 |
+| `contentType`  | string | Mime type of the file, see [here](https://mimetype.io/all-types/) for a list of all types |
+| `fileCategory` | string | `Key` of the category of the file                                                         |
+
+With the returned URL you can upload the file, for instance using curl:
 
 ```shell
 curl 'https://s3.fr-par.scw.cloud/<bucket-name>' \
   -H 'authority: s3.fr-par.scw.cloud' \
   -H 'accept: application/json, text/plain, */*' \
   -H 'accept-language: en-US,en;q=0.9' \
-  -H 'content-type: multipart/form-data; boundary=----WebKitFormBoundary3Vy59GxeQOgK5rAa' \
+  -H 'content-type: image/png' \
   -H 'sec-fetch-mode: cors' \
   -H 'sec-fetch-site: cross-site' \
-  --data-raw $'------WebKitFormBoundary3Vy59GxeQOgK5rAa\r\nContent-Disposition: form-data; name="maxSize"\r\n\r\n30000000\r\n------WebKitFormBoundary3Vy59GxeQOgK5rAa\r\nContent-Disposition: form-data; name="Content-Type"\r\n\r\nimage/png\r\n------WebKitFormBoundary3Vy59GxeQOgK5rAa\r\nContent-Disposition: form-data; name="expiryTime"\r\n\r\n3600\r\n------WebKitFormBoundary3Vy59GxeQOgK5rAa\r\nContent-Disposition: form-data; name="bucket"\r\n\r\ncfa9f507-3814-41a8-89ed-eda311c3cf04-environment-bucket\r\n------WebKitFormBoundary3Vy59GxeQOgK5rAa\r\nContent-Disposition: form-data; name="X-Amz-Algorithm"\r\n\r\nAWS4-HMAC-SHA256\r\n------WebKitFormBoundary3Vy59GxeQOgK5rAa\r\nContent-Disposition: form-data; name="X-Amz-Credential"\r\n\r\nSCWAGWH40FYY82QDFCKQ/20221219/fr-par/s3/aws4_request\r\n------WebKitFormBoundary3Vy59GxeQOgK5rAa\r\nContent-Disposition: form-data; name="X-Amz-Date"\r\n\r\n20221219T224853Z\r\n------WebKitFormBoundary3Vy59GxeQOgK5rAa\r\nContent-Disposition: form-data; name="key"\r\n\r\nwow-1671490133391.png\r\n------WebKitFormBoundary3Vy59GxeQOgK5rAa\r\nContent-Disposition: form-data; name="Policy"\r\n\r\neyJleHBpcmF0aW9uIjoiMjAyMi0xMi0xOVQyMzo0ODo1M1oiLCJjb25kaXRpb25zIjpbWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsMCwiMzAwMDAwMDAiXSxbImVxIiwiJENvbnRlbnQtVHlwZSIsImltYWdlL3BuZyJdLHsibWF4U2l6ZSI6IjMwMDAwMDAwIn0seyJDb250ZW50LVR5cGUiOiJpbWFnZS9wbmcifSx7ImV4cGlyeVRpbWUiOiIzNjAwIn0seyJidWNrZXQiOiJjZmE5ZjUwNy0zODE0LTQxYTgtODllZC1lZGEzMTFjM2NmMDQtZW52aXJvbm1lbnQtYnVja2V0In0seyJYLUFtei1BbGdvcml0aG0iOiJBV1M0LUhNQUMtU0hBMjU2In0seyJYLUFtei1DcmVkZW50aWFsIjoiU0NXQUdXSDQwRllZODJRREZDS1EvMjAyMjEyMTkvZnItcGFyL3MzL2F3czRfcmVxdWVzdCJ9LHsiWC1BbXotRGF0ZSI6IjIwMjIxMjE5VDIyNDg1M1oifSx7ImtleSI6Indvdy0xNjcxNDkwMTMzMzkxLnBuZyJ9XX0=\r\n------WebKitFormBoundary3Vy59GxeQOgK5rAa\r\nContent-Disposition: form-data; name="X-Amz-Signature"\r\n\r\n85e782d229de979d1879ccbf104cc9ae2f3a9140f0efa1a247684f7d69702569\r\n------WebKitFormBoundary3Vy59GxeQOgK5rAa\r\nContent-Disposition: form-data; name="file"; filename="wow.png"\r\nContent-Type: image/png\r\n\r\n\r\n------WebKitFormBoundary3Vy59GxeQOgK5rAa--\r\n' \
+  --data-raw $'---REMOVED---' \
   --compressed
 ```
-
-
-{/* TODO ADd curl command to upload a file */}
-
-## updateFileStatus()
 
 When the upload is finished, you need to set the status of the upload. This is needed because the file is uploaded
 directly to the object storage and therefore bypasses ROQ Platform.
@@ -65,31 +144,62 @@ directly to the object storage and therefore bypasses ROQ Platform.
 ```graphql
 mutation{
   updateFileStatus(
-    fileId: "8f628084-7f6f-429b-9137-79620646a9be",
+    fileId: "123",
     status: READY
   ){
     id
-    createdAt
-    updatedAt
   }
 }
 ```
 
 </Tab></Tabs>
 
+## createFileAssociation()
 
+<Callout type="info" emoji="ℹ️">
+  This endpoint is only available from the server side of your application. 
+</Callout>
 
-# Change visibility of a file
+Files usually belong to some other object. For instance, you may have PDFs which represent _"contracts"_. Or you may
+have images which are _"avatars"_ and so on. To simplify this, ROQ enables you to relate files with objects which are
+saved on your database. The advantage is that you don't need to add these relations to your own database.
 
-A file can be either public or private. Public means that there is a permanent URL which can be used by anyone, while
-private files can only be accessed by user who are allowed to do so. The visibility of a file can be changed in the
-console or via API using the `makeFilePublic()` and `makeFilePrivate()` methods.
+{/* TODO rename parameter createFileAssociationDto to createFileAssociationDto */}
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+mutation {
+  createFileAssociation(
+    createFileAssociationDto: {
+      entityReference: 4
+      entityName: "xyz789"
+      fileId: "4"
+    }
+  ) {
+    id
+  }
+}
+```
+
+</Tab></Tabs>
+
+| Parameter         | Type   | Description                                                                                 |
+|-------------------|--------|---------------------------------------------------------------------------------------------|
+| `fileId`          | string | UUID of the file                                                                            |                                                                          
+| `entityReference` | string | Reference (or ID) of the related entity in your database                                    |
+| `entityName`      | string | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
 
 ## makeFilePublic()
 
-To hide a file from public access, you can execute:
+<Callout type="info" emoji="ℹ️">
+  This endpoint is only available from the server side of your application. 
+</Callout>
+
+To enable public access to a file, run:
 
 <Tabs items={['GraphQL']}><Tab>
+
 ```graphql
 mutation makeFilePublic($fileId: ID!) {
   makeFilePublic(fileId: $fileId) {
@@ -97,13 +207,19 @@ mutation makeFilePublic($fileId: ID!) {
   }
 }
 ```
+
 </Tab></Tabs>
 
 ## makeFilePrivate()
 
-To enable public access to a file, run:
+<Callout type="info" emoji="ℹ️">
+  This endpoint is only available from the server side of your application. 
+</Callout>
+
+To hide a file from public access, you can execute:
 
 <Tabs items={['GraphQL']}><Tab>
+
 ```graphql
 mutation makeFilePrivate($fileId: ID!) {
   makeFilePrivate(fileId: $fileId) {
@@ -111,4 +227,5 @@ mutation makeFilePrivate($fileId: ID!) {
   }
 }
 ```
+
 </Tab></Tabs>

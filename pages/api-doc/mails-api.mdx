@@ -14,8 +14,8 @@ others. Please refer to the [mails feature guide](/feature-guides/mails) for mor
   This endpoint is only available from the server side of your application. 
 </Callout>
 
-The `sendMail()` mutation can be used to send e-mails. The mutation returns the number of emails sent. You can find 
-the full API doc of this mutation [here](https://snapshotp.roq-platform.com/docs/#mutation-sendMail). 
+The `sendMail()` mutation can be used to send e-mails. The mutation returns the number of emails sent. You can find
+the full API doc of this mutation [here](https://snapshotp.roq-platform.com/docs/#mutation-sendMail).
 
 <Tabs items={['GraphQL']}><Tab>
 
@@ -37,9 +37,9 @@ mutation {
 
 </Tab></Tabs>
 
-| Parameter | Type   | Description                                                                           |
-|-----------|--------|---------------------------------------------------------------------------------------|
-| `key`     | string | Key of notification-type that you created in the Console, eg._"WELCOME_NOTIFICATION"_ |
-| `locale`  | string |                                                                                       |
-| `emails`  | array  |                                                                                       |
-| `data`    | array  |                                                                                       | 
+| Parameter | Type   | Description                                                                   |
+|-----------|--------|-------------------------------------------------------------------------------|
+| `key`     | string | Key of mail type that you created in the Console, eg._"WELCOME_NOTIFICATION"_ |
+| `locale`  | string | Locale (language) of the mail, eg _"en-US"_                                   |
+| `emails`  | array  | List of email addresses                                                       |
+| `data`    | array  | Array with key/value pairs. You can use this data in the template             | 
