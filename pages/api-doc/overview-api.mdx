@@ -1,0 +1,53 @@
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+# ROQ API Overview
+
+## Introduction
+
+All of ROQ's functionality is provided by ROQ Platform, a headless API-driven system that ROQ operates. ROQ Platform
+uses **GraphQL** as the primary approach for representing APIs. GraphQL is simple to use and easy to learn. We recommend
+starting your journey at the official GraphQL documentation: [Introduction to GraphQL](https://graphql.org/learn/).
+The following picture shows a bird's eye view of the API.
+
+<Image src={"/roqplatform.png"} alt="Hello" width={598} height={370} />
+
+## Queries and mutations
+
+You can find a generated GraphQL reference with all queries, mutations and types
+here: [ROQ Platform API](https://snapshotp.roq-platform.com/docs/). This
+documentation focuses on the most relevant functionalities:
+
+* [Uploading and fetching files](/api-doc/files-api)
+* [Sending emails](/api-doc/mails-api)
+* [Sending and receiving notifications](/api-doc/notifications-api)
+* [Managing users and groups](/api-doc/users-api)
+
+## URL and credentials of ROQ Platform
+
+ROQ operates multiple instances of ROQ Platform. You can find the URL of your instance when you log in to the
+[console](https://console.roq.tech/). There you also find the other credentials like `apiKey` and `environmentId`
+which you need to pass to the [ROQProvider wrapper](/getting-started#5-install-roqprovider-on-client-side) in your
+client-side application.
+
+{/* TODO Complete this section when SDK is there */}
+
+## Client- and server-side APIs
+
+Some GraphQL mutations aren't available on the client side of your application and can only be used from the
+server side. That's because users could manipulate parameters and perform undesirable behavior. For this reason ROQ
+Platform exposes two endpoints:
+
+* **`{URL}/v01/graphql`** - API for the client-side of your application. Interactions require a user token.
+* **`{URL}/v01/server/graphql`** - API for the server-side of your application. Interactions require a user token and
+  the `apiKey`.
+
+## User token
+
+To interact with the APIs of ROQ Platform, you need to create a token for the current user using the `createUserToken`
+mutation.
+
+{/* TODO add code */}
+
+{/* TODO explain how to interact with a user token and using the serice account instead */}

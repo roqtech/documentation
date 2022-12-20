@@ -2,13 +2,13 @@ import { Callout } from 'nextra-theme-docs'
 
 # Files
 
+## Introduction
+
 ROQ provides a complete solution for file management including these features:
 
 * File upload using the UI component
-* Bulk file upload
-* Private files
-* Public files
-* File associations
+* Files visiblity (public or private)
+* File associations (files can be related to any object)
 
 ## UI Components
 
@@ -16,9 +16,9 @@ ROQ provides a complete solution for file management including these features:
 
 ROQ’s file management provides there UI components which can be integrated into your application:
 
-* The [File DropZone UI component](/ui-components/file-dropzone) represents an area on your application where users
+1. The [File Upload UI component](/ui-components/file-upload) represents an area on your application where users
   can drag and drop files to be uploaded.
-*
+2. TODO
 
 ## Basic concepts
 
@@ -28,11 +28,13 @@ ROQ’s file management provides there UI components which can be integrated int
   Files that are uploaded to ROQ Platform are stored on [Scaleway Object Storage](https://www.scaleway.com/en/object-storage/). The data center is located in Paris. 
 </Callout>
 
-Files can be uploaded via [File DropZone UI component](/ui-components/file-dropzone) or programmatically using the
-[createFileUpload API](/api-doc/files/create-file-upload). The upload is realized using signed URLs, which means the 
-files are uploaded directly from the user's browser to the object storage.
+Files can be uploaded via [File Upload UI component](/ui-components/file-upload) or programmatically using the
+[createFileUpload() API](/api-doc/files-api#createfileupload). The upload is realized using signed URLs, which means the 
+files are uploaded directly from the user's browser to the object storage without sending it through your backend.
 
 ### File status
+
+
 
 ### File categories
 
@@ -56,3 +58,6 @@ and related to a contract:
 | Content types    | The list of all available types is available here: :question:                                                                                                                              |
 | File status      | The status of a file which can be one of: UPLOAD_PENDING, READY, CANCELLED or ERROR                                                                                                        |
 | File association |                                        |
+
+
+TODO: file associations

@@ -1,37 +1,40 @@
 import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import Image from 'next/image';
 
 # Notification Modal UI component
 
 ## Overview
 
-The `<NotificationModal />` component renders the notification center, including the user preferences.
+The `<NotificationModal />` component shows the user's notifications in real-time and also enables the user to
+configure the preferences. Please refer to the [notifications feature guide](/feature-guides/notifications) for more
+information and instructions.
 
-[See this component on Storybook]()
+<Tabs items={['Light', 'Dark']}><Tab>
 
-![Notification Modal](/notification-modal.png)
+<Image src={"/notification-modal-light.png"} alt="NotificationModal light" width={600} height={160} />
+
+</Tab><Tab>
+
+<Image src={"/notification-modal-dark.png"} alt="NotificationModal dark" width={600} height={160} />
+
+</Tab></Tabs>
+
+See this component in action on
+[Storybook](https://ui.roq.tech/?path=/story/notifications-notificationsmodal--default).
 
 ## Integration
 
 {/* TODO Props are not aligned with the actual UI component. */}
 
-You can integrate the component like this:
+The notification modal component can be integrated with just one line of code. The component will open a socket
+connection to ROQ Platform to receive notifications events in real time. The list of notifcations is fetched using the
+[notifications() API](/api-doc/notifications-api#notifications).
+
+<Tabs items={['React']}><Tab>
 
 ```tsx
 <NotificationModal/>
 ```
 
-Technically the component will open a socket connection to ROQ Platform, which informs about new notifications in real
-time, which will then be fetched using the [Fetch notifications API]().
-
-In most cases, no configuration is needed but you can fine-tune the behavior with these props:
-
-| Prop               | Type   | Description                                         | Default           |
-|--------------------|--------|-----------------------------------------------------|-------------------|
-| `pollInterval`     | number | Interval to reset all fetched notifications (in ms) | `900000` (15 min) |
-| `bodyHeightScroll` | number | Height at which scrolling starts                    | `null` (endless)  |
-
-Besides these props, you can inject any React component for styling purposes; see the styling guide
-{/* TODO */}
-
-If you want to react to internal events, you can use one of these
-callbacks: `onChangeType`,  `onFetchNotificationsSuccess`  and  `onReceiveUnseenCountChanged`.
+</Tab></Tabs>

@@ -25,10 +25,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/api-doc/files/create-file-upload": [
+    "/api-doc/files-api": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/api-doc/files/create-file-upload.js"
+      "static/chunks/pages/api-doc/files-api.js"
+    ],
+    "/feature-guides/files": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/feature-guides/files.js"
     ]
   },
   "ampFirstPages": []

@@ -1,0 +1,45 @@
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs'
+
+# Mails API
+
+## Introduction
+
+ROQ Platform provides a unified way to send emails utilizing multiple providers like Sendgrid, Mandrill, Mailgun, and
+others. Please refer to the [mails feature guide](/feature-guides/mails) for more information and instructions.
+
+## sendMail()
+
+<Callout type="info" emoji="ℹ️">
+  This endpoint is only available from the server side of your application. 
+</Callout>
+
+The `sendMail()` mutation can be used to send e-mails. The mutation returns the number of emails sent. You can find 
+the full API doc of this mutation [here](https://snapshotp.roq-platform.com/docs/#mutation-sendMail). 
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+mutation {
+  sendMail(
+    mail: {
+      key: "abc123"
+      locale: "abc123"
+      emails: ["xyz789"]
+      data: [{ key: "xyz789", value: "xyz789" }]
+    }
+  ) {
+    mailsSent: {count}
+  }
+}
+
+```
+
+</Tab></Tabs>
+
+| Parameter | Type   | Description                                                                           |
+|-----------|--------|---------------------------------------------------------------------------------------|
+| `key`     | string | Key of notification-type that you created in the Console, eg._"WELCOME_NOTIFICATION"_ |
+| `locale`  | string |                                                                                       |
+| `emails`  | array  |                                                                                       |
+| `data`    | array  |                                                                                       | 

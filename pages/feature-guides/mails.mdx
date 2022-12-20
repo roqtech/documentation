@@ -1,0 +1,30 @@
+import { Callout } from 'nextra-theme-docs'
+
+# Mails
+
+## Introduction
+
+ROQ provides a unified way to send emails utilizing multiple providers like Sendgrid, Mandrill, Mailgun, and
+others. The email functionality is used by other features of ROQ, for instance confirming new user accounts.
+
+## How to send emails
+
+To send emails via ROQ's API, you need to perform these steps:
+
+### 1. Configure email provider
+
+Make sure that an email provider is connected and activated. You find a list of all integrations in the [console](https://console.roq.tech/).
+
+### 2. Create email template
+
+Create a new email template and define a unique key. Then you can enter the content of the emails for each activated locale. You can use placeholders for
+any content you submit in the `data` parameter of the [sendMail API](/api-doc/mails-api#sendmail).
+
+```text
+Hi {{firstName}}!
+```
+
+### 3. Send emails via API 
+
+Emails are sent using the [sendMail API](/api-doc/mails-api#sendmail). You need to use the same key which you set to 
+the email type.

@@ -1,0 +1,83 @@
+import { Callout } from 'nextra-theme-docs'
+
+# Users API
+
+## Create users
+
+The createUser API is used to synchronize user data to ROQ. This data is needed for two purposes
+
+For the creation of user-specific JWT tokens. These tokens are used for secure interaction between your application and
+ROQ. The data is also used to send emails and notifications. For instance, you may want to address your users by
+their first name in a notification template: `Hi {{recipient.firstName}}`
+
+It’s your decision which information you wish to synchronize to ROQ. It’s recommended to send the data to ROQ after you
+store it in your database.
+
+See the API doc of [createUser](https://snapshotp.roq-platform.com/docs/#mutation-createUser)
+
+{/* TODO Add GraphQL mutation docs */}
+
+{/* TODO Something is wrong with the code below  */}
+```text
+userData: {
+  reference: "123",
+  email: "john@doe.tech",
+  firstName: "John",
+  lastName: "Doe",
+  isOptedIn: true,
+  active: true,
+  locale: "en-US"
+} 
+
+const { id: roqIdentifier } = platform.user.createUser(userData);
+```
+You need to save the returned ID in your database because the API needs it.
+
+| Parameter | Type    | Description                                                                                                                                                                                        |
+|-----------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| reference | string  | Here you can set your identifier (e.g. the UUID of the user entity in your database). This way you can filter users by your own identifier.                                                        |
+| email     | string  | Email of the user                                                                                                                                                                                  |
+| firstName | string  | First name of the user                                                                                                                                                                             |
+| lastName  | string  | Last name of the user                                                                                                                                                                              |
+| isOptedIn | boolean | Set to true after the user confirm the email.                                                                                                                                                      |
+| active    | boolean | Set to true if the user is activate and able to login to your application.                                                                                                                         |
+| locale    | string  | The locale represents the language and the country of the user, e.g. en-US means _“english in US”_. The locale is used for translations of all UI components as well as for sending notifications. |
+
+## Create user groups
+
+```graphql
+ 
+```
+
+| Parameter   | Type   | Description                                          |
+|-------------|--------|------------------------------------------------------|
+| `name`      | string | The name of the user group. For instance _“My Team”_ |
+| `reference` | string |                                                      |
+| `type`      | string |                                                      |
+
+## Add users to user groups
+
+To add a user to a user group, you can use the `addUsersToUserGroup` API . See full specs in the API doc
+
+Read more about the concept of user groups here: [User groups]().
+
+See the API doc of [addUsersToUserGroup](https://snapshotp.roq-platform.com/docs/#mutation-addUsersToUserGroup)
+
+```graphql
+ mutation addUsersToUserGroup(
+  $id: ID!,
+  $userIds: [ID!]!
+) {
+  addUsersToUserGroup(
+    id: $id,
+    userIds: $userIds
+  )
+}
+```
+
+{/* id should be renamed to userId */}
+
+| Parameter | Type  | Description          |
+|-----------|-------|----------------------|
+| `id`      | UUID  | ID of the user group |
+| `userIds` | array | Array of user IDs    |

@@ -1,0 +1,98 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+
+# Notifications API
+
+## Introduction
+
+ROQ's notifications enable you to notify your users or user groups on various channels. Please refer to
+the [notifications feature guide](/feature-guides/notifications) for more information and instructions.
+
+## notify()
+
+<Callout type="info" emoji="ℹ️">
+  This endpoint is only available from the server side of your application. 
+</Callout>
+
+The `notify()` mutation enables you to notify:
+
+* a single user or multiple users
+* users of one or multiple user groups
+* all of your users.
+
+You can find the full API doc of this mutation [here](https://snapshotp.roq-platform.com/docs/#mutation-notify).
+
+The API requiers a `key` parameter which you need to configure in the console, see
+instructions [here](/feature-guides/notifications#2-create-new-notification-template). The notified users are
+defined in the `recipients` variable as shown below.
+
+{/* TODO add tenant as a parameter */}
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+mutation {
+  notify(
+    notification: {
+      key: "aaa"
+      recipients: {
+        userIds: ["abc123"]
+        userGroups: { operator: AND, userGroupIds: ["xyz789"] }
+        excludedUserIds: ["abc123"]
+        allUsers: false
+      }
+      data: [{ key: "xyz789", value: "xyz789" }]
+    }
+  ) {
+    usersNotified {
+      count
+    }
+  }
+}
+
+```
+
+</Tab></Tabs>
+
+| Parameter                    | Type   | Description                                                                                                                                                                                           |
+|------------------------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `key`                        | string | Key of notification-type that you created in the Console, eg._"WELCOME_NOTIFICATION"_                                                                                                                 |
+| `recipients:userIds`         | array  | Array of user IDs that are notified.                                                                                                                                                                  |
+| `recipients:userGroups`      | object | An object that represents a list of user groups and an `operator` which can be set to _"AND"_(intersection of users) and _"OR"_ (union of users).                                                     |
+| `recipients:excludedUserIds` | array  | List of user IDs (of ROQ Platform) who shouldn't be notified. A typical use case is when a user performs an action and all users of the same user-group should be notified, except of the acting user |
+| `recipients:allUsers`        | bool   | If set to true then all users will be notified.                                                                                                                                                       |
+| `data`                       | array  | List of key/value pairs which you can use in the content section of the Notification template                                                                                                         |
+
+## notifications()
+
+The [Notification Modal](/ui-components/notification-modal) UI component fetches notifications by using the 
+`notifications()` query. You can find the full API doc of this query [here](https://snapshotp.roq-platform.com/docs/#query-notifications).
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+query notifications(page: 0, seen: true) {
+    totalCount
+    data {
+      {
+        "id": "xyz789",
+        "createdAt": "2007-12-03",
+        "templateIdentifier": "abc123",
+        "content": "xyz789",
+        "seen": true,
+        "read": false,
+        "email": "abc123",
+        "providerId": "abc123",
+        "title": "abc123",
+        "icon": "abc123",
+        "lastSeenDate": "xyz789",
+        "errorId": "xyz789",
+        "errorText": "abc123",
+        "status": "sent",
+        "channel": "email"
+      }
+    }
+}
+```
+
+</Tab></Tabs>

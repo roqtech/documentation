@@ -2,5 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/api-doc/files/create-file-upload": "pages/api-doc/files/create-file-upload.js"
+  "/feature-guides/files": "pages/feature-guides/files.js",
+  "/api-doc/files-api": "pages/api-doc/files-api.js"
 }

@@ -2,72 +2,69 @@ import { Callout } from 'nextra-theme-docs'
 
 # Notifications
 
-## Overview
+## Introduction
 
 ROQ's notifications enable you to notify your users or user groups on various channels:
+
 * In-app notifications, loaded in real-time using a socket connection directly from your web app using
-the `<NotificationModal />` and `<NotificationBell />` UI components.
+  the [Notification Modal](/ui-components/notification-modal) UI component.
 * notifications via SMS or push messages to the mobile phones of your users
 * chat systems like Slack and Discord
 * and traditional e-mails.
 
-Notifications can be triggered programmatically using the Notify users API.
+Users can define their preferences for every type of notification. For instance, alerts can be retrieved via push
+message, while product updates are delivered via e-mail.
 
-## Manage templates
+{/* NOTE - Unsubscribe is not implemented yet */}
 
-### See all templates
+## UI components
 
-To see all templates open the "Notification" section of the console.
+ROQ's notification feature ships with two main UI components that you can easily integrate into your application:
+1. The [**Notification Modal**](/ui-components/notification-modal) component shows the user's notifications in 
+   real-time and also enables the user to configure the preferences.
+2. The [**Notification Bell**](/ui-components/notification-bell) component renders a bell symbol which informs the 
+   user about unread notifications.
 
-### Create new template
+## How to use notifications
 
-To set up a new notification template, click the "Create Template" button. Then you enter a KEY which will be used as a
-reference to trigger notifications using the `notify()` API. For more details about the API, please check: [Notify users
-API]().
+To notify users via ROQ's API, you need to perform these steps:
+1. [Configure channel providers](#1-configure-channel-providers) 
+2. [Create new notification template](#2-create-new-notification-template)
+3. [Notify users using the API](#3-notify-users-using-the-api)
 
-### Add channels to a template
+### (1) Configure channel providers
 
-You can configure the channels of the notification template. ROQ's notification system provides these channels:
+ROQ is using multiple providers to notify users. You can active and configure one provider per channel in
+the [console](https://console.roq.tech/).
 
-* In-app notifications, using the `<NotificationModal />` and `<NotificationBell />` UI components
+| Channel | Providers                                                                                      |
+|---------|------------------------------------------------------------------------------------------------|
+| Email   | Email.js, SendGrid, Mailgun, Mailjet, Mandrill, Nodemailer, Postmark, Sendinblue, SES, NetCore |
+| SMS     | Nexmo, Plivo, sms77, SNS, Telnyx, Twilio, Gupshup, Firetext                                    |
+| Push    | coming soon                                                                                    |
+| Chat    | coming soon                                                                                    |
+
+### (2) Create new notification template
+
+You can manage new notification templates in the [console](https://console.roq.tech/). Each template requires a unique 
+`key` which will be used as a reference to trigger notifications using the API.
+
+For each notification template you can configure and activate multiple channels. There are five channels to choose from:
+
+* In-app notifications, using the [Notification Modal](/ui-components/notification-modal) UI component.
 * SMS
 * Push messages
 * Chat systems like Slack and Discord
 * and traditional e-mails.
 
-Each channel can be configured and activated individually.
-
-### Adding localized notification content
-
-You must enter the notification's content in the default locale of your environment. However, providing localized
-content for each locale is recommended if you have an international website using multiple languages.
-
-Please select a locale and enter the title accordingly. You can also choose an icon that will show in the Notification
-list component. You can enter plain text but also use variables like this:
+For each activated channel, you can select and icon and enter localized content using dynamic variables like this:
 
 ```text
 You got {{points}} points!
 ```
 
-The points variable can be passed as a parameter of the [Notify users API]() like this:
-
-```graphql
-mutation {
-  notify(
-     ...
-      data: [
-        {
-          key: "points",
-          value: "100"
-        }
-      ]
-    }
-  ) { }
-  }
-}
-```
-
-Alternatively, you can also use these default variables:
+These variables can be submitted using the `data` parameter of the [notify() API](/api-doc/notifications-api#notify).
+You can also use these pre-defined variables to enrich your content:
 
 | Variable                  | Description                                                          |
 |---------------------------|----------------------------------------------------------------------|
@@ -75,20 +72,10 @@ Alternatively, you can also use these default variables:
 | `{{recipient.lastName}}`  | The last of the user who receives the notification                   |
 | `{{BASE_URL}}`            | The base URL of your application that you configured in the console. |
 
-## Notify users
-By using ROQ’s API or SDK, you can notify the following:
-* a single user
-* users of one or many user groups
-* all of your users
+{/* NOTE BASE_URL may be not working */}
 
-→ See [Notify users API]() for more information.
 
-## Managing integrations
-ROQ integrates with various distribution providers, e.g., Twilio, Sendgrid, and AWS SES. All you need to do is enter your API keys in the console’s integration section for each channel you want to use.
+### (3) Notify users using the API
 
-## User preferences
-Users can define their preferences for every type of notification. For instance, alerts can be retrieved via push message, while product updates are delivered via e-mail.
-
-## Notification logs
-All sent notifications are logged and can be viewed in the console.
-
+To notify your users you can use the [notify() API](/api-doc/notifications-api#notify). It's important to  
+use the same `key` which you set to the notification template.

@@ -1,6 +1,8 @@
 {
-  "files": "Files API",
-  "notifications": "Notifications API",
-  "users": "Users API"
+  "overview-api": "Overview",
+  "files-api": "Files API",
+  "mails-api": "Mails API",
+  "notifications-api": "Notifications API",
+  "users-api": "Users API"
 
 }

@@ -9,6 +9,7 @@ configuring ROQ.
 You can install ROQ’s SDK by running this NPM command:
 
 {/* TODO Get final command */}
+
 ```shell copy
 npm i roq
 ```
@@ -56,6 +57,19 @@ You need to save the returned ID in your database because the API needs it.
 
 ℹ️ See Create users API for more information.
 @TODO - Add link
+
+## (4) Pass token from server to client-side
+
+The AuthorisationClientService is used to fetch user tokens from ROQ Platform. You can create a token of a user with the
+createUserToken method and the ID which you received from the createUser method previously:
+
+{/* TODO replace code with SDK */}
+
+```tsx
+const token = await TODO.createUserToken({
+  roqIdentifier: userId
+});
+```
 
 The token needs to be passed over to your client-side. The specific implementation depends on your framework.
 

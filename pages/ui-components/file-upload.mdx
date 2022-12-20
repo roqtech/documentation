@@ -1,0 +1,61 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+# File Upload UI component
+
+## Introduction
+
+The `<FileUpload/>` component represents an area on your application where users can drag and drop files to be
+uploaded. Please refer to
+the [files feature guide](/feature-guides/files) for more information and instructions.
+
+<Tabs items={['Light', 'Dark']}><Tab>
+
+<Image src={"/file-upload-light.png"} alt="file-upload-light" width={500} height={300} />
+
+</Tab><Tab>
+
+<Image src={"/file-upload-dark.png"} alt="file-upload-dark" width={500} height={300} />
+
+</Tab></Tabs>
+
+See this component in action on
+[Storybook](https://ui.roq.tech/?path=/docs/files-fileupload--default).
+
+## Integration
+
+You can easily add the `<FileUpload/>` component to your application by using this code:
+{/* TODO Replace code snippet */}
+
+<Tabs items={['React']}><Tab>
+
+```tsx
+<FileUpload
+    accept={[
+        'image/*',
+        'application/pdf',
+        'application/m*'
+    ]}
+    fileAssociationOptions={[]}
+    fileCategory="USER_FILES"
+    onUploadFail={function noRefCheck() {
+    }}
+    onUploadSuccess={function noRefCheck() {
+    }}
+/>
+```
+
+</Tab></Tabs>
+
+
+| Prop            | Type     | Description                                          | Default |
+|-----------------|----------|------------------------------------------------------|---------|
+| accept          | string[] | List of mime-types that the drop zone should support | All     |
+| fileCategory    | string   | File category key defined in the console             |         |
+| onUploadFail    | function | Callback, invoked when upload gets failed            |         |
+| onUploadSuccess | function | Callback, invoked when upload gets successful        |         | 
+
+ 
+
+ 
