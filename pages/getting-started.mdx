@@ -1,3 +1,7 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import Image from 'next/image';
+
 # Getting started
 
 Welcome to the "Getting Started" page of our technical documentation! Here, you will find all the necessary information
@@ -43,20 +47,34 @@ Before using ROQ’s feature, you need to synchronize some of your user data. Th
    first name in a notification template: Hi `{{recipient.firstName}}`
 
 It’s your decision which information you wish to synchronize to ROQ. It’s recommended to send the data to ROQ after you
-store it in your database. Technically you can use the `createUser()` mutation like this:
+store it in your database using the [**`createUser()`**](/api-doc/users-api#createuser) API:
 
-```tsx copy
-userData: {
-    TODO
+<Tabs items={['GraphQL']}><Tab>
+```graphql
+mutation {
+  createUser(
+    user: {
+      reference: "abc123"
+      email: "xyz789"
+      phone: "xyz789"
+      firstName: "xyz789"
+      lastName: "abc123"
+      locale: "xyz789"
+      timezone: "xyz789"
+      isOptedIn: false
+      active: false
+      tenantId: 4
+    }
+  ) {
+    id
+  }
 }
-
-const {id: roqIdentifier} = platform.user.createUser(userData);
 ```
+</Tab></Tabs>
 
-You need to save the returned ID in your database because the API needs it.
+It's important to save the returned ID on your side, so that you can use it for other features. To lean more about 
+the parameters, please refer to the [**`createUser()`**](/api-doc/users-api#createuser) API documentation.
 
-ℹ️ See Create users API for more information.
-@TODO - Add link
 
 ## (4) Pass token from server to client-side
 
@@ -67,7 +85,7 @@ createUserToken method and the ID which you received from the createUser method 
 
 ```tsx
 const token = await TODO.createUserToken({
-  roqIdentifier: userId
+    roqIdentifier: userId
 });
 ```
 
@@ -120,4 +138,12 @@ There are multiple props and configuration parameters that can be set on the `Ro
 | `translate?`                | function | Custom translation function. You can read more about customizing translations here: Custom translations                                                                         |
 | `onError?`                  | function | The callback function, which is called when an error happens                                                                                                                    |                                                                                                                                                                          |
 
-🎉🎉🎉🎉🎉 That’s it! Now you are ready to select one of the UI components and to implement and business logic based on ROQ!
+## What's next
+
+🎉🎉🎉🎉🎉 That’s it! Now you are ready to select one of the UI components and to implement and business logic based on
+ROQ! You may want to start with the [chat system](/feature-guides/chat), [notifications](/feature-guides/notifications)
+or file [uploads](/feature-guides/files).
+
+If you have any questions, ideas or need support then join
+our [Community Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ) and talk
+to us directly.

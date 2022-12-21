@@ -5,7 +5,68 @@ import { Tab, Tabs } from 'nextra-theme-docs';
 
 ## Introduction
 
+In B2B SaaS applications, all users are usually grouped into tenants. Each of your business customers is represented as
+a tenant. The related users and all the data are fully isolated. Please refer to
+the [multi-tenancy feature guide](/feature-guides/multi-tenancy) for more information and instructions.
 
 ## Mutations
 
 ### `createTenant()`
+
+You can create new tenants by setting a name. The returned ID is needed when you assign tenants to users by using
+[`createUser()`](/api-doc/users-api#createuser) or [`updateUser()`](/api-doc/users-api#updateuser)
+
+{/* TODO reference should be added, see CPD-1892 */}
+
+{/* TODO "user" field needs to be renamed */}
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+mutation {
+  createTenant(user: { name: "abc123" }) {
+    id
+  }
+}
+```
+
+</Tab></Tabs>
+
+### `updateTenant()`
+
+`updateTenant()` works the same way as `createTenant()` described above.
+
+## Queries
+
+### `tenants()`
+
+Load tenant data. All [query parameters](/api-doc/graphql-basics-api) can be applied here to narrow down the results.
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+query {
+  tenants {
+    data {
+      name
+    }
+  }
+}
+```
+
+</Tab></Tabs>
+
+### `tenant()`
+
+Fetch a single tenant by ID
+
+<Tabs items={['GraphQL']}><Tab>
+```graphql
+query {
+  tenant(id: "123") {
+    name
+  }
+}
+
+```
+</Tab></Tabs>

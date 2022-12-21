@@ -1,11 +1,12 @@
 import { Callout } from 'nextra-theme-docs'
+import Image from 'next/image';
 
 # Custom styling
 
-<Callout type="info" emoji="ℹ️">
+## Introduction
+
 You can customize the design of ROQ’s UI components to improve the fit to the look&feel of your application. There 
-are two approaches: You can overwrite the CSS directly or inject an entirely new theme.
-</Callout>
+are two approaches: You can [overwrite the CSS](#custom-css) directly or inject an entirely new [theme](#theming).
 
 ## Custom CSS
 You can overwrite the component styles by creating a CSS file and importing it after the default CSS file of ROQ (
@@ -69,6 +70,4 @@ const myCustomTheme = createCustomTheme({
 </RoqProvider>
 ```
 
-To get a template for your theme, visit Storybook, select a UI component and click on “Theme”:
-
-![Theme](/theme.png)
+To get a template for your theme, visit [Storybook](https://ui.roq.tech/), select a UI component and click on _“Theme”_.

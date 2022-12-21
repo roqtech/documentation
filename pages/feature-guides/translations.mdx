@@ -1,0 +1,25 @@
+import { Callout } from 'nextra-theme-docs'
+
+# Custom translations
+
+## Introduction
+
+All UI components can be translated into any language. The translated texts can be managed via ROQ's console or your
+existing translation system.
+
+## Managing translations
+
+Translations are managed via the [console](https://console.roq.tech/). All components are already translated. Therefore
+you can find the translated texts and change them to your needs. Changes will be shown in the UI
+components after a few minutes because of the browser's caching system.
+
+## Managing locales
+
+You can manage locales in the [console](https://console.roq.tech/). When you add a new locale, then you'll need to add
+missing translations to all texts. You cannot remove a locale as long as there are translated texts using this locale.
+
+## Technical integration
+
+The current locale needs to be set to the `<RoqProvider/>` wrapper as
+described [here](/customization/custom-translations#loading-translations-in-code). In case you want to use your existing translation
+system, please refer to the [custom translation](/customization/custom-translations) section.

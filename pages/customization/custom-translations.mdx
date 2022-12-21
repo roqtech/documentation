@@ -2,23 +2,15 @@ import { Callout } from 'nextra-theme-docs'
 
 # Custom translations
 
+## Introduction
+
 All UI components can be translated into any language. The translated texts can be managed via ROQ's console or your
-existing translation system.
-
-## Managing translations
-
-By default, translations are managed via our console. All components are already translated. Therefore you can find the
-translated texts and change them to your needs. Changes will be shown in the UI components after a few minutes because
-of the browser's caching system.
-
-## Managing locales
-
-You can add a new locale in the console.
-{/* TODO add screenshot */}
+existing translation system. Please refer to the [translations feature guide](/feature-guides/notifications) for more 
+information and instructions.
 
 ## Loading translations in code
 
-Locales are defined as a prop of `<RoqProvider>`. If no locale is defined, then en-US will be used as the default
+Locales are defined as a prop of `<RoqProvider>`. If no locale is defined, then `en-US` will be used as the default
 locale.
 
 ```tsx
@@ -33,6 +25,7 @@ You can configure the interval here: TODO.
 ## Custom translation provider
 
 If you are already using a translation system, you can pass a function that takes over the translation.
+
 ```tsx
 return (
     <RoqProvider translation={myTranslation}>
