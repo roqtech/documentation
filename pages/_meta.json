@@ -11,14 +11,16 @@
 
 
   "about": {
-    "title": "About",
-    "type": "page"
+    "title": "ROQ home",
+    "type": "page",
+    "href": "https://www.roq.tech/",
+    "newWindow": false
   },
   "contact": {
-    "title": "Contact ↗",
+    "title": "Imprint",
     "type": "page",
-    "href": "https://twitter.com/shuding_",
-    "newWindow": true
+    "href": "https://www.roq.tech/imprint",
+    "newWindow": false
 
   }
 }
