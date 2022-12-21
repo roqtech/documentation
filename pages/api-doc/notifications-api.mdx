@@ -8,7 +8,9 @@ import { Tab, Tabs } from 'nextra-theme-docs';
 ROQ's notifications enable you to notify your users or user groups on various channels. Please refer to
 the [notifications feature guide](/feature-guides/notifications) for more information and instructions.
 
-## notify()
+## Mutations
+
+### `notify()`
 
 <Callout type="info" emoji="ℹ️">
   This endpoint is only available from the server side of your application. 
@@ -63,7 +65,9 @@ mutation {
 | `recipients:allUsers`        | bool   | If set to true then all users will be notified.                                                                                                                                                       |
 | `data`                       | array  | List of key/value pairs which you can use in the content section of the Notification template                                                                                                         |
 
-## notifications()
+## Queries
+
+### `notifications()`
 
 The [Notification Modal](/ui-components/notification-modal) UI component fetches notifications by using the 
 `notifications()` query. You can find the full API doc of this query [here](https://snapshotp.roq-platform.com/docs/#query-notifications).
@@ -71,27 +75,17 @@ The [Notification Modal](/ui-components/notification-modal) UI component fetches
 <Tabs items={['GraphQL']}><Tab>
 
 ```graphql
-query notifications(page: 0, seen: true) {
-    totalCount
+query {
+  notifications(page: 0, seen: false) {
     data {
-      {
-        "id": "xyz789",
-        "createdAt": "2007-12-03",
-        "templateIdentifier": "abc123",
-        "content": "xyz789",
-        "seen": true,
-        "read": false,
-        "email": "abc123",
-        "providerId": "abc123",
-        "title": "abc123",
-        "icon": "abc123",
-        "lastSeenDate": "xyz789",
-        "errorId": "xyz789",
-        "errorText": "abc123",
-        "status": "sent",
-        "channel": "email"
-      }
+      id
+      title
+      content
+      icon
+      seen
+      read
     }
+  }
 }
 ```
 

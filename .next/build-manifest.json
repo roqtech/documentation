@@ -25,35 +25,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/api-doc/notifications-api": [
+    "/api-doc/users-api": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/api-doc/notifications-api.js"
-    ],
-    "/feature-guides/chat": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/feature-guides/chat.js"
-    ],
-    "/feature-guides/mails": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/feature-guides/mails.js"
-    ],
-    "/ui-components/chat": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/ui-components/chat.js"
-    ],
-    "/ui-components/chat-message-bell": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/ui-components/chat-message-bell.js"
-    ],
-    "/ui-components/file-upload": [
-      "static/chunks/webpack.js",
-      "static/chunks/main.js",
-      "static/chunks/pages/ui-components/file-upload.js"
+      "static/chunks/pages/api-doc/users-api.js"
     ]
   },
   "ampFirstPages": []

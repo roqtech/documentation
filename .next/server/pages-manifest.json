@@ -2,10 +2,5 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/feature-guides/chat": "pages/feature-guides/chat.js",
-  "/api-doc/notifications-api": "pages/api-doc/notifications-api.js",
-  "/ui-components/file-upload": "pages/ui-components/file-upload.js",
-  "/ui-components/chat-message-bell": "pages/ui-components/chat-message-bell.js",
-  "/feature-guides/mails": "pages/feature-guides/mails.js",
-  "/ui-components/chat": "pages/ui-components/chat.js"
+  "/api-doc/users-api": "pages/api-doc/users-api.js"
 }

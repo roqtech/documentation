@@ -1,8 +1,10 @@
 {
   "overview-api": "Overview",
+  "graphql-basics-api": "GraphQL basics",
   "files-api": "Files API",
   "mails-api": "Mails API",
   "notifications-api": "Notifications API",
-  "users-api": "Users API"
-
+  "tenants-api": "Tenants API",
+  "users-api": "Users API",
+  "user-groups-api": "User Groups API"
 }

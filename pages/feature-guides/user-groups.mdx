@@ -4,30 +4,23 @@ import { Callout } from 'nextra-theme-docs'
 
 ## Introduction
 
-We usually interpret a user group as exactly what the name says: _“a group of users”_. The most common use case is to
-use
-user groups to represent [Multi-tenancy](/feature-guides/multi-tenancy) but there are also lots of other use cases. You
-may want to group users by their home country or any other characteristic.
+We usually interpret a user group as precisely what the name says: _“a group of users”_. For example, you may want to
+group users by their home country or any other characteristic.
 
-User groups are often related to your custom domain objects like:
-* all users that belong to a restaurant
-* all users that belong to a team
-* all users that belong to a company
-
-User groups are used for multiple purposes:
-* to notify a group of users
-* to define access rights, eg:
-  * users of the same restaurant can chat with each other
-  * this file can be edited by all users of the same team
-  * users of the company can invite each other
+User groups are used for [notifications](/feature-guides/notifications). Instead of listing all users, you can set one
+or multiple groups of users.
 
 ## Manage user groups
-User groups can be managed via [console]() or [Create user group API](). A user group has a **name** (e.g. _“The Mavericks”_ or _“The
-Gourmet Kitchen”_). In addition, you can define a project-specific **reference** that enables you to fetch user groups using
-your own identifier. User groups are having a **type**. For instance _“The Mavericks”_ could be of type _“Team”_, while _“Foo
-Global”_ could be of type _“Restaurant”_.
+
+You can manage user groups via [console](https://console.roq.tech/)
+or [`createUserGroup()`](/api-doc/user-groups-api#createusergroup) API. A user group has a **name** (e.g. _“The 
+Mavericks”_
+or _“The Gourmet Kitchen”_). In addition, you can define a project-specific **reference** that enables you to fetch user
+groups using your identifier.
 
 ## Add and remove users
-You can add and remove users from a user group in the [console]() or use the [Add users to a user group API](). Group
-memberships are also shown for each user in the console.
+
+You can add and remove users from a user group in the [console](https://console.roq.tech/) or use the
+[`addUsersToUserGroup()`](/api-doc/user-groups-api#adduserstousergroup) API. Group memberships are also shown for each
+user in the console.
 

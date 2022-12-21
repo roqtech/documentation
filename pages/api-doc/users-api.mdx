@@ -1,83 +1,106 @@
 import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
 
 # Users API
 
-## Create users
+## Introduction
 
-The createUser API is used to synchronize user data to ROQ. This data is needed for two purposes
+Most of ROQ's features use user-related data like the user`s first name or email. Before you can use these
+features, they need to be pushed to ROQ Platform. Please refer to
+the [users feature guide](/feature-guides/users) for more information and instructions.
 
-For the creation of user-specific JWT tokens. These tokens are used for secure interaction between your application and
-ROQ. The data is also used to send emails and notifications. For instance, you may want to address your users by
-their first name in a notification template: `Hi {{recipient.firstName}}`
+## Mutations
 
-It’s your decision which information you wish to synchronize to ROQ. It’s recommended to send the data to ROQ after you
-store it in your database.
+### `createUser()`
 
-See the API doc of [createUser](https://snapshotp.roq-platform.com/docs/#mutation-createUser)
+The createUser API is used to synchronize user data to ROQ.
 
-{/* TODO Add GraphQL mutation docs */}
+You can find the full API doc of this mutation [here](https://snapshotp.roq-platform.com/docs/#mutation-createUser).
 
-{/* TODO Something is wrong with the code below  */}
-```text
-userData: {
-  reference: "123",
-  email: "john@doe.tech",
-  firstName: "John",
-  lastName: "Doe",
-  isOptedIn: true,
-  active: true,
-  locale: "en-US"
-} 
+<Callout emoji="💡">
+    It's important to save the returned user ID in your database because the API needs it for other functionalities.  
+</Callout>
 
-const { id: roqIdentifier } = platform.user.createUser(userData);
-```
-You need to save the returned ID in your database because the API needs it.
-
-| Parameter | Type    | Description                                                                                                                                                                                        |
-|-----------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| reference | string  | Here you can set your identifier (e.g. the UUID of the user entity in your database). This way you can filter users by your own identifier.                                                        |
-| email     | string  | Email of the user                                                                                                                                                                                  |
-| firstName | string  | First name of the user                                                                                                                                                                             |
-| lastName  | string  | Last name of the user                                                                                                                                                                              |
-| isOptedIn | boolean | Set to true after the user confirm the email.                                                                                                                                                      |
-| active    | boolean | Set to true if the user is activate and able to login to your application.                                                                                                                         |
-| locale    | string  | The locale represents the language and the country of the user, e.g. en-US means _“english in US”_. The locale is used for translations of all UI components as well as for sending notifications. |
-
-## Create user groups
+<Tabs items={['GraphQL']}><Tab>
 
 ```graphql
- 
+mutation {
+  createUser(
+    user: {
+      reference: "abc123"
+      email: "xyz789"
+      phone: "xyz789"
+      firstName: "xyz789"
+      lastName: "abc123"
+      locale: "xyz789"
+      timezone: "xyz789"
+      isOptedIn: false
+      active: false
+      tenantId: 4
+    }
+  ) {
+    id
+  }
+}
+
 ```
 
-| Parameter   | Type   | Description                                          |
-|-------------|--------|------------------------------------------------------|
-| `name`      | string | The name of the user group. For instance _“My Team”_ |
-| `reference` | string |                                                      |
-| `type`      | string |                                                      |
+</Tab></Tabs>
 
-## Add users to user groups
+| Parameter   | Type    | Description                                                                                                                                                                                        |
+|-------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `reference` | string  | Here you can set your identifier (e.g. the UUID of the user entity in your database). This way you can filter users by your own identifier.                                                        |
+| `email`     | string  | Email of the user                                                                                                                                                                                  |
+| `firstName` | string  | First name of the user                                                                                                                                                                             |
+| `lastName`  | string  | Last name of the user                                                                                                                                                                              |
+| `isOptedIn` | boolean | Set to true after the user confirm the email.                                                                                                                                                      |
+| `active`    | boolean | Set to true if the user is activate and able to login to your application.                                                                                                                         |
+| `locale`    | string  | The locale represents the language and the country of the user, e.g. en-US means _“english in US”_. The locale is used for translations of all UI components as well as for sending notifications. |
+| `active`    | boolean | Set to true if the user is activate and able to login to your application.                                                                                                                         |
+| `tenantId`  | UUID    | ID of the tenant which you created using the [`createTenant()`](/api-doc/tenants-api#createtenant) API                                                                                             |
 
-To add a user to a user group, you can use the `addUsersToUserGroup` API . See full specs in the API doc
+### `updateUser()`
 
-Read more about the concept of user groups here: [User groups]().
+You can change the synchronized user data using the `updateUser()` API. The mutation is working the same way as the
+`createUser()` mutation described above.
 
-See the API doc of [addUsersToUserGroup](https://snapshotp.roq-platform.com/docs/#mutation-addUsersToUserGroup)
+## Queries
+
+### `users()`
+
+You can fetch all users using the `users()` query. All [query parameters](/api-doc/graphql-basics-api) can be applied
+here to narrow down the results.
+
+{/* TODO Add-  For instance to fetch users by your reference you can run this query when CPD-1891 is fixed*/}
+
+<Tabs items={['GraphQL']}><Tab>
 
 ```graphql
- mutation addUsersToUserGroup(
-  $id: ID!,
-  $userIds: [ID!]!
-) {
-  addUsersToUserGroup(
-    id: $id,
-    userIds: $userIds
-  )
+query {
+  users {
+    data {
+      email
+    }
+  }
+}
+
+```
+
+</Tab></Tabs>
+
+### `user()`
+
+You can fetch a specific user using the user() query. You need to use the ID which was returned by the `createUser()`
+mutation
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+query {
+  user(id: "123") {
+    email
+  }
 }
 ```
 
-{/* id should be renamed to userId */}
-
-| Parameter | Type  | Description          |
-|-----------|-------|----------------------|
-| `id`      | UUID  | ID of the user group |
-| `userIds` | array | Array of user IDs    |
+</Tab></Tabs>

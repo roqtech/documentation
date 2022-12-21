@@ -1,0 +1,81 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+
+# User Groups API
+
+## Introduction
+
+We usually interpret a user group as precisely what the name says: __. For example, you may want to
+group users by their home country or any other characteristic. Read more about this topic in the 
+[user group feature guide](/feature-guides/user-groups).
+
+## Mutations
+
+### `createUserGroup()`
+
+To create a user group, you simply need to define a name and reference.
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+mutation {
+  createUserGroup(userGroup: { name: "xyz789", reference: "xyz789" }) {
+    id
+  }
+}
+```
+
+</Tab></Tabs>
+
+| Parameter   | Type   | Description                                                                                    |
+|-------------|--------|------------------------------------------------------------------------------------------------|
+| `name`      | string | The name of the user group. For instance _“My Team”_                                           |
+| `reference` | string | Reference to an object on the project-side. This could be the ID of an entity in your database |
+
+### `addUsersToUserGroup()`
+
+To add users to a user group, you can use this mutation:
+
+```graphql
+mutation {
+  addUsersToUserGroup(userGroupId: "123", userIds: [])
+}
+```
+
+## Queries
+
+### `userGroups()`
+
+To see user groups with users you run a query like this:
+
+<Tabs items={['GraphQL']}><Tab>
+```graphql
+query {
+  userGroups {
+    data {
+      name
+      reference
+      users {
+        data {
+          email
+        }
+      }
+    }
+  }
+}
+```
+</Tab></Tabs>
+
+Another way to fetch users by a user group could look like:
+
+<Tabs items={['GraphQL']}><Tab>
+```graphql
+query {
+  users(filter: { userGroupId: { equalTo: "123" } }) {
+    data {
+      email
+    }
+  }
+}
+```
+</Tab></Tabs>

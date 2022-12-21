@@ -1,0 +1,120 @@
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+# GraphQL basics
+
+## Introduction
+
+GraphQL is simple to use and easy to learn. We recommend starting your journey at the official GraphQL
+documentation: [Introduction to GraphQL](https://graphql.org/learn/). This page explains the basic concepts of
+fetching data using ROQ Platform.
+
+## Queries and mutations
+
+In GraphQL terminology there are two main terms:
+
+* **Query** - A query is way to load data from ROQ Platform
+* **Mutation** - A mutation is way to change (_~mutate_) data
+
+## Fetch by ID
+
+You can always fetch any record by the ID like this:
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+{
+  user(id: "123") {
+    id
+    email
+  }
+}
+```
+
+</Tab></Tabs>
+
+## Adding relations
+
+GraphQL empowers the client to define exactly how the data should be returned. In the example below, a user is
+fetched including the names of all the related user groups.
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+{
+  user(id: "123") {
+    id
+    userGroups {
+      data {
+        name
+      }
+    }
+  }
+}
+
+```
+
+</Tab></Tabs>
+
+## Counting
+
+When you use a plural query (`files`, `users`, ...), then you can always ask for the total count.
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+{
+  users {
+    totalCount
+  }
+}
+
+```
+
+</Tab></Tabs>
+
+## Order, Limit and Offset
+
+If you'd like to show the data in a table, you can use the API's advanced functionality with these parameters: `limit`,
+`offset` and `sort`.
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+{
+  users(limit: 10, offset: 0, order: {order: ASC, sort: CREATED_AT}) {
+    data {
+      id
+    }
+  }
+}
+```
+
+</Tab></Tabs>
+
+| Parameter | Type   | Description                                              |
+|-----------|--------|----------------------------------------------------------|
+| `limit`   | number | Limits the number of returned records                    |
+| `offset`  | number | Skips records (useful for pagination)                    |
+| `order`   | object | Defines order (either ASC or DESC) and the ordered field |
+
+## Filtering of data
+
+The filter object enables you to apply advanced filters on all fields. For instance the following query returns only
+active users.
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+{
+  users(filter: {active: {equalTo: true}}) {
+    data {
+      id
+      active
+    }
+  }
+}
+```
+
+</Tab></Tabs>

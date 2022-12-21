@@ -1,0 +1,11 @@
+{
+  "access-management": "Access Management",
+  "chat": "Chat system",
+  "files": "File management",
+  "mails": "Mails",
+  "multi-tenancy": "Multi-tenancy",
+  "notifications": "Notifications",
+  "users": "Users",
+  "user-groups": "User Groups"
+
+}

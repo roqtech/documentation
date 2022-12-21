@@ -1,22 +1,39 @@
 import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import Image from 'next/image';
 
 # Chat Message Bell UI component
 
-{/* TODO This component should be renamed to ChatMessageBell */}
+## Introduction
 
-The `<ChatMessageBell />` component is typically used in the head offer your application. It informs the user about 
-unread messages in the chat.
+The `<ChatMessageBell />` component is typically used in the header off your application. It informs the user about
+unread messages in the chat. Please refer to the [chat feature guide](/feature-guides/chat) for more information and
+instructions.
 
-[See this component on Storybook]()
+The `<ChatMessageBell />` requires the [`<Chat/>`](/ui-components/chat) component to be used as well.
 
-![Chat Message Bell UI component](/chat-message-bell.png)
+<Tabs items={['Light', 'Dark']}><Tab>
+
+<Image src={"/chat-message-bell-light.png"} alt="chat-message-bell-light" width={185} height={61} />
+
+</Tab><Tab>
+
+<Image src={"/chat-message-bell-dark.png"} alt="chat-message-bell-dark" width={185} height={61} />
+
+</Tab></Tabs>
+
+See this component in action on
+[Storybook](https://ui.roq.tech/?path=/docs/chat-chatmessagebell--default).
 
 ## Integration
+
+### `<ChatMessageBell/>`
+
 To show the bell component, you can copy this snippet in your code:
 
 ```tsx
 <ChatProvider>
- <ChatNotificationBell showZero />
+    <ChatMessageBell/>
 </ChatProvider>
 ```
  

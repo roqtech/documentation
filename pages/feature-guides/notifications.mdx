@@ -20,15 +20,17 @@ message, while product updates are delivered via e-mail.
 ## UI components
 
 ROQ's notification feature ships with two main UI components that you can easily integrate into your application:
-1. The [**Notification Modal**](/ui-components/notification-modal) component shows the user's notifications in 
+
+1. The [**Notification Modal**](/ui-components/notification-modal) component shows the user's notifications in
    real-time and also enables the user to configure the preferences.
-2. The [**Notification Bell**](/ui-components/notification-bell) component renders a bell symbol which informs the 
+2. The [**Notification Bell**](/ui-components/notification-bell) component renders a bell symbol which informs the
    user about unread notifications.
 
 ## How to use notifications
 
 To notify users via ROQ's API, you need to perform these steps:
-1. [Configure channel providers](#1-configure-channel-providers) 
+
+1. [Configure channel providers](#1-configure-channel-providers)
 2. [Create new notification template](#2-create-new-notification-template)
 3. [Notify users using the API](#3-notify-users-using-the-api)
 
@@ -46,7 +48,7 @@ the [console](https://console.roq.tech/).
 
 ### (2) Create new notification template
 
-You can manage new notification templates in the [console](https://console.roq.tech/). Each template requires a unique 
+You can manage new notification templates in the [console](https://console.roq.tech/). Each template requires a unique
 `key` which will be used as a reference to trigger notifications using the API.
 
 For each notification template you can configure and activate multiple channels. There are five channels to choose from:
@@ -74,8 +76,7 @@ You can also use these pre-defined variables to enrich your content:
 
 {/* NOTE BASE_URL may be not working */}
 
-
 ### (3) Notify users using the API
 
-To notify your users you can use the [notify() API](/api-doc/notifications-api#notify). It's important to  
-use the same `key` which you set to the notification template.
+To notify your users you can use the [`notify()`](/api-doc/notifications-api#notify) API. It's important to use the
+same `key` which you set to the notification template.
