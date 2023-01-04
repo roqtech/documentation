@@ -1,0 +1,54 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+# ROQ Provider
+
+## Introduction
+
+To use ROQ's UI Components, you need to wrap your React application into the RoqProvider component. This provider is
+used for configuration and provides the required context to the other components.
+
+First, you need to determine the right place to add the wrapper:
+
+* **Pure React:** There is always an entry component, depending on your architecture approach.
+* **Next.js:** If using Next.js, then it's recommended to use the App component as described
+  here: https://nextjs.org/docs/advanced-features/custom-app
+
+Then you need to import the `index.css`, which holds the styling of ROQ’s UI components, and wrap your application into
+the `<RoqProvider />`
+
+{/* TODO Replace with working code snippet */}
+
+```tsx
+import "rocomp/dist/index.css";
+
+const getUserToken = () => query(api);
+
+// ....
+
+<RoqProvider
+    config={{
+        host: 'https://...',
+        getToken: getUserToken,
+        socket: true
+    }}>
+    ...
+</RoqProvider>
+```
+
+There are multiple props and configuration parameters that can be set on the `RoqProvider` component:
+
+| Prop                        | Type     | Description                                                                                                                                                                     |
+|-----------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `config`                    | object   | An object that sets the global config with the parameters explained below.                                                                                                      |
+| `config:host`               | string   | Defines the URL of ROQ Platform. You can get this information from the console. Please note the hostname will be different for production and non-production environments.      |
+| `config:getToken`           | function | Reference to a function that returns the user's token that enables the interaction with ROQ Platform. Alternatively, you can pass the token directly using the token parameter. |
+| `config:socket?`            | boolean  | A boolean value must be true if a socket connection is established. This is required for notifications and chats. (default: false)                                              |
+| `locale?`                   | string   | The locale prop is used to translate the component. Setting the same locale used in the current user's session is recommended.                                                  |
+| `theme?`                    | string   | Currently selected theme. All components ship with a light and a dark theme (default: light)                                                                                    |
+| `customTheme?`              | string   | You can change the styling of the component by injection as a custom theme like this:                                                                                           |
+| `config:translationsTTL?`   | number   | Fetched translations are saved in the browser's local storage. This parameter lets you define the TTL in ms (default: 90000 ~ 15 minutes).                                      |
+| `config:translationsCache?` | boolean  | Boolean value to disable the translation cache (default: `true`)                                                                                                                |
+| `translate?`                | function | Custom translation function. You can read more about customizing translations here: Custom translations                                                                         |
+| `onError?`                  | function | The callback function, which is called when an error happens                                                                                                                    |                                                                                                                                                                          |

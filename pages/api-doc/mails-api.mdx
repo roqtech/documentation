@@ -19,7 +19,7 @@ others. Please refer to the [mails feature guide](/feature-guides/mails) for mor
 The `sendMail()` mutation can be used to send e-mails. The mutation returns the number of emails sent. You can find
 the full API doc of this mutation [here](https://snapshotp.roq-platform.com/docs/#mutation-sendMail).
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
 mutation {
@@ -35,6 +35,18 @@ mutation {
   }
 }
 
+```
+
+</Tab><Tab>
+
+```typescript
+await client.asServiceAccount().notifications.sendMail({
+  mail: { 
+      key: 'abc123', 
+      locale: 'abc123', 
+      emails: ['xyz789'], 
+      data: [{ key: 'xyz789', value: 'xyz789' }] },
+});
 ```
 
 </Tab></Tabs>

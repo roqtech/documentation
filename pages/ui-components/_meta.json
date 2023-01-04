@@ -1,0 +1,12 @@
+{
+  "overview": "Overview",
+  "roq-provider": "<RoqProvider/>",
+  "chat": "<Chat/>",
+  "chat-message-bell": "<ChatMessageBell/>",
+  "file-active-uploads": "<FileActiveUploads/>",
+  "file-upload": "<FileUpload/>",
+  "notification-bell": "<NotificationBell/>",
+  "notification-modal": "<NotificationModal/>"
+}
+
+

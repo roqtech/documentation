@@ -25,9 +25,15 @@ documentation focuses on the most relevant functionalities:
 * [Managing users](/api-doc/users-api)
 * [Managing user groups](/api-doc/user-groups-api)
 
+## Using the SDK
+
+ROQ provides an SDK for Node.js applications, simplifying the API's usage but still allowing you to use GraphQL 
+queries and mutations if needed. Please start with the [SDK documentation](/api-doc/sdk-api). 
+
 ## GraphQL basics
 
-We also recommend to make yourself familiar with the basics of using GraphQL queries:
+In case you want to use GraphQL directly, we recommend to make yourself familiar with the basics of using queries 
+and mutations:
 
 * [Queries and mutations](/api-doc/graphql-basics-api#queries-and-mutations)
 * [Fetch records by ID](/api-doc/graphql-basics-api#fetch-by-id)
@@ -55,6 +61,11 @@ Platform exposes two endpoints:
 * **`{URL}/v01/server/graphql`** - API for the server-side of your application. Interactions require a user token and
   the `apiKey`.
 
+<Callout type="warning" emoji="⚠️">
+  Don't share the `apiKey` with anyone and don't use it on the client-side on your application. It's also 
+recommended to provide it via environment variables and don't place it into your repository.
+</Callout>
+
 ## User token
 
 To interact with the APIs of ROQ Platform, you need to create a token for the current user using the `createUserToken`
@@ -62,4 +73,15 @@ mutation.
 
 {/* TODO add code */}
 
-{/* TODO explain how to interact with a user token and using the serice account instead */}
+## Service account user
+
+When you interact with ROQ Platform, you need a user token. A user is usually available on the client side so that 
+you  can use its token. But in some cases, there is no user token available. For instance, when you implement logic 
+that  is executed as a cron job. For these scenarios, ROQ provides a special user called "service account". This 
+user  has super-admin permissions, so we recommend using it carefully.
+
+The service account user is always available on ROQ Platform side and isn't shown in the console. For security 
+reasons it can only be used from the server side of your application.
+
+
+{/* TODO code examples */}

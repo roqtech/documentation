@@ -1,10 +1,12 @@
 import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import Image from 'next/image';
 
 # File Active Uploads UI component
 
 ## Introduction
 
-The `<FileActiveUploads />` component shows a progress bar of all active files uploads. Users can abort and restart
+The `<FileActiveUploads/>` component shows a progress bar of all active files uploads. Users can abort and restart
 uploads. This component is typically shown on the bottom right corner of your application but you can place it wherever
 you like.
 
@@ -12,11 +14,14 @@ you like.
 
 ![File Active Uploads UI component](/file-active-uploads.png)
 
+See this component in action on
+[Storybook](https://ui.roq.tech/?path=/docs/chat-chatmessagebell--default).
+
 ## Integration
 
-### `<FileActiveUploads />`
+### `<FileActiveUploads/>`
 
-To add the  `<FileActiveUploads />` component to your application, you can use the following code:
+To add the  `<FileActiveUploads/>` component to your application, you can use the following code:
 
 ```tsx
 <FileActiveUploads
