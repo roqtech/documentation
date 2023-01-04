@@ -102,3 +102,20 @@ await client.asServiceAccount().notifications.sendMail({
 });
 ```
 </Tab></Tabs>
+
+## Example: fetching data
+
+The following snipped fetches 10 users from ROQ Platform and loads their emails into a variable.
+
+<Tabs items={['Node.js SDK']}><Tab>
+```typescript
+const response = await client.asUser(userId).user.users({ 
+    limit: 10, 
+    offset: 0, 
+    filter: { locale: { equalTo: 'en' } 
+    } 
+});
+const users = response.users.data;
+const emails = users.map((user) => user.email);
+```
+</Tab></Tabs>
