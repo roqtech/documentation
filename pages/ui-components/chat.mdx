@@ -26,6 +26,9 @@ See this component in action on [Storybook](https://ui.roq.tech/?path=/docs/chat
 
 ## Integration
 
+All the Chat related UI widgets need to be used within a `<ChatProvider>` component.
+The `<ChatProvider>` needs to be inserted only once, at a higher level component, typically in the App.tsx or a layout component.
+
 ### `<Chat/>`
 
 You can place the entire chat on your page using this snippet:
@@ -33,6 +36,9 @@ You can place the entire chat on your page using this snippet:
 <Tabs items={['React']}>
     <Tab>
         ```tsx
+            import { ChatProvider, Chat } from "@roq/ui-react";
+            
+            ...
             <ChatProvider>
                 <Chat />
             <ChatProvider>
@@ -47,6 +53,9 @@ In case you only want to show the window with all the current chat, then use thi
 <Tabs items={['React']}><Tab>
 
 ```tsx
+import { ChatProvider, ChatWindow } from "@roq/ui-react";
+...
+
 <ChatProvider>
     <ChatWindow />
 <ChatProvider>
@@ -61,6 +70,8 @@ You can show just the sidebar by using this snippet:
 <Tabs items={['React']}><Tab>
 
 ```tsx
+import { ChatProvider, ChatSidebar } from "@roq/ui-react";
+
 <ChatProvider>
     <ChatSidebar />
 <ChatProvider>

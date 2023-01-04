@@ -1,6 +1,6 @@
-import { Callout } from 'nextra-theme-docs'
-import { Tab, Tabs } from 'nextra-theme-docs';
-import Image from 'next/image';
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
 
 # Notification Modal UI component
 
@@ -12,11 +12,21 @@ information and instructions.
 
 <Tabs items={['Light', 'Dark']}><Tab>
 
-<Image src={"/notification-modal-light.png"} alt="NotificationModal light" width={600} height={160} />
+<Image
+  src={"/notification-modal-light.png"}
+  alt="NotificationModal light"
+  width={600}
+  height={160}
+/>
 
 </Tab><Tab>
 
-<Image src={"/notification-modal-dark.png"} alt="NotificationModal dark" width={600} height={160} />
+<Image
+  src={"/notification-modal-dark.png"}
+  alt="NotificationModal dark"
+  width={600}
+  height={160}
+/>
 
 </Tab></Tabs>
 
@@ -24,7 +34,6 @@ See this component in action on
 [Storybook](https://ui.roq.tech/?path=/story/notifications-notificationsmodal--default).
 
 ## Integration
-
 
 ### `<NotificationModal/>`
 
@@ -37,7 +46,18 @@ connection to ROQ Platform to receive notifications events in real time. The lis
 <Tabs items={['React']}><Tab>
 
 ```tsx
-<NotificationModal/>
+import { NotificationModal } from "@roq/ui-react";
+
+...
+
+<NotificationModal />;
 ```
+
+#### `<NotificationModal/>` Props list
+
+| Prop    | Type                             | Description                              | Default         |
+| ------- | -------------------------------- | ---------------------------------------- | --------------- |
+| panel   | "notifications" or "preferences" | Controls which view to show in the modal | "notifications" |
+| onClose | function                         | Callback, fired when the modal is closed | null            |
 
 </Tab></Tabs>

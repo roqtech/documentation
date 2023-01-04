@@ -1,6 +1,6 @@
-import { Callout } from 'nextra-theme-docs'
-import { Tab, Tabs } from 'nextra-theme-docs';
-import Image from 'next/image';
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
 
 # Chat Message Bell UI component
 
@@ -10,15 +10,28 @@ The `<ChatMessageBell />` component is typically used in the header off your app
 unread messages in the chat. Please refer to the [chat feature guide](/feature-guides/chat) for more information and
 instructions.
 
+All the Chat related UI widgets need to be used within a `<ChatProvider>` component.
+The `<ChatProvider>` needs to be inserted only once, at a higher level component, typically in the App.tsx or a layout component.
+
 The `<ChatMessageBell />` requires the [`<Chat/>`](/ui-components/chat) component to be used as well.
 
 <Tabs items={['Light', 'Dark']}><Tab>
 
-<Image src={"/chat-message-bell-light.png"} alt="chat-message-bell-light" width={185} height={61} />
+<Image
+  src={"/chat-message-bell-light.png"}
+  alt="chat-message-bell-light"
+  width={185}
+  height={61}
+/>
 
 </Tab><Tab>
 
-<Image src={"/chat-message-bell-dark.png"} alt="chat-message-bell-dark" width={185} height={61} />
+<Image
+  src={"/chat-message-bell-dark.png"}
+  alt="chat-message-bell-dark"
+  width={185}
+  height={61}
+/>
 
 </Tab></Tabs>
 
@@ -32,8 +45,11 @@ See this component in action on
 To show the bell component, you can copy this snippet in your code:
 
 ```tsx
+import { ChatProvider, ChatMessageBell } from "@roq/ui-react";
+
+...
+
 <ChatProvider>
-    <ChatMessageBell/>
+  <ChatMessageBell />
 </ChatProvider>
 ```
- 

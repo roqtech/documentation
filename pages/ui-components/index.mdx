@@ -21,14 +21,16 @@ The `<ChatMessageBell />` requires the [`<Chat/>`](/ui-components/chat) componen
     ``` npm install @roq/ui-react ```
 
     ##### Configure the ROQ Provider
-    Insert the `<RoqProvider>` at a high-level component in your code. Typically this is an entrypoint such as `app.tsx` or a layout component.
+    Insert the `<RoqProvider>` at a high-level component in your code. Typically this is an `App.tsx` or a layout component.
     The `<RoqProvider>` provides the configuration and context for the inner ROQ UI components to consume.
+    It needs to be imported and used only once.
 
-    If you are using the [`<Chat/>`](/ui-components/chat) UI Components, then also ensure to add the `<ChatProvider>` component.
+    If you are using the [`<Chat/>`](/ui-components/chat) UI Components, then also ensure to add the `<ChatProvider>` component
+    at a suitable level of your code.
 
 
     ``` tsx
-      import { RoqProvider } from "@roq/ui-react";
+      import { RoqProvider, ChatProvider } from "@roq/ui-react";
 
       ...
 
