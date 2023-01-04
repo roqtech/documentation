@@ -1,6 +1,6 @@
-import { Callout } from 'nextra-theme-docs'
-import { Tab, Tabs } from 'nextra-theme-docs';
-import Image from 'next/image';
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
 
 # Chat UI Component
 
@@ -9,7 +9,7 @@ import Image from 'next/image';
 The `<Chat/>` UI component represents the chat message center with sidebar and the chat window. Please refer to
 the [chat feature guide](/feature-guides/chat) for more information and instructions.
 
-Alternatively to the `<Chat/>` component, you can also use the individuals parts: `<ChatWindow/>` and 
+Alternatively to the `<Chat/>` component, you can also use the individuals parts: `<ChatWindow/>` and
 `<ChatSidebar/>`, see integration guidelines below.
 
 <Tabs items={['Light', 'Dark']}><Tab>
@@ -26,27 +26,34 @@ See this component in action on [Storybook](https://ui.roq.tech/?path=/docs/chat
 
 ## Integration
 
+All the Chat related UI widgets need to be used within a `<ChatProvider>` component.
+The `<ChatProvider>` needs to be inserted only once, at a higher level component, typically in the App.tsx or a layout component.
+
 ### `<Chat/>`
 
 You can place the entire chat on your page using this snippet:
 
-<Tabs items={['React']}><Tab>
 
+<Tabs items={['React']}><Tab>
 ```tsx
+import { ChatProvider, Chat } from "@roq/ui-react";
+
+...
 <ChatProvider>
-    <Chat/>
+    <Chat />
 <ChatProvider>
 ```
-
 </Tab></Tabs>
 
 ### `<ChatWindow/>`
 
-In case you only want to show the window with all the current chat, then use this snippet: 
+In case you only want to show the window with all the current chat, then use this snippet:
 
 <Tabs items={['React']}><Tab>
 
 ```tsx
+import { ChatProvider, ChatWindow } from "@roq/ui-react";
+
 <ChatProvider>
     <ChatWindow/>
 <ChatProvider>
@@ -61,6 +68,8 @@ You can show just the sidebar by using this snippet:
 <Tabs items={['React']}><Tab>
 
 ```tsx
+import { ChatProvider, ChatSidebar } from "@roq/ui-react";
+
 <ChatProvider>
     <ChatSidebar/>
 <ChatProvider>

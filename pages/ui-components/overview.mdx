@@ -6,4 +6,39 @@ import Image from 'next/image';
 
 ## Introduction
 
-TODO
+ROQ UI Components are plug and play widgets that are fully wired up to the ROQ platform APIs.
+They are fully functional, and add functionality to your application within just a few lines of code.
+
+<Callout type="info" emoji="ℹ️">
+  At the moment, ROQ's UI components are available for React only. However, if you need support for other libraries 
+like Vue.js or Angular, don't hesitate to contact us on [Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ).
+</Callout>
+
+## Installation
+
+To get started with integrating ROQ UI, you need to wrap your React application into the [`<RoqProvider/>`](/ui-components/roq-provider).
+
+## Available UI Components
+
+These UI Components are ready to be used in your project!
+
+### Chat
+* The [`<Chat/>`](/ui-components/chat) UI component represents the chat message center with sidebar and the chat window.
+* The [`<ChatMessageBell/>`](/ui-components/chat-message-bell) component informs the user about unread messages in the chat.
+
+### Files
+* The [`<FileUpload/>`](/ui-components/file-upload) component represents an area on your application where users can drag and drop files to be uploaded.
+* The [`<FileActiveUploads/>`](/ui-components/file-active-uploads) component shows a progress bar of all active files uploads.
+
+### Notifications
+* The [`<NotificationBell/>`](/ui-components/notification-bell) component renders a bell symbol which informs the user about unread notifications
+* The [`<NotificationModal/>`](/ui-components/notification-modal) component shows the user's notifications in real-time and also enables the user to configure the preferences.
+
+## Custom styling
+
+You can customize the design of ROQ’s UI components to improve the fit to the look&feel of your application. See the 
+[Custom Styling](/customization/custom-styling) section for more details.
+
+## Custom translations
+
+All UI components can be translated into any language. See [Custom translations](/customization/custom-translations) for instructions.

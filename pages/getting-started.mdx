@@ -13,15 +13,16 @@ configuring ROQ.
 You can install ROQ’s UI components by running this NPM command:
 
 <Tabs items={['React']}><Tab>
+
 ```shell
 npm i --save @roq/ui-react
 ```
+
 </Tab></Tabs>
 
 <Callout type="info" emoji="ℹ️">
   At the moment, ROQ is available for React only. However, if you need support for other libraries like Vue.js or 
 Angular, don't hesitate to contact us on [Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ).
-
 </Callout>
 
 ## (2) Server side installation
@@ -29,13 +30,15 @@ Angular, don't hesitate to contact us on [Slack](https://join.slack.com/t/roq-co
 On the server side of your application, you need to install [ROQ's SDK](/api-doc/sdk-api):
 
 <Tabs items={['Node.js']}><Tab>
+
 ```shell
 npm i --save @roq/nodejs
 ```
+
 </Tab></Tabs>
 
 Please create a free account in the [console](https://console.roq.tech) and get your environment credentials.
-To install ROQ you need the `apiKey`, `environmentId`, `jwtSecret`, and the `host` (~URL of ROQ's API endpoint) 
+To install ROQ you need the `apiKey`, `environmentId`, `jwtSecret`, and the `host` (~URL of ROQ's API endpoint)
 called **ROQ Platform**. To learn more about the SDK, please read the [Using SDK](/api-doc/sdk-api) documentation.
 
 Now you can initialize the services using the credentials on the backend-side of your application.
@@ -46,13 +49,13 @@ variables and don't commit them into your repository.
 </Callout>
 
 ```typescript
-import { Platform } from '@roq/nodejs';
+import {Platform} from '@roq/nodejs';
 
 const client = new Platform({
-  environmentId: 'abc',
-  apiKey: 'abc',
-  jwtSecret: 'abc',
-  host: 'abc',
+    environmentId: 'abc',
+    apiKey: 'abc',
+    jwtSecret: 'abc',
+    host: 'abc',
 });
 ```
 
@@ -60,15 +63,16 @@ const client = new Platform({
 
 Before using ROQ’s feature, you need to synchronize some of your user data. This is needed for two reasons:
 
-1. The user data needs to be present on ROQ Platform side so that user-specific JWT tokens can be created. These 
+1. The user data needs to be present on ROQ Platform side so that user-specific JWT tokens can be created. These
    tokens are used for secure interaction between your application and ROQ.
-2. The user data is also used to send emails and notifications. For instance, you may want to address your users by 
+2. The user data is also used to send emails and notifications. For instance, you may want to address your users by
    their first name in a notification template: Hi `{{recipient.firstName}}`
 
 It’s your decision which information you wish to synchronize to ROQ. It’s recommended to send the data to ROQ after you
 store it in your database using the [**`createUser()`**](/api-doc/users-api#createuser) API:
 
 <Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+
 ```graphql
 mutation {
   createUser(
@@ -87,25 +91,27 @@ mutation {
   }
 }
 ```
+
 </Tab><Tab>
+
 ```typescript
       const roqUser = await client.asServiceAccount().user.createUser({
-        user: {
-          reference: 'abc123',
-          email: 'xyz789',
-          firstName: 'xyz789',
-          lastName: 'xyz789',
-          isOptedIn: true,
-          active: true,
-          locale: "en-US",
-        },
-      });
+    user: {
+        reference: 'abc123',
+        email: 'xyz789',
+        firstName: 'xyz789',
+        lastName: 'xyz789',
+        isOptedIn: true,
+        active: true,
+        locale: "en-US",
+    },
+});
 ```
+
 </Tab></Tabs>
 
-It's important to save the returned ID on your side, so that you can use it for other features. To lean more about 
+It's important to save the returned ID on your side, so that you can use it for other features. To lean more about
 the parameters, please refer to the [**`createUser()`**](/api-doc/users-api#createuser) API documentation.
-
 
 ## (4) Pass token from server to client-side
 
@@ -122,8 +128,8 @@ The token needs to be passed over to your client-side. The specific implementati
 
 ## (5) Install `<RoqProvider/>` on client-side
 
-To use ROQ's UI components, you need to wrap your application into the `<RoqProvider/>` which provides all the 
-required configuration. The minimum working setup requires three props: `host` (~ URL of ROQ Platform) and `getToken`. 
+To use ROQ's UI components, you need to wrap your application into the `<RoqProvider/>` which provides all the
+required configuration. The minimum working setup requires three props: `host` (~ URL of ROQ Platform) and `getToken`.
 
 Read the documentation about [`<RoqProvider/>`](/ui-components/roq-provider) for more details.
 

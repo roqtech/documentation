@@ -9,7 +9,6 @@
   "api-doc": "API Doc",
   "customization": "Customization",
 
-
   "about": {
     "title": "ROQ home",
     "type": "page",
@@ -21,6 +20,5 @@
     "type": "page",
     "href": "https://www.roq.tech/imprint",
     "newWindow": false
-
   }
 }

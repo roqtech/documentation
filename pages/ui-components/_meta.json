@@ -3,8 +3,8 @@
   "roq-provider": "<RoqProvider/>",
   "chat": "<Chat/>",
   "chat-message-bell": "<ChatMessageBell/>",
-  "file-active-uploads": "<FileActiveUploads/>",
   "file-upload": "<FileUpload/>",
+  "file-active-uploads": "<FileActiveUploads/>",
   "notification-bell": "<NotificationBell/>",
   "notification-modal": "<NotificationModal/>"
 }
