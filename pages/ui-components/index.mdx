@@ -1,0 +1,63 @@
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
+
+# Getting Started with ROQ UI Components
+
+## Introduction
+
+ROQ UI Components are plug and play widgets that are fully wired up to the ROQ platform APIs.
+They are fully functional, and add functionality to your application within just a few lines of code.
+
+### Installation
+
+To get started with integrating ROQ UI, you need to first install the module that matches your technology.
+The `<ChatMessageBell />` requires the [`<Chat/>`](/ui-components/chat) component to be used as well.
+
+<Tabs items={["React"]}>
+  <Tab>
+    ##### Install the ROQ UI React npm module 
+    
+    ``` npm install @roq/ui-react ```
+
+    ##### Configure the ROQ Provider
+    Insert the `<RoqProvider>` at a high-level component in your code. Typically this is an entrypoint such as `app.tsx` or a layout component.
+    The `<RoqProvider>` provides the configuration and context for the inner ROQ UI components to consume.
+
+    If you are using the [`<Chat/>`](/ui-components/chat) UI Components, then also ensure to add the `<ChatProvider>` component.
+
+
+    ``` tsx
+      import { RoqProvider } from "@roq/ui-react";
+
+      ...
+
+      function MyApp() {
+        return (
+          <RoqProvider
+            config={{
+              // The host varies for different environments
+              // You can get the host from your ROQ Console https://console.roq.tech
+              host: "https://<your-environment-host>.roq-platform.com/v01/graphql"
+              // The token is the ROQ auth token, generated for your user from your server-side at login
+              // Ensure that this token is valid, and not expired
+              token: "Your ROQ user authentication token"
+              socket: true // Set to true if you use chat or notifications
+            }}
+            themeMode={colorMode}
+            theme={roqTheme}
+          >
+            <ChatProvider>
+              {/* your app components */}
+              {/* ROQ components can now be used anywhere inside this context */}
+            </ChatProvider>
+          </RoqProvider>
+        );
+      }
+
+      ...
+    ```
+
+  </Tab>
+
+</Tabs>
