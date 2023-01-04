@@ -4,59 +4,16 @@ import Image from 'next/image';
 
 # ROQ Provider
 
-
-<Tabs items={["React"]}>
-<Tab>
-##### Install the ROQ UI React npm module
-
-    ``` npm install @roq/ui-react ```
-
-    ##### Configure the ROQ Provider
-    Insert the `<RoqProvider>` at a high-level component in your code. Typically this is an `App.tsx` or a layout component.
-    The `<RoqProvider>` provides the configuration and context for the inner ROQ UI components to consume.
-    It needs to be imported and used only once.
-
-    If you are using the [`<Chat/>`](/ui-components/chat) UI Components, then also ensure to add the `<ChatProvider>` component
-    at a suitable level of your code.
-
-
-    ``` tsx
-      import { RoqProvider, ChatProvider } from "@roq/ui-react";
-
-      ...
-
-      function MyApp() {
-        return (
-          <RoqProvider
-            config={{
-              // The host varies for different environments
-              // You can get the host from your ROQ Console https://console.roq.tech
-              host: "https://<your-environment-host>.roq-platform.com/v01/graphql"
-              // The token is the ROQ auth token, generated for your user from your server-side at login
-              // Ensure that this token is valid, and not expired
-              token: "Your ROQ user authentication token"
-              socket: true // Set to true if you use chat or notifications
-            }}
-          >
-            <ChatProvider>
-              {/* your app components */}
-              {/* ROQ components can now be used anywhere inside this context */}
-            </ChatProvider>
-          </RoqProvider>
-        );
-      }
-
-      ...
-    ```
-
-  </Tab>
-
-</Tabs>
-
 ## Introduction
 
-To use ROQ's UI Components, you need to wrap your React application into the RoqProvider component. This provider is
-used for configuration and provides the required context to the other components.
+To use ROQ's UI Components, you need to wrap your React application into the `<RoqProvider/>` component. This 
+provider is used for configuration and provides the required context to the other components.
+
+You can install the UI library via NPM:
+
+```shell
+npm install @roq/ui-react
+```
 
 First, you need to determine the right place to add the wrapper:
 
