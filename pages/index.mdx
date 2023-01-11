@@ -2,33 +2,62 @@ import Image from 'next/image'
 
 ## What is ROQ about?
 
-ROQ is based on the observation that most modern SaaS applications have the same main features. Although these
-commodities alone won't make you unique, users still expect them, so you should offer them early. The challenge is that
-these commodities are hard to implement and could easily waste your time and engineering capacity.
+ROQ represents a set of typical features of SaaS applications, like user & access management, file handling, and
+notifications. It enables teams to focus on their unique features instead of building the basic functionalities
+repeatedly. ROQ can be integrated into any web-based application using fully-functional UI components and a GraphQL API.
+Because of its multi-tenant approach, it perfectly suits B2B as well as B2C scenarios.
 
-ROQ solves this challenge by offering ready-to-use UI components and APIs for all essential features you need to build
-your SaaS application: authentication, authorization, user management, a [real-time chat](feature-guides/chat),
-[notifications](feature-guides/notifications), [file management](feature-guides/files), and many more.
+{/* ROQ is based on the observation that most modern SaaS applications have the same main features. Although these
+commodities alone won't make you unique, users still expect them, so you should offer them early. The challenge is that
+these commodities are hard to implement and could easily waste your time and engineering capacity. */}
+
+ROQ's features are provided as fully-functional UI components and APIs for all essential features you need to build
+your SaaS application:
+authentication, [access management](/feature-guides/access-management), [user management](/feature-guides/users),
+a [real-time chat](feature-guides/chat), [notifications](feature-guides/notifications), [file management](feature-guides/files),
+and many more.
+
+{/*
 
 ## How does ROQ work?
 
-ROQ consists of two main parts: **Functional UI Components** and a **Headless ROQ Platform** 
+ROQ consists of two main parts: **Functional UI Components** and a **Headless ROQ Platform**
 
 ### Functional UI Components
 
 ROQ provides a set of **fully-functional and highly customizable UI components** that you can easily integrate into your
-application. 
-
-{/* Add nice looking preview here */}
+application.
 
 ### Headless ROQ Platform
+
 ROQ Platform represents the backend for the UI components. In addition, ROQ Platform provides
 GraphQL APIs that you can leverage to build your custom logic.
 
-{/* Add architecture diagram here */}
+*/}
 
 ## Getting started
 
-The best way to start with ROQ is follow our [Getting Started](/getting-started) guide
+You can integrate ROQ into any existing application or leverage our Kickstarter to build a new one.
+
+### Integration into an existing application
+You can easily level up your existing SaaS application by adding all or some of ROQ's features. For instance, it's up to
+you to decide whether to use ROQ's secure authentication system (logins, signup, user invites, etc.) or to keep your
+existing solution.
+
+Integrating ROQ is simple and can usually be done by an engineer in less than one day. Please follow one of our
+integration guides:
+
+{/* TODO add links */}
+* How to integrate ROQ with authentication
+* How to integrate ROQ without authentication
+
+### Start a new application.
+In case you plan to implement a new SaaS application, we have something for you. You can build on top of our open-source
+Kickstart project, ROQ One.
+
+ROQ One provides a lightweight architecture based on React, Next.js, and PrismaORM. In addition, all of ROQ's features
+are already pre-integrated, which means you can start with a fully-functional application and progress rapidly. We are
+sure your engineers will love it. You can find it on Github. The local installation takes only a few moments. For
+seamless deployments, we recommend using Vercel.
 
 
