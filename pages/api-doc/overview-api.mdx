@@ -65,23 +65,3 @@ Platform exposes two endpoints:
   Don't share the `apiKey` with anyone and don't use it on the client-side on your application. It's also 
 recommended to provide it via environment variables and don't place it into your repository.
 </Callout>
-
-## User token
-
-To interact with the APIs of ROQ Platform, you need to create a token for the current user using the `createUserToken`
-mutation.
-
-{/* TODO add code */}
-
-## Service account user
-
-When you interact with ROQ Platform, you need a user token. A user is usually available on the client side so that 
-you  can use its token. But in some cases, there is no user token available. For instance, when you implement logic 
-that  is executed as a cron job. For these scenarios, ROQ provides a special user called "service account". This 
-user  has super-admin permissions, so we recommend using it carefully.
-
-The service account user is always available on ROQ Platform side and isn't shown in the console. For security 
-reasons it can only be used from the server side of your application.
-
-
-{/* TODO code examples */}

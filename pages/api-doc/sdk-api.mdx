@@ -49,30 +49,30 @@ variables and don't commit them into your repository.
 | jwtSecret     | string | The secret word which is used to validate JWT tokens on your side      |
 | host          | string | The URL of ROQ Platform                                                |
 
-## User vs Service Account
+## User vs SuperAdmin
 
 When you interact with ROQ Platform, you need a user token. A user is usually available on the client side so that
 you  can use its token. But in some cases, there is no user token available. For instance, when you implement logic
-that  is executed as a cron job. For these scenarios, ROQ provides a special user called "service account". This
-user  has super-admin permissions, so we recommend using it carefully.
+that  is executed as a cron job. For these scenarios, ROQ provides a special user called "super admin". This
+user has full permissions, so we recommend using it carefully.
 
-The service account user is always available on ROQ Platform side and isn't shown in the console. For security
-reasons it can only be used from the server side of your application.
+The super admin user is always available on ROQ Platform side and isn't shown in the console. For 
+security reasons it can only be used from the server side of your application.
 
 If you prefer to interact with the current user ID then you can use the `asUser` function and provide the user's ID. 
 Whenever a user is available, then it should be used.
 
 <Tabs items={['Node.js SDK']}><Tab>
 ```typescript
-await client.asUser(userId).notifications.sendMail(...)
+await client.asUser(userId).sendMail(...)
 ```
 </Tab></Tabs>
 
-To interact with ROQ Platform using the service account, you can use the `asServiceAccount` function:
+To interact with ROQ Platform using the super admin user, you can use the `asSuperAdmin` function:
 
 <Tabs items={['Node.js SDK']}><Tab>
 ```typescript
-await client.asServiceAccount().notifications.sendMail(...)
+await client.asSuperAdmin().sendMail(...)
 ```
 </Tab></Tabs>
 
@@ -92,7 +92,7 @@ const client = new Platform({
   host: env.host,
 });
 
-await client.asServiceAccount().notifications.sendMail({
+await client.asSuperAdmin().sendMail({
   mail: { 
       key: 'abc123', 
       locale: 'abc123', 
@@ -109,7 +109,7 @@ The following snipped fetches 10 users from ROQ Platform and loads their emails 
 
 <Tabs items={['Node.js SDK']}><Tab>
 ```typescript
-const response = await client.asUser(userId).user.users({ 
+const response = await client.asUser(userId).users({ 
     limit: 10, 
     offset: 0, 
     filter: { locale: { equalTo: 'en' } 

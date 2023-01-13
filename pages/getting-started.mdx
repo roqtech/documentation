@@ -8,9 +8,20 @@ Welcome to the "Getting Started" page of our technical documentation! Here, you 
 to help you get up and running ROQ’s features. This page provides you with step-by-step instructions for installing and
 configuring ROQ.
 
+<Callout type="info" emoji="ℹ️">
+You can find a working and fully integrated example application based on Next.js and Prisma ORM on Github: 
+https://github.com/roqtech/roq-nextjs-prisma-quickstart
+</Callout>
+
+<Callout emoji="💡">
+In case you are stuck, we are just one message away. Just join the
+[Community Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ) and get 
+instant responses from our engineers.
+</Callout>
+
 ## (1) Client side installation
 
-You can install ROQ’s UI components by running this NPM command:
+Install ROQ’s UI components by running this NPM command.
 
 <Tabs items={['React']}><Tab>
 
@@ -20,10 +31,10 @@ npm i --save @roq/ui-react
 
 </Tab></Tabs>
 
-<Callout type="info" emoji="ℹ️">
-  At the moment, ROQ is available for React only. However, if you need support for other libraries like Vue.js or 
-Angular, don't hesitate to contact us on [Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ).
-</Callout>
+At the moment, ROQ is available for React only.
+However, if you need support for other libraries like Vue.js or
+Angular, don't hesitate to contact us
+on [Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ).
 
 ## (2) Server side installation
 
@@ -37,9 +48,10 @@ npm i --save @roq/nodejs
 
 </Tab></Tabs>
 
-Please create a free account in the [console](https://console.roq.tech) and get your environment credentials.
-To install ROQ you need the `apiKey`, `environmentId`, `jwtSecret`, and the `host` (~URL of ROQ's API endpoint)
-called **ROQ Platform**. To learn more about the SDK, please read the [Using SDK](/api-doc/sdk-api) documentation.
+Please create a free account in the [**console**](https://console.roq.tech) and get your environment credentials.
+To install ROQ you need the `apiKey`, `environmentId` and the `host`. To learn more about the SDK, please
+read
+the [Using SDK](/api-doc/sdk-api) documentation.
 
 Now you can initialize the services using the credentials on the backend-side of your application.
 
@@ -54,10 +66,12 @@ import {Platform} from '@roq/nodejs';
 const client = new Platform({
     environmentId: 'abc',
     apiKey: 'abc',
-    jwtSecret: 'abc',
     host: 'abc',
 });
 ```
+
+👀 You can find an example usage
+here: [roq-nextjs-prisma-quickstart/src/server/roq/roq.client.ts](https://github.com/roqtech/roq-nextjs-prisma-quickstart/blob/main/src/server/roq/roq.client.ts)
 
 ## (3) Synchronize user data
 
@@ -95,7 +109,7 @@ mutation {
 </Tab><Tab>
 
 ```typescript
-      const roqUser = await client.asServiceAccount().user.createUser({
+const roqUser = await client.asSuperAdmin().createUser({
     user: {
         reference: 'abc123',
         email: 'xyz789',
@@ -110,7 +124,10 @@ mutation {
 
 </Tab></Tabs>
 
-It's important to save the returned ID on your side, so that you can use it for other features. To lean more about
+👀 You can find an example usage
+here: [roq-nextjs-prisma-quickstart/src/pages/api/auth/register.ts](https://github.com/roqtech/roq-nextjs-prisma-quickstart/blob/main/src/pages/api/auth/register.ts#L35)
+
+ℹ️ It's important to save the returned ID on your side, so that you can use it for other features. To lean more about
 the parameters, please refer to the [**`createUser()`**](/api-doc/users-api#createuser) API documentation.
 
 ## (4) Pass token from server to client-side
@@ -121,10 +138,17 @@ The AuthorisationClientService is used to fetch user tokens from ROQ Platform. Y
 {/* TODO replace code with SDK, see https://roqtechnology.slack.com/archives/C02C4761R9N/p1672854774743939 */}
 
 ```tsx
-const token = await client.authorization.createUserToken({userId});
+const roqAccessToken = await roqClient.authorization.createUserToken(
+    user.roqUserId
+);
 ```
 
-The token needs to be passed over to your client-side. The specific implementation depends on your framework.
+👀 You can find an example usage
+here: [roq-nextjs-prisma-quickstart/src/pages/api/auth/...nextauth.ts](https://github.com/roqtech/roq-nextjs-prisma-quickstart/blob/main/src/pages/api/auth/%5B...nextauth%5D.ts#L41)
+
+The token needs to be passed over to your client-side. The specific implementation depends on your framework. Feel
+free to look into the code of the [example app](https://github.com/roqtech/roq-nextjs-prisma-quickstart) to see how it
+needs to be wired-up.
 
 ## (5) Install `<RoqProvider/>` on client-side
 
@@ -132,10 +156,6 @@ To use ROQ's UI components, you need to wrap your application into the `<RoqProv
 required configuration. The minimum working setup requires three props: `host` (~ URL of ROQ Platform) and `getToken`.
 
 Read the documentation about [`<RoqProvider/>`](/ui-components/roq-provider) for more details.
-
-{/* TODO explain token concept */}
-
-{/* TODO Replace with working code snippet */}
 
 ```tsx
 import "rocomp/dist/index.css";
@@ -147,18 +167,21 @@ const getUserToken = () => query(api);
 <RoqProvider
     config={{
         host: 'https://...',
-        getToken: getUserToken,
+        token: token,
         socket: true
     }}>
     ...
 </RoqProvider>
 ```
 
+👀 You can find an example usage
+here: [roq-nextjs-prisma-quickstart/src/pages/_app.tsx](https://github.com/roqtech/roq-nextjs-prisma-quickstart/blob/main/src/pages/_app.tsx#L24)
+
 ## What's next
 
 🎉🎉🎉🎉🎉 That’s it! Now you are ready to select one of the UI components and to implement and business logic based on
 ROQ! You may want to start with the [chat system](/feature-guides/chat), [notifications](/feature-guides/notifications)
-or file [uploads](/feature-guides/files).
+or [file uploads](/feature-guides/files).
 
 If you have any questions, ideas or need support then join
 our [Community Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ) and talk
