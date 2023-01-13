@@ -27,7 +27,6 @@ import {Platform} from '@roq/nodejs';
 const client = new Platform({
     environmentId: 'abc',
     apiKey: 'abc',
-    jwtSecret: 'abc',
     host: 'abc',
 });
 ```
@@ -46,7 +45,6 @@ variables and don't commit them into your repository.
 |---------------|--------|------------------------------------------------------------------------|
 | environmentId | string | ID of your ROQ Platform environment.                                   |
 | apiKey        | string | Secure key that protects the server-side interaction with ROQ Platform |
-| jwtSecret     | string | The secret word which is used to validate JWT tokens on your side      |
 | host          | string | The URL of ROQ Platform                                                |
 
 ## User vs SuperAdmin
@@ -88,7 +86,6 @@ import { Platform } from '@roq/nodejs';
 const client = new Platform({
   environmentId: env.environmentId,
   apiKey: env.apiKey,
-  jwtSecret: env.jwtSecret,
   host: env.host,
 });
 
