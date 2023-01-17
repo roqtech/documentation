@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }) {
     const router = useRouter();
     mixpanel.track('Documentation: Page view', {
         system: 'documentation',
-        url:router.pathname
+        url:router.asPath
     });
     return (<Component {...pageProps} />);
 }
