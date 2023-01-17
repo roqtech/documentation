@@ -15,22 +15,10 @@ if (process.env.NEXT_PUBLIC_MIXPANEL_ENABLED === 'true') {
 
 function MyApp({ Component, pageProps }) {
     const router = useRouter();
-
-    useEffect(() => {
-        const handleRouteChange = (url, { shallow }) => {
-            if (!shallow) {
-                mixpanel.track('Documentation: Page view', {
-                    system: 'documentation',
-                    url
-                });
-            }
-        };
-        router.events.on('routeChangeStart', handleRouteChange);
-        return () => {
-            router.events.off('routeChangeStart', handleRouteChange);
-        };
-    }, []);
-
+    mixpanel.track('Documentation: Page view', {
+        system: 'documentation',
+        url:router.pathname
+    });
     return (<Component {...pageProps} />);
 }
 
