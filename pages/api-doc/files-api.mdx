@@ -14,12 +14,12 @@ ROQ provides a complete solution for management of public and private files. Ple
 ### `createFileUpload()`
 
 <Callout type="info" emoji="ℹ️">
-  This endpoint is only available from the server side of your application. 
+  This endpoint is only available from the server side of your application.
 </Callout>
 
 <Callout type="warning" emoji="⚠️">
   It's not recommended to implement file uploads yourself. Use ROQ's [File Upload UI component](/ui-components/file-upload)
-  instead and get file uploads up and running in minutes. 
+  instead and get file uploads up and running in minutes.
 </Callout>
 
 To upload file via API you need to proceed the following steps:
@@ -35,7 +35,7 @@ to the object storage.
 {/* TODO Name of variable createFileDto will be changed to file  */}
 {/* TODO add a real content type  */}
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
 mutation {
@@ -53,7 +53,17 @@ mutation {
 
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+```ts
+await client.asSuperAdmin().createFileUpload({
+  name: 'abc123',
+  contentType: 'image/png',
+  fileCategory: 'xyz789',
+});
+```
+</Tab>
+</Tabs>
 
 | Parameter      | Type   | Description                                                                               |
 |----------------|--------|-------------------------------------------------------------------------------------------|
@@ -82,7 +92,7 @@ curl 'https://s3.fr-par.scw.cloud/<bucket-name>' \
 When the upload is finished, you need to set the status of the upload. This is needed because the file is uploaded
 directly to the object storage and therefore bypasses ROQ Platform.
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
 mutation{
@@ -95,12 +105,21 @@ mutation{
 }
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+```ts
+await client.asSuperAdmin().updateFileStatus({
+  id: '123',
+  status: 'READY',
+});
+```
+</Tab>
+</Tabs>
 
 ### `createFileAssociation()`
 
 <Callout type="info" emoji="ℹ️">
-  This endpoint is only available from the server side of your application. 
+  This endpoint is only available from the server side of your application.
 </Callout>
 
 Files usually belong to some other object. For instance, you may have PDFs which represent _"contracts"_. Or you may
@@ -109,13 +128,13 @@ saved on your database. The advantage is that you don't need to add these relati
 
 {/* TODO rename parameter createFileAssociationDto to createFileAssociationDto */}
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
 mutation {
   createFileAssociation(
     createFileAssociationDto: {
-      entityReference: 4
+      entityReference: "reference"
       entityName: "xyz789"
       fileId: "4"
     }
@@ -125,53 +144,81 @@ mutation {
 }
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+```ts
+await client.asSuperAdmin().createFileAssociation({
+  createFileAssociationDto: {
+    entityReference: 'reference',
+    entityName: 'xyz789',
+    fileId: '4',
+  },
+});
+```
+</Tab>
+</Tabs>
 
 | Parameter         | Type   | Description                                                                                 |
 |-------------------|--------|---------------------------------------------------------------------------------------------|
-| `fileId`          | string | UUID of the file                                                                            |                                                                          
+| `fileId`          | string | UUID of the file                                                                            |
 | `entityReference` | string | Reference (or ID) of the related entity in your database                                    |
 | `entityName`      | string | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
 
 ### `makeFilePublic()`
 
 <Callout type="info" emoji="ℹ️">
-  This endpoint is only available from the server side of your application. 
+  This endpoint is only available from the server side of your application.
 </Callout>
 
 To enable public access to a file, run:
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
 mutation makeFilePublic($fileId: ID!) {
-  makeFilePublic(fileId: $fileId) {
+  makeFilePublic(id: $fileId) {
     id
   }
 }
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+```ts
+await client.asSuperAdmin().makeFilePublic({
+  id: 'fileId',
+});
+```
+</Tab>
+</Tabs>
 
 ### `makeFilePrivate()`
 
 <Callout type="info" emoji="ℹ️">
-  This endpoint is only available from the server side of your application. 
+  This endpoint is only available from the server side of your application.
 </Callout>
 
 To hide a file from public access, you can execute:
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
 mutation makeFilePrivate($fileId: ID!) {
-  makeFilePrivate(fileId: $fileId) {
+  makeFilePrivate(id: $fileId) {
     id
   }
 }
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+```ts
+await client.asSuperAdmin().makeFilePrivate({
+  id: 'fileId',
+});
+```
+</Tab>
+</Tabs>
 
 ## Queries
 

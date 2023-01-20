@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 ## Introduction
 
-To use ROQ's UI Components, you need to wrap your React application into the `<RoqProvider/>` component. This 
+To use ROQ's UI Components, you need to wrap your React application into the `<RoqProvider/>` component. This
 provider is used for configuration and provides the required context to the other components.
 
 You can install the UI library via NPM:
@@ -27,20 +27,23 @@ the `<RoqProvider />`
 {/* TODO Replace with working code snippet */}
 
 ```tsx
-import "rocomp/dist/index.css";
+import { RoqProvider } from '@roq/ui-react';
+import '@roq/ui-react/dist/index.css';
 
-const getUserToken = () => query(api);
-
-// ....
-
-<RoqProvider
-    config={{
-        host: 'https://...',
-        getToken: getUserToken,
-        socket: true
-    }}>
-    ...
-</RoqProvider>
+function App() {
+  const token = getUserToken();
+  return (
+    <RoqProvider
+      config={{
+        host: "https://...",
+        token,
+        socket: true,
+      }}
+    >
+      ...
+    </RoqProvider>
+  );
+}
 ```
 
 There are multiple props and configuration parameters that can be set on the `RoqProvider` component:
@@ -49,7 +52,7 @@ There are multiple props and configuration parameters that can be set on the `Ro
 |-----------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `config`                    | object   | An object that sets the global config with the parameters explained below.                                                                                                      |
 | `config:host`               | string   | Defines the URL of ROQ Platform. You can get this information from the console. Please note the hostname will be different for production and non-production environments.      |
-| `config:getToken`           | function | Reference to a function that returns the user's token that enables the interaction with ROQ Platform. Alternatively, you can pass the token directly using the token parameter. |
+| `config:token`              | string   | User's token that enables the interaction with ROQ Platform. |
 | `config:socket?`            | boolean  | A boolean value must be true if a socket connection is established. This is required for notifications and chats. (default: false)                                              |
 | `locale?`                   | string   | The locale prop is used to translate the component. Setting the same locale used in the current user's session is recommended.                                                  |
 | `theme?`                    | string   | Currently selected theme. All components ship with a light and a dark theme (default: light)                                                                                    |

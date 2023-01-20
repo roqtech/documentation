@@ -36,12 +36,15 @@ You can place the entire chat on your page using this snippet:
 
 <Tabs items={['React']}><Tab>
 ```tsx
-import { ChatProvider, Chat } from "@roq/ui-react";
+import { ChatProvider, Chat } from '@roq/ui-react';
 
-...
-<ChatProvider>
-    <Chat />
-<ChatProvider>
+function ChatPage() {
+  return (
+    <ChatProvider>
+      <Chat />
+    </ChatProvider>
+  );
+}
 ```
 </Tab></Tabs>
 
@@ -52,11 +55,15 @@ In case you only want to show the window with all the current chat, then use thi
 <Tabs items={['React']}><Tab>
 
 ```tsx
-import { ChatProvider, ChatWindow } from "@roq/ui-react";
+import { ChatProvider, ChatWindow } from '@roq/ui-react';
 
-<ChatProvider>
-    <ChatWindow/>
-<ChatProvider>
+function ChatPage() {
+  return (
+    <ChatProvider>
+      <ChatWindow />
+    </ChatProvider>
+  );
+}
 ```
 
 </Tab></Tabs>
@@ -68,11 +75,15 @@ You can show just the sidebar by using this snippet:
 <Tabs items={['React']}><Tab>
 
 ```tsx
-import { ChatProvider, ChatSidebar } from "@roq/ui-react";
+import { ChatProvider, ChatSidebar } from '@roq/ui-react';
 
-<ChatProvider>
-    <ChatSidebar/>
-<ChatProvider>
+function ChatPage() {
+  return (
+    <ChatProvider>
+      <ChatSidebar />
+    </ChatProvider>
+  );
+}
 ```
 
 </Tab></Tabs>

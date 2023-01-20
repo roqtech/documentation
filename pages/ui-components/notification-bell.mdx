@@ -42,11 +42,13 @@ The bell symbol can be integrated by adding this component to your application:
 <Tabs items={['React']}><Tab>
 
 ```tsx
-import { NotificationBell } from "@roq/ui-react";
+import { NotificationBell } from '@roq/ui-react';
 
-...
-
-<NotificationBell />;
+function TopBar() {
+  return (
+     <NotificationBell />
+  );
+}
 ```
 
 #### `<NotificationBell/>` Props list

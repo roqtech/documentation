@@ -18,10 +18,10 @@ The createUser API is used to synchronize user data to ROQ.
 You can find the full API doc of this mutation [here](https://snapshotp.roq-platform.com/docs/#mutation-createUser).
 
 <Callout emoji="💡">
-    It's important to save the returned user ID in your database because the API needs it for other functionalities.  
+    It's important to save the returned user ID in your database because the API needs it for other functionalities.
 </Callout>
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
 mutation {
@@ -44,7 +44,25 @@ mutation {
 }
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+```ts
+await client.asSuperAdmin().createUser({
+  user: {
+    reference: 'abc123',
+    email: 'xyz789',
+    phone: 'xyz789',
+    firstName: 'xyz789',
+    lastName: 'abc123',
+    locale: 'xyz789',
+    timezone: 'xyz789',
+    isOptedIn: false,
+    active: false
+  },
+});
+```
+</Tab>
+</Tabs>
 
 | Parameter   | Type    | Description                                                                                                                                                                                        |
 |-------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -72,7 +90,7 @@ here to narrow down the results.
 
 {/* TODO Add-  For instance to fetch users by your reference you can run this query when CPD-1891 is fixed*/}
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
 query {
@@ -85,14 +103,20 @@ query {
 
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+```ts
+await client.asSuperAdmin().users();
+```
+</Tab>
+</Tabs>
 
 ### `user()`
 
 You can fetch a specific user using the user() query. You need to use the ID which was returned by the `createUser()`
 mutation
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
 query {
@@ -102,4 +126,10 @@ query {
 }
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+```ts
+await client.asSuperAdmin().user({ id: '123' });
+```
+</Tab>
+</Tabs>

@@ -13,7 +13,7 @@ the [notifications feature guide](/feature-guides/notifications) for more inform
 ### `notify()`
 
 <Callout type="info" emoji="ℹ️">
-  This endpoint is only available from the server side of your application. 
+  This endpoint is only available from the server side of your application.
 </Callout>
 
 The `notify()` mutation enables you to notify:
@@ -30,7 +30,7 @@ defined in the `recipients` variable as shown below.
 
 {/* TODO add tenant as a parameter */}
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
 mutation {
@@ -54,7 +54,24 @@ mutation {
 
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+```ts
+await client.asSuperAdmin().notify({
+  notification: {
+    key: 'aaa',
+    recipients: {
+      userIds: ['abc123'],
+      userGroups: { operator: 'AND', userGroupIds: ['xyz789'] },
+      excludedUserIds: ['abc123'],
+      allUsers: false,
+    },
+    data: [{ key: 'xyz789', value: 'xyz789' }],
+  },
+});
+```
+</Tab>
+</Tabs>
 
 | Parameter                    | Type   | Description                                                                                                                                                                                           |
 |------------------------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -69,10 +86,10 @@ mutation {
 
 ### `notifications()`
 
-The [Notification Modal](/ui-components/notification-modal) UI component fetches notifications by using the 
+The [Notification Modal](/ui-components/notification-modal) UI component fetches notifications by using the
 `notifications()` query. You can find the full API doc of this query [here](https://snapshotp.roq-platform.com/docs/#query-notifications).
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
 query {
@@ -89,4 +106,10 @@ query {
 }
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+```ts
+await client.asSuperAdmin().notifications();
+```
+</Tab>
+</Tabs>

@@ -9,13 +9,13 @@ to help you get up and running ROQ’s features. This page provides you with ste
 configuring ROQ.
 
 <Callout type="info" emoji="ℹ️">
-You can find a working and fully integrated example application based on Next.js and Prisma ORM on Github: 
+You can find a working and fully integrated example application based on Next.js and Prisma ORM on Github:
 https://github.com/roqtech/roq-nextjs-prisma-quickstart
 </Callout>
 
 <Callout emoji="💡">
 In case you are stuck, we are just one message away. Just join the
-[Community Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ) and get 
+[Community Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ) and get
 instant responses from our engineers.
 </Callout>
 
@@ -56,8 +56,8 @@ the [Using SDK](/api-doc/sdk-api) documentation.
 Now you can initialize the services using the credentials on the backend-side of your application.
 
 <Callout type="warning" emoji="⚠️">
-The credentials must not be shared with anyone. It's highly recommended to provide the credentials as environment 
-variables and don't commit them into your repository. 
+The credentials must not be shared with anyone. It's highly recommended to provide the credentials as environment
+variables and don't commit them into your repository.
 </Callout>
 
 ```typescript
@@ -138,7 +138,7 @@ The AuthorisationClientService is used to fetch user tokens from ROQ Platform. Y
 {/* TODO replace code with SDK, see https://roqtechnology.slack.com/archives/C02C4761R9N/p1672854774743939 */}
 
 ```tsx
-const roqAccessToken = await roqClient.authorization.createUserToken(
+const roqAccessToken = await client.authorization.createUserToken(
     user.roqUserId
 );
 ```
@@ -158,20 +158,23 @@ required configuration. The minimum working setup requires three props: `host` (
 Read the documentation about [`<RoqProvider/>`](/ui-components/roq-provider) for more details.
 
 ```tsx
-import "rocomp/dist/index.css";
+import { RoqProvider } from '@roq/ui-react';
+import '@roq/ui-react/dist/index.css';
 
-const getUserToken = () => query(api);
-
-// ....
-
-<RoqProvider
-    config={{
-        host: 'https://...',
-        token: token,
-        socket: true
-    }}>
-    ...
-</RoqProvider>
+function App() {
+  const token = getUserToken();
+  return (
+    <RoqProvider
+      config={{
+        host: "https://...",
+        token,
+        socket: true,
+      }}
+    >
+      ...
+    </RoqProvider>
+  );
+}
 ```
 
 👀 You can find an example usage

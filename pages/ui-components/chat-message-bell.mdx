@@ -45,11 +45,15 @@ See this component in action on
 To show the bell component, you can copy this snippet in your code:
 
 ```tsx
-import { ChatProvider, ChatMessageBell } from "@roq/ui-react";
+import { ChatProvider, ChatMessageBell } from '@roq/ui-react';
 
-...
-
-<ChatProvider>
-  <ChatMessageBell />
-</ChatProvider>
+function App() {
+  return (
+    <ChatProvider>
+      <TopBar>
+        <ChatMessageBell />
+      </TopBar>
+    </ChatProvider>
+  );
+}
 ```
