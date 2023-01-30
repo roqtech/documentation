@@ -1,0 +1,33 @@
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+# GraphQL Sandbox
+
+## Introduction
+
+Sometimes it's helpful to run GraphQL queries or mutations directly using the GraphQL Sandbox that you can find here:
+https://mars-pp.roq-platform.com/v01/server/graphql
+
+<Image src={"/sandbox.png"} alt="GraphQL Sandbox" width={2882} height={1528} />
+
+## Instructions
+
+The Sandbox enables you to run any query and mutations and see the generated docs and schema. In addition, it provides
+auto-completion, which means you don't need to remember all the names and fields.
+
+If you are not familiar with GraphQL, then it's recommended to start with
+the [GraphQL basics guide](/api-doc/graphql-basics-api).
+
+The API of ROQ Platform is protected by two tokens which need to be provided as HTTP headers in this format:
+
+<Tabs items={['HTTP Headers']}><Tab>
+```json
+{
+ "roq-platform-authorization": "Bearer eyJhbGciOiJIUzI1...",
+ "roq-platform-server-authorization": "Basic M2RkYmZlYmYtO..." 
+}
+```
+</Tab></Tabs>
+
+You can find the tokens of the super admin in the [console](https://console.roq.tech/details).
