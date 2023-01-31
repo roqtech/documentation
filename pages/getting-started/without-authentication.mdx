@@ -2,11 +2,11 @@ import { Callout } from 'nextra-theme-docs'
 import { Tab, Tabs } from 'nextra-theme-docs';
 import Image from 'next/image';
 
-# Getting started
+# How to integrate ROQ without authentication
 
 Welcome to the "Getting Started" page of our technical documentation! Here, you will find all the necessary information
-to help you get up and running ROQ’s features. This page provides you with step-by-step instructions for installing and
-configuring ROQ.
+to help you get up and running ROQ’s features **without using ROQ's authentication**. This page provides you with
+step-by-step instructions for installing and configuring ROQ.
 
 <Callout type="info" emoji="ℹ️">
 You can find a working and fully integrated example application based on Next.js and Prisma ORM on Github:
@@ -158,22 +158,22 @@ required configuration. The minimum working setup requires three props: `host` (
 Read the documentation about [`<RoqProvider/>`](/ui-components/roq-provider) for more details.
 
 ```tsx
-import { RoqProvider } from '@roq/ui-react';
+import {RoqProvider} from '@roq/ui-react';
 import '@roq/ui-react/dist/index.css';
 
 function App() {
-  const token = getUserToken();
-  return (
-    <RoqProvider
-      config={{
-        host: "https://...",
-        token,
-        socket: true,
-      }}
-    >
-      ...
-    </RoqProvider>
-  );
+    const token = getUserToken();
+    return (
+        <RoqProvider
+            config={{
+                host: "https://...",
+                token,
+                socket: true,
+            }}
+        >
+            ...
+        </RoqProvider>
+    );
 }
 ```
 

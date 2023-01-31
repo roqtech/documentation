@@ -1,5 +1,5 @@
 {
-  "overview": "Overview",
+  "index": "Overview",
   "roq-provider": "<RoqProvider/>",
   "chat": "<Chat/>",
   "chat-message-bell": "<ChatMessageBell/>",

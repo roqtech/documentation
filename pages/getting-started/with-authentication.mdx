@@ -1,0 +1,52 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+# How to integrate ROQ's authentication
+
+ROQ provides a complete and secure authentication and user management solution that you can easily integrate into your
+application. ROQ's login and session management are based on the oauth protocol.
+
+In these getting-started guide you will learn how to
+
+* add login & registration functionality to your web application
+* ...
+
+<Callout emoji="💡">
+In case you are stuck, we are just one message away. Just join the
+[Community Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ) and get
+instant responses from our engineers.
+</Callout>
+
+## Add routes
+
+{/* TODO Install roq next.js */}
+
+<Tabs items={['Next.js']}><Tab>
+
+* Create a new file: `pages/api/[...roqAuth].ts` with this content:
+
+```typescript
+import {handleAuth} from "@roq/nextjs";
+
+export default handleAuth;
+```
+
+</Tab></Tabs>
+
+These four routes will be added to your web application:
+
+| Path        | Description                                                                      |
+|-------------|----------------------------------------------------------------------------------|
+| `/login`    | Secure redirect to the managed login page                                        |
+| `/logout`   | Clears the session token from the cookies and invalidates active refresh tokens. |
+| `/session`  | Endpoint to check the validity of the session token                              |
+| `/callback` | Handles the callback from the hosted login page after successful authentication  |
+
+## Setup credentials
+
+Login to the console, copy the needed credentials and paste them into the `.env` file of your web application.
+
+```typescript
+TODO
+```

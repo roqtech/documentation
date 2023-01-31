@@ -1,5 +1,5 @@
 {
-  "overview-api": "Overview",
+  "index": "Overview",
   "sandbox-api": "Sandbox",
   "sdk-api": "SDK",
   "graphql-basics-api": "GraphQL basics",
