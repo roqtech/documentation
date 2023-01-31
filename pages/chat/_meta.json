@@ -1,0 +1,11 @@
+{
+  "index": "Overview",
+  "roq-provider": "<RoqProvider/>",
+  "chat": "<Chat/>",
+  "chat-message-bell": "<ChatMessageBell/>",
+
+  "notification-bell": "<NotificationBell/>",
+  "notification-modal": "<NotificationModal/>"
+}
+
+

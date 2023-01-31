@@ -1,0 +1,56 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+# Get data of current session
+
+## Client-side
+
+If you want to access the current user's data, e.g., to show the user's first name, you can either use the
+useSession hook or an async helper.
+
+{/* TODO Replace code when SaaS template is done */}
+
+#### useSession hook
+
+<Tabs items={['React']}><Tab>
+
+```typescript
+import {useSession} from "@roq/ui-react";
+
+const {session, status} = useSession();
+const firstName = session.user.firstName;
+```
+
+</Tab></Tabs>
+
+#### async helper
+
+{/* TODO add import and check if correct */}
+
+<Tabs items={['React']}><Tab>
+
+```typescript
+import "TODO";
+
+const user = await getSession();
+const firstName = user.session.user.firstName;
+```
+
+</Tab></Tabs>
+
+## Server-side
+
+You can access the current user's data using this request handler:
+<Tabs items={['Next.js']}><Tab>
+
+```tsx
+import {getServerSession} from "@roq/nextjs";
+
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+    const session = getServerSession(req);
+    const user = session.user;
+}
+```
+
+</Tab></Tabs>

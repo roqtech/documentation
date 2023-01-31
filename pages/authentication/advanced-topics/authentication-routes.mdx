@@ -1,0 +1,14 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+# Routes for authentication
+
+ROQ provides a wrapper which adds these four routes into your application: 
+
+| Path        | Description                                                                      |
+|-------------|----------------------------------------------------------------------------------|
+| `/login`    | Secure redirect to the managed login page                                        |
+| `/logout`   | Clears the session token from the cookies and invalidates active refresh tokens. |
+| `/session`  | Endpoint to check the validity of the session token                              |
+| `/callback` | Handles the callback from the hosted login page after successful authentication  |
