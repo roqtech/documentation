@@ -13,7 +13,7 @@ others. Please refer to the [mails feature guide](/feature-guides/mails) for mor
 ### `sendMail()`
 
 <Callout type="info" emoji="ℹ️">
-  This endpoint is only available from the server side of your application. 
+  This endpoint is only available from the server side of your application.
 </Callout>
 
 The `sendMail()` mutation can be used to send e-mails. The mutation returns the number of emails sent. You can find
@@ -40,11 +40,11 @@ mutation {
 </Tab><Tab>
 
 ```typescript
-await client.asSuperAdmin().notifications.sendMail({
-  mail: { 
-      key: 'abc123', 
-      locale: 'abc123', 
-      emails: ['xyz789'], 
+await client.asSuperAdmin().sendMail({
+  mail: {
+      key: 'abc123',
+      locale: 'abc123',
+      emails: ['xyz789'],
       data: [{ key: 'xyz789', value: 'xyz789' }] },
 });
 ```
@@ -56,4 +56,4 @@ await client.asSuperAdmin().notifications.sendMail({
 | `key`     | string | Key of mail type that you created in the Console, eg._"WELCOME_NOTIFICATION"_ |
 | `locale`  | string | Locale (language) of the mail, eg _"en-US"_                                   |
 | `emails`  | array  | List of email addresses                                                       |
-| `data`    | array  | Array with key/value pairs. You can use this data in the template             | 
+| `data`    | array  | Array with key/value pairs. You can use this data in the template             |
