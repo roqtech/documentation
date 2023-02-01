@@ -1,6 +1,8 @@
 {
   "index": "Introduction",
   "installation-guides": "Installation Guides",
+  "development-guides": "Development guides",
+  "kickstarter": "Kickstarter",
   "----": {
     "type": "separator"
   },
@@ -15,12 +17,6 @@
   "user-groups": "User Groups",
   "user-invites": "User Invites",
   "user-management": "User Management",
-  "---": {
-    "type": "separator"
-  },
-  "ui-components": "UI Components",
-  "api-doc": "API Doc",
-  "customization": "Customization",
   "about": {
     "title": "ROQ home",
     "type": "page",

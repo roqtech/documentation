@@ -1,0 +1,62 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+# UI Components overview
+
+## Introduction
+
+ROQ UI Components are plug and play widgets that are fully wired up to the ROQ platform APIs.
+They are fully functional, and add functionality to your application within just a few lines of code.
+
+<Callout type="info" emoji="ℹ️">
+  At the moment, ROQ's UI components are available for React only. However, if you need support for other libraries 
+like Vue.js or Angular, don't hesitate to contact us on [Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ).
+</Callout>
+
+## Installation
+
+To get started with integrating ROQ UI, you need to wrap your React application into
+the [`<RoqProvider/>`](/development-guides/roq-provider).
+
+## Available UI Components
+
+These UI Components are ready to be used in your project!
+
+**Chat system:**
+
+* The [`<Chat/>`](/chat/chat) UI component represents the chat message center with sidebar and the chat window.
+* The [`<ChatMessageBell/>`](/chat/chat-message-bell) component informs the user about unread messages in the chat.
+
+**File management:**
+
+* The [`<FileUpload/>`](/files/file-upload) component represents a button which opens a file selector and starts
+  uploads.
+* The [`<FileDropzone/>`](/files/file-dropzone) component represents an area on your application where users can drag
+  and drop files to be uploaded.
+* The [`<FileActiveUploads/>`](/files/file-active-uploads) component shows a progress bar of all active files uploads.
+  Users can abort and restart uploads.
+
+**Notifications:**
+
+* The [`<NotificationBell/>`](/notifications/notification-bell) component renders a bell symbol which informs the
+  user about unread notifications
+* The [`<NotificationModal/>`](/notifications/notification-modal) component shows the user's notifications in real-time
+  and also enables the user to configure the preferences.
+
+**User invites**
+
+* The [`<UserInvitesTable/>`](/user-invites/user-invites-table) component renders all related components at once. Users
+  can invite other users and manage their invitees in a table.
+* The [`<UserInviteButton/>`](/user-invites/user-invite-button) component renders a button which opens a lightbox. The user can then invite other users.
+* The [`<UserInvitePane/>`](/user-invites/user-invite-pane) component renders a pane that allows to invite one or multiple users at once.
+
+## Custom styling
+
+You can customize the design of ROQ’s UI components to improve the fit to the look&feel of your application. See the
+[Custom Styling](/development-guides/custom-styling) section for more details.
+
+## Custom translations
+
+All UI components can be translated into any language.
+See [Custom translations](/translations/custom-translations) for instructions.
