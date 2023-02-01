@@ -1,0 +1,41 @@
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
+import DoBasicSetup from "/snippets/do-basic-setup.mdx"
+
+# User Invites Table UI Component 
+
+## Introduction
+
+The `<UserInvitesTable />` component renders all related components at once. Users can invite other users and manage 
+their invitees in a table.
+
+See this component in action on
+[Storybook](https://ui.roq.tech/?path=/docs/authentication-user-invites--default).
+
+
+{/* TODO add missing screenshot */}
+
+## Integration
+
+<DoBasicSetup />
+
+### `<UserInvitesTable/>`
+
+{/* TODO Props are not aligned with the actual UI component. */}
+
+You can integrate the `<UserInvitesTable/>` component using this code:
+
+<Tabs items={['React']}><Tab>
+
+```tsx
+import { NotificationModal } from '@roq/ui-react';
+
+function App() {
+    return (
+        <UserInvitesTable />
+    );
+}
+```
+
+</Tab></Tabs>

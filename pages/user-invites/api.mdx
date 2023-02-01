@@ -1,0 +1,85 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+
+# User inviters API
+
+## Introduction
+
+The user invite API is used directly by the UI components
+(e.g. [**`<The UserInvitesTable />`**](/user-invites/user-invites-table)). However, you can also use it
+programmatically.
+
+## Mutations
+
+### `sendUserInvites()`
+
+The `sendUserInvites` API is used to invite users.
+
+You can find the full API doc of this mutation [here](https://mars-pp.roq-platform.com/docs/#mutation-sendUserInvites).
+
+{/* TODO add , 'Node.js SDK' */}
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+mutation {
+  sendUserInvites(
+    userInvites: {
+      userInvites: [
+        {
+          email: "abc123"
+          firstName: "xyz789"
+          lastName: "xyz789"
+          locale: "xyz789"
+          data: JsonObject
+          createdByUserId: 4
+          tenantId: "4"
+          roles: ["abc123"]
+        }
+      ]
+      tenantId: "xyz"
+    }
+  ) {
+    success {
+      status
+    }
+    errors {
+      error
+    }
+  }
+}
+```
+
+</Tab></Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|----------------------------------------------|
+| `email`           | string | Email of the invitee                         |
+| `firstName`       | string | First name of the invitee                    |
+| `lastName`        | string | Last name of the invitee                     |
+| `locale`          | string | Language of the invitee (used for the email) |
+| `data`            | array  | Additional custom data                       |
+| `createdByUserId` | uuid   | ID of the inviting user                      |
+| `tenantId`        | uuid   | ID of the tenant (organization)              |
+| `roles`           | array  | Array of IDs of roles for the invitee        |
+
+
+## Queries
+
+You can fetch invites using the `userInvite` and `userInvites` queries:
+
+<Tabs items={['GraphQL']}><Tab>
+
+```graphql
+query {
+  userInvites {
+    data {
+      email
+      status
+    }
+  }
+}
+
+```
+
+</Tab></Tabs>

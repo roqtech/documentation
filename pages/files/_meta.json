@@ -1,5 +1,6 @@
 {
-  "index": "Overview",
-  "with-authentication": "Add authentication",
-  "without-authentication": "Without authentication"
+  "api": "API",
+  "file-upload": "<FileUpload/>",
+  "file-dropzone": "<FileDropzone/>",
+  "file-active-uploads": "<FileActiveUploads/>"
 }

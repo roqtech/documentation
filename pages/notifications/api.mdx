@@ -6,7 +6,7 @@ import { Tab, Tabs } from 'nextra-theme-docs';
 ## Introduction
 
 ROQ's notifications enable you to notify your users or user groups on various channels. Please refer to
-the [notifications feature guide](/feature-guides/notifications) for more information and instructions.
+the [notifications feature guide](/notifications) for more information and instructions.
 
 ## Mutations
 
@@ -22,10 +22,10 @@ The `notify()` mutation enables you to notify:
 * users of one or multiple user groups
 * all of your users.
 
-You can find the full API doc of this mutation [here](https://snapshotp.roq-platform.com/docs/#mutation-notify).
+You can find the full API doc of this mutation [here](https://mars-pp.roq-platform.com/docs/#mutation-notify).
 
 The API requiers a `key` parameter which you need to configure in the console, see
-instructions [here](/feature-guides/notifications#2-create-new-notification-template). The notified users are
+instructions [here](/notifications#2-create-new-notification-template). The notified users are
 defined in the `recipients` variable as shown below.
 
 {/* TODO add tenant as a parameter */}
@@ -54,8 +54,7 @@ mutation {
 
 ```
 
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().notify({
   notification: {
@@ -70,8 +69,7 @@ await client.asSuperAdmin().notify({
   },
 });
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>
 
 | Parameter                    | Type   | Description                                                                                                                                                                                           |
 |------------------------------|--------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -87,7 +85,7 @@ await client.asSuperAdmin().notify({
 ### `notifications()`
 
 The [Notification Modal](/ui-components/notification-modal) UI component fetches notifications by using the
-`notifications()` query. You can find the full API doc of this query [here](https://snapshotp.roq-platform.com/docs/#query-notifications).
+`notifications()` query. You can find the full API doc of this query [here](https://mars-pp.roq-platform.com/docs/#query-notifications).
 
 <Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
@@ -106,10 +104,8 @@ query {
 }
 ```
 
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().notifications();
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>

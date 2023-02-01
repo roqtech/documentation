@@ -1,0 +1,45 @@
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
+import DoBasicSetup from "/snippets/do-basic-setup.mdx"
+
+# User Invite Pane UI Component 
+
+## Introduction
+
+The `<UserInvitePane />` component renders a pane that allows to invite one or multiple users at once.
+
+<Tabs items={['Light', 'Dark']}><Tab>
+
+![Image](/UserInvitePane.png)
+
+</Tab><Tab>
+
+![Image](/UserInvitePaneDark.png)
+</Tab></Tabs>
+
+See this component in action on
+[Storybook](https://ui.roq.tech/?path=/docs/authentication-userinvitepane--default).
+
+## Integration
+
+<DoBasicSetup />
+
+You can integrate the `<UserInvitePane/>` component using this code:
+
+<Tabs items={['React']}><Tab>
+
+```tsx
+import { UserInvitePane } from '@roq/ui-react';
+
+function App() {
+    return (
+        <UserInvitePane
+            onInviteError={function noRefCheck(){}}
+            onInviteSuccess={function noRefCheck(){}}
+        />
+    );
+}
+```
+
+</Tab></Tabs>

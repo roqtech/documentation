@@ -1,13 +1,8 @@
 {
-  "index": "Overview",
-  "roq-provider": "<RoqProvider/>",
-  "chat": "<Chat/>",
-  "chat-message-bell": "<ChatMessageBell/>",
-  "file-upload": "<FileUpload/>",
-  "file-dropzone": "<FileDropzone/>",
-  "file-active-uploads": "<FileActiveUploads/>",
-  "notification-bell": "<NotificationBell/>",
-  "notification-modal": "<NotificationModal/>"
+  "roq-provider": "<RoqProvider/>"
+
+
+
 }
 
 

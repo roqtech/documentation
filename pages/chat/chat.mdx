@@ -1,13 +1,14 @@
 import { Callout } from "nextra-theme-docs";
 import { Tab, Tabs } from "nextra-theme-docs";
 import Image from "next/image";
+import DoBasicSetup from "/snippets/do-basic-setup.mdx"
 
 # Chat UI Component
 
 ## Introduction
 
 The `<Chat/>` UI component represents the chat message center with sidebar and the chat window. Please refer to
-the [chat feature guide](/feature-guides/chat) for more information and instructions.
+the [chat feature guide](/chat) for more information and instructions.
 
 Alternatively to the `<Chat/>` component, you can also use the individuals parts: `<ChatWindow/>` and
 `<ChatSidebar/>`, see integration guidelines below.
@@ -25,6 +26,8 @@ Alternatively to the `<Chat/>` component, you can also use the individuals parts
 See this component in action on [Storybook](https://ui.roq.tech/?path=/docs/chat--default).
 
 ## Integration
+
+<DoBasicSetup />
 
 All the Chat related UI widgets need to be used within a `<ChatProvider>` component.
 The `<ChatProvider>` needs to be inserted only once, at a higher level component, typically in the App.tsx or a layout component.

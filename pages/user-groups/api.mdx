@@ -5,9 +5,9 @@ import { Tab, Tabs } from 'nextra-theme-docs';
 
 ## Introduction
 
-We usually interpret a user group as precisely what the name says: __. For example, you may want to
+We usually interpret a user group as precisely what the name says: a group of users. For example, you may want to
 group users by their home country or any other characteristic. Read more about this topic in the
-[user group feature guide](/feature-guides/user-groups).
+[user group feature guide](/user-groups).
 
 ## Mutations
 
@@ -25,13 +25,11 @@ mutation {
 }
 ```
 
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().createUserGroup({ userGroup: { name: 'xyz789', reference: 'xyz789' } });
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>
 
 | Parameter   | Type   | Description                                                                                    |
 |-------------|--------|------------------------------------------------------------------------------------------------|
@@ -48,13 +46,11 @@ mutation {
   addUsersToUserGroup(userGroupId: "123", userIds: [])
 }
 ```
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().addUsersToUserGroup({ userGroupId: "abc123", userIds: ["abc123", '321cba'] });
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>
 
 ## Queries
 
@@ -78,13 +74,11 @@ query {
   }
 }
 ```
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().userGroups({ withUsers: true });
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>
 
 Another way to fetch users by a user group could look like:
 
@@ -98,10 +92,8 @@ query {
   }
 }
 ```
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().users({ filter: { userGroupId: {equalTo: "123" } } });
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>

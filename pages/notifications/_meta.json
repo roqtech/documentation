@@ -1,6 +1,7 @@
 {
-  "index": "Overview",
-  "api": "API"
+  "api": "API",
+  "notification-bell": "<NotificationBell/>",
+  "notification-modal": "<NotificationModal/>"
 }
 
 

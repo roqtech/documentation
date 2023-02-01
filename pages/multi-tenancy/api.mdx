@@ -7,7 +7,7 @@ import { Tab, Tabs } from 'nextra-theme-docs';
 
 In B2B SaaS applications, all users are usually grouped into tenants. Each of your business customers is represented as
 a tenant. The related users and all the data are fully isolated. Please refer to
-the [multi-tenancy feature guide](/feature-guides/multi-tenancy) for more information and instructions.
+the [multi-tenancy feature guide](/multi-tenancy) for more information and instructions.
 
 ## Mutations
 
@@ -73,6 +73,7 @@ await client.asSuperAdmin().tenants();
 Fetch a single tenant by ID
 
 <Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+
 ```graphql
 query {
   tenant(id: "123") {
@@ -81,6 +82,7 @@ query {
 }
 
 ```
+
 </Tab>
 <Tab>
 ```ts
