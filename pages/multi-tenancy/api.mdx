@@ -14,7 +14,7 @@ the [multi-tenancy feature guide](/multi-tenancy) for more information and instr
 ### `createTenant()`
 
 You can create new tenants by setting a name. The returned ID is needed when you assign tenants to users by using
-[`createUser()`](/api-doc/users-api#createuser) or [`updateUser()`](/api-doc/users-api#updateuser)
+[`createUser()`](/user-management/api#createuser) or [`updateUser()`](/user-management/api#updateuser)
 
 {/* TODO reference should be added, see CPD-1892 */}
 
@@ -30,13 +30,11 @@ mutation {
 }
 ```
 
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().createTenant({ tenant: { name: 'abc123' } });
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>
 
 ### `updateTenant()`
 
@@ -60,13 +58,11 @@ query {
 }
 ```
 
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().tenants();
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>
 
 ### `tenant()`
 
@@ -83,10 +79,8 @@ query {
 
 ```
 
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().tenant({ id: "abc123" });
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>

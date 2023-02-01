@@ -7,7 +7,7 @@ import { Callout } from 'nextra-theme-docs'
 ROQ's notifications enable you to notify your users or user groups on various channels:
 
 * In-app notifications, loaded in real-time using a socket connection directly from your web app using
-  the [Notification Modal](/ui-components/notification-modal) UI component.
+  the [Notification Modal](/notifications/notification-modal) UI component.
 * notifications via SMS or push messages to the mobile phones of your users
 * chat systems like Slack and Discord
 * and traditional e-mails.
@@ -23,9 +23,9 @@ Please look at the [mail feature](/mails) if you want to send a transactional em
 
 ROQ's notification feature ships with two main UI components that you can easily integrate into your application:
 
-1. The [**Notification Modal**](/ui-components/notification-modal) component shows the user's notifications in
+1. The [**Notification Modal**](/notifications/notification-modal) component shows the user's notifications in
    real-time and also enables the user to configure the preferences.
-2. The [**Notification Bell**](/ui-components/notification-bell) component renders a bell symbol which informs the
+2. The [**Notification Bell**](/notifications/notification-bell) component renders a bell symbol which informs the
    user about unread notifications.
 
 ## How to use notifications
@@ -55,7 +55,7 @@ You can manage new notification templates in the [console](https://console.roq.t
 
 For each notification template you can configure and activate multiple channels. There are five channels to choose from:
 
-* In-app notifications, using the [Notification Modal](/ui-components/notification-modal) UI component.
+* In-app notifications, using the [Notification Modal](/notifications/notification-modal) UI component.
 * SMS
 * Push messages
 * Chat systems like Slack and Discord
@@ -67,7 +67,7 @@ For each activated channel, you can select and icon and enter localized content 
 You got {{points}} points!
 ```
 
-These variables can be submitted using the `data` parameter of the [notify() API](/api-doc/notifications-api#notify).
+These variables can be submitted using the `data` parameter of the [notify() API](/notifications/api#notify).
 You can also use these pre-defined variables to enrich your content:
 
 | Variable                  | Description                                                          |
@@ -80,5 +80,5 @@ You can also use these pre-defined variables to enrich your content:
 
 ### (3) Notify users using the API
 
-To notify your users you can use the [`notify()`](/api-doc/notifications-api#notify) API. It's important to use the
+To notify your users you can use the [`notify()`](/notifications/api#notify) API. It's important to use the
 same `key` which you set to the notification template.

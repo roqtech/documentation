@@ -7,7 +7,7 @@ import { Tab, Tabs } from 'nextra-theme-docs';
 
 Most of ROQ's features use user-related data like the user`s first name or email. Before you can use these
 features, they need to be pushed to ROQ Platform. Please refer to
-the [users feature guide](/users) for more information and instructions.
+the [users feature guide](/user-management) for more information and instructions.
 
 ## Mutations
 
@@ -74,7 +74,7 @@ await client.asSuperAdmin().createUser({
 | `active`    | boolean | Set to true if the user is activate and able to login to your application.                                                                                                                         |
 | `locale`    | string  | The locale represents the language and the country of the user, e.g. en-US means _“english in US”_. The locale is used for translations of all UI components as well as for sending notifications. |
 | `active`    | boolean | Set to true if the user is activate and able to login to your application.                                                                                                                         |
-| `tenantId`  | UUID    | ID of the tenant which you created using the [`createTenant()`](/api-doc/tenants-api#createtenant) API                                                                                             |
+| `tenantId`  | UUID    | ID of the tenant which you created using the [`createTenant()`](/multi-tenancy/api#createtenant) API                                                                                             |
 
 ### `updateUser()`
 
