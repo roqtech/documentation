@@ -2,6 +2,7 @@ import React from 'react'
 import {DocsThemeConfig} from 'nextra-theme-docs'
 
 const config: DocsThemeConfig = {
+
     useNextSeoProps() {
         return {
             titleTemplate: '%s – ROQ'
@@ -9,7 +10,7 @@ const config: DocsThemeConfig = {
     },
     head: (
         <>
-            <link rel="shortcut icon" href="/favicon.ico" />
+            <link rel="shortcut icon" href="/favicon.ico"/>
         </>
     ),
     logo: <span>ROQ Documentation</span>,
@@ -40,4 +41,4 @@ const config: DocsThemeConfig = {
     }
 }
 
-export default config
+export default {...config, search: false }
