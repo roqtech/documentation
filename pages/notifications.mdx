@@ -19,6 +19,10 @@ Please look at the [mail feature](/mails) if you want to send a transactional em
 
 {/* NOTE - Unsubscribe is not implemented yet */}
 
+## Installation
+
+To install notifications, you need to perform a few simple steps, described in the feature's [installation guide](/notifications/installation).
+
 ## UI components
 
 ROQ's notification feature ships with two main UI components that you can easily integrate into your application:
@@ -28,57 +32,6 @@ ROQ's notification feature ships with two main UI components that you can easily
 2. The [**Notification Bell**](/notifications/notification-bell) component renders a bell symbol which informs the
    user about unread notifications.
 
-## How to use notifications
+## APIs
 
-To notify users via ROQ's API, you need to perform these steps:
-
-1. [Configure channel providers](#1-configure-channel-providers)
-2. [Create new notification template](#2-create-new-notification-template)
-3. [Notify users using the API](#3-notify-users-using-the-api)
-
-### (1) Configure channel providers
-
-ROQ is using multiple providers to notify users. You can active and configure one provider per channel in
-the [console](https://console.roq.tech/).
-
-| Channel | Providers                                                                                      |
-|---------|------------------------------------------------------------------------------------------------|
-| Email   | Email.js, SendGrid, Mailgun, Mailjet, Mandrill, Nodemailer, Postmark, Sendinblue, SES, NetCore |
-| SMS     | Nexmo, Plivo, sms77, SNS, Telnyx, Twilio, Gupshup, Firetext                                    |
-| Push    | coming soon                                                                                    |
-| Chat    | coming soon                                                                                    |
-
-### (2) Create new notification template
-
-You can manage new notification templates in the [console](https://console.roq.tech/). Each template requires a unique
-`key` which will be used as a reference to trigger notifications using the API.
-
-For each notification template you can configure and activate multiple channels. There are five channels to choose from:
-
-* In-app notifications, using the [Notification Modal](/notifications/notification-modal) UI component.
-* SMS
-* Push messages
-* Chat systems like Slack and Discord
-* and traditional e-mails.
-
-For each activated channel, you can select and icon and enter localized content using dynamic variables like this:
-
-```text
-You got {{points}} points!
-```
-
-These variables can be submitted using the `data` parameter of the [notify() API](/notifications/api#notify).
-You can also use these pre-defined variables to enrich your content:
-
-| Variable                  | Description                                                          |
-|---------------------------|----------------------------------------------------------------------|
-| `{{recipient.firstName}}` | The first of the user who receives the notification                  |
-| `{{recipient.lastName}}`  | The last of the user who receives the notification                   |
-| `{{BASE_URL}}`            | The base URL of your application that you configured in the console. |
-
-{/* NOTE BASE_URL may be not working */}
-
-### (3) Notify users using the API
-
-To notify your users you can use the [`notify()`](/notifications/api#notify) API. It's important to use the
-same `key` which you set to the notification template.
+The notification API enables you to notify users of our application. Check out the docs [here](/notifications/api).

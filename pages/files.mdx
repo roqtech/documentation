@@ -14,13 +14,13 @@ ROQ provides a complete solution for file management, including these features:
 
 ROQ’s file management provides multiple UI components which can be integrated into your application:
 
-1. The [**`<FileUpload/>`**](/files/file-upload) component represents a button which opens a file selector and 
+1. The [**`<FileUpload/>`**](/files/file-upload) component represents a button which opens a file selector and
    starts uploads.
-2. The [**`<FileDropzone/>`**](/files/file-upload) UI component represents an area on your application 
+2. The [**`<FileDropzone/>`**](/files/file-upload) UI component represents an area on your application
    where users
    can drag and drop files to be uploaded.
-3. The [**`<FileActiveUploads/>`**](/files/file-active-uploads) component shows a progress bar of all active files uploads.
-
+3. The [**`<FileActiveUploads/>`**](/files/file-active-uploads) component shows a progress bar of all active files
+   uploads.
 
 ## Basic concepts
 
@@ -34,23 +34,30 @@ Files can be uploaded via [File Upload UI component](/files/file-upload) or prog
 [createFileUpload() API](/files/api#createfileupload). The upload is realized using signed URLs, which means the
 files are uploaded directly from the user's browser to the object storage without sending it through your backend.
 
+### File categories
+
+File categories can be managed via [ROQ Console](https://console.roq.tech/) only. 
+
+They have two purposes:
+* Enable filtering by categories, see [files()](/files/api#files) API
+* Add validators to categories (see next section)
+
 ### Upload validations
 
-ROQ is using file categories to define rules for the upload in the [console](https://console.roq.tech/). For
+ROQ is using file categories to define rules for the upload in the [ROQ Console](https://console.roq.tech/). For
 instance, you can set a category called _"pictures"_ which requires the mime type of the uploaded file to be an image
 (see [image mime type](https://mimetype.io/all-types/#image)). You can also restrict the maximum size of uploads.
 
 ### File visibility
 
 A file can be either **public** or **private**. Public means that there is a permanent URL which can be used by anyone,
-while
-private files can only be accessed by user who are allowed to do so. The visibility of a file can be changed in the
-console or via [makeFilePublic()](/files/api#makefilepublic) / [makeFilePrivate()](/files/api#makefileprivate) APIs
+while private files can only be accessed by user who are allowed to do so. The visibility of a file can be changed in
+the console or via [makeFilePublic()](/files/api#makefilepublic) / [makeFilePrivate()](/files/api#makefileprivate) APIs
 
 ### Access management
 
 You can define permissions of files using ROQ's [access management feature](/access-management). Files
-are always owned by the user who uploaded it. You can restrict the access to this user or enable users of the same 
+are always owned by the user who uploaded it. You can restrict the access to this user or enable users of the same
 tenant to download the file.
 
 ### File associations

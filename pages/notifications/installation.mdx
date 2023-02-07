@@ -1,0 +1,58 @@
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
+
+# Notifications - installation guide
+
+To notify users via ROQ's API, you need to perform these steps:
+
+1. [Configure channel providers](#1-configure-channel-providers)
+2. [Create new notification template](#2-create-new-notification-template)
+3. [Notify users using the API](#3-notify-users-using-the-api)
+
+### (1) Configure channel providers
+
+ROQ is using multiple providers to notify users. You can active and configure one provider per channel in
+the [ROQ Console](https://console.roq.tech/).
+
+| Channel | Providers                                                                                      |
+|---------|------------------------------------------------------------------------------------------------|
+| Email   | Email.js, SendGrid, Mailgun, Mailjet, Mandrill, Nodemailer, Postmark, Sendinblue, SES, NetCore |
+| SMS     | Nexmo, Plivo, sms77, SNS, Telnyx, Twilio, Gupshup, Firetext                                    |
+| Push    | coming soon                                                                                    |
+| Chat    | coming soon                                                                                    |
+
+### (2) Create new notification template
+
+You can manage new notification templates in the [ROQ Console](https://console.roq.tech/). Each template requires a unique
+`key` which will be used as a reference to trigger notifications using the API.
+
+For each notification template you can configure and activate multiple channels. There are five channels to choose from:
+
+* In-app notifications, using the [Notification Modal](/notifications/notification-modal) UI component.
+* SMS
+* Push messages
+* Chat systems like Slack and Discord
+* and traditional e-mails.
+
+For each activated channel, you can select and icon and enter localized content using dynamic variables like this:
+
+```text
+You got {{points}} points!
+```
+
+These variables can be submitted using the `data` parameter of the [notify() API](/notifications/api#notify).
+You can also use these pre-defined variables to enrich your content:
+
+| Variable                  | Description                                                          |
+|---------------------------|----------------------------------------------------------------------|
+| `{{recipient.firstName}}` | The first of the user who receives the notification                  |
+| `{{recipient.lastName}}`  | The last of the user who receives the notification                   |
+| `{{BASE_URL}}`            | The base URL of your application that you configured in the console. |
+
+{/* NOTE BASE_URL may be not working */}
+
+### (3) Notify users using the API
+
+To notify your users you can use the [`notify()`](/notifications/api#notify) API. It's important to use the
+same `key` which you set to the notification template.
