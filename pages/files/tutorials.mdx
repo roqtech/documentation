@@ -1,0 +1,72 @@
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+# Files management tutorials
+
+## How to upload a file
+
+You need to perform these steps to integrate file uploads into your web application:
+
+* [(1) Configure file categories in the Console](#-1--configure-file-categories-in-the-console)
+* [(2) Add the UI Component to your frontend](#-2--add-the-ui-component-to-your-frontend)
+* [(3) Optional: Relate the file to another object](#-3--optional--relate-the-file-to-another-object)
+
+### (1) Configure file categories in the Console
+
+Each uploaded file belongs to a file category which you can configure in [ROQ Console](https://console.roq.tech/):
+`File Handling` ➔ `Categories`. File categories have two purposes:
+
+* Fetch files by categories (e.g. _get all avatars_)
+* Define max file size of uploaded files
+
+You need to input a `key`, which you'll use when uploading the file.
+
+![console-file-category](/console-file-category.png)
+
+### (2) Add the UI Component to your frontend
+
+ROQ ships with two UI Components which can be used to upload files:
+
+1. The [**`<FileUpload/>`**](/files/ui-components#fileupload) component represents a button which opens a file selector
+   and
+   starts uploads.
+2. The [**`<FileDropzone/>`**](/files/ui-components#filedropzone) UI component represents an area on your application
+   where users can drag and drop files to be uploaded.
+
+Please follow the respective instructions to integrate the UI component into your website. You'll need to pass the 
+`key` of the previously created category as a prop.
+
+### (3) Optional: Relate the file to another object
+
+In most scenarions a file belongs to some other object. For instance an uploaded PDF-file could be related to
+a `contract` object, that exists in your project. Therefore, it is usually needed to relate files to other objects.
+
+There are two strategies to achive this. In both cases, you need to retrieve the file's ID and pass it the your
+server-side backend application. You can get the file's ID from the
+[**`<FileUpload/>`**](/files/ui-components#fileupload) or [**`<FileDropzone/>`**](/files/ui-components#filedropzone)
+component, using the `onUploadSuccess` handler.
+
+1. You can add the file ID to your database tables (e.g. `roqFileId`). This way, you have full control over the
+   relationships and can easily fetch and manipulate them. This works very well in the case of one-to-one
+   relationships, but if an object is related to multiple files, you'll need to add additional tables just for the
+   relation.
+2. To keep your database schema clean, you can also save the relation on ROQ Platform side, using the 
+   [createFileAssociation()](/files/api#createfileassociation) API.
+
+
+
+{/* TODO hier weiter:
+
+### (4) Optional: Set the visibility of the uploaded file
+
+## How fetch files via API
+
+* File associate
+* Visibility
+* Persists (if you like) and relate
+
+you want to relate the file to another object
+you want to change the visibility of the file (e.g. from "public" to "private").
+
+*/}

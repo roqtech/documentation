@@ -1,6 +1,6 @@
 {
+  "index": "Overview",
+  "tutorials": "Tutorials",
   "api": "API",
-  "file-upload": "<FileUpload/>",
-  "file-dropzone": "<FileDropzone/>",
-  "file-active-uploads": "<FileActiveUploads/>"
+  "ui-components": "UI Components"
 }

@@ -18,7 +18,7 @@ ROQ provides a complete solution for management of public and private files. Ple
 </Callout>
 
 <Callout type="warning" emoji="⚠️">
-  It's not recommended to implement file uploads yourself. Use ROQ's [File Upload UI component](/files/file-upload)
+  It's not recommended to implement file uploads yourself. Use ROQ's [File Upload UI component](/files/ui-components#fileupload)
   instead and get file uploads up and running in minutes.
 </Callout>
 
@@ -53,8 +53,7 @@ mutation {
 
 ```
 
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().createFileUpload({
   name: 'abc123',
@@ -62,8 +61,7 @@ await client.asSuperAdmin().createFileUpload({
   fileCategory: 'xyz789',
 });
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>
 
 | Parameter      | Type   | Description                                                                               |
 |----------------|--------|-------------------------------------------------------------------------------------------|
@@ -105,16 +103,14 @@ mutation{
 }
 ```
 
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().updateFileStatus({
   id: '123',
   status: 'READY',
 });
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>
 
 ### `createFileAssociation()`
 
@@ -144,8 +140,7 @@ mutation {
 }
 ```
 
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().createFileAssociation({
   createFileAssociationDto: {
@@ -155,8 +150,7 @@ await client.asSuperAdmin().createFileAssociation({
   },
 });
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>
 
 | Parameter         | Type   | Description                                                                                 |
 |-------------------|--------|---------------------------------------------------------------------------------------------|
@@ -182,15 +176,13 @@ mutation makeFilePublic($fileId: ID!) {
 }
 ```
 
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().makeFilePublic({
   id: 'fileId',
 });
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>
 
 ### `makeFilePrivate()`
 
@@ -210,15 +202,13 @@ mutation makeFilePrivate($fileId: ID!) {
 }
 ```
 
-</Tab>
-<Tab>
+</Tab><Tab>
 ```ts
 await client.asSuperAdmin().makeFilePrivate({
   id: 'fileId',
 });
 ```
-</Tab>
-</Tabs>
+</Tab></Tabs>
 
 ## Queries
 

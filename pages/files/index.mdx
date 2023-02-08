@@ -14,12 +14,11 @@ ROQ provides a complete solution for file management, including these features:
 
 ROQ’s file management provides multiple UI components which can be integrated into your application:
 
-1. The [**`<FileUpload/>`**](/files/file-upload) component represents a button which opens a file selector and
+1. The [**`<FileUpload/>`**](/files/ui-components#fileupload) component represents a button which opens a file selector and
    starts uploads.
-2. The [**`<FileDropzone/>`**](/files/file-upload) UI component represents an area on your application
-   where users
-   can drag and drop files to be uploaded.
-3. The [**`<FileActiveUploads/>`**](/files/file-active-uploads) component shows a progress bar of all active files
+2. The [**`<FileDropzone/>`**](/files/ui-components#filedropzone) UI component represents an area on your application
+   where users can drag and drop files to be uploaded.
+3. The [**`<FileActiveUploads/>`**](/files/ui-components#fileactiveuploads) component shows a progress bar of all active files
    uploads.
 
 ## Basic concepts
@@ -30,7 +29,7 @@ ROQ’s file management provides multiple UI components which can be integrated 
   Files that are uploaded to ROQ Platform are stored on [Scaleway Object Storage](https://www.scaleway.com/en/object-storage/). The data center is located in Paris. 
 </Callout>
 
-Files can be uploaded via [File Upload UI component](/files/file-upload) or programmatically using the
+Files can be uploaded via [File Upload UI component](/files/ui-components#fileupload) or programmatically using the
 [createFileUpload() API](/files/api#createfileupload). The upload is realized using signed URLs, which means the
 files are uploaded directly from the user's browser to the object storage without sending it through your backend.
 
