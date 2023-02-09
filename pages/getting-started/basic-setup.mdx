@@ -1,10 +1,8 @@
-import { Callout } from 'nextra-theme-docs'
-import { Tab, Tabs } from 'nextra-theme-docs';
-import Image from 'next/image';
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
 
 # Basic setup for ROQ's UI Components
-
-
 
 {/* TODO Intro neu */}
 Welcome to the "Getting Started" page of our technical documentation! Here, you will find all the necessary information
@@ -12,21 +10,22 @@ to help you get up and running ROQ’s features **without using ROQ's authentica
 step-by-step instructions for installing and configuring ROQ.
 
 <Callout type="info" emoji="ℹ️">
-You can find a working and fully integrated example application based on Next.js and Prisma ORM on Github:
-https://github.com/roqtech/roq-nextjs-prisma-quickstart
+  You can find a working and fully integrated example application based on
+  Next.js and Prisma ORM on Github:
+  https://github.com/roqtech/roq-nextjs-prisma-quickstart
 </Callout>
 
 <Callout emoji="💡">
-In case you are stuck, we are just one message away. Just join the
-[Community Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ) and get
-instant responses from our engineers.
+  In case you are stuck, we are just one message away. Just join the [Community
+  Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ)
+  and get instant responses from our engineers.
 </Callout>
 
 ## (1) Client side installation
 
 Install ROQ’s UI components by running this NPM command.
 
-{/* TODO npm install @roq/nextjs  */}
+{/* TODO npm install @roq/nextjs */}
 
 <Tabs items={['React', 'Next.js']}><Tab>
 
@@ -57,7 +56,6 @@ On the server side of your application, you need to install [ROQ's SDK](/api-doc
 npm install @roq/nextjs --save
 ```
 
-
 </Tab><Tab>
 
 Nothing to install because `@roq/nextjs` contains everything you need
@@ -72,17 +70,18 @@ the [Using SDK](/api-doc/sdk-api) documentation.
 Now you can initialize the services using the credentials on the backend-side of your application.
 
 <Callout type="warning" emoji="⚠️">
-The credentials must not be shared with anyone. It's highly recommended to provide the credentials as environment
-variables and don't commit them into your repository.
+  The credentials must not be shared with anyone. It's highly recommended to
+  provide the credentials as environment variables and don't commit them into
+  your repository.
 </Callout>
 
 ```typescript
-import {Platform} from '@roq/nodejs';
+import { Platform } from "@roq/nodejs";
 
 const client = new Platform({
-    environmentId: 'abc',
-    apiKey: 'abc',
-    host: 'abc',
+  environmentId: "abc",
+  apiKey: "abc",
+  host: "abc",
 });
 ```
 
@@ -92,10 +91,11 @@ here: [roq-nextjs-prisma-quickstart/src/server/roq/roq.client.ts](https://github
 ## (3) Synchronize user data
 
 <Callout type="info" emoji="ℹ️">
-  This step is only needed if you don't use ROQ's [authentication feature](/authentication). 
+  This step is only needed if you don't use ROQ's [authentication
+  feature](/authentication).
 </Callout>
 
-In case you don't use ROQ's authentication, you need to synchronize some of your user data. 
+In case you don't use ROQ's authentication, you need to synchronize some of your user data.
 Please follow the instructions on this page: [Sync Users](/user-management/advanced/sync-user)
 
 ## (4) Pass token from server to client-side
@@ -109,7 +109,7 @@ The AuthorisationClientService is used to fetch user tokens from ROQ Platform. Y
 
 ```tsx
 const roqAccessToken = await client.authorization.createUserToken(
-    user.roqUserId
+  user.roqUserId
 );
 ```
 
@@ -128,27 +128,82 @@ required configuration. The minimum working setup requires three props: `host` (
 Read the documentation about [`<RoqProvider/>`](/ui-components/roq-provider) for more details.
 
 ```tsx
-import {RoqProvider} from '@roq/ui-react';
-import '@roq/ui-react/dist/index.css';
+import { RoqProvider } from "@roq/ui-react";
+import { getUserToken } from "<..yourlib/auth>";
+import "@roq/ui-react/dist/index.css";
 
 function App() {
-    const token = getUserToken();
-    return (
-        <RoqProvider
-            config={{
-                host: "https://...",
-                token,
-                socket: true,
-            }}
-        >
-            ...
-        </RoqProvider>
-    );
+  const token = getUserToken();
+
+  return (
+    <RoqProvider
+      config={{
+        host: "https://...",
+        token,
+      }}
+    >
+      <Component />
+    </RoqProvider>
+  );
+}
+```
+
+#### Debug mode
+
+To help understand what was going on under the hood, you could use the debug mode for additional logging in your development environment.
+When this is enabled, logs are written to your browser console.
+
+```tsx
+import { RoqProvider } from "@roq/ui-react";
+import { getUserToken } from "<..yourlib/auth>";
+import "@roq/ui-react/dist/index.css";
+
+function App() {
+  const token = getUserToken();
+
+  return (
+    <RoqProvider
+      debug
+      config={{
+        host: "https://...",
+        token,
+      }}
+    >
+      <Component />
+    </RoqProvider>
+  );
+}
+```
+
+#### Handling errors
+
+It's highly recommended to add error handling on your application, and you can do so using the `onError` callback.
+
+```tsx
+import { RoqProvider } from "@roq/ui-react";
+import { refetchSession, getUserToken, handleError } from "<..yourlib/auth>";
+import "@roq/ui-react/dist/index.css";
+
+function App() {
+  const token = getUserToken();
+
+  return (
+    <RoqProvider
+      config={{
+        host: "https://...",
+        token,
+      }}
+      onError={handleError}
+      onTokenExpired={refetchSession}
+    >
+      <Component />
+    </RoqProvider>
+  );
 }
 ```
 
 👀 You can find an example usage
-here: [roq-nextjs-prisma-quickstart/src/pages/_app.tsx](https://github.com/roqtech/roq-nextjs-prisma-quickstart/blob/main/src/pages/_app.tsx#L24)
+here: [roq-nextjs-prisma-quickstart/src/pages/\_app.tsx](https://github.com/roqtech/roq-nextjs-prisma-quickstart/blob/main/src/pages/_app.tsx#L24)
 
 ## What's next
 

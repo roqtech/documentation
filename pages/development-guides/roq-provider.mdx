@@ -1,6 +1,6 @@
-import { Callout } from 'nextra-theme-docs'
-import { Tab, Tabs } from 'nextra-theme-docs';
-import Image from 'next/image';
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
 
 # ROQ Provider
 
@@ -17,8 +17,8 @@ npm install @roq/ui-react
 
 First, you need to determine the right place to add the wrapper:
 
-* **Pure React:** There is always an entry component, depending on your architecture approach.
-* **Next.js:** If using Next.js, then it's recommended to use the App component as described
+- **Pure React:** There is always an entry component, depending on your architecture approach.
+- **Next.js:** If using Next.js, then it's recommended to use the App component as described
   here: https://nextjs.org/docs/advanced-features/custom-app
 
 Then you need to import the `index.css`, which holds the styling of ROQ’s UI components, and wrap your application into
@@ -27,17 +27,18 @@ the `<RoqProvider />`
 {/* TODO Replace with working code snippet */}
 
 ```tsx
-import { RoqProvider } from '@roq/ui-react';
-import '@roq/ui-react/dist/index.css';
+import { RoqProvider } from "@roq/ui-react";
+import { getUserToken } from "<..yourlib/auth>";
+import "@roq/ui-react/dist/index.css";
 
 function App() {
   const token = getUserToken();
+
   return (
     <RoqProvider
       config={{
         host: "https://...",
         token,
-        socket: true,
       }}
     >
       ...
@@ -48,16 +49,18 @@ function App() {
 
 There are multiple props and configuration parameters that can be set on the `RoqProvider` component:
 
-| Prop                        | Type     | Description                                                                                                                                                                     |
-|-----------------------------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `config`                    | object   | An object that sets the global config with the parameters explained below.                                                                                                      |
-| `config:host`               | string   | Defines the URL of ROQ Platform. You can get this information from the console. Please note the hostname will be different for production and non-production environments.      |
-| `config:token`              | string   | User's token that enables the interaction with ROQ Platform. |
-| `config:socket?`            | boolean  | A boolean value must be true if a socket connection is established. This is required for notifications and chats. (default: false)                                              |
-| `locale?`                   | string   | The locale prop is used to translate the component. Setting the same locale used in the current user's session is recommended.                                                  |
-| `theme?`                    | string   | Currently selected theme. All components ship with a light and a dark theme (default: light)                                                                                    |
-| `customTheme?`              | string   | You can change the styling of the component by injection as a custom theme like this:                                                                                           |
-| `config:translationsTTL?`   | number   | Fetched translations are saved in the browser's local storage. This parameter lets you define the TTL in ms (default: 90000 ~ 15 minutes).                                      |
-| `config:translationsCache?` | boolean  | Boolean value to disable the translation cache (default: `true`)                                                                                                                |
-| `translate?`                | function | Custom translation function. You can read more about customizing translations here: Custom translations                                                                         |
-| `onError?`                  | function | The callback function, which is called when an error happens                                                                                                                    |                                                                                                                                                                          |
+| Prop                        | Type     | Description                                                                                                                                                                |
+| --------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `debug`                     | boolean  | Attribute to launch RoqProvider in the debug mode. Lifecycle events and the configuration values will be logged into the browser console.                                  |
+| `config`                    | object   | An object that sets the global config with the parameters explained below.                                                                                                 |
+| `config:host`               | string   | Defines the URL of ROQ Platform. You can get this information from the console. Please note the hostname will be different for production and non-production environments. |
+| `config:token`              | string   | User's token that enables the interaction with ROQ Platform.                                                                                                               |
+| `config:socket?`            | boolean  | A boolean value must be true if a socket connection is established. This is required for notifications and chats. (default: false)                                         |
+| `locale?`                   | string   | The locale prop is used to translate the component. Setting the same locale used in the current user's session is recommended.                                             |
+| `theme?`                    | string   | Currently selected theme. All components ship with a light and a dark theme (default: light)                                                                               |
+| `customTheme?`              | string   | You can change the styling of the component by injection as a custom theme like this:                                                                                      |
+| `config:translationsTTL?`   | number   | Fetched translations are saved in the browser's local storage. This parameter lets you define the TTL in ms (default: 90000 ~ 15 minutes).                                 |
+| `config:translationsCache?` | boolean  | Boolean value to disable the translation cache (default: `true`)                                                                                                           |
+| `translate?`                | function | Custom translation function. You can read more about customizing translations here: Custom translations                                                                    |
+| `onError?`                  | function | The callback function, which is called when an error happens.                                                                                                              |
+| `onTokenExpired?`           | function | The callback function, which is called when the session has expired.                                                                                                       |

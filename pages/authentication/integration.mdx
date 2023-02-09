@@ -1,6 +1,6 @@
-import { Callout } from 'nextra-theme-docs'
-import { Tab, Tabs } from 'nextra-theme-docs';
-import Image from 'next/image';
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
 
 # Authentication integration guide
 
@@ -10,9 +10,9 @@ In these getting-started guide you will learn how to level-up your web applicati
 and user management capabilties.
 
 <Callout emoji="💡">
-In case you are stuck, we are just one message away. Just join the
-[Community Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ) and get
-instant responses from our engineers.
+  In case you are stuck, we are just one message away. Just join the [Community
+  Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ)
+  and get instant responses from our engineers.
 </Callout>
 
 ## (1) Install NPM packages
@@ -22,7 +22,7 @@ Install the following package(s) into your project:
 <Tabs items={['Next.js']}><Tab>
 
 ```shell
-npm install @roq/nextjs 
+npm install @roq/nextjs
 ```
 
 </Tab></Tabs>
@@ -51,32 +51,31 @@ Create a new file: `pages/api/[...roqAuth].ts` with this content. Next.js will a
 handler.
 
 ```typescript
-import {handleAuth} from "@roq/nextjs";
+import { handleAuth } from "@roq/nextjs";
 
 export default handleAuth;
 ```
 
 </Tab></Tabs>
 
-## (4) Protect pages
+## (4) Protect frontend pages
 
-{/* TODO withAuth wrapper needs to be in library. Add missing import */}
-
-You can use `withAuth` to wrap non-public pages of your application. This disallowes non-authenticated users to open
+You can use `requireNextAuth` to wrap non-public pages of your application. This disallowes non-authenticated users to open
 the page and redirects them to the login-page.
 
 <Tabs items={['Next.js']}><Tab>
 
 ```tsx
-const MyPage = function () {
+import { requireNextAuth } from "@roq/nextjs";
 
-    return (
-        <Content>...</Content>
-    )
-}
-export default withAuth({redirectIfAuthenticated: true, redirectTo: "/"})(
-    MyPage
-);
+const MyPage = function () {
+  return <Content>...</Content>;
+};
+
+export default requireNextAuth({
+  redirectIfAuthenticated: true,
+  redirectTo: "/login",
+})(MyPage);
 ```
 
 </Tab></Tabs>
@@ -89,15 +88,15 @@ throws an unauthorized error if the user is not authenticated.
 <Tabs items={['Next.js']}><Tab>
 
 ```tsx
-import {withAuth} from "@roq/nextjs";
+import { withAuth } from "@roq/nextjs";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const session = getServerSession(req);
-    const user = session.user;
+  const session = getServerSession(req);
+  const user = session.user;
 }
 
 export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {
-    return withAuth(req, res)(handler);
+  return withAuth(req, res)(handler);
 }
 ```
 
@@ -107,4 +106,3 @@ export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {
 
 🎉🎉🎉🎉🎉 That’s it! You successfully protected your application. Give it a try and register a new user. Of course, you can
 individualize your authentication even further: [Feature Overview](/authentication#feature-overview).
-

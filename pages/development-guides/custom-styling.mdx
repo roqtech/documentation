@@ -1,14 +1,15 @@
-import { Callout } from 'nextra-theme-docs'
-import Image from 'next/image';
+import { Callout, Tabs, Tab } from "nextra-theme-docs";
+import Image from "next/image";
 
 # Custom styling
 
 ## Introduction
 
-You can customize the design of ROQ’s UI components to improve the fit to the look&feel of your application. There 
+You can customize the design of ROQ’s UI components to improve the fit to the look&feel of your application. There
 are two approaches: You can [overwrite the CSS](#custom-css) directly or inject an entirely new [theme](#theming).
 
 ## Custom CSS
+
 You can overwrite the component styles by creating a CSS file and importing it after the default CSS file of ROQ (
 `import "@roq/ui-react/dist/index.css";`)
 
@@ -16,58 +17,87 @@ Example file “my.css”:
 
 ```css
 :root {
-  --rc-color-primary: red;
-  --rc-color-secondary: blue;
+  --roq-color-primary: red;
+  --roq-color-secondary: blue;
 }
 
-.roq-notification-card{
+.roq-notification-card {
   background: red;
 }
 ```
+
 In case you want to adjust the dark mode colors, then you can use the rc-dark class prefix like this:
+
 ```css
 :root {
-  --rc-color-text: black;
+  --roq-color-text: black;
 }
 
 :root.rc-dark {
-  --rc-color-text: white;
+  --roq-color-text: white;
 }
 ```
 
 ## Theming
 
-ROQ’s UI components ship with a “light” and a “dark” theme. You can implement your theme and inject it into 
+ROQ’s UI components ship with a “light” and a “dark” theme. You can implement your theme and inject it into
 `<RoqProvider/>` like this:
 
-```tsx
-import {createCustomTheme} from "@roq/ui-react";
+<Tabs items={['React','Next.js']}>
+  <Tab>
+  ```tsx
+    import { createCustomTheme } from "@roq/ui-react";
 
-// ...
+    const myCustomTheme = createCustomTheme({
+      name: "MyTheme",
+      base: {
+        white: "#ffffff",
+        black: "#000000",
+        primary: "#264653",
+        secondary: "#E9C46A",
+        green: "#68E879",
+        red: "#E86868",
+        background: "#FAEDCD",
+        card: "#1f2b48",
+        border: "#F4A261",
+        text: "#274254",
+        separator: "#E76F51",
+      },
+    });
 
-const myCustomTheme = createCustomTheme({
-        "name": "MyTheme",
-        "base": {
-            "white": "#ffffff",
-            "black": "#000000",
-            "primary": "#264653",
-            "secondary": "#E9C46A",
-            "green": "#68E879",
-            "red": "#E86868",
-            "background": "#FAEDCD",
-            "card": "#1f2b48",
-            "border": "#F4A261",
-            "text": "#274254",
-            "separator": "#E76F51"
-        }
-    }
-);
+    <RoqProvider customTheme={myCustomTheme}>
+      <Component />
+    </RoqProvider>
 
-...
+````
+</Tab>
+<Tab>
+  ```tsx
+    import { createCustomTheme } from "@roq/nextjs";
 
-<RoqProvider customTheme={myCustomTheme}>
-    ...
-</RoqProvider>
-```
+    const myCustomTheme = createCustomTheme({
+      name: "MyTheme",
+      base: {
+        white: "#ffffff",
+        black: "#000000",
+        primary: "#264653",
+        secondary: "#E9C46A",
+        green: "#68E879",
+        red: "#E86868",
+        background: "#FAEDCD",
+        card: "#1f2b48",
+        border: "#F4A261",
+        text: "#274254",
+        separator: "#E76F51",
+      },
+    });
 
-To get a template for your theme, visit [Storybook](https://ui.roq.tech/), select a UI component and click on _“Theme”_.
+    <RoqProvider customTheme={myCustomTheme}>
+      <Component />
+    </RoqProvider>
+
+````
+
+</Tab>
+
+</Tabs>

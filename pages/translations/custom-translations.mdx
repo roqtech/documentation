@@ -1,11 +1,11 @@
-import { Callout } from 'nextra-theme-docs'
+import { Callout } from "nextra-theme-docs";
 
 # Custom translations
 
 ## Introduction
 
 All UI components can be translated into any language. The translated texts can be managed via ROQ's console or your
-existing translation system. Please refer to the [translations feature guide](/translations) for more 
+existing translation system. Please refer to the [translations feature guide](/translations) for more
 information and instructions.
 
 ## Loading translations in code
@@ -15,7 +15,7 @@ locale.
 
 ```tsx
 <RoqProvider locale="de-DE">
-
+  <Component />
 </RoqProvider>
 ```
 
@@ -27,8 +27,8 @@ If you are already using a translation system, you can pass a function that take
 
 ```tsx
 return (
-    <RoqProvider translation={myTranslation}>
-        {Story()}
-    </RoqProvider>
+  <RoqProvider translation={myTranslation}>
+    <Component />
+  </RoqProvider>
 );
 ```
