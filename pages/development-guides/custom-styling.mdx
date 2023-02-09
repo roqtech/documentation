@@ -10,7 +10,7 @@ are two approaches: You can [overwrite the CSS](#custom-css) directly or inject 
 
 ## Custom CSS
 You can overwrite the component styles by creating a CSS file and importing it after the default CSS file of ROQ (
-`import "rocomp/dist/index.css";`)
+`import "@roq/ui-react/dist/index.css";`)
 
 Example file “my.css”:
 
@@ -41,7 +41,7 @@ ROQ’s UI components ship with a “light” and a “dark” theme. You can im
 `<RoqProvider/>` like this:
 
 ```tsx
-import {createCustomTheme} from "@roq/react-ui-components";
+import {createCustomTheme} from "@roq/ui-react";
 
 // ...
 

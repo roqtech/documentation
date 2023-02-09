@@ -91,6 +91,11 @@ throws an unauthorized error if the user is not authenticated.
 ```tsx
 import {withAuth} from "@roq/nextjs";
 
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+    const session = getServerSession(req);
+    const user = session.user;
+}
+
 export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {
     return withAuth(req, res)(handler);
 }
