@@ -19,13 +19,21 @@ and user management capabilties.
 
 Install the following package(s) into your project:
 
-<Tabs items={['Next.js']}><Tab>
+<Tabs items={['Next.js', 'Express.js']}><Tab>
 
 ```shell
 npm install @roq/nextjs
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+
+```shell
+npm install @roq/expressjs
+```
+
+</Tab>
+</Tabs>
 
 ## (2) Setup credentials
 
@@ -45,7 +53,7 @@ ROQ provides a wrapper which adds these four routes into your application: `/log
 
 {/* TODO Install roq next.js */}
 
-<Tabs items={['Next.js']}><Tab>
+<Tabs items={['Next.js', 'Express.js']}><Tab>
 
 Create a new file: `pages/api/[...roqAuth].ts` with this content. Next.js will automatically detect and import the
 handler.
@@ -56,7 +64,22 @@ import { handleAuth } from "@roq/nextjs";
 export default handleAuth;
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+Import `auth` middleware and register it in your Express.js server. Middleware will automatically register new
+routes.
+
+```typescript
+import express from 'express';
+import { auth } from '@roq/expressjs';
+
+const app = express();
+app.use(auth());
+
+```
+
+</Tab>
+</Tabs>
 
 ## (4) Protect frontend pages
 
@@ -82,10 +105,9 @@ export default requireNextAuth({
 
 ## (5) Protect APIs
 
+<Tabs items={['Next.js', 'Express.js']}><Tab>
 On the server-side you can wrap your API handler with the `withAuth` function to enforce authentication. The function
 throws an unauthorized error if the user is not authenticated.
-
-<Tabs items={['Next.js']}><Tab>
 
 ```tsx
 import { withAuth } from "@roq/nextjs";
@@ -100,7 +122,22 @@ export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {
 }
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+On the server-side you can wrap your API handler with the `requireAuth` middleware to enforce authentication. The function
+throws an unauthorized error if the user is not authenticated.
+
+```tsx
+import { requireAuth } from '@roq/expressjs';
+import { Router } from 'express';
+
+const router = new Router();
+
+router.get('/', requireAuth);
+```
+
+</Tab>
+</Tabs>
 
 ## What's next
 
