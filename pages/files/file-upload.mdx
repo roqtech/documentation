@@ -1,0 +1,48 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import Image from 'next/image';
+import DoBasicSetup from "/snippets/do-basic-setup.mdx"
+
+# File Upload UI component
+
+## Introduction
+
+The `<FileUpload/>` component represents a button which opens a file selector and starts uploads. Please refer to
+the [files feature guide](/files) for more information and instructions.
+
+<Tabs items={['Light', 'Dark']}><Tab>
+
+<Image src={"/upload-file-light.png"} alt="file-upload-light" width={153} height={60} />
+
+</Tab><Tab>
+
+<Image src={"/upload-file-dark.png"} alt="file-upload-light" width={153} height={60} />
+
+</Tab></Tabs>
+
+See this component in action on
+[Storybook](https://ui.roq.tech/?path=/docs/files-fileupload--default).
+
+## Integration
+
+<DoBasicSetup />
+
+### `<FileUpload/>`
+
+You can easily add the `<FileUpload/>` component to your application by using this code:
+
+<Tabs items={['React']}><Tab>
+
+```tsx
+<FileUpload />
+```
+
+</Tab></Tabs>
+
+
+| Prop            | Type     | Description                                          | Default |
+|-----------------|----------|------------------------------------------------------|---------|
+| accept          | string[] | List of mime-types that the drop zone should support | All     |
+| fileCategory    | string   | File category key defined in ROQ Console             |         |
+| onUploadFail    | function | Callback, invoked when upload gets failed            |         |
+| onUploadSuccess | function | Callback, invoked when upload gets successful        |         | 

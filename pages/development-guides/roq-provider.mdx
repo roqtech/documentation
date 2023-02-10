@@ -27,30 +27,30 @@ the `<RoqProvider />`
 {/* TODO Replace with working code snippet */}
 
 ```tsx
-import { RoqProvider } from "@roq/ui-react";
-import { getUserToken } from "<..yourlib/auth>";
+import {RoqProvider} from "@roq/ui-react";
+import {getUserToken} from "<..yourlib/auth>";
 import "@roq/ui-react/dist/index.css";
 
 function App() {
-  const token = getUserToken();
+    const token = getUserToken();
 
-  return (
-    <RoqProvider
-      config={{
-        host: "https://...",
-        token,
-      }}
-    >
-      ...
-    </RoqProvider>
-  );
+    return (
+        <RoqProvider
+            config={{
+                host: "https://...",
+                token,
+            }}
+        >
+            ...
+        </RoqProvider>
+    );
 }
 ```
 
 There are multiple props and configuration parameters that can be set on the `RoqProvider` component:
 
 | Prop                        | Type     | Description                                                                                                                                                                |
-| --------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|-----------------------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | `debug`                     | boolean  | Attribute to launch RoqProvider in the debug mode. Lifecycle events and the configuration values will be logged into the browser console.                                  |
 | `config`                    | object   | An object that sets the global config with the parameters explained below.                                                                                                 |
 | `config:host`               | string   | Defines the URL of ROQ Platform. You can get this information from the console. Please note the hostname will be different for production and non-production environments. |

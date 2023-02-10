@@ -1,21 +1,36 @@
 import Image from 'next/image'
+import { Callout } from 'nextra-theme-docs'
+
 
 ## What is ROQ about?
 
-ROQ represents a set of typical features of SaaS applications, like user & access management, file handling, and
+ROQ provides fundamental features that every web application needs, like user & access management, file handling, and
 notifications. It enables teams to focus on their unique features instead of building the basic functionalities
-repeatedly. ROQ can be integrated into any web-based application using fully-functional UI components and a GraphQL API.
-Because of its multi-tenant approach, it perfectly suits B2B as well as B2C scenarios.
+repeatedly.
+
+Usually a feature consits of different elements:
+- When using a ROQ feature, you can use our **React UI Components** and drag these into your app. You can adjust the styling
+and options to your needs, so it looks like a seamless experience to your users.
+- Behind the scenes, the UI components use out **GraphQL APIs** (or socket connection for Chat). With the APIs you can trigger commands
+(e.g. sending a notification), seamlessly integrate data into your own app (e.g. for user management), or even build your own UI 
+components.
+- You can configure the behavior and business logic, as well as connect external tools and integrations, by using **ROQ Console**
+- Behind the scenes, **ROQ Platform** is our own application contains all business logic, persistance layer etc.
+
+For security reasons, only our authentication feature ROQ Auth works differently: You can completely style it in ROQ Console and it
+is operated by us.
+
+Ready to go? The best way to start is to check out the [Installation Guides](/getting-started).
+
+<Callout type="warning" emoji="🦸">
+Once you're ready to go and want to move forward, but feel like it does not move forward as quickly as you wish, something is wrong.
+Then please head over to our [Community Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ) and get
+instant responses from our engineers. 
+</Callout>
 
 {/* ROQ is based on the observation that most modern SaaS applications have the same main features. Although these
 commodities alone won't make you unique, users still expect them, so you should offer them early. The challenge is that
 these commodities are hard to implement and could easily waste your time and engineering capacity. */}
-
-ROQ's features are provided as fully-functional UI components and APIs for all essential features you need to build
-your SaaS application.
-
-The best way to start is to check out the [Installation Guides](/getting-started).
-
 
 
 {/*

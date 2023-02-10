@@ -43,7 +43,7 @@ They have two purposes:
 
 ### Upload validations
 
-ROQ is using file categories to define rules for the upload in the [ROQ Console](https://console.roq.tech/). For
+ROQ is using file categories to define rules for the upload in [ROQ Console](https://console.roq.tech/). For
 instance, you can set a category called _"pictures"_ which requires the mime type of the uploaded file to be an image
 (see [image mime type](https://mimetype.io/all-types/#image)). You can also restrict the maximum size of uploads.
 
@@ -51,7 +51,7 @@ instance, you can set a category called _"pictures"_ which requires the mime typ
 
 A file can be either **public** or **private**. Public means that there is a permanent URL which can be used by anyone,
 while private files can only be accessed by user who are allowed to do so. The visibility of a file can be changed in
-the console or via [makeFilePublic()](/files/api#makefilepublic) / [makeFilePrivate()](/files/api#makefileprivate) APIs
+ROQ Console or via [makeFilePublic()](/files/api#makefilepublic) / [makeFilePrivate()](/files/api#makefileprivate) APIs
 
 ### Access management
 
@@ -62,4 +62,8 @@ tenant to download the file.
 ### File associations
 
 When a file is stored on ROQ Platform, then it usually belongs to another object. For instance PDF files can be uploaded
-and related to a _"contract"_:. 
+and related to a _"contract"_.
+
+### File categories
+
+Additionally, you can also configure categories in [ROQ Console](https://console.roq.tech/) 

@@ -1,0 +1,49 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import Image from 'next/image';
+import DoBasicSetup from "/snippets/do-basic-setup.mdx"
+
+# File Dropzone UI component
+
+## Introduction
+
+The `<FileDropzone/>` component represents an area on your application where users can drag and drop files to be
+uploaded. Please refer to the [files feature guide](/files) for more information and instructions.
+
+<Tabs items={['Light', 'Dark']}><Tab>
+
+<Image src={"/file-upload-light.png"} alt="file-upload-light" width={500} height={300} />
+
+</Tab><Tab>
+
+<Image src={"/file-upload-dark.png"} alt="file-upload-dark" width={500} height={300} />
+
+</Tab></Tabs>
+
+See this component in action on
+[Storybook](https://ui.roq.tech/?path=/docs/files-fileupload--default).
+
+## Integration
+
+<DoBasicSetup />
+
+### `<FileDropzone/>`
+
+You can easily add the `<FileDropzone/>` component to your application by using this code:
+{/* TODO Replace code snippet */}
+
+<Tabs items={['React']}><Tab>
+
+```tsx
+<FileDropzone />
+```
+
+</Tab></Tabs>
+
+
+| Prop            | Type     | Description                                          | Default |
+|-----------------|----------|------------------------------------------------------|---------|
+| accept          | string[] | List of mime-types that the drop zone should support | All     |
+| fileCategory    | string   | File category key defined in ROQ Console             |         |
+| onUploadFail    | function | Callback, invoked when upload gets failed            |         |
+| onUploadSuccess | function | Callback, invoked when upload gets successful        |         | 
