@@ -1,4 +1,5 @@
 {
+  "index": "Overview",
   "api": "API",
   "user-invites-table": "<UserInvitesTable/>",
   "user-invite-button": "<UserInviteButton/>",

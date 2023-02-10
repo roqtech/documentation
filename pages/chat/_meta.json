@@ -1,4 +1,5 @@
 {
+  "index": "Overview",
   "chat": "<Chat/>",
   "chat-message-bell": "<ChatMessageBell/>"
 }
