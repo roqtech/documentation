@@ -32,7 +32,7 @@ const config: DocsThemeConfig = {
             </g>
         </svg>
     },
-    docsRepositoryBase: 'https://github.com/roqtech/documentation',
+    docsRepositoryBase: 'https://github.com/roqtech/documentation/blob/main/',
     footer: {
         text: 'Platform 360 GmbH',
     },
