@@ -41,4 +41,4 @@ const config: DocsThemeConfig = {
     }
 }
 
-export default {...config, search: false }
+export default config
