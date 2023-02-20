@@ -59,9 +59,9 @@ Create a new file: `pages/api/[...roqAuth].ts` with this content. Next.js will a
 handler.
 
 ```typescript
-import { handleAuth } from "@roq/nextjs";
+import { RoqAuth } from "@roq/nextjs";
 
-export default handleAuth;
+export default RoqAuth;
 ```
 
 </Tab>
@@ -70,12 +70,11 @@ Import `auth` middleware and register it in your Express.js server. Middleware w
 routes.
 
 ```typescript
-import express from 'express';
-import { auth } from '@roq/expressjs';
+import express from "express";
+import { auth } from "@roq/expressjs";
 
 const app = express();
 app.use(auth());
-
 ```
 
 </Tab>
@@ -128,12 +127,12 @@ On the server-side you can wrap your API handler with the `requireAuth` middlewa
 throws an unauthorized error if the user is not authenticated.
 
 ```tsx
-import { requireAuth } from '@roq/expressjs';
-import { Router } from 'express';
+import { requireAuth } from "@roq/expressjs";
+import { Router } from "express";
 
 const router = new Router();
 
-router.get('/', requireAuth);
+router.get("/", requireAuth);
 ```
 
 </Tab>
