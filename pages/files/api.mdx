@@ -48,6 +48,7 @@ mutation {
   ) {
     id
     uploadUrl
+    formFields
   }
 }
 
@@ -73,17 +74,33 @@ await client.asSuperAdmin().createFileUpload({
 
 With the returned URL you can upload the file, for instance using curl:
 
-```shell
-curl 'https://s3.fr-par.scw.cloud/<bucket-name>' \
-  -H 'authority: s3.fr-par.scw.cloud' \
-  -H 'accept: application/json, text/plain, */*' \
-  -H 'accept-language: en-US,en;q=0.9' \
-  -H 'content-type: image/png' \
-  -H 'sec-fetch-mode: cors' \
-  -H 'sec-fetch-site: cross-site' \
-  --data-raw $'---REMOVED---' \
-  --compressed
-```
+
+<Tabs items={['Shell', 'TS']}><Tab>
+
+    ```shell
+    curl \
+    -F "<formFieldsKey1>=<formFieldsValue1>" \
+    -F "<formFieldsKey2>=<formFieldsValue2>" \
+    -F "file=@<file-path-from-local>" \
+      <upload-url-from-response>
+                ```
+
+</Tab><Tab>
+    ```ts
+    const  FormData = require('form-data'); # Only Required In NodeJS, form Data API is not available in Node so you have to rely on third party lib
+
+    const formData = new FormData();
+    forEach(formFields, function (value, key) {
+        formData.append(key, value);
+    });
+    formData.append('file', <file-to-upload>);
+    await axios.post(uploadUrl, formData, {
+        headers: {
+            'content-type': null, // This is required if you are using axios.
+        }
+    });
+    ```
+</Tab></Tabs>
 
 **(3) Set status of the file**
 
