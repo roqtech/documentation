@@ -15,9 +15,11 @@ if (process.env.NEXT_PUBLIC_MIXPANEL_ENABLED === 'true') {
 
 function MyApp({ Component, pageProps }) {
     const router = useRouter();
-    mixpanel.track(`Documentation: Page view`, {
-        system: 'documentation',
-        url:router.asPath
+    new Promise(()=>{
+        mixpanel.track(`Documentation: Page view`, {
+            system: 'documentation',
+            url:router.asPath
+        })
     });
     return (<Component {...pageProps} />);
 }
