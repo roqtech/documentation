@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://docs.roq.tech/
+
+# Sitemaps
+Sitemap: https://docs.roq.tech/sitemap.xml
