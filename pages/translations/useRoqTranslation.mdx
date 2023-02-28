@@ -49,3 +49,17 @@ it will output
 ```html
 <span data-roq-translation-key="roq-ui.profile.floating.manage-account">Manage Account</span>
 ```
+
+## Locale switching
+
+By default, depends on ***user's locale that translation will be loaded***, if not existed it will fallback to `en-US` in [Console](https://console.roq.tech). You can also switch the locale by using `RoqProvider` component.
+Texts in component will be changed to `de-DE` locale.
+```tsx
+export default function App() {
+  return (
+    <RoqProvider locale="de-DE">
+      <Component />
+    </RoqProvider>
+  );
+}
+```
