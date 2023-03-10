@@ -97,15 +97,22 @@ action on [Storybook](https://ui.roq.tech/?path=/docs/files-fileupload--default)
 
 ### Integration
 
-{/* TODO Replace code example */}
-
 You can easily add the `<FileDropzone/>` component to your application by using this code:
-{/* TODO Replace code snippet */}
 
 <Tabs items={['React']}><Tab>
 
 ```tsx
-<FileDropzone/>
+import {FileDropzone} from "@roq/nextjs";
+
+<FileDropzone
+    accept={["image/*"]}
+    fileCategory="USER_FILES"
+    onUploadSuccess={(data, id) =>
+        console.log("(onUploadSuccess)", { data, id })
+    }
+    onFileEdit={(file) => console.log("(onFileEdit)", { file })}
+    onUploadFail={(err) => console.error("(onUploadFail)", err)}
+/>
 ```
 
 </Tab></Tabs>
@@ -133,13 +140,15 @@ you like.
 </Tab></Tabs>
 
 See this component in action on
-[Storybook](https://ui.roq.tech/?path=/docs/chat-chatmessagebell--default).
+[Storybook](https://ui.roq.tech/?path=/docs/files-fileactiveuploads--default).
 
 ### Integration
 
 To add the  `<FileActiveUploads/>` component to your application, you can use the following code:
 
 ```tsx
+import {FileActiveUploads} from "@roq/nextjs";
+
 <FileActiveUploads
     files={[]}
     onCancel={function noRefCheck() {
