@@ -39,6 +39,8 @@ You can easily add the `<FileUpload/>` component to your application by adding t
 <Tabs items={['React']}><Tab>
 
 ```tsx
+import {FileUpload} from "@roq/nextjs";
+
 <FileUpload
     accept={["image/*"]}
     fileCategory="USER_FILES"
@@ -46,7 +48,7 @@ You can easily add the `<FileUpload/>` component to your application by adding t
         console.log({id, url});
         // optional: send file ID to server-side by calling your API 
     }}
-/>;
+/>
 ```
 
 </Tab></Tabs>
