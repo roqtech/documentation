@@ -1,0 +1,97 @@
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
+import DoBasicSetup from "/snippets/do-basic-setup.mdx";
+
+# User Account Dropdown
+
+## Introduction
+
+The `<UserAccountDropdown/>` component can be used to show the user's avatar and their account dropdown.
+It works with ROQ Authentication, and without.
+
+<Tabs items={['Light', 'Dark']}><Tab>
+
+<Image
+  src={"/user-account-dropdown.png"}
+  alt="user-account-dropdown"
+  width={350}
+  height={350}
+/>
+
+</Tab><Tab>
+
+<Image
+  src={"/user-account-dropdown-dark.png"}
+  alt="user-account-dropdown-dark"
+  width={300}
+  height={300}
+/>
+
+</Tab></Tabs>
+
+## Integration
+
+<DoBasicSetup />
+
+### `<UserAccountDropdown/>` with ROQ Authentication
+
+To show the UserAccountDropdown, add this snippet to your page:
+
+<Tabs items={['Reactjs', 'Next.js']}><Tab>
+
+```tsx
+import { UserAccountDropdown } from "@roq/ui-react";
+
+function App() {
+  return <UserAccountDropdown />;
+}
+```
+
+</Tab>
+<Tab>
+
+```tsx
+import { UserAccountDropdown } from "@roq/nextjs";
+
+function App() {
+  return <UserAccountDropdown />;
+}
+```
+
+</Tab>
+</Tabs>
+
+### `<UserAccountDropdown/>` without ROQ Authentication
+
+<Tabs items={['Reactjs', 'Next.js']}><Tab>
+
+```tsx
+import { UserAccountDropdown } from "@roq/ui-react";
+
+function App() {
+  const handleSignOut = () => {
+    //your sign-out logic
+  };
+
+  return <UserAccountDropdown onSignOut={handleSignOut} />;
+}
+```
+
+</Tab>
+<Tab>
+
+```tsx
+import { UserAccountDropdown } from "@roq/nextjs";
+
+function App() {
+  const handleSignOut = () => {
+    //your sign-out logic
+  };
+
+  return <UserAccountDropdown onSignOut={handleSignOut} />;
+}
+```
+
+</Tab>
+</Tabs>

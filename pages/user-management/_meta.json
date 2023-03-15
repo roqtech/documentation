@@ -1,7 +1,7 @@
 {
   "index": "Overview",
   "api": "API",
-  "advanced": "Advanced Topics"
+  "advanced": "Advanced Topics",
+  "user-account-dropdown": "<UserAccountDropdown/>",
+  "user-profile": "<UserProfile/>"
 }
-
-
