@@ -1,6 +1,6 @@
-import { Tab, Tabs } from 'nextra-theme-docs';
-import { Callout } from 'nextra-theme-docs';
-import Image from 'next/image';
+import { Tab, Tabs } from "nextra-theme-docs";
+import { Callout } from "nextra-theme-docs";
+import Image from "next/image";
 
 # Files API
 
@@ -11,18 +11,41 @@ ROQ provides a complete solution for management of public and private files. Ple
 
 ## Mutations
 
-### `createFileUpload()`
+### `uploadFile()`
 
 <Callout type="info" emoji="ℹ️">
-  This endpoint is only available from the server side of your application.
+  This method is only available on the **server-side SDK**
 </Callout>
 
+This method can be used when you want to upload files directly from your backend file system to your ROQ file storage
+
+<Tabs items={['Node.js SDK']}><Tab>
+```ts
+  const file = fs.readFileSync("./roq.png");
+  const r = await roqClient.asSuperAdmin().uploadFile({
+    fileInfo: {
+      file,
+      contentType: "image/png",
+      name: `roq.png`,
+      fileCategory: "USER_FILES",
+    },
+    options: {
+      isPublic: true,
+    },
+  });
+```
+</Tab></Tabs>
+
+### `createFileUpload()`
+
 <Callout type="warning" emoji="⚠️">
-  It's not recommended to implement file uploads yourself. Use ROQ's [File Upload UI component](/files/ui-components#fileupload)
-  instead and get file uploads up and running in minutes.
+  It's not recommended to implement file uploads yourself. Use ROQ's [File
+  Upload UI component](/files/ui-components#fileupload) instead and get file
+  uploads up and running in minutes.
 </Callout>
 
 To upload file via API you need to proceed the following steps:
+
 1. Generate a signed URL using the `createFileUpload()` API
 2. Upload file via the signed URL
 3. Set status of the file using the `updateFileStatus()` API
@@ -32,26 +55,21 @@ To upload file via API you need to proceed the following steps:
 The `createFileUpload` API returns a "signed URL" which is then used to upload the file directly from the user's browser
 to the object storage.
 
-{/* TODO Name of variable createFileDto will be changed to file  */}
-{/* TODO add a real content type  */}
+{/* TODO Name of variable createFileDto will be changed to file */}
+{/* TODO add a real content type */}
 
 <Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
 mutation {
   createFileUpload(
-    file: {
-      name: "abc123"
-      contentType: "image/png"
-      fileCategory: "xyz789"
-    }
+    file: { name: "abc123", contentType: "image/png", fileCategory: "xyz789" }
   ) {
     id
     uploadUrl
     formFields
   }
 }
-
 ```
 
 </Tab><Tab>
@@ -65,7 +83,7 @@ await client.asSuperAdmin().createFileUpload({
 </Tab></Tabs>
 
 | Parameter      | Type   | Description                                                                               |
-|----------------|--------|-------------------------------------------------------------------------------------------|
+| -------------- | ------ | ----------------------------------------------------------------------------------------- |
 | `name`         | string | Name of the uploaded file                                                                 |
 | `contentType`  | string | Mime type of the file, see [here](https://mimetype.io/all-types/) for a list of all types |
 | `fileCategory` | string | `Key` of the category of the file                                                         |
@@ -73,7 +91,6 @@ await client.asSuperAdmin().createFileUpload({
 **(2) Upload file via the signed URL**
 
 With the returned URL you can upload the file, for instance using curl:
-
 
 <Tabs items={['Shell', 'TS']}><Tab>
 
@@ -100,6 +117,7 @@ With the returned URL you can upload the file, for instance using curl:
         }
     });
     ```
+
 </Tab></Tabs>
 
 **(3) Set status of the file**
@@ -110,11 +128,8 @@ directly to the object storage and therefore bypasses ROQ Platform.
 <Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
 ```graphql
-mutation{
-  updateFileStatus(
-    fileId: "123",
-    status: READY
-  ){
+mutation {
+  updateFileStatus(fileId: "123", status: READY) {
     id
   }
 }
@@ -170,16 +185,12 @@ await client.asSuperAdmin().createFileAssociation({
 </Tab></Tabs>
 
 | Parameter         | Type   | Description                                                                                 |
-|-------------------|--------|---------------------------------------------------------------------------------------------|
+| ----------------- | ------ | ------------------------------------------------------------------------------------------- |
 | `fileId`          | string | UUID of the file                                                                            |
 | `entityReference` | string | Reference (or ID) of the related entity in your database                                    |
 | `entityName`      | string | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
 
 ### `makeFilePublic()`
-
-<Callout type="info" emoji="ℹ️">
-  This endpoint is only available from the server side of your application.
-</Callout>
 
 To enable public access to a file, run:
 
@@ -202,10 +213,6 @@ await client.asSuperAdmin().makeFilePublic({
 </Tab></Tabs>
 
 ### `makeFilePrivate()`
-
-<Callout type="info" emoji="ℹ️">
-  This endpoint is only available from the server side of your application.
-</Callout>
 
 To hide a file from public access, you can execute:
 
@@ -255,13 +262,12 @@ and is not intended to be published.
 
 ```graphql
 query {
-  files(filter: {
-    entityName: {
-      equalTo: "contract"
-    },
-    entityIdentifiers: {
-      equalTo:"123"
-    }}) {
+  files(
+    filter: {
+      entityName: { equalTo: "contract" }
+      entityIdentifiers: { equalTo: "123" }
+    }
+  ) {
     data {
       id
       name
@@ -276,7 +282,7 @@ query {
 </Tab></Tabs>
 
 | Parameter           | Type   | Description                                                                                 |
-|---------------------|--------|---------------------------------------------------------------------------------------------|
+| ------------------- | ------ | ------------------------------------------------------------------------------------------- |
 | `entityName`        | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
 | `entityIdentifiers` | object | References (or IDs) of the related objects from your database                               |
 
