@@ -74,6 +74,16 @@ function ChatPage() {
   )
 }
 
+//You can optionally filter chat conversations by supplying the "tags" prop
+function ChatPage() {
+  return (
+    <ChatProvider>
+      <Chat tags={["hiring", "hackathons"]} />
+    </ChatProvider>
+  )
+}
+
+
 ````
 
 </Tab></Tabs>
@@ -143,6 +153,35 @@ function ChatPage() {
           `/chat?conversation={conversation.id}`
         }
       />
+    </ChatProvider>
+  );
+}
+```
+
+</Tab></Tabs>
+
+#### `<ChatSidebar/>` and `<Chat/>` with conversations filtered by tags
+
+You can supply the "tags" prop to the `<ChatSidebar />` or `<Chat/>` components to filter conversations that have those specific tags.
+The tags can be assigned [using a server-side request](/chat/api#assigntagstoconversation) using GraphQL or our backend SDKs
+
+<Tabs items={['React']}><Tab>
+
+```tsx
+import { useState } from "react";
+import { ChatProvider, ChatSidebar, Chat } from "@roq/ui-react";
+
+function ChatPage() {
+  const handleActiveConversationChange = (conversationId: string) => {
+    // Implement routing based on the react router that you use
+    window.location.href = `/conversation/${conversationId}`;
+  };
+
+  return (
+    <ChatProvider>
+      <Chat tags={["hackathons", "hiring"]} />
+      {/* OR */}
+      <ChatSidebar tags={["hackathons", "hiring"]} />
     </ChatProvider>
   );
 }
