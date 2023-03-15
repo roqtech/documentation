@@ -1,0 +1,189 @@
+import { Tab, Tabs } from "nextra-theme-docs";
+import { Callout } from "nextra-theme-docs";
+import Image from "next/image";
+
+# Chat API
+
+## Introduction
+
+ROQ's Chat solution can also be used programmatically using graphQL, or our SDKs.
+While the primary use-cases are taken care of using the UI components, the GraphQL API may be used to achieve custom functionality.
+
+## Mutations
+
+### `createConversation()`
+
+<Callout type="info" emoji="ℹ️">
+  This endpoint is only available from the server side of your application.
+</Callout>
+
+You can use this endpoint to create a new chat programmatically, from your server-side code.
+
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+
+```graphql
+mutation {
+  createConversation(
+    conversation: {
+      ownerId: "4c94b763-9021-499f-8ea3-b01adcdafe57"
+      isGroup: true
+      title: "ROQ Hackathon"
+      tags: ["hackathons"]
+      memberIds: [
+        "4c94b763-9021-499f-8ea3-b01adcdafe57"
+        "7c15cbe7-21f1-4ff7-b742-ec8604682772"
+        "cd05a61f-07ca-47e7-abc2-6f0ed9ab645d"
+      ]
+    }
+  ) {
+    id
+    title
+    active
+    isGroup
+  }
+}
+```
+
+</Tab><Tab>
+```ts
+roq.asUser("4c94b763-9021-499f-8ea3-b01adcdafe57").createConversation({
+    conversation: {
+      title: "ROQ Hackathon planning",
+      ownerId: "4c94b763-9021-499f-8ea3-b01adcdafe57",
+      memberIds: [
+        "4c94b763-9021-499f-8ea3-b01adcdafe57",
+        "7c15cbe7-21f1-4ff7-b742-ec8604682772",
+        "cd05a61f-07ca-47e7-abc2-6f0ed9ab645d",
+      ],
+      isGroup: true,
+      tags: ["hackathon"],
+    },
+  });
+```
+</Tab></Tabs>
+
+| Parameter   | Type      | Description                                                                                                                                |
+| ----------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| `archived`  | Boolean?  | Is the conversation archived or not                                                                                                        |
+| `isGroup`   | Boolean?  | Usually set to true when you have 3 or more participants, or when you need to have a named title for a conversation between 2 participants |
+| `memberIds` | string[]! | An array of userIds for participants of the conversation                                                                                   |
+| `ownerId`   | string!   | The userId of the owner - i.e usually the creator who has permissions to archive the conversation                                          |
+| `tags`      | string[]? | An array of strings. These may be used to filter conversations on the UI Components                                                        |
+| `title`     | string!   | The title of the conversation, shown at the top of the chat window                                                                         |
+
+### `deleteConversation()`
+
+Delete a conversation with it's ID
+
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+
+```graphql
+mutation {
+  deleteConversation(id: "4c94b763-9021-499f-8ea3-b01adcdafe57")
+}
+```
+
+</Tab><Tab>
+```ts
+roq.asUser("4c94b763-9021-499f-8ea3-b01adcdafe57").deleteConversation({
+    id: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
+});
+```
+</Tab></Tabs>
+
+### `assignTagsToConversation()`
+
+Assign tags to an existing conversation. These tags can be used to filter conversations on the UI components
+
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+
+```graphql
+mutation {
+  assignTagsToConversation(
+    conversationId: "4c94b763-9021-499f-8ea3-b01adcdafe57"
+    tags: ["hackathon", "hiring"]
+  )
+}
+```
+
+</Tab><Tab>
+```ts
+roq.asUser("7c15cbe7-21f1-4ff7-b742-ec8604682772").assignTagsToConversation({
+    conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772", 
+    tags: ["hackathon", "hiring"]
+});
+```
+</Tab></Tabs>
+
+### `unassignTagsFromConversation()`
+
+Remove tags from a conversation.
+
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+
+```graphql
+mutation {
+  unassignTagsFromConversation(
+    conversationId: "4c94b763-9021-499f-8ea3-b01adcdafe57"
+    tags: ["hackathon", "hiring"]
+  )
+}
+```
+
+</Tab><Tab>
+```ts
+roq.asUser("7c15cbe7-21f1-4ff7-b742-ec8604682772").unassignTagsFromConversation({
+    conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772", 
+    tags: ["hackathon", "hiring"]
+});
+```
+</Tab></Tabs>
+
+### `createMessage()`
+
+Send a message to a conversation
+
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+
+```graphql
+mutation {
+  createMessage(
+    authorId: "4c94b763-9021-499f-8ea3-b01adcdafe57"
+    body: "#### Johannes Berge has requested a sample"
+    conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
+    fileId: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
+    isSystem: false
+  )
+}
+```
+
+</Tab><Tab>
+```ts
+roq.asUser("7c15cbe7-21f1-4ff7-b742-ec8604682772").createMessage({
+    message: {
+      authorId: "7c15cbe7-21f1-4ff7-b742-ec8604682772",
+      body: `#### Johannes Berge has requested a sample
+The sample was delivered to:
+> ROQ Tech
+> Lorem Strasse 1
+> 12345 Dusseldorf
+Please Click [Documentation](https://docs.roq.tech/)`,
+      conversationId: "cd05a61f-07ca-47e7-abc2-6f0ed9ab645d",
+      isSystem: true,
+    }
+
+});
+
+```
+</Tab></Tabs>
+
+| Parameter        | Type     | Description                                                                                                                        |
+| ---------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `authorId`       | string!  | UserID of the message sender                                                                                                       |
+| `body`           | string!  | The body of the message, as a string or markdown                                                                                   |
+| `conversationId` | string!  | The ID of the conversation into which you want to send the message                                                                 |
+| `ownerId`        | string!  | The userId of the owner - i.e usually the creator who has permissions to archive the conversation                                  |
+| `fileId`         | string?  | If you want to include an attach a file with the message, specify a fileId                                                         |
+| `isSystem`       | Boolean? | System messages are styled differently in our UI components and can be used to visualize a message from a "bot" or a "system user" |
+
+```
