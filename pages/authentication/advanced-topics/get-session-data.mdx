@@ -1,6 +1,6 @@
-import { Callout } from 'nextra-theme-docs'
-import { Tab, Tabs } from 'nextra-theme-docs';
-import Image from 'next/image';
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
 
 # Get data of current session
 
@@ -13,25 +13,46 @@ useSession hook or an async helper.
 
 #### useSession hook
 
-<Tabs items={['React']}><Tab>
+<Tabs items={['React', "Next.js"]}><Tab>
 
 ```typescript
-import {useSession} from "@roq/ui-react";
+import { useSession } from "@roq/ui-react";
 
-const {session, status} = useSession();
+const { session, status } = useSession();
 const firstName = session.user.firstName;
 ```
 
-</Tab></Tabs>
+</Tab>
+<Tab>
+
+```tsx
+import { useSession } from "@roq/nextjs";
+
+const { session, status } = useSession();
+const firstName = session.user.firstName;
+```
+
+</Tab>
+</Tabs>
 
 #### async helper
 
 {/* TODO add import and check if correct */}
 
-<Tabs items={['React']}><Tab>
+<Tabs items={['React', 'Nextjs']}><Tab>
 
-```typescript
-import "TODO";
+```tsx
+import { getSession } from "@roq/ui-react";
+
+const user = await getSession();
+const firstName = user.session.user.firstName;
+```
+
+</Tab>
+<Tab>
+
+```tsx
+import { getSession } from "@roq/nextjs";
 
 const user = await getSession();
 const firstName = user.session.user.firstName;
@@ -42,14 +63,15 @@ const firstName = user.session.user.firstName;
 ## Server-side
 
 You can access the current user's data using this request handler:
+
 <Tabs items={['Next.js']}><Tab>
 
 ```tsx
-import {getServerSession} from "@roq/nextjs";
+import { getServerSession } from "@roq/nextjs";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const session = getServerSession(req);
-    const user = session.user;
+  const session = getServerSession(req);
+  const user = session.user;
 }
 ```
 
