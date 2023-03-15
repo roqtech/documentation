@@ -44,16 +44,13 @@ export default RoqAuth({
 
 ```typescript
 import { RoqAuth } from "@roq/nextjs";
-import { User } from "your/server/code";
+import { Restaurant } from "your/server/code";
 
 export default RoqAuth({
   hooks: {
-    //Save the user to your db
+    //Perform some business logic on your server & db
     onRegisterSuccess: async ({ session, user }) => {
-      User.create(user);
-    },
-    onLoginSuccess: async ({ session, user }) => {
-      User.updateLastSeen(user.id, new Date());
+      Restaurant.addManager(user.tenantId, user.id);
     },
   },
 });
