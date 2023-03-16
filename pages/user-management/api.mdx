@@ -1,5 +1,5 @@
-import { Callout } from 'nextra-theme-docs'
-import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
 
 # Users API
 
@@ -18,7 +18,8 @@ The createUser API is used to synchronize user data to ROQ.
 You can find the full API doc of this mutation [here](https://mars-pp.roq-platform.com/docs/#mutation-createUser).
 
 <Callout emoji="💡">
-    It's important to save the returned user ID in your database because the API needs it for other functionalities.
+  It's important to save the returned user ID in your database because the API
+  needs it for other functionalities.
 </Callout>
 
 <Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
@@ -35,8 +36,8 @@ mutation {
       locale: "xyz789"
       timezone: "xyz789"
       isOptedIn: false
-      active: false
-      tenantId: 4
+      active: true
+      tenantId: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
     }
   ) {
     id
@@ -47,7 +48,7 @@ mutation {
 </Tab>
 <Tab>
 ```ts
-await client.asSuperAdmin().createUser({
+roqClient.asSuperAdmin().createUser({
   user: {
     reference: 'abc123',
     email: 'xyz789',
@@ -57,7 +58,7 @@ await client.asSuperAdmin().createUser({
     locale: 'xyz789',
     timezone: 'xyz789',
     isOptedIn: false,
-    active: false
+    active: true
   },
 });
 ```
@@ -65,7 +66,7 @@ await client.asSuperAdmin().createUser({
 </Tabs>
 
 | Parameter   | Type    | Description                                                                                                                                                                                        |
-|-------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| ----------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `reference` | string  | Here you can set your identifier (e.g. the UUID of the user entity in your database). This way you can filter users by your own identifier.                                                        |
 | `email`     | string  | Email of the user                                                                                                                                                                                  |
 | `firstName` | string  | First name of the user                                                                                                                                                                             |
@@ -74,12 +75,48 @@ await client.asSuperAdmin().createUser({
 | `active`    | boolean | Set to true if the user is activate and able to login to your application.                                                                                                                         |
 | `locale`    | string  | The locale represents the language and the country of the user, e.g. en-US means _“english in US”_. The locale is used for translations of all UI components as well as for sending notifications. |
 | `active`    | boolean | Set to true if the user is activate and able to login to your application.                                                                                                                         |
-| `tenantId`  | UUID    | ID of the tenant which you created using the [`createTenant()`](/multi-tenancy/api#createtenant) API                                                                                             |
+| `tenantId`  | UUID    | ID of the tenant which you created using the [`createTenant()`](/multi-tenancy/api#createtenant) API                                                                                               |
 
 ### `updateUser()`
 
 You can change the synchronized user data using the `updateUser()` API. The mutation is working the same way as the
 `createUser()` mutation described above.
+
+#### `Deactivating a user`
+
+To deactivate a user, just use the updateUser mutation as below:
+
+<Callout type="info" emoji="ℹ️">
+  This is only possible from the server side of your application
+</Callout>
+
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+
+```graphql
+mutation {
+  updateUser(
+    id: "4c94b763-9021-499f-8ea3-b01adcdafe57"
+    user: { active: false }
+  ) {
+    id
+    active
+  }
+}
+```
+
+</Tab>
+<Tab>
+```ts
+roqClient.asSuperAdmin().updateUser({
+  id: "4c94b763-9021-499f-8ea3-b01adcdafe57"
+  user: {
+    active: false
+  },
+});
+
+````
+</Tab>
+</Tabs>
 
 ## Queries
 
@@ -88,7 +125,7 @@ You can change the synchronized user data using the `updateUser()` API. The muta
 You can fetch all users using the `users()` query. All [query parameters](/development-guides/graphql-basics-api) can be applied
 here to narrow down the results.
 
-{/* TODO Add-  For instance to fetch users by your reference you can run this query when CPD-1891 is fixed*/}
+{/* TODO Add-  For instance to fetch users by your reference you can run this query when CPD-1891 is fixed */}
 
 <Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
 
@@ -100,13 +137,12 @@ query {
     }
   }
 }
-
-```
+````
 
 </Tab>
 <Tab>
 ```ts
-await client.asSuperAdmin().users();
+roqClient.asSuperAdmin().users();
 ```
 </Tab>
 </Tabs>
@@ -129,7 +165,7 @@ query {
 </Tab>
 <Tab>
 ```ts
-await client.asSuperAdmin().user({ id: '123' });
+roqClient.asSuperAdmin().user({ id: '123' });
 ```
 </Tab>
 </Tabs>
