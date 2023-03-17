@@ -1,0 +1,118 @@
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
+import Image from 'next/image';
+import DoBasicSetup from "/snippets/do-basic-setup.mdx"
+
+# Notifications UI Components
+
+<DoBasicSetup />
+
+## `<NotificationBell/>`
+
+### Description
+
+The `<NotificationBell/>` component renders a bell symbol which informs the user about unread notifications. It opens
+the [Notification Modal UI Component](/notifications/notification-modal) on click. Please refer to
+the [notifications feature guide](/notifications) for more information and instructions.
+
+<Tabs items={['Light', 'Dark']}><Tab>
+
+<Image
+src={"/notification-bell-light2.png"}
+alt="notification-bell-light"
+width={185}
+height={61}
+/>
+
+</Tab><Tab>
+
+<Image
+src={"/notification-bell-dark2.png"}
+alt="notification-bell-dark"
+width={185}
+height={61}
+/>
+
+</Tab></Tabs>
+
+### Integration
+
+The bell symbol can be integrated by adding this component to your application:
+
+<Tabs items={['React']}><Tab>
+
+```tsx
+import {NotificationBell} from '@roq/ui-react';
+
+function TopBar() {
+    return (
+        <NotificationBell/>
+    );
+}
+```
+
+| Prop                 | Type              | Description                                                                     | Default      |
+|----------------------|-------------------|---------------------------------------------------------------------------------|--------------|
+| type                 | "all" or "unread" | Controls the tab that is active by default                                      | "all"        |
+| modalOpen            | boolean           | Controls the state of the modal                                                 | false        |
+| icon                 | ReactNode         | Used to replace the existing bell icon                                          | Current icon |
+| onUnseenCountChanged | function          | Callback, fired when a new notification is received, or an existing one is read | null         |
+
+</Tab></Tabs>
+
+--------
+
+## `<NotificationModal/>`
+
+### Description
+
+The `<NotificationModal/>` component shows the user's notifications in real-time and also enables the user to
+configure the preferences. Please refer to the [notifications feature guide](/notifications) for more
+information and instructions.
+
+<Tabs items={['Light', 'Dark']}><Tab>
+
+<Image
+src={"/notification-modal-light.png"}
+alt="NotificationModal light"
+width={600}
+height={160}
+/>
+
+</Tab><Tab>
+
+<Image
+src={"/notification-modal-dark.png"}
+alt="NotificationModal dark"
+width={600}
+height={160}
+/>
+
+</Tab></Tabs>
+
+### Integration
+
+{/* TODO Props are not aligned with the actual UI component. */}
+
+The notification modal component can be integrated with just one line of code. The component will open a socket
+connection to ROQ Platform to receive notifications events in real time. The list of notifcations is fetched using the
+[notifications() API](/notifications/api#notifications).
+
+<Tabs items={['React']}><Tab>
+
+```tsx
+import {NotificationModal} from '@roq/ui-react';
+
+function App() {
+    return (
+        <NotificationModal/>
+    );
+}
+```
+
+| Prop    | Type                             | Description                              | Default         |
+|---------|----------------------------------|------------------------------------------|-----------------|
+| panel   | "notifications" or "preferences" | Controls which view to show in the modal | "notifications" |
+| onClose | function                         | Callback, fired when the modal is closed | null            |
+
+</Tab></Tabs>

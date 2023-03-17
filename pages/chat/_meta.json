@@ -1,7 +1,7 @@
 {
   "index": "Overview",
-  "chat": "<Chat/>",
-  "chat-message-bell": "<ChatMessageBell/>"
+  "api": "API",
+  "ui-components": "UI Components"
 }
 
 

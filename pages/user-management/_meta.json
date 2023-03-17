@@ -2,6 +2,5 @@
   "index": "Overview",
   "api": "API",
   "advanced": "Advanced Topics",
-  "user-account-dropdown": "<UserAccountDropdown/>",
-  "user-profile": "<UserProfile/>"
+  "ui-components": "UI Components"
 }

@@ -1,9 +1,7 @@
 {
   "index": "Overview",
   "api": "API",
-  "user-invites-table": "<UserInvitesTable/>",
-  "user-invite-button": "<UserInviteButton/>",
-  "user-invite-pane": "<UserInvitePane/>"
+  "ui-components": "UI Components"
 }
 
 

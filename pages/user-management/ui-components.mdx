@@ -1,0 +1,142 @@
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
+import Image from 'next/image';
+import DoBasicSetup from "/snippets/do-basic-setup.mdx"
+
+# User UI Components
+
+<DoBasicSetup />
+
+## `<UserAccountDropdown/>`
+
+### Description
+
+The `<UserAccountDropdown/>` component can be used to show the user's avatar and their account dropdown.
+It works with ROQ Authentication, and without.
+
+<Tabs items={['Light', 'Dark']}><Tab>
+
+<Image
+src={"/user-account-dropdown.png"}
+alt="user-account-dropdown"
+width={350}
+height={350}
+/>
+
+</Tab><Tab>
+
+<Image
+src={"/user-account-dropdown-dark.png"}
+alt="user-account-dropdown-dark"
+width={300}
+height={300}
+/>
+
+</Tab></Tabs>
+
+### Integration with ROQ Authentication
+
+To show the UserAccountDropdown, add this snippet to your page:
+
+<Tabs items={['Reactjs', 'Next.js']}><Tab>
+
+```tsx
+import {UserAccountDropdown} from "@roq/ui-react";
+
+function App() {
+    return <UserAccountDropdown/>;
+}
+```
+
+</Tab><Tab>
+
+```tsx
+import {UserAccountDropdown} from "@roq/nextjs";
+
+function App() {
+    return <UserAccountDropdown/>;
+}
+```
+
+</Tab></Tabs>
+
+### Integration without ROQ Authentication
+
+<Tabs items={['Reactjs', 'Next.js']}><Tab>
+
+```tsx
+import {UserAccountDropdown} from "@roq/ui-react";
+
+function App() {
+    const handleSignOut = () => {
+        //your sign-out logic
+    };
+
+    return <UserAccountDropdown onSignOut={handleSignOut}/>;
+}
+```
+
+</Tab><Tab>
+
+```tsx
+import {UserAccountDropdown} from "@roq/nextjs";
+
+function App() {
+    const handleSignOut = () => {
+        //your sign-out logic
+    };
+
+    return <UserAccountDropdown onSignOut={handleSignOut}/>;
+}
+```
+
+</Tab></Tabs>
+
+
+## `<UserProfile/>`
+
+### Description
+
+The `<UserProfile/>` component can be used to show the user's profile information, along with the ability to edit the profile.
+It includes an avatar uploader, and a form to edit the user's password, and other profile information.
+
+<Tabs items={['Light', 'Dark']}><Tab>
+
+<Image src={"/user-profile.png"} alt="user-profile" width={500} height={595} />
+
+</Tab><Tab>
+
+<Image
+src={"/user-profile-dark.png"}
+alt="user-profile-dark"
+width={500}
+height={595}
+/>
+
+</Tab></Tabs>
+
+### Integration
+
+To show the UserProfile, you can add this snippet to your page:
+
+<Tabs items={['Reactjs', 'Next.js']}><Tab>
+
+```tsx
+import { UserProfile } from "@roq/ui-react";
+
+function App() {
+  return <UserProfile />;
+}
+```
+
+</Tab><Tab>
+
+```tsx
+import { UserProfile } from "@roq/nextjs";
+
+function App() {
+  return <UserProfile />;
+}
+```
+
+</Tab></Tabs>

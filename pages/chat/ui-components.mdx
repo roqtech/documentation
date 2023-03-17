@@ -1,11 +1,66 @@
-import { Callout } from "nextra-theme-docs";
-import { Tab, Tabs } from "nextra-theme-docs";
-import Image from "next/image";
-import DoBasicSetup from "/snippets/do-basic-setup.mdx";
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
+import Image from 'next/image';
+import DoBasicSetup from "/snippets/do-basic-setup.mdx"
 
-# Chat UI Component
+# Chat UI Components
 
-## Introduction
+<DoBasicSetup />
+
+## `<ChatMessageBell/>`
+
+### Description
+
+The `<ChatMessageBell/>` component is typically used in the header off your application. It informs the user about
+unread messages in the chat. Please refer to the [chat feature guide](/chat) for more information and
+instructions.
+
+All the Chat related UI widgets need to be used within a `<ChatProvider>` component.
+The `<ChatProvider>` needs to be inserted only once, at a higher level component, typically in the App.tsx or a layout component.
+
+The `<ChatMessageBell />` requires the [`<Chat/>`](/chat/chat) component to be used as well.
+
+<Tabs items={['Light', 'Dark']}><Tab>
+
+<Image
+src={"/chat-message-bell-light.png"}
+alt="chat-message-bell-light"
+width={185}
+height={61}
+/>
+
+</Tab><Tab>
+
+<Image
+src={"/chat-message-bell-dark.png"}
+alt="chat-message-bell-dark"
+width={185}
+height={61}
+/>
+
+</Tab></Tabs>
+
+### Integration
+
+To show the bell component, you can copy this snippet in your code:
+
+```tsx
+import { ChatProvider, ChatMessageBell } from '@roq/ui-react';
+
+function App() {
+  return (
+    <ChatProvider>
+      <TopBar>
+        <ChatMessageBell />
+      </TopBar>
+    </ChatProvider>
+  );
+}
+```
+
+## `<Chat/>`
+
+### Description
 
 The `<Chat/>` UI component represents the chat message center with sidebar and the chat window. Please refer to
 the [chat feature guide](/chat) for more information and instructions.
@@ -23,14 +78,12 @@ Alternatively to the `<Chat/>` component, you can also use the individuals parts
 
 </Tab></Tabs>
 
-## Integration
-
-<DoBasicSetup />
+### Integration
 
 All the Chat related UI widgets need to be used within a `<ChatProvider>` component.
 The `<ChatProvider>` needs to be inserted only once, at a higher level component, typically in the App.tsx or a layout component.
 
-### `<ChatProvider/>`
+#### `<ChatProvider/>`
 
 The ChatProvider component is a wrapper that provides a context to it's child components. Typically it is present on a root or layout component.
 
@@ -56,7 +109,7 @@ return (
 ````
 </Tab></Tabs>
 
-### `<Chat/>`
+#### `<Chat/>`
 
 You can place the entire chat on your page using this snippet:
 
@@ -86,7 +139,7 @@ function ChatPage() {
 
 </Tab></Tabs>
 
-### `<ChatWindow/>`
+#### `<ChatWindow/>`
 
 In case you only want to show the chat conversation window, then use this component.
 
@@ -106,7 +159,7 @@ function ChatPage({ conversationId }) {
 
 </Tab></Tabs>
 
-### `<ChatSidebar/>`
+#### `<ChatSidebar/>`
 
 You can show just the conversation list by using this component.
 

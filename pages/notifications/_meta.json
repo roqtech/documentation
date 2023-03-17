@@ -3,8 +3,7 @@
   "video": "Video tutorial",
   "installation": "Installation",
   "api": "API",
-  "notification-bell": "<NotificationBell/>",
-  "notification-modal": "<NotificationModal/>"
+  "ui-components": "UI Components"
 }
 
 
