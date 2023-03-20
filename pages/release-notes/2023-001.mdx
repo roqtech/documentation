@@ -1,0 +1,61 @@
+import Image from 'next/image'
+import { Callout } from 'nextra-theme-docs'
+
+# Release Notes 001
+
+Released: 21 March 2023
+
+[//]: # (* TODO Add versions of NPM libs)
+
+[//]: # (Migration of node lib)
+
+## Authentication
+
+### Default Roles for New Users
+
+You can now define default roles for new users, which will automatically be
+assigned upon registration. This feature simplifies user onboarding and ensures that appropriate permissions are granted
+from the start.
+
+![Image](/release-notes/2023-001-default-roles.png)
+
+### Role-Based Invitations
+
+To provide more control over user access, defining which roles can invite other roles is now possible. You can configure
+it so that it fits your needs. For instance, as a **member**, you can invite other members but not managers. Just as a
+**manager**, you can invite members and managers.
+
+![Image](/release-notes/2023-001-invite-roles.png)
+
+## Multi-Tenancy
+
+### Renaming Multi-Tenancy Entities
+
+Users can now easily rename the multi-tenancy entity (e.g., from _"organization"_ to _"company"_). This feature allows
+organizations to customize terminology to better align with their internal structure and language.
+
+![Image](/release-notes/2023-001-rename-tenants.png)
+
+### Disabling Multi-Tenancy Settings
+
+For those who do not require multi-tenancy functionality, it is now possible to globally disable multi-tenancy 
+settings. This option simplifies the platform interface for single-entity organizations.
+
+## Chat system
+
+### Files in `messages()` query
+
+Files are added as nested objects in the response of the `messages()` query.
+
+```graphql
+query {
+  messages {
+    data {
+      fileId
+    }
+  }
+} 
+```
+
+[//]: # (-- TODO:  Merged in story/CPD-2510-fetch-messages-with-files)
+
