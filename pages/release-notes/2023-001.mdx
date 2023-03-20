@@ -51,10 +51,12 @@ Files are added as nested objects in the response of the `messages()` query.
 query {
   messages {
     data {
-      fileId
+      file {
+        name
+      }
     }
   }
-} 
+}
 ```
 
 [//]: # (-- TODO:  Merged in story/CPD-2510-fetch-messages-with-files)
