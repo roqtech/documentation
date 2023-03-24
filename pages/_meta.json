@@ -2,6 +2,7 @@
   "index": "Introduction",
   "getting-started": "Installation Guides",
   "development-guides": "Development guides",
+  "release-notes": "Release Notes",
   "----": {
     "type": "separator"
   },
