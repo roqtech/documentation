@@ -1,18 +1,37 @@
-import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
+import Image from 'next/image';
 
 # User invites
 
 ## Introduction
 
-Especially in B2B SaaS applications, users are expected to invite other users into the same tenant. This feature is
-essential for projects who charge "per seat". ROQ ships with a complete solution for user invites, which you can use
-together with [authentication](/authentication).
+Especially in B2B SaaS applications, users are expected to invite other users into the same organization (~tenant).
+This feature is essential for projects who charge "per seat". ROQ ships with a complete solution for user invites,
+which you can use together with [authentication](/authentication).
+
+## How it works
+
+### User invites
+
+By integrating the `<UserInvitesTable />` UI component, you enable users to invite others. The invitee
+receives an email with a link to accept the invite. In B2B scenarios, the invited users join the same organization (~
+tenant) as the inviting user.
+
+![Image](/user-invite.png)
+
+### Role of the invited user
+
+The inviting user can define the role of the invitee. For instance, the new user can be invited as a `member` or `manager`.
+This behavior is fully customizable in the ROQ Console.
+
+![Image](/invite-user-role.png)
 
 ## UI Components
 
 ROQ’s user invite provides multiple UI components which can be integrated into your application:
 
-1. The [**`<The UserInvitesTable />`**](/user-invites/user-invites-table) is an
+1. The [**`<UserInvitesTable />`**](/user-invites/user-invites-table) is an
    advanced component that handles the entire logic at once.
 2. UserInvitePane
 3. UserInviteButton

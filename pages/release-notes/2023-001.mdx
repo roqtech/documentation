@@ -1,11 +1,54 @@
-import Image from 'next/image'
-import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from "nextra-theme-docs";
+import { Callout } from "nextra-theme-docs";
+import Image from "next/image";
 
-# Release Notes 001
+# Release Notes R001
 
-Released: 21 March 2023
+<Callout type="info" emoji="ℹ️">
+  Released: 24 March 2023
+</Callout>
 
-[//]: # (* TODO Add versions of NPM libs)
+## Release instructions
+
+| Library                                                        | Purpose                   | New Version | Migration |
+|----------------------------------------------------------------|---------------------------|-------------|-----------|
+| [`@roq/nodejs`](https://www.npmjs.com/package/@roq/nodejs)     | Server-side SDK           | `0.1.26`    | none      |
+| [`@roq/ui-react`](https://www.npmjs.com/package/@roq/ui-react) | UI Components for React   | `0.1.26`    | none      | 
+| [`@roq/nextjs`](https://www.npmjs.com/package/@roq/nextjs)     | UI Components for Next.js | `0.1.70`    | none      | 
+
+If you are using `@roq/nextjs`, then there is no need to install `@roq/ui-react` additionally.
+
+<Tabs items={['Next.js', 'React']}><Tab>
+**NPM**
+
+```bash
+npm install @roq/nodejs@latest
+npm install @roq/nextjs@latest
+```
+
+**Yarn**
+
+```bash
+yarn add @roq/nodejs@latest
+yarn add @roq/nextjs@latest
+```
+
+</Tab><Tab>
+**NPM**
+
+```bash
+npm install @roq/nodejs@latest
+npm install @roq/ui-react@latest
+```
+
+**Yarn**
+
+```bash
+yarn add @roq/nodejs@latest
+yarn add @roq/ui-react@latest
+```
+
+</Tab></Tabs>
 
 [//]: # (Migration of node lib)
 
@@ -38,7 +81,7 @@ organizations to customize terminology to better align with their internal struc
 
 ### Disabling Multi-Tenancy Settings
 
-For those who do not require multi-tenancy functionality, it is now possible to globally disable multi-tenancy 
+For those who do not require multi-tenancy functionality, it is now possible to globally disable multi-tenancy
 settings. This option simplifies the platform interface for single-entity organizations.
 
 ## Chat system

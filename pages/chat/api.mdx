@@ -7,7 +7,8 @@ import Image from "next/image";
 ## Introduction
 
 ROQ's Chat solution can also be used programmatically using graphQL, or our SDKs.
-While the primary use-cases are taken care of using the UI components, the GraphQL API may be used to achieve custom functionality.
+While the primary use-cases are taken care of using the UI components, the GraphQL API may be used to achieve custom
+functionality.
 
 ## Mutations
 
@@ -45,25 +46,27 @@ mutation {
 ```
 
 </Tab><Tab>
+
 ```ts
 roq.asUser("4c94b763-9021-499f-8ea3-b01adcdafe57").createConversation({
     conversation: {
-      title: "ROQ Hackathon planning",
-      ownerId: "4c94b763-9021-499f-8ea3-b01adcdafe57",
-      memberIds: [
-        "4c94b763-9021-499f-8ea3-b01adcdafe57",
-        "7c15cbe7-21f1-4ff7-b742-ec8604682772",
-        "cd05a61f-07ca-47e7-abc2-6f0ed9ab645d",
-      ],
-      isGroup: true,
-      tags: ["hackathon"],
+        title: "ROQ Hackathon planning",
+        ownerId: "4c94b763-9021-499f-8ea3-b01adcdafe57",
+        memberIds: [
+            "4c94b763-9021-499f-8ea3-b01adcdafe57",
+            "7c15cbe7-21f1-4ff7-b742-ec8604682772",
+            "cd05a61f-07ca-47e7-abc2-6f0ed9ab645d",
+        ],
+        isGroup: true,
+        tags: ["hackathon"],
     },
-  });
+});
 ```
+
 </Tab></Tabs>
 
 | Parameter   | Type      | Description                                                                                                                                |
-| ----------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
+|-------------|-----------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | `archived`  | Boolean?  | Is the conversation archived or not                                                                                                        |
 | `isGroup`   | Boolean?  | Usually set to true when you have 3 or more participants, or when you need to have a named title for a conversation between 2 participants |
 | `memberIds` | string[]! | An array of userIds for participants of the conversation                                                                                   |
@@ -84,11 +87,13 @@ mutation {
 ```
 
 </Tab><Tab>
+
 ```ts
 roq.asUser("4c94b763-9021-499f-8ea3-b01adcdafe57").deleteConversation({
     id: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
 });
 ```
+
 </Tab></Tabs>
 
 ### `assignTagsToConversation()`
@@ -107,12 +112,14 @@ mutation {
 ```
 
 </Tab><Tab>
+
 ```ts
 roq.asUser("7c15cbe7-21f1-4ff7-b742-ec8604682772").assignTagsToConversation({
-    conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772", 
+    conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772",
     tags: ["hackathon", "hiring"]
 });
 ```
+
 </Tab></Tabs>
 
 ### `unassignTagsFromConversation()`
@@ -131,12 +138,14 @@ mutation {
 ```
 
 </Tab><Tab>
+
 ```ts
 roq.asUser("7c15cbe7-21f1-4ff7-b742-ec8604682772").unassignTagsFromConversation({
-    conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772", 
+    conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772",
     tags: ["hackathon", "hiring"]
 });
 ```
+
 </Tab></Tabs>
 
 ### `createMessage()`
@@ -158,27 +167,29 @@ mutation {
 ```
 
 </Tab><Tab>
+
 ```ts
 roq.asUser("7c15cbe7-21f1-4ff7-b742-ec8604682772").createMessage({
     message: {
-      authorId: "7c15cbe7-21f1-4ff7-b742-ec8604682772",
-      body: `#### Johannes Berge has requested a sample
+        authorId: "7c15cbe7-21f1-4ff7-b742-ec8604682772",
+        body: `#### Johannes Berge has requested a sample
 The sample was delivered to:
 > ROQ Tech
 > Lorem Strasse 1
 > 12345 Dusseldorf
 Please Click [Documentation](https://docs.roq.tech/)`,
-      conversationId: "cd05a61f-07ca-47e7-abc2-6f0ed9ab645d",
-      isSystem: true,
+        conversationId: "cd05a61f-07ca-47e7-abc2-6f0ed9ab645d",
+        isSystem: true,
     }
 
 });
 
 ```
+
 </Tab></Tabs>
 
 | Parameter        | Type     | Description                                                                                                                        |
-| ---------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+|------------------|----------|------------------------------------------------------------------------------------------------------------------------------------|
 | `authorId`       | string!  | UserID of the message sender                                                                                                       |
 | `body`           | string!  | The body of the message, as a string or markdown                                                                                   |
 | `conversationId` | string!  | The ID of the conversation into which you want to send the message                                                                 |
@@ -186,4 +197,48 @@ Please Click [Documentation](https://docs.roq.tech/)`,
 | `fileId`         | string?  | If you want to include an attach a file with the message, specify a fileId                                                         |
 | `isSystem`       | Boolean? | System messages are styled differently in our UI components and can be used to visualize a message from a "bot" or a "system user" |
 
+## Queries
+
+### `messages()`
+
+Returns a list of chat messages for a given conversation.
+
+<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+
+```graphql
+query {
+  messages(filter: { conversationId: 123 }) {
+    data {
+      id
+      body
+      fileId
+    }
+  }
+}
 ```
+
+</Tab><Tab>
+
+```ts
+client
+  .asSuperAdmin()
+  .messages({
+    withFile: true,
+    filter: {
+      conversationId: { equalTo: 'your-conversationId' },
+      fileId: {
+        notEqualTo: null,
+      },
+    },
+  })
+  .then((response) => {
+    console.log(response.messages);
+  });
+```
+
+</Tab></Tabs>
+
+If you don't use the super admin user and the query isn't working for you, then please check if the user has the
+related permission.
+
+![Image](/message-permission.png)
