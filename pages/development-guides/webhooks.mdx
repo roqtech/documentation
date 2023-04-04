@@ -5,8 +5,8 @@ import { Tab, Tabs } from 'nextra-theme-docs';
 ## Introduction
 
 ROQ uses webhooks to notify your application when an event happens in your account.
-Actually, webhooks are useful for asynchronous events like when a conversation is created though chat,
-a user is signed up or when file was uploaded.
+Webhooks are useful for asynchronous events like when a conversation is created through chat,
+a user is signed up, or when a file was uploaded.
 ROQ uses HTTPS to send these notifications to your app as a JSON payload.
 You can then use these notifications to execute actions in your backend systems.
 
@@ -16,8 +16,8 @@ At the moment ROQ is providing events for entities: **Users**, **User invites**,
 and actions: **Insert**, **Update**, **Remove**. <br/>
 If you registered a webhook endpoint to receive some kind of event,
 this will be sent to your endpoint as part of a POST request.
-Entity object in the payload will be same as you can receive thought GraphQL API or Backend SDK.
-Here is example of webhook payload:
+Entity objects in the payload will be the same as you can receive through GraphQL API or Backend SDK.
+Here is an example of a webhook payload:
 
 ```json
 {
@@ -48,27 +48,27 @@ Here is example of webhook payload:
 }
 ```
 
-## How to create webhook endpoint
+## How to create a webhook endpoint
 
-Creating a webhook endpoint is no different from creating endpoint in your API.
-We recommend to use HTTPS endpoint for publicly accessible APIs. <br/>
-ROQ does not provide the option to set up several urls, soYou should use one endpoint to handle all event types.
-Based on ```event.name``` you can have different logic for specific event type. <br/>
+Creating a webhook endpoint is no different from creating an endpoint in your API.
+We recommend using an HTTPS endpoint for publicly accessible APIs. <br/>
+ROQ does not provide the option to set up several URLs, so you should use one endpoint to handle all event types.
+Based on ```event.name``` you can have different logic for the specific event type. <br/>
 Your endpoint must quickly return a successful status code (2xx) prior to any complex logic that could cause a timeout.
 The other way around you can configure longer timeout in Console UI.
 
 ## How to test webhook endpoint locally
 
 As your local machine is not publicly available, our remote API is not able to call to it, so we recommend using
-some external tooling to proxy the request during development. You can try an open source [Ngrok](https://www.npmjs.com/package/ngrok).
+some external tooling to proxy the request during development. You can try an open-source [Ngrok](https://www.npmjs.com/package/ngrok).
 You can set the proxying URL using Console UI.
 
 ## How to secure webhook endpoint (recommended)
 
 We recommend verifying the request incoming to your webhook endpoint to be sure that it didn’t come from a server acting like ROQ. <br/>
-ROQ is sending ```roq-platform-webhook-key``` header with any request triggered on specific event, and it can be used on your side for validating the sender.
-```webhookKey``` secret can be copied along with all other environment variables at the moment,
-when webhook feature was enabled for this environment in Console UI.
+ROQ is sending ```roq-platform-webhook-key``` header with any request triggered on a specific event, and it can be used on your side for validating the sender.
+```webhookKey``` secret can be copied along with all other environment variables at the moment
+when the webhook feature was enabled for this environment in Console UI.
 You can use SDK for validating ```roq-platform-webhook-key``` value.
 
 <Tabs items={['Node.js SDK']}><Tab>
