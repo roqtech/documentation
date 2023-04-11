@@ -48,6 +48,25 @@ Here is an example of a webhook payload:
 }
 ```
 
+## How to start using webhooks in your project?
+
+1.  Login into your project in Console (https://console.roq.tech/) and select the environment where you want to enable webhooks.
+2.  Navigate to Project Details -> Settings and scroll to the bottom of the page to enable Webhook.
+
+![Image](/release-notes/2023-003-enable-webhook-console.png)
+
+3.  Specify the URL (The endpoint where the system will send notifications when entities are created, updated, or deleted. Make sure to provide a valid URL that can receive and process these messages. Note that the URL should be publicly accessible and secure, as sensitive information may be included in the notifications.)
+
+![Image](/release-notes/2023-003-enable-webhook-console-2.png)
+
+4.  Set the Timeout (Set the time limit, in seconds, for a webhook request to complete before timing out. This helps prevent hanging requests and optimizes server resources.)
+5.  Select the events that you would like to receive (Files, Users, Chat conversations, Chat messages and User inites.)
+6.  Save your settings by hitting the "SAVE" button in the header of the page.
+
+![Image](/release-notes/2023-003-enable-webhook-console-3.jpg)
+
+7.  Webhooks are now enabled on your environment and you are ready to start working with them.
+
 ## How to create a webhook endpoint
 
 Creating a webhook endpoint is no different from creating an endpoint in your API.
@@ -78,3 +97,9 @@ You can use SDK for validating ```roq-platform-webhook-key``` value.
     ```
 
 </Tab></Tabs>
+
+## Webhook re-try mechanism
+
+In some cases, your webhook endpoint can respond with an error code (e.g. 5xx). ROQ handles such cases with re-try
+mechanism, that will re-trigger webhook call every ```30 minutes * N```, where N is number of re-try. We will try to re-trigger the event
+5 times max.
