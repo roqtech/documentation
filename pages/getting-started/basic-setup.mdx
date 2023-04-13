@@ -9,11 +9,15 @@ Welcome to the "Getting Started" page of our technical documentation! Here, you 
 to help you get up and running ROQ’s features **without using ROQ's authentication**. This page provides you with
 step-by-step instructions for installing and configuring ROQ.
 
-<Callout type="info" emoji="ℹ️">
-  You can find a working and fully integrated example application based on
-  Next.js and Prisma ORM on Github:
-  https://github.com/roqtech/roq-nextjs-prisma-quickstart
-</Callout>
+[//]: # (<Callout type="info" emoji="ℹ️">)
+
+[//]: # (  You can find a working and fully integrated example application based on)
+
+[//]: # (  Next.js and Prisma ORM on Github:)
+
+[//]: # (  https://github.com/roqtech/roq-nextjs-prisma-quickstart)
+
+[//]: # (</Callout>)
 
 <Callout emoji="💡">
   In case you are stuck, we are just one message away. Just join the [Community
@@ -84,8 +88,9 @@ const client = new Platform({
 });
 ```
 
-👀 You can find an example usage
-here: [roq-nextjs-prisma-quickstart/src/server/roq/roq.client.ts](https://github.com/roqtech/roq-nextjs-prisma-quickstart/blob/main/src/server/roq/roq.client.ts)
+[//]: # (👀 You can find an example usage)
+
+[//]: # (here: [roq-nextjs-prisma-quickstart/src/server/roq/roq.client.ts]&#40;https://github.com/roqtech/roq-nextjs-prisma-quickstart/blob/main/src/server/roq/roq.client.ts&#41;)
 
 ## (3) Synchronize user data
 
@@ -112,12 +117,15 @@ const roqAccessToken = await client.authorization.createUserToken(
 );
 ```
 
-👀 You can find an example usage
-here: [roq-nextjs-prisma-quickstart/src/pages/api/auth/...nextauth.ts](https://github.com/roqtech/roq-nextjs-prisma-quickstart/blob/main/src/pages/api/auth/%5B...nextauth%5D.ts#L41)
+[//]: # (👀 You can find an example usage)
 
-The token needs to be passed over to your client-side. The specific implementation depends on your framework. Feel
-free to look into the code of the [example app](https://github.com/roqtech/roq-nextjs-prisma-quickstart) to see how it
-needs to be wired-up.
+[//]: # (here: [roq-nextjs-prisma-quickstart/src/pages/api/auth/...nextauth.ts]&#40;https://github.com/roqtech/roq-nextjs-prisma-quickstart/blob/main/src/pages/api/auth/%5B...nextauth%5D.ts#L41&#41;)
+
+The token needs to be passed over to your client-side. The specific implementation depends on your framework. 
+
+[//]: # (Feel free to look into the code of the [example app]&#40;https://github.com/roqtech/roq-nextjs-prisma-quickstart&#41; to see )
+
+[//]: # (how it needs to be wired-up.)
 
 ## (5) Install `<RoqProvider/>` on client-side
 
@@ -201,8 +209,9 @@ function App() {
 }
 ```
 
-👀 You can find an example usage
-here: [roq-nextjs-prisma-quickstart/src/pages/\_app.tsx](https://github.com/roqtech/roq-nextjs-prisma-quickstart/blob/main/src/pages/_app.tsx#L24)
+[//]: # (👀 You can find an example usage)
+
+[//]: # (here: [roq-nextjs-prisma-quickstart/src/pages/\_app.tsx]&#40;https://github.com/roqtech/roq-nextjs-prisma-quickstart/blob/main/src/pages/_app.tsx#L24&#41;)
 
 ## What's next
 
