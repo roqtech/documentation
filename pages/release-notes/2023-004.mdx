@@ -1,0 +1,148 @@
+import { Tab, Tabs } from "nextra-theme-docs";
+import { Callout } from "nextra-theme-docs";
+import Image from "next/image";
+
+# Release Notes R004
+
+<Callout type="info" emoji="ℹ️">
+    Released: 6 April 2023
+</Callout>
+
+{/* THIS PAGE ISN'T FINAL!!! */}
+
+## Highlights
+
+- We've added webhooks to the ROQ platform, so now you can subscribe to the events that are relevant to your application and use them in your workflows.
+- You can now set a custom background color for your registration and login forms.
+- If you are using invite-only mode, it is now possible to disable registration for your app.
+- The bug causing the chat to hang for a long time when idle has been resolved.
+- Several other UI and UX chat-related bugs have been fixed.
+
+## Release instructions
+
+<Callout type="info" emoji="ℹ️">
+    Don't update your project to the `1.0.1` versions of the NPM libraries as long
+    as your project wasn't migrated to the Jupiter instance. If you are still on
+    Mars instance, contact us via slack for migration.
+</Callout>
+
+| Library                                                        | Purpose                           | New Version | Migration |
+| -------------------------------------------------------------- | --------------------------------- | ----------- | --------- |
+| [`@roq/ui-react`](https://www.npmjs.com/package/@roq/ui-react) | UI Components for React           | `1.0.1`     | none      |
+| [`@roq/nextjs`](https://www.npmjs.com/package/@roq/nextjs)     | UI Components and SDK for Next.js | `1.0.1`     | none      |
+| [`@roq/nodejs`](https://www.npmjs.com/package/@roq/nodejs)     | Backend SDK for Node.js           | `1.0.1`     | none      |
+
+<Tabs items={['Next.js', 'React', 'Node.js']}><Tab>
+
+    **NPM**
+
+    ```bash
+    npm install "@roq/nextjs@^1.0.1" --save
+    ```
+
+    **Yarn**
+
+    ```bash
+    yarn upgrade "@roq/nextjs@^1.0.1"
+    ```
+
+</Tab><Tab>
+
+    **NPM**
+
+    ```bash
+    npm install "@roq/ui-react@^1.0.1" --save
+    ```
+
+    **Yarn**
+
+    ```bash
+    yarn upgrade "@roq/ui-react@^1.0.1"
+    ```
+
+</Tab><Tab>
+    **NPM**
+
+    ```bash
+    npm install "@roq/nodejs@^1.0.1" --save
+    ```
+
+    **Yarn**
+
+    ```bash
+    yarn upgrade "@roq/nodejs@^1.0.1"
+    ```
+
+</Tab></Tabs>
+
+[//]: # "Migration of node lib"
+
+## Webhooks
+
+<Callout type="info" emoji="ℹ️">
+    Please contact us via support slack to enable webhooks for you. This feature
+    is currently in EXPERIMENTAL mode.
+</Callout>
+
+We've added Webhooks functionality for you in the ROQ platform.
+
+#### What are the webhooks?
+
+Webhooks are a way for two applications to communicate with each other in real-time. They are essentially automated notifications that are triggered by specific events that occur in one application and sent to a webhook endpoint in another application.
+
+When an event occurs in the ROQ platform feature, such as a new chat message is sent or a new user is registered, a webhook is triggered and sends a message containing the details of that event to the specified endpoint in the second application. The second application can then use this information to take some action, such as updating its own records or triggering a new process.
+
+Webhooks are often used for integrating third-party applications or services with your own software, enabling you to receive real-time updates and notifications when something changes in the external system. They can also be used for building custom workflows or automating specific tasks within your application.
+
+#### How to start using webhooks in your project?
+
+1.  Login into your project in Console (https://console.roq.tech/) and select the environment where you want to enable webhooks.
+2.  Navigate to Project Details -> Settings and scroll to the bottom of the page to enable Webhook.
+
+![Image](/release-notes/2023-003-enable-webhook-console.png)
+
+3.  Specify the URL (The endpoint where the system will send notifications when entities are created, updated, or deleted. Make sure to provide a valid URL that can receive and process these messages. Note that the URL should be publicly accessible and secure, as sensitive information may be included in the notifications.)
+
+![Image](/release-notes/2023-003-enable-webhook-console-2.png)
+
+4.  Set the Timeout (Set the time limit, in seconds, for a webhook request to complete before timing out. This helps prevent hanging requests and optimizes server resources.)
+5.  Select the events that you would like to receive (Files, Users, Chat conversations, Chat messages and User inites.)
+6.  Save your settings by hitting the "SAVE" button in the header of the page.
+
+![Image](/release-notes/2023-003-enable-webhook-console-3.jpg)
+
+7.  Webhooks are now enabled on your environment and you are ready to start working with them.
+8.  Now you need CREATE, TEST and SECURE your webhook endpoints. Documentation is here (https://docs.roq.tech/development-guides/webhooks)
+
+## Change background color for your application
+
+You can now set a custom background color for your registration and login pages through the console. This allows you to personalize your app's look and feel to match your brand or design aesthetic.
+
+To set a custom background color, simply navigate to the console and follow these steps:
+
+1. Go to Authentication -> Theming page
+2. Select "Background Color"
+3. Choose the color you want for the background
+4. Save your settings
+
+![Image](/release-notes/2023-003-auth-background-color.jpg)
+
+Once you've saved your settings, your registration and login pages will now have the custom background color you selected.
+
+## Disable registration for your application
+
+You can now hide the registration button from your login form and disable this part of the workflow completely. This feature is particularly useful for projects where your app is invite-only or in beta mode.
+
+To hide the registration button, follow these simple steps:
+
+1. Go to Console -> Authentication -> Configuration
+2. Toggle the "Hide" button
+3. Save your settings
+
+![Image](/release-notes/2023-003-hide-registration.jpg)
+
+Once you have saved your settings, the registration button will disappear from your login form. This can help streamline your user experience and prevent unwanted signups, making it easier to manage and control access to your app.
+
+## Chat bug fixes
+
+We have resolved several chat-related issues, including the loading mode bug that occurred after a long idle time, as well as UI problems with the seen status and unread messages.
