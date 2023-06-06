@@ -1,7 +1,9 @@
 {
-  "index": "Overview",
-  "basic-setup": "Basic Setup",
-  "kickstarter": "Kickstarter"
+  "index": "Checklist",
+  "app-guide": "Application Guide",
+  "installation": "Local Installation",
+  "technology-stack": "Technologies",
+  "how-it-works": "How It Works"
 }
 
 

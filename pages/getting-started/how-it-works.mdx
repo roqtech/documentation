@@ -1,0 +1,17 @@
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+import Image from "next/image";
+
+# How it works
+
+ROQ enables you to generate the first version of your B2B SaaS application in minutes using the
+[AI Assistant](https://app.roq.ai/). This page looks behind the scenes and describes how the generation process
+works internally:
+
+| Nr  | Step                                          | Description                                                                                                                                                                                                                                                                                                                                           |
+|-----|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 1   | **AI generates project-specific information** | Based on our description, ROQ uses a powerful machine learning model to determine the project's user stories, domain model, and other project-specific information. The quality of this heavily depends on your input. The more details you provide in the [AI Assistant](https://app.roq.ai/), the more accurate your application will be generated. |
+| 2   | **Generate Code**                             | All parts of your application will be realized using ROQ's advanced code generator. You get an appealing homepage and navigation that looks different for each user role. All entities can be managed via paginated data-tables and validated forms.                                                                                                  |
+| 3   | **Setup of User Management**                  | Every B2B SaaS application has multiple user roles like owner, manager, admin, or customer. ROQ's application generator automatically sets up all these roles. Then it configures the built-in access management that restricts who can do which action and retrieves what data.                                                                      |
+| 4   | **Adding Features**                           | Based on your selection, some of ROQ's pre-build features are added and configured automatically: Chat,Notifications, and File-handling.                                                                                                                                                                                                              |
+| 5   | **Publish Code and Deploy!**                  | Before you are informed via email, the resulting application is then pushed to a public repository on GitHub and deployed to a staging environment at Vercel.                                                                                                                                                                                         |
