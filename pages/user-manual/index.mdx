@@ -1,0 +1,156 @@
+import { Callout } from 'nextra-theme-docs'
+
+# Manual for Gettit
+
+## Introduction
+
+Welcome to the user manual of your new SaaS application **Gettit**, which was generated
+using [ROQ.ai](https://www.roq.ai/). This page explains the main concepts of your project and how to use and develop it
+further into a production-ready application.
+
+You should consider **Gettit** as an early version of your application. It already has a data model which should be
+close to how you imagined it (if it isn't, you can iterate on it, see below). There are user roles (Owner, Manager,
+Employee and Guest) in place and lots of
+functionality is already realized; see [feature overview](https://docs.roq.tech/). However, the application is
+not 100% done and needs to be finalized. For this purpose, we prepared a checklist for the
+engineers [here](/user-manual#development-checklist).
+
+## Short description of your application
+
+[//]: # (Generated text)
+
+[//]: # (GPT-4)
+
+[//]: # (Summaries this app in less than 350 chars. )
+
+[//]: # (The app is called Gettit.)
+
+[//]: # (Text characteristics: formality needs to be "formal". The intent is to "describe". The audience is "knowledgeable".)
+
+Gettit is a comprehensive IT Management Platform designed for SMEs. It enables the Owner to establish an Organization,
+manage roles, and control access to the platform. Managers can oversee mobile devices within the Organization while
+Employees can manage their assigned devices. Guests can also request temporary access, ensuring flexibility in device
+usage.
+
+## Getting started
+
+The goal is to get an early version of your next SaaS application. To get the best results quickly, we recommend to
+proceed with these steps:
+
+### (1.) Explorer your application
+
+[//]: # (Replace the words Organization and Owner&Manager with the actual names)
+Log in to your application [Gettit](https://tablereserve-v2-3a64.vercel.app/) and register as a user.
+For instance, you can create a new Organisation. As an Owner, you can invite other users, e.g., as a Manager.
+
+[//]: # (if end-use exists:)
+
+Alternatively, you can sign up as a(n) Guest and perform various actions.
+
+If you feel lost and don't know what to do, then we recommend reading
+your [custom user stories](/user-manual#user-stories-in-detail) first.
+
+### (2.) Adjust and regenerate
+
+[//]: # (TODO describe the regenerate button)
+
+We hope the application is close to how you imagined it. However, often the first generated version isn't perfect, and
+you want to adjust it. In this case, log in to [ROQ Console](https://console.roq.tech/) and hit the "regenerate" button.
+This will open a dialog enabling you to directly adjust the user stories and data model. This way, you have much better control over the results.
+
+You can regenerate your application multiple times. When you are satisfied with the result, proceed with the next step.
+
+### (3.) First-look at the code
+
+Now, it's time to have a look at the source code that was pushed to
+Github: [roq-ai/radical-football13-e16e](https://github.com/roq-ai/radical-football13-e16e)
+
+We used the following open-source technologies to generate
+**Gettit**:
+
+* Next.js / React
+* Prisma ORM
+* Chakra UI
+
+If you are experienced with these technologies, the code should be familiar to you as we met their coding
+standards. In addition, we are using ROQ's pre-build features for authentication, access management,
+notifications, chat, and file handling. You can inform yourself about the code base and features in
+our [documentation](https://docs.roq.tech/).
+
+### (4.) Local installation
+
+You can install your application locally in five minutes. The specific instructions are written in
+the [README.md](https://github.com/roq-ai/leavemanagements-afe2/blob/main/README.md) that is located in the repository.
+
+It's important to understand that for each application environment, you'll need to create an environment
+in [ROQ Console](https://console.roq.tech/). We already prepared one development environment for you when the app was
+created. It's called _Local Development_ and pre-configured for localhost:3000. If there are more engineers, you
+should use dedicated environments for each team member to avoid side effects.
+
+We
+
+### (5.) Copy code
+
+We hope you like your application's generated early version and the technologies we chose to implement it. The
+generated code is yours, so feel free to copy the entire code base to your own repository. You can pull the code and push it to your repository.
+
+Now it's time to finish the application. We prepared a [here](/user-manual#development-checklist) that gives you some
+orientation. In case you are stuck, we are just one message away when you join
+our [Community Slack](https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ).
+
+## User stories in detail
+
+[//]: # (I used GPT-3.5 to format the stories)
+
+[//]: # (Group these user stories by role. Use the role name as a headline. The first role needs to be the owner role. The last role is the end-user &#40;if any&#41;. Don't add any additional text, just the stories, and headlines.)
+
+The following user stories are realized in your application:
+
+#### Owner
+
+1. As an Owner, I want to create an Organization so that I can manage my SME's mobile devices.
+2. As an Owner, I want to invite Managers and Employees to join the Organization so that they can access the IT
+   Management Platform.
+3. As an Owner, I want to assign roles (Manager or Employee) to the invited users so that they have the appropriate
+   permissions within the platform.
+4. As an Owner, I want to remove users from the Organization so that I can maintain control over who has access to the
+   IT Management Platform.
+
+#### Manager
+
+5. As a Manager, I want to view the list of mobile devices within the Organization so that I can monitor and manage
+   them.
+6. As a Manager, I want to add new mobile devices to the Organization so that they can be managed within the IT
+   Management Platform.
+7. As a Manager, I want to update the details of a mobile device so that the information is accurate and up-to-date.
+8. As a Manager, I want to remove a mobile device from the Organization so that it is no longer managed within the IT
+   Management Platform.
+12. As a Manager, I want to approve or deny Guest access requests to mobile devices so that I can maintain control over
+    who can use the Organization's devices.
+
+#### Employee
+
+9. As an Employee, I want to view the list of mobile devices assigned to me so that I can access and manage them.
+10. As an Employee, I want to update the details of a mobile device assigned to me so that the information is accurate
+    and up-to-date.
+
+#### Guest
+
+11. As a Guest, I want to request access to a mobile device within the Organization so that I can temporarily use it for
+    a specific purpose.
+
+## Development checklist
+
+To finish ***Gettit**, you'll need to implement these scope items:
+
+[//]: # (Some of these items in the checklist are AI-generated!!!)
+
+1. Design - The generated application probably differs from what you wished for. Feel free to adapt it to your needs.
+2. Deployment - The generated application is based on Next.js, which can be seamlessly deployed to Vercel by following
+   their [instructions](https://vercel.com/docs).
+3. Custom logic - Integration with various apartment rental platforms is needed. 
+4. Integrations - Integration with various apartment rental platforms is needed. 
+5. ROQ Features - Login to [ROQ Console](https://console.roq.tech/) and make sure all features are configured
+   correctly (e.g., check your emails and notifications)
+
+
