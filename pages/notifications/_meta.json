@@ -1,9 +1,15 @@
 {
   "index": "Overview",
-  "video": "Video tutorial",
-  "installation": "Installation",
+  "add-notifications": "Add Notifications",
+  "test-notification": "Test Notifications",
+  "video": {
+    "title": "Video Tutorial",
+    "display": "hidden"
+  },
+  "installation": {
+    "title": "Installation",
+    "display": "hidden"
+  },
   "api": "API",
   "ui-components": "UI Components"
 }
-
-
