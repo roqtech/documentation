@@ -11,5 +11,8 @@
     "display": "hidden"
   },
   "api": "API",
-  "ui-components": "UI Components"
+  "ui-components": {
+    "title": "UI Components",
+    "display": "hidden"
+  }
 }
