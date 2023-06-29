@@ -4,7 +4,25 @@ import Image from 'next/image';
 
 # Social sign-ins
 
-ROQ supports various social sign-ins like Google OAuth. You can activate and configure them in
-[ROQ Console](https://console.roq.tech/settings/authentication-form/social-signin): `Authentication` ➔ `Social Sign-in`. 
+ROQ supports various social sign-ins like Google, Facebook, Github, LinkedIn. You can activate and configure them in
+[ROQ Console](https://console.roq.tech/settings/authentication-form/social-signin): `Authentication` ➔ `Social Sign-in`.
 
-Once activated they will work without any further work.
+![Social Sign-ins](/social-sign-ins.png)
+
+
+## Google
+
+To enable Google OAuth login follow this [documentation](https://support.google.com/cloud/answer/6158849?hl=en). For most of social sign-ins you need to setup these two credentials:
+
+* **Client ID**: Client ID for Web application
+
+* **Client Secret**: Client Secret for Web application
+
+![Google sign-in setup](/google-sign-in-setup.png)
+
+The `Auth Redirect URI` is needed to be setup on the Google's `Authorized redirect URIs` setting page.
+
+![auth-redirect-setup](/add-google-auth-redirect.png)
+
+
+Once activated the Google Signin is ready to be used as a registration or login option.
