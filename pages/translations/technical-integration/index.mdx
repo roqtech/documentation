@@ -3,7 +3,7 @@ import { Tab, Tabs } from "nextra-theme-docs";
 
 # Technical Integration
 
-## Loading translations in code
+## Loading Translations in Code
 
 Locales are defined as a prop of `<RoqProvider>`. If no locale is defined, then `en-US` will be used as the default
 locale.
@@ -16,7 +16,7 @@ locale.
 
 The `<RoqProvider>` fetches translations from ROQ Platform every five minutes. The data is cached in the user's browser.
 
-## Custom translation provider
+## Custom Translation Provider
 
 If you are already using a translation system, you can pass a function that takes over the translation.
 
@@ -28,11 +28,11 @@ return (
 );
 ```
 
-## Hooks for translation in React
+## Hooks for Translation in React
 
 `useRoqTranslation` is a React hook - a function that lets you translate your app into multiple languages. It is available under `RoqProvider` component
 
-### How to use
+### How to Use
 
 **Key format**: 
 - `{key}` for component must starts with `roq-ui.`
@@ -75,7 +75,7 @@ it will output
 <span data-roq-translation-key="roq-ui.profile.floating.manage-account">Manage Account</span>
 ```
 
-### Locale switching
+### Locale Switching
 
 By default, ***the translation will be loaded base on user's locale***, if not existed it will fallback to `en-US` in [Console](https://console.roq.tech). You can also switch the locale by using `RoqProvider` component.
 Texts in components will be changed to `de-DE` locale.
@@ -88,5 +88,3 @@ export default function App() {
   );
 }
 ```
-
-
