@@ -3,7 +3,7 @@ import { Callout } from 'nextra-theme-docs';
 import Image from 'next/image';
 
 
-# API Endpoints
+# API Endpoint
 
 The ROQ's generated B2B SaaS application is based on [Next.js]() from Vercel so it is easy to develop, adding more features, API endpoints, custom styling, etc. 
 
@@ -97,5 +97,127 @@ If you run the local development URL again, the JSON response format will be lik
 }
 ```
 
+and then you can use the JSON data on the client side (`pages` directory) for further development.
 
+### Display Hello Data
 
+After make an API endpoint to the generated application then you can make a custom page to display the response data (or anything what you want todo with it).
+
+Create a page in the `pages` directory and give a name, for example `hello.tsx`. In this file write this code
+
+```js
+// hello.tsx
+import { requireNextAuth } from '@roq/nextjs';
+import { useRouter } from 'next/router';
+import AppLayout from 'layout/app-layout';
+import { Box } from '@chakra-ui/react';
+
+function HelloPage() {
+  const router = useRouter();
+
+  return (
+    <AppLayout>
+      <Box w="100%" h="80vh">
+        <p>Hello Page</p>
+      </Box>
+    </AppLayout>
+  );
+}
+
+export default requireNextAuth({
+  redirectIfAuthenticated: false,
+  redirectTo: '/',
+})(HelloPage);
+```
+
+If you access this page through browser `http://localhost:3000/hello`, your application will change like this:
+
+![donisplay hello page](/display-hello-page.png)
+
+We use static text `Hello page` on the display. To use the response data from `/api/hello` endpoint you need to fetch the data. 
+
+In ROQ's generated B2B SaaS application, the data fetching is very easy with the help of [`swr`](https://swr.vercel.app/) package. First, for the better application management, you can create a React `Hello` component in `components/hello` directory, give it a name `index.tsx`
+
+```ts
+// components/hello/index.tsx
+import useSWR from 'swr';
+import { Flex, Card, CardBody, Text, Stack, StackDivider, Heading, CardHeader, Box } from '@chakra-ui/react';
+
+export default function Hello() {
+  const fetcher = (apiURL: string) => fetch(apiURL).then((res) => res.json());
+  const { data, error } = useSWR('/api/hello', fetcher);
+  console.log(data);
+
+  return (
+    <Flex direction="column">
+      <Card>
+        <CardHeader>
+          <Heading size="md">User Details</Heading>
+        </CardHeader>
+
+        <CardBody>
+          <Stack divider={<StackDivider />} spacing="4">
+            <Box>
+              <Heading size="xs" textTransform="uppercase">
+                Name
+              </Heading>
+              <Text pt="2" fontSize="sm">
+                {data.user.firstName} {data.user.lastName}
+              </Text>
+            </Box>
+            <Box>
+              <Heading size="xs" textTransform="uppercase">
+                Email
+              </Heading>
+              <Text pt="2" fontSize="sm">
+                {data.user.email}
+              </Text>
+            </Box>
+            <Box>
+              <Heading size="xs" textTransform="uppercase">
+                Tenant ID
+              </Heading>
+              <Text pt="2" fontSize="sm">
+                {data.user.tenantId}
+              </Text>
+            </Box>
+          </Stack>
+        </CardBody>
+      </Card>
+    </Flex>
+  );
+}
+```
+
+After that you need to change the previous `hello.jsx` page and import React `Hello` component:
+
+```ts
+// pages/hello.tsx
+import { requireNextAuth } from '@roq/nextjs';
+import { useRouter } from 'next/router';
+import AppLayout from 'layout/app-layout';
+import { Box } from '@chakra-ui/react';
+import Hello from 'components/hello';
+
+function HelloPage() {
+  const router = useRouter();
+
+  return (
+    <AppLayout>
+      <Box w="100%" h="80vh">
+        <Hello />
+      </Box>
+    </AppLayout>
+  );
+}
+
+export default requireNextAuth({
+  redirectIfAuthenticated: false,
+  redirectTo: '/',
+})(HelloPage);
+
+```
+
+After that you can check again the URL [`http://localhost:3000/hello`](http://localhost:3000/hello) to see the changes
+
+![React Hello component](/hello-component.png)
