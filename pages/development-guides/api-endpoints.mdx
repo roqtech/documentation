@@ -43,6 +43,31 @@ export default function filesHandler(req: NextApiRequest, res: NextApiResponse) 
 }
 ```
 
+### Add Hello API Endpoint
+
+For example, if we want to add `hello` API endpoint to the generated application, this is what you will do: create `hello.ts` file in `pages/api` directory then write this code
+
+```ts
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { withAuth, getServerSession } from '@roq/nextjs';
+
+// TypeScript
+export async function handler(req: NextApiRequest, res: NextApiResponse) {
+	res.status(200).json({ text: "ROQ generated application" })
+}
+
+export default function helloHandler(req: NextApiRequest, res: NextApiResponse) {
+	return withAuth(req, res)(handler);
+}
+
+```
+
+Make sure you already logged in to test this API endpoint and then type the local development URL for the generated application `http://localhost:3000/api/hello`
+
+
+![simple hello api endpoint NextApiResponse](/add-api-endpoint-simple.png)
+
+
 
 
 
