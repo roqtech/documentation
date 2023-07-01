@@ -136,7 +136,18 @@ If you access this page through browser `http://localhost:3000/hello`, your appl
 
 We use static text `Hello page` on the display. To use the response data from `/api/hello` endpoint you need to fetch the data. 
 
-In ROQ's generated B2B SaaS application, the data fetching is very easy with the help of [`swr`](https://swr.vercel.app/) package. First, for the better application management, you can create a React `Hello` component in `components/hello` directory, give it a name `index.tsx`
+In ROQ's generated B2B SaaS application, the data fetching is very easy with the help of `swr` package. 
+
+
+<Callout type="info">
+[SWR](https://swr.vercel.app/) is a React Hooks for Data Fetching. With SWR, components will get a stream of data updates constantly and automatically. And the UI will be always fast and reactive.
+</Callout>
+
+And for the better application management, you can create a React `Hello` component in `components/hello` directory, give it a name `index.tsx`
+
+<Callout type="info">
+The ROQ's generated B2B SaaS application use [Chakra UI](https://chakra-ui.com/). It is a simple, modular and accessible component library that gives you the building blocks you need to build your React applications.
+</Callout>
 
 ```ts
 // components/hello/index.tsx
@@ -221,3 +232,5 @@ export default requireNextAuth({
 After that you can check again the URL [`http://localhost:3000/hello`](http://localhost:3000/hello) to see the changes
 
 ![React Hello component](/hello-component.png)
+
+If you want to use UI Components from ROQ, go to this [documentation](/development-guides/ui-components)
