@@ -68,6 +68,34 @@ Make sure you already logged in to test this API endpoint and then type the loca
 ![simple hello api endpoint NextApiResponse](/add-api-endpoint-simple.png)
 
 
+With a simple code changes you can get the current logged in user data using `getServerSession()`
+
+
+```ts
+// TypeScript
+export async function handler(req: NextApiRequest, res: NextApiResponse) {
+	const { user } = getServerSession(req)
+	res.status(200).json({ user })
+}
+```
+
+If you run the local development URL again, the JSON response format will be like this:
+
+```json
+{
+    "user": {
+        "firstName": "Anna",
+        "lastName": "William",
+        "email": "anna.w@gmail.com",
+        "timezone": "Asia/Jakarta",
+        "locale": "en-US",
+        "roles": [
+            "account-owner"
+        ],
+        "tenantId": "e71c6c26-a44d-481a-9867-106443941bc7"
+    }
+}
+```
 
 
 
