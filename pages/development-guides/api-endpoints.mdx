@@ -1,0 +1,48 @@
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+
+# API Endpoints
+
+The ROQ's generated B2B SaaS application is based on [Next.js]() from Vercel so it is easy to develop, adding more features, API endpoints, custom styling, etc. 
+
+
+<Callout type="info">
+To continue development, you should fork or clone the source code of the generated application. Read this [documentation](/getting-started).
+</Callout>
+
+## How To Add API Endpoint
+
+The generated application uses API endpoints in `pages/api` directory. These APIs are the bridges between the UI components, ROQ platform and other third party services.
+
+To add API endpoint is easy, you can do so by creating a function inside `pages/api` directory that has the following format:
+
+```ts
+import type { NextApiRequest, NextApiResponse } from 'next';
+
+// TypeScript
+export async function handler(req: NextApiRequest, res: NextApiResponse) {
+	//...do your business with this route here
+}
+```
+
+in the generated application if you need API endpoint with authentication you can secure the handler with `withAuth()` function.
+
+```ts
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { withAuth, getServerSession } from '@roq/nextjs';
+
+// TypeScript
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+	//...do your business with this route here
+}
+
+export default function filesHandler(req: NextApiRequest, res: NextApiResponse) {
+  return withAuth(req, res)(handler);
+}
+```
+
+
+
+
