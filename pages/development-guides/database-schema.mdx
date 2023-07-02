@@ -6,9 +6,7 @@ import { Callout } from 'nextra-theme-docs';
 
 The ROQ's generated application uses [Prisma](https://www.prisma.io/) as an Object Relational Mapping (ORM).
 
-Prisma supports many databases such as MySQL, SQL Server, CockroachDB, and MongoDB. The default database for local development is PostgreSQL. If you don't want to use PostgreSQL, it's easy to change to another database. 
-
-Go to the schema database directory located at `/prisma`,  then change the file `schema.prisma` and edit the `provider` key:
+Prisma supports many databases such as MySQL, SQL Server, CockroachDB, and MongoDB. The default database for local development is PostgreSQL. If you don't want to use PostgreSQL, it's easy to change to another database. Go to the schema database directory located at `/prisma`,  then change the file `schema.prisma` and edit the `provider` key:
 
 ```js
 // schema.prisma
@@ -28,7 +26,7 @@ If you need add a custom field to the database or include additional data input 
 Prisma's data model is a declarative representation of your database schema and serves as the foundation for the generated Prisma Client library. Your Prisma Client instance will expose queries that are tailored to these models.
 </Callout>
 
-For example, if you want to add `description` data to the `book` table database, you can modify the `schema.prisma` file as follows:
+For example, if you want to add `description` data to the `book` table database, you can modify the `book` data model in `schema.prisma` file as follows:
 
 ```tsx
 // schema.prisma
@@ -61,7 +59,7 @@ This command performs the following actions:
 * Applies the generated SQL migration to the database.
 * Regenerates the Prisma Client to reflect the updated schema.
 
-The result of the command is a new SQL migration file loccated in the `prisma\migrations\xxxx-add-book-description` directory. If you examine the SQL migration file closely, you will find the following SQL statement:
+The result of the command is a new SQL migration file located in the `prisma\migrations\xxxx-add-book-description` directory. If you examine the SQL migration file closely, you will find the following SQL statement:
 
 ```sql
 -- AlterTable
