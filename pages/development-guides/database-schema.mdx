@@ -4,9 +4,11 @@ import { Callout } from 'nextra-theme-docs';
 
 # Database Schema
 
-The ROQ's generated application uses Prisma as an Object Relational Mapping (ORM). The default database for local development is PostgreSQL.
+The ROQ's generated application uses [Prisma](https://www.prisma.io/) as an Object Relational Mapping (ORM).
 
-Prisma supports many databases such as MySQL, SQL Server, CockroachDB, and MongoDB. If you don't want to use PostgreSQL, it's easy to change to another database. Go to the schema database directory located at `/prisma`,  then change the file `schema.prisma` and edit the `provider` key:
+Prisma supports many databases such as MySQL, SQL Server, CockroachDB, and MongoDB. The default database for local development is PostgreSQL. If you don't want to use PostgreSQL, it's easy to change to another database. 
+
+Go to the schema database directory located at `/prisma`,  then change the file `schema.prisma` and edit the `provider` key:
 
 ```js
 // schema.prisma
@@ -20,7 +22,7 @@ Make sure to change the `DATABASE_URL` in `.env` file to the appropiate database
 
 ## Modifying Schema
 
-If you need add a custom field to the database or include additional data input from a form in the application, you can modify the database schema to ensure that any new data changes are saved into the database.  
+If you need add a custom field to the database or include additional data input from a form in the application, you must modify the Prisma Schema to ensure that any new data changes are saved into the database.  
 
 <Callout type="info">
 Please refer to [here](/development-guides/form) for information on customizing form inputs in the application.
