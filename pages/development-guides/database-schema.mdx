@@ -37,7 +37,7 @@ model book {
   id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title           String        @db.VarChar(255)
   author          String        @db.VarChar(255)
-  // add another data field with default value 
+  // add another description data field with default value 
   description     String        @db.VarChar(255) @default("")
   organization_id String?       @db.Uuid
   user_id         String?       @db.Uuid
@@ -67,10 +67,8 @@ The result of the command is a new SQL migration file loccated in the `prisma\mi
 -- AlterTable
 ALTER TABLE "book" ADD COLUMN  "description" VARCHAR(255) NOT NULL DEFAULT '';
 ```
-
 This SQL statement alters the `book` table by adding a new column called `description` and has a default value of an empty string.
 
 <Callout type="info">
 Please refer to [here](/development-guides/form) for information on customizing form inputs in the application.
 </Callout>
-
