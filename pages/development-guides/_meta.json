@@ -2,6 +2,7 @@
   "api-guides": "API Guides",
   "api-endpoints": "API Endpoint",
   "form": "Form",
+  "database-schema": "Database Schema",
   "custom-styling": "Custom Styling",
   "graphql-basics-api": "GraphQL Basics API",
   "roq-provider": "ROQ provider",
