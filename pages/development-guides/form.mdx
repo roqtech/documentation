@@ -1,0 +1,102 @@
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
+
+# Form
+
+## How To Customize Form
+
+The ROQ's generated B2B SaaS application provides basic forms for managing data within the application. It is easy to customize the form to meet your business needs.
+
+Let's take an example of generated application called **DigiShare**, a digital book sharing web application.
+
+<Callout type="info">
+The source code for the digital book sharing application, DigiShare, can be found [here](https://github.com/roq-ai/digital-book-sha-767e).
+</Callout>
+
+![digital-book-share-app-form](/digital-ebook-share-form.png)
+
+In the `Book` section, we can create a new book with the `Create Book` form. The form has the following fields:
+
+* **Title**: The book title.
+* **Author**: The book author's name.
+* **Select Organization**: A dropdown to select the organization to which the book belongs.
+* **Select User**: A dropdown to select user.
+
+### Add `description` Field in Create Book Form
+
+Supposed that we want to add another field for book description, let's called the field as `description`, it has `string` data type and it's **required**.
+
+<Callout type="info">
+The B2B SaaS generated application by ROQ is using [Formik](https://formik.org/), an open source form library for React. 
+</Callout>
+
+There are a few steps to add a field to the `Create Book` form:
+
+1. Add the `description` property to the `BookInterface` interface in the `interface/book`module. The updated code would look like this:
+
+```ts
+import { BookmarkInterface } from 'interfaces/bookmark';
+import { HighlightInterface } from 'interfaces/highlight';
+import { OrganizationInterface } from 'interfaces/organization';
+import { UserInterface } from 'interfaces/user';
+import { GetQueryInterface } from 'interfaces';
+
+export interface BookInterface {
+  id?: string;
+  title: string;
+  author: string;
+  description?: string;
+  organization_id?: string;
+  user_id?: string;
+  created_at?: any;
+  updated_at?: any;
+  bookmark?: BookmarkInterface[];
+  highlight?: HighlightInterface[];
+  organization?: OrganizationInterface;
+  user?: UserInterface;
+  _count?: {
+    bookmark?: number;
+    highlight?: number;
+  };
+}
+
+export interface BookGetQueryInterface extends GetQueryInterface {
+  id?: string;
+  title?: string;
+  author?: string;
+  organization_id?: string;
+  user_id?: string;
+}
+```
+
+2. Update the `bookValidationSchema` in the `validationSchema/books` module to include the validation rule for the `description` field. The updated code would look like this:
+
+```ts
+import * as yup from 'yup';
+
+export const bookValidationSchema = yup.object().shape({
+  title: yup.string().required(),
+  author: yup.string().required(),
+  organization_id: yup.string().nullable(),
+  user_id: yup.string().nullable(),
+  description: yup.string().required()
+});
+```
+Here, the `description` field is added with the `yup.string().required()` validation rule, indicating that it is a required fields.
+
+3. Update the JSX code in the `BookCreatePage` component in `pages\book` directory to include the new `description` field. Add the following code inside the `<form>`
+
+```jsx
+<FormControl id="description" mb="4" isInvalid={!!formik.errors?.description}>
+    <FormLabel>Description</FormLabel>
+    <Input type="text" name="description" value={formik.values?.description} onChange={formik.handleChange} />
+    {formik.errors.description && <FormErrorMessage>{formik.errors?.description}</FormErrorMessage>}
+</FormControl>
+```
+This code creates a new `FormControl` component for the `description` field, similar to the existing form controls for `title` and `author`.
+
+![add a field into create book form](/add-description-field-create-book-form.png)
+
+<Callout type="error">
+You cannot save the data book with our new `description` field yet! There should be a few changes to the database CRUD code to accomodate the new data. 
+</Callout>
