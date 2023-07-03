@@ -1,0 +1,32 @@
+import { Tab, Tabs } from "nextra-theme-docs";
+import { Callout } from "nextra-theme-docs";
+
+# Login or register page fails on local environment
+
+When you try to open login or register page on local development, you have this kind of error:
+
+![login register fails](/oops-something-went-wrong.png)
+
+First, check your environment URLs for local development:
+
+```ini
+ROQ_AUTH_CALLBACK_URL=http://localhost:3000/api/auth/callback
+ROQ_AUTH_LOGIN_URL=http://localhost:3000/api/auth/login
+ROQ_AUTH_LOGOUT_URL=http://localhost:3000/api/auth/logout
+```
+
+Go to [ROQ Console](https://console.roq.tech/) then `Projects Details`, select `The Projects` then copy `Local Development` environment by clicking `Copy Env File` button.
+
+![environment on ROQ console](/environments.png)
+
+and then copy paste it into your local `.env` file.
+
+<Callout type="info">
+If you don't have any `.env` file in your local development then create it or rename `.env.example` file into `.env`. 
+</Callout>
+
+Restart the app and it should work. If you are not using `localhost:3000` then adjust it before you copy the environment data.
+
+![local development env settings ](/local-dev-callback-settings.png)
+
+
