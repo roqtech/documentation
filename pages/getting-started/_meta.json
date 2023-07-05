@@ -3,7 +3,8 @@
   "app-guide": "Application Guide",
   "installation": "Local Installation",
   "technology-stack": "Technologies",
-  "how-it-works": "How It Works"
+  "how-it-works": {
+    "title": "How It Works",
+    "display": "hidden"
+  }
 }
-
-

@@ -1,6 +1,8 @@
 {
   "index": "Overview",
-  "customization": "Customization",
+  "registration-form": "Registration Form",
+  "registration-form-variants": "Registration Form Variants",
+  "theming": "Theming",
   "social-sign-ins": "Social Sign-Ins",
   "advanced-topics": "Advanced Topics"
 }
