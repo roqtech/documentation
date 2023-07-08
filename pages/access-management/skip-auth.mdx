@@ -1,3 +1,54 @@
 import { Callout } from 'nextra-theme-docs'
 
-# SKIP_AUTHORIZATION
+# Bypass Authorization
+
+In local development, if you want to disregard user permissions or access management rules, you can configure the `SKIP_AUTHORIZATION` environment variable to `true`. Add this environment variable to `.env` file:
+
+```ini
+SKIP_AUTHORIZATION=true
+```
+To explain the effects if we change this environment variable, we can show with a sample organization, **Videoz** 
+
+## Videoz
+
+**Videoz is a B2B video sharing organization. This organization have 2 main roles **Channel Owner** and **Content Creator** . Currently we have 2 users and each user have different role:
+
+- 1 user is the **Channel Owner**.
+- 1 user is the **Content Creator**.
+
+![channel owner & content creator roles](/channel-owner-and-content-creator-roles.png)
+
+The user with **Channel Owner** role can see all the videos, create a new video, delete any videos but only can update it's own videos. The access level and the permissions for **Channel Owner** are as follows:
+
+![channel owner permissions setup](/channel-owner-permissions.png)
+
+The user with **Content Creator** can only see the user videos, create a new video, delete the user video and update the user video. The access level and permissions for **Content-Creator** are as follows:
+
+![Content creator permissions](/content-creator-permissions.png)
+
+With environment varibale `SKIP_AUTHORIZATION` set to `false` here the list video for each roles:
+
+**Content Creator Video List**
+
+The **Content Creator** role only can see the user's videos because we already setup the permission for Video is`Own`
+
+![content creator video list](/content-creator-video-list.png)
+
+
+**Channel Owner Video List**
+
+User with **Channel Owner** role will have privilege for all videos.
+
+![channel owner video list](/channel-owner-video-list.png)
+
+If we chance `SKIP_AUTHORIZATION` environment variable to `true` then all permissions setting will be ignored.
+
+
+<Callout type="info">
+If you have a trouble to see the changes after permissions moodification, try to stop the local development and then start it again.
+</Callout>
+
+With this change, the **Content Creator** video list will display all the videos, **regardless** the read permissions is set to `Own`.
+
+![skip auth](/content-creator-video-list-skip.png)
+
