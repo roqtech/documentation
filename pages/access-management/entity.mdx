@@ -24,7 +24,7 @@ Each instance of an entity would be a specific example, such as a particular ren
 
 ## Project Entities
 
-Project entities can be accessed in ROQ application console. Go to **Users & Access** → **Project Entities**.
+Project entities can be accessed in ROQ application console. Go to **Users & Access** → **Project Entities**. You can edit the existing entity, create a new entity, and add, edit, or delete the entity relationship.  
 
 ![project entities roq console](/project-entities-boat-rental.png)
 
@@ -40,7 +40,7 @@ Relationships are established between different entities. The main types of rela
 
 For the example above, the **review** entity would relate to the **user** entity who left the review and the **boat** entity, which boat was reviewed.
 
-There are another possibilies **review** entity relation. Here's how each type might relate to the **review** entity in your Boat Rental application:
+There are another possibilies **review** entity relation. Here's how each **Relation Type** might relate to the **review** entity in your Boat Rental application:
 
 1. **One-to-One (1:1)**: This type of relationship means one entity is associated with one and only one entity. For example, if each review had a unique attachment (say, a photo or a document related to the review), this could be modeled as a one-to-one relationship between the **review** entity and an **attachment** entity.
 
@@ -51,8 +51,24 @@ There are another possibilies **review** entity relation. Here's how each type m
 4. **Many-to-Many (M:N)**: In this type of relationship, multiple entities can be associated with multiple entities. For example, if users could tag their reviews with multiple **tags** (another potential entity), and each **tag** could be associated with multiple reviews, this would represent a many-to-many relationship. This type of relationship is usually resolved by creating a third, entity, which holds the relationship data, usually just IDs from the two related entity (e.g., **review_tags**).
 
 
+Relation between **review** and **user** entity is **Many-to-One** relationship. A user can have many reviews but from reviews perspective, the relation is many to one user.
 
+![entity relationship](/entity-relation.png)
 
+Let's take look about **review** entity and **boat** entity. A boat can have many reviews, but each review is associated with one and only one boat. This means that a single boat can accumulate multiple reviews over time, each left by a different user, or even the same user if they rent the boat more than once. However, a review can't be for multiple boats; it's associated specifically with the boat that was rented when the user left the review.
 
+So from the **review** entity perspective, the relationship to **boat** entity is **Many-to-One**: many reviews can be related to one boat.
 
+On the other hand, from the **boat** entity perspective, the relationship to **review** entity is **One-to-Many**: one boat can have many reviews.
 
+It's always crucial to view the relationships from both perspectives to understand the nature of the relationship and to correctly model your data. Another important concept in the relatioship between entities **Foreign Key Field**. For instance:
+
+- The **user** entity might have an attribute called `userId`, which is a unique identifier for each user.
+
+- The **boat** entity might have an attribute called `boatId`, which is a unique identifier for each boat.
+
+- The **review** entity would also have its own unique identifier, *reviewId*. However, it would also have `userId` and `boatId` as foreign keys, linking each review to a specific user and boat. 
+
+When a user creates a review for a boat, the system would record the `userId` and `boatId` along with the review. This way, the system can track which user left the review and which boat the review pertains to.
+
+Using these foreign keys, it's possible to retrieve related data across different entities. For example, given a `boatId`, you could retrieve all reviews for that boat. Or given a `userId`, you could find all reviews left by that user.
