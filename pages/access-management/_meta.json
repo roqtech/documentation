@@ -1,5 +1,6 @@
 {
   "index": "Overview",
-  "skip-auth": "Skip Authorization",
-  "entity": "Entity"
+  "entity": "Entity",
+  "roles": "Roles",
+  "skip-auth": "Skip Authorization"
 }
