@@ -2,19 +2,20 @@ import { Callout } from 'nextra-theme-docs'
 
 # Platform Permissions
 
-Within the platform permissions settings, you can regulate access based on roles, or prevent a user with a specific role from accessing certain platform resources.
+Platform permissions settings allow you to regulate access based on user roles or restrict users with specific roles from accessing certain platform resources.
 
-In addition to core features like user management, ROQ also provides numerous platform resources or features when generating a B2B SaaS application. The platform resources or features provided initially also depend on the selections made during the setup of the application in ROQ's AI generator. For instance, within the ROQ AI generator, you have the option to include a File & Chat system in the application being generated.  
+In addition to core features like user management, ROQ also provides numerous platform resources or features when generating a B2B SaaS application. The resources or features provided initially are determined by the choices made during the application setup within ROQ's AI generator. For example, within the ROQ AI generator, you can opt to include a **File** & **Chat** system in the generated application.  
 
 {/*![addon selections](/addons-selections.png) */}
 
-The ability for a specific role to access these add-on platform features is managed via the platform permissions setting.
+Access to these addon platform features for specific roles is managed through the platform permissions settings.
 
 ![platform permissions setting](/platform-permissions-role-setting.png)
 
-Within the platform permissions section, you can grant and restrict access for a given role to a particular entity. You can also manage the operational permissions or access level for this entity, as well as define the scope of this access.
+Within the platform permissions section, you can grant and restrict access for a given role to a particular entity. Furthermore, you can control the operational permissions or access levels for this entity, as well as define the scope of this access.
 
-For example, to grant a role access to certain features within the chat system, such as:
+For instance, if you wish to grant a role access to certain features within the chat system, such as:
+
 - Initiating a conversation.
 - Reading other chats within the same thread.
 - Deleting chats.
@@ -24,7 +25,11 @@ The platform permissions for the role would be set as follows:
 
 ![example of platform permissions setup](/platform-permissions-role-setting-example.png)
 
+Below is the platform permissions setup for the aforementioned scenario:
 
-
-
-
+* **Conversation** is the entity to which the role is granted access.
+* The operational permissions or access levels include:
+	- **Read**: With **Own** scope.
+	- **Delete**: With **Own** scope.
+	- **Create**: With **Own** scope.
+	- **Update**: With **Own** scope.
