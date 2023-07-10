@@ -1,4 +1,5 @@
 {
   "api-endpoints": "Add/Modify APIs",
-  "form": "Customize Form Fields"
+  "form": "Customize Form Fields",
+  "database-schema": "Database Schema"
 }
