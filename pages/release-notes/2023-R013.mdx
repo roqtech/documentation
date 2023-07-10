@@ -1,0 +1,38 @@
+# 📢 New Release Updates: Fixes for environment synchronization and enhanced reliability in app generation with queue improvements
+
+## Environment Sync Functionality
+
+With ROQ, you have access to multiple environments for your project. Typically, there are two environments available: Pre-production (or development) and Production. Additionally, as a user, you can create multiple pre-production environments with different feature configurations or data settings. However, bringing these environments to the same state after the development phase can be challenging. To simplify this process, we have introduced an environment synchronization feature.
+
+To utilize this feature, follow these steps:
+1. Go to the Console.
+2. Navigate to Project Details.
+3. Click on Environment Sync.
+
+![release env sync](/release-2023-07-10-1.png)
+
+You are currently in the environment that you wish to synchronize. Now, you need to select the source environment from which you would like to copy the configuration.
+
+![release copy env configuration](/release-2023-07-10-2.png)
+
+The next step is to select the feature configurations that you would like to copy.
+
+- [ ] File Categories
+- [ ] Roles & Permissions
+- [ ] Mail Template
+- [ ] Integrations
+- [ ] Notification Template
+- [ ] Translations
+- [ ] Auth Configs
+
+Click **Proceed**
+
+![include configuration](/release-2023-07-10-3.png)
+
+**IMPORTANT:** Please note that once you click on "Confirm," the configuration of your current environment will be overwritten. Therefore, please ensure that you are certain about the changes you are making.
+
+After a certain period of time, the synchronization process should be completed successfully.
+
+🐛 Additionally, we have addressed the queue-related issue and made enhancements to the app generation process. With these improvements, we are now able to run multiple generations in parallel, resulting in reduced generation time. This update aims to enhance the user experience for all app generation operations.
+
+
