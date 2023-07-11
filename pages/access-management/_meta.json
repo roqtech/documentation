@@ -1,4 +1,7 @@
 {
-  "index": "Overview"
-
+  "index": "Overview",
+  "entity": "Entity",
+  "roles": "Roles",
+  "platform-permissions": "Platform Permissions",
+  "skip-auth": "Skip Authorization"
 }

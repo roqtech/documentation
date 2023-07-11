@@ -4,29 +4,24 @@ import { Callout } from 'nextra-theme-docs'
 
 ## Introduction
 
-In B2B SaaS applications, all users are usually grouped into tenants. Each of your business customers is represented as
-a tenant. The related users and all the data are fully isolated.
+In B2B SaaS applications, all users are usually grouped into tenants. Each of your business customers is represented as a tenant. The related users and all the data are fully isolated.
 
-You may use another term, like organization, workspace, or team. For instance, if you are using Slack, then you know
-that your team members are grouped into a so-called workspace. A tenant is usually created when the first user signs up.
+You may use another term, like organization, workspace, or team. For instance, if you are using Slack, then you know that your team members are grouped into a so-called workspace. A tenant is usually created when the first user signs up.
 
-## How to use multi-tenancy
+## How to Use Multi-Tenancy
 
 <Callout type="info" emoji="ℹ️">
-  In case you are using multiple tenants in your application, then it's highly recommended to activate this feature in 
-ROQ as well. This way you can define access rights accordingly, and don't risk to leak data accross tenants.  
+  In case you are using multiple tenants in your application, then it's highly recommended to activate this feature in ROQ as well. This way you can define access rights accordingly, and don't risk to leak data accross tenants.  
 </Callout>
 
-### (1) Active multi-tenancy in ROQ Console
+### Active Multi-Tenancy
 
-Before you can start grouping your users into tenants, you need to activate this feature
-in [ROQ Console](https://console.roq.tech/).
+Before you can start grouping your users into tenants, you need to activate this feature in ROQ Console. Look in details here for the [documentation](/multi-tenancy/activate-multi-tenancy).
 
-### (2) Create new tenants via API
+### Create Tenants via API
 
 New tenants can be created programmatically using the [**`createTenant()`**](/multi-tenancy/api#createtenant) API.
 
-### (3) Assign users to tenants
+### Assign Users to Tenants via API
 
-`createTenant()` returns an `id`, that is used when you create users using [**`createUser()`
-**](/user-management/api#createuser) API 
+`createTenant()` returns an `id`, that is used when you create users using [**`createUser()`**](/user-management/api#createuser) API.

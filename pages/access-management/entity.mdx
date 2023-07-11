@@ -1,0 +1,76 @@
+import { Callout } from 'nextra-theme-docs'
+
+# Entity
+
+An entity generally refers to a unique, identifiable, and separate item within a system. They are often used to model real-world objects or concepts within the system, acting as a blueprint for creating instances or objects.
+
+Entities are initially created by AI and initially it really depends on the Prompt we gave in the ROQ's AI generator. If we want to change the generated application entities then we should change the Prisma schema. 
+
+Entity could be named anything, for example if you gave ROQ's AI generator with the this Prompt:
+
+_Boat Rental Platform is a comprehensive digital marketplace connecting boat owners and businesses for efficient, secure boat rental transactions. It provides real-time booking, customizable agreements, secure payment processing, and data-driven insights for better decision-making. With a scalable design, 24/7 customer support, and ability to cater to both short and long-term rentals, it's a robust solution for streamlining maritime rental processes._
+
+ROQ's AI generator will create these entities:
+
+- **rental**: This could represent an instance of a boat being rented, including the boat involved, the user who's renting it, the duration of the rental, the cost, and so on.
+
+- **user**: This could represent an individual or business using the platform, with attributes such as name, contact information, payment information, rental history, and so on.
+
+- **platform**: This could represent the rental platform itself, encompassing details such as its operating hours, the boats available, the users registered, and more.
+
+- **boat**: This would represent a specific boat that can be rented, with attributes such as its size, type, availability, rental price, and so on.
+
+Each instance of an entity would be a specific example, such as a particular rental transaction, a specific user, the platform at a specific moment in time, or a specific boat.
+
+## Project Entities
+
+Project entities can be accessed in ROQ application console. Go to **Users & Access** → **Project Entities**. You can edit the existing entity, create a new entity, and add, edit, or delete the entity relationship.  
+
+![project entities roq console](/project-entities-boat-rental.png)
+
+### Create An Entity
+
+To create a new entity click **+ Create Entity** button. For example, create a **review** entity, that could represent a review left by a user after a rental transaction.
+
+![creat entity button](/create-a-new-entity.png)
+
+### Entity Relation
+
+Relationships are established between different entities. The main types of relationships ROQ provides are: **one-to-one**, **one-to-many**, **many-to-one** and **many-to-many**.
+
+For the example above, the **review** entity would relate to the **user** entity who left the review and the **boat** entity, which boat was reviewed.
+
+There are another possibilies **review** entity relation. Here's how each **Relation Type** might relate to the **review** entity in your Boat Rental application:
+
+1. **One-to-One (1:1)**: This type of relationship means one entity is associated with one and only one entity. For example, if each review had a unique attachment (say, a photo or a document related to the review), this could be modeled as a one-to-one relationship between the **review** entity and an **attachment** entity.
+
+2. **One-to-Many (1:M)**: In this type of relationship, an entity can have multiple corresponding entities. For instance, a **user** can leave many **reviews**, but each **review** is left by one and only one **user**. So, the relationship between **user** and **review** is a one-to-many relationship from the **user** perspective.
+
+3. **Many-to-One (M:1)**: This is the reverse of a one-to-many relationship. Using the same example as above, each **review** is associated with one **user**, but a **user** can have many **reviews**. From the **review** perspective, the relationship with **user** is a many-to-one relationship.
+
+4. **Many-to-Many (M:N)**: In this type of relationship, multiple entities can be associated with multiple entities. For example, if users could tag their reviews with multiple **tags** (another potential entity), and each **tag** could be associated with multiple reviews, this would represent a many-to-many relationship. This type of relationship is usually resolved by creating a third, entity, which holds the relationship data, usually just IDs from the two related entity (e.g., **review_tags**).
+
+
+Relation between **review** and **user** entity is **Many-to-One** relationship. A user can have many reviews but from reviews perspective, the relation is many to one user.
+
+![entity relationship](/entity-relation.png)
+
+Let's take look about **review** entity and **boat** entity. A boat can have many reviews, but each review is associated with one and only one boat. This means that a single boat can accumulate multiple reviews over time, each left by a different user, or even the same user if they rent the boat more than once. However, a review can't be for multiple boats; it's associated specifically with the boat that was rented when the user left the review.
+
+So from the **review** entity perspective, the relationship to **boat** entity is **Many-to-One**: many reviews can be related to one boat.
+
+On the other hand, from the **boat** entity perspective, the relationship to **review** entity is **One-to-Many**: one boat can have many reviews.
+
+### Entity Foreign Key 
+
+It's always crucial to view the relationships from both perspectives to understand the nature of the relationship and to correctly model your data. Another important concept in the relatioship between entities **Foreign Key Field**. For instance:
+
+- The **user** entity might have an attribute called `userId`, which is a unique identifier for each user.
+
+- The **boat** entity might have an attribute called `boatId`, which is a unique identifier for each boat.
+
+- The **review** entity would also have its own unique identifier, *reviewId*. However, it would also have `userId` and `boatId` as foreign keys, linking each review to a specific user and boat. 
+
+When a user creates a review for a boat, the system would record the `userId` and `boatId` along with the review. This way, the system can track which user left the review and which boat the review pertains to.
+
+Using these foreign keys, it's possible to retrieve related data across different entities. For example, given a `boatId`, you could retrieve all reviews for that boat. Or given a `userId`, you could find all reviews left by that user.

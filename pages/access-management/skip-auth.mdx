@@ -1,0 +1,54 @@
+import { Callout } from 'nextra-theme-docs'
+
+# Skip Authorization
+
+During local development, if you need to ignore user permissions or access management rules, configure the `SKIP_AUTHORIZATION` environment variable to `true`. Add this environment variable to your `.env` file: 
+
+Add this environment variable to the `.env` file:
+
+```ini
+SKIP_AUTHORIZATION=true
+```
+To illustrate the effects of modifying this environment variable, let's use the example of an organization named **Videoz**. 
+
+
+**Videoz** is a B2B video-sharing platform that comprises two main roles: **Channel Owner** and **Content Creator**. At present, we have two users, each assigned a different role:
+
+- One user is the **Channel Owner**.
+- One user is the **Content Creator**.
+
+![channel owner & content creator roles](/channel-owner-and-content-creator-roles.png)
+
+TThe **Channel Owner** can view all videos, create new ones, delete any videos, and update only their videos. The access level and permissions for the **Channel Owner** are depicted below:
+
+![channel owner permissions setup](/channel-owner-permissions.png)
+
+The **Content Creator**, on the other hand, can only view their videos, create a new video, delete their video, and update their video. The access level and permissions for the **Content Creator** are as follows:
+
+![Content creator permissions](/content-creator-permissions.png)
+
+When the environment variable `SKIP_AUTHORIZATION` is set to `false`, the video list varies according to the roles:
+
+**Content Creator Video List**
+
+The **Content Creator** can only see their videos, as the permissions for videos have been set to `Own`.`
+
+![content creator video list](/content-creator-video-list.png)
+
+
+**Channel Owner Video List**
+
+Users assigned the **Channel Owner** role have access to all videos.
+
+![channel owner video list](/channel-owner-video-list.png)
+
+If we adjust the `SKIP_AUTHORIZATION` environment variable to `true`, all permissions settings will be ignored.
+
+<Callout type="info">
+If you encounter difficulties observing the changes after altering permissions, consider halting the local development and then restarting it.
+</Callout>
+
+With this modification, the **Content Creator's** video list will display all videos, **regardless** of whether the permissions are set to `Own`.
+
+![skip auth](/content-creator-video-list-skip.png)
+
