@@ -1,7 +1,6 @@
 {
   "index": "Overview",
-  "add-notifications": "Add Notifications",
-  "test-notification": "Test Notifications",
+  "tutorials": "Tutorials",
   "video": {
     "title": "Video Tutorial",
     "display": "hidden"
