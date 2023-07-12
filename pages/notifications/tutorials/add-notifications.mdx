@@ -50,6 +50,8 @@ The localized content supports custom variables, enabling you to notify users wi
 
 You can set the `downloadLink` variable with Notification API or by query via GraphQL API. For instance, using Node.js and GraphQL:
 
+{/* TODO: explain about default vars that always shown in the notifications */}
+
 <Tabs items={['Node.js SDK', 'GraphQL']}>
 <Tab>
 ```ts
@@ -91,9 +93,7 @@ mutation {
 </Tab>
 </Tabs>
 
-<Callout type="info">
-To learn more about the Notification API, please go [here](/notifications/api).
-</Callout>
+To test the notification read this [tutorial](/notifications/tutorials/test-notification) and if you want to learn more about the Notification API, please go [here](/notifications/api).
 
 After **Create Localized Content** for any channels that you need, the notification will show up on **Notifications Preferences** in your SaaS project.
 
