@@ -1,4 +1,5 @@
-import Image from "next/image"
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
 
 # How to Add a New Notification
 
@@ -47,9 +48,53 @@ The localized content supports custom variables, enabling you to notify users wi
 
 ![Localized content with vars](/localized-content-with-vars.png)
 
-You can set the `downloadLink` variable with Notification API or by query via GraphQL API.
+You can set the `downloadLink` variable with Notification API or by query via GraphQL API. For instance, using Node.js and GraphQL:
+
+<Tabs items={['Node.js SDK', 'GraphQL']}>
+<Tab>
+```ts
+await client.asSuperAdmin().notify({
+  notification: {
+    key: 'notification_key_template_here',
+    recipients: {
+      userIds: ['abc123'],
+      userGroups: { operator: 'AND', userGroupIds: ['xyz789'] },
+      excludedUserIds: ['abc123'],
+      allUsers: false,
+    },
+    data: [{ key: 'downloadLink', value: 'https://youtubiah-8b47.vercel.app/file/youfile.zip' }],
+  },
+});
+```
+</Tab>
+<Tab>
+```graphql
+mutation {
+  notify(
+    notification: {
+      key: "notification_key_template_here"
+      recipients: {
+        userIds: ["abc123"]
+        userGroups: { operator: AND, userGroupIds: ["xyz789"] }
+        excludedUserIds: ["abc123"]
+        allUsers: false
+      }
+      data: [{ key: "downloadLink", value: "https://youtubiah-8b47.vercel.app/file/youfile.zip" }]
+    }
+  ) {
+    usersNotified {
+      count
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
+
+<Callout type="info">
+To learn more about the Notification API, please go [here](/notifications/api).
+</Callout>
 
 After **Create Localized Content** for any channels that you need, the notification will show up on **Notifications Preferences** in your SaaS project.
 
 ![Saas notificatons preferences](/notification-settings.png)
-
