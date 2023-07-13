@@ -3,5 +3,6 @@
   "entity": "Entity",
   "roles": "Roles",
   "platform-permissions": "Platform Permissions",
+  "project-permissions": "Project Permissions",
   "skip-auth": "Skip Authorization"
 }
