@@ -1,0 +1,67 @@
+import Image from "next/image"
+import { Callout } from 'nextra-theme-docs'
+
+# Test Notifications
+
+To test the notifications we created earlier we need to query data from the GraphQL server. The URL for  this GraphQL server is in **Project Details** in the ROQ console.
+
+<Callout type="info">
+Make sure the environment where you get all the credentials is the same as the environment you have added the notification.
+</Callout>
+
+This page shows all the credentials to access the GraphQL server.
+
+![Project details for graphql api](/project-details-graphql-api-url.png)
+
+To test or trigger the notifications, we can use a GraphQL query like this:
+
+
+```graphql
+mutation {
+  notify(
+    notification: {
+      key: "translated-file-conversion"
+      recipients: {
+        userIds: ["163ae909-b611-423c-b105-67f86a8870ac"]
+        userGroups: { operator: AND, userGroupIds: ["325a3bc5-3d65-4868-b4af-85d4f8f206b8"] }
+        allUsers: false
+      },
+      data: [{ key: 'downloadLink', value: 'https://youtubiah-8b47.vercel.app/file/youfile.zip' }]
+    }
+  ) {
+    usersNotified {
+      count
+    }
+  }
+}
+```
+
+<Callout type="info">
+To determine a user ID, you currently need to extract it from the last segment of the user URL. Follow the steps below to do this:
+
+1. Navigate to the ROQ console.
+2. From the menu, select **Users & Access** and then **Users**.
+3. Locate and select the email of the user whose ID you wish to identify.
+4. Click the **Edit User** button (denoted by a pen icon).
+   
+As you perform these actions, note that the URL will change. Here's an example:
+
+```
+https://console.roq.tech/.../users/1efad280-45bd-49c5-8125-598ea622b925
+```
+
+In this URL, the user ID is `1efad280-45bd-49c5-8125-598ea622b925`.
+</Callout>
+
+If you execute the GraphQL query above in the GraphQL API server sandbox, you will get 1 user notified.
+
+![Graphql query sandbox](/graphql-queries.png)
+
+and the triggered notifications will show to any recipients.
+
+![Triggered notification](/triggered-notification.png)
+
+If you have configured notification for Email or SMS, you have to activate Email or SMS integration first. For how to configure email integration, please read [here](/mails/integration)
+
+
+
