@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react'
-import { Modal } from "./Modal"
+import React, { useState, useRef } from 'react';
+import { Modal } from "./Modal";
 
 const Search = () => {
   const [open, setOpen] = useState(false);
@@ -57,7 +57,7 @@ const Search = () => {
 	    Ask
 	  </button>
 
-	  {answer}
+	  {isLoading ? 'Loading...' : answer}
         </form>
       </Modal>
     </>
