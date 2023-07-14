@@ -1,0 +1,31 @@
+import { Callout } from 'nextra-theme-docs'
+
+# How to Create Custom Translations
+
+Translation customization can be done by edit the translation key, add or remove keys and add or remove locales.
+
+## Translations
+
+Managing translations can be done in `Translations` section of ROQ console or directly go [here](https://console.roq.tech/localization/translations) if you are already logged in. The default translation for the generated application is in English (en-US) language.
+
+![Generated application translation default](/app-default-local-translation.png)
+
+You can edit the translation by using `Controls` edit button. Within this translation editor, you can also edit the translation for another language, such as for German (de-DE), etc.
+
+To check the status of a specific translated language, you can choose the locale from the `Select Locale` dropdown and then sort it by `Status`. For example, to sort untranslated keys for the German (de-DE) language, you can select `Untranslated` status.
+
+![Sort untranslated key](/sort-untranslated-key.png)
+
+Changes will be shown in the UI components after a few minutes because of the browser's caching system.
+
+## Translation Keys
+
+Adding translation key is easy, go to the `Keys` menu and then click the `+ Create key` button.
+
+![Add new key](/add-new-key.png)
+
+After the translation key is created, it will be available for all the locales and by default it will be placed on the first row of the translation list. 
+
+<Callout type="info" emoji="ℹ️">
+The translation key is unique so you cannot add the same key.
+</Callout>
