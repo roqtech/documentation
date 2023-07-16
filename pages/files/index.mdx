@@ -9,6 +9,7 @@ ROQ provides a complete solution for file management, including these features:
 * File upload using the UI component
 * Files visiblity (public or private)
 * File associations (files can be related to any object)
+ 
 
 ## UI Components
 
@@ -23,7 +24,7 @@ ROQ’s file management provides multiple UI components which can be integrated 
 
 ## Basic concepts
 
-### File uploads
+### File Uploads
 
 <Callout type="info" emoji="ℹ️">
   Files that are uploaded to ROQ Platform are stored on [Scaleway Object Storage](https://www.scaleway.com/en/object-storage/). The data center is located in Paris. 
@@ -33,7 +34,7 @@ Files can be uploaded via [File Upload UI component](/files/ui-components#fileup
 [createFileUpload() API](/files/api#createfileupload). The upload is realized using signed URLs, which means the
 files are uploaded directly from the user's browser to the object storage without sending it through your backend.
 
-### File categories
+### File Categories
 
 File categories can be managed via [ROQ Console](https://console.roq.tech/) only. 
 
@@ -41,29 +42,33 @@ They have two purposes:
 * Enable filtering by categories, see [files()](/files/api#files) API
 * Add validators to categories (see next section)
 
-### Upload validations
+### Upload Validations
 
 ROQ is using file categories to define rules for the upload in [ROQ Console](https://console.roq.tech/). For
 instance, you can set a category called _"pictures"_ which requires the mime type of the uploaded file to be an image
 (see [image mime type](https://mimetype.io/all-types/#image)). You can also restrict the maximum size of uploads.
 
-### File visibility
+### File Visibility
 
 A file can be either **public** or **private**. Public means that there is a permanent URL which can be used by anyone,
 while private files can only be accessed by user who are allowed to do so. The visibility of a file can be changed in
 ROQ Console or via [makeFilePublic()](/files/api#makefilepublic) / [makeFilePrivate()](/files/api#makefileprivate) APIs
 
-### Access management
+### Access Management
 
 You can define permissions of files using ROQ's [access management feature](/access-management). Files
 are always owned by the user who uploaded it. You can restrict the access to this user or enable users of the same
 tenant to download the file.
 
-### File associations
+### File Associations
 
 When a file is stored on ROQ Platform, then it usually belongs to another object. For instance PDF files can be uploaded
 and related to a _"contract"_.
 
-### File categories
+### File Categories
 
 Additionally, you can also configure categories in [ROQ Console](https://console.roq.tech/) 
+
+
+## Tutorials
+
