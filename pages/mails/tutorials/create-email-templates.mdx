@@ -8,13 +8,13 @@ ROQ Platform already provides email templates for *user invitation mail*, *reset
 
 Before sending any emails you have to create a new email template and define a unique key in ROQ Console.
 
-## Template Keys
+## Add Templates
 
-Go to **Transactional Mails** → **Templates** to edit existing templates or create a new template with customized locales.
+To create a new email template, go to **Transactional Mails** → **Templates** menu.
 
 ![Create email templates](/create-email-templates.png)
 
-To create a new email template, click **+ Create Mail Template** button and then set these required keys:
+Click the **+ Create Mail Template** button and then set all these required keys:
 
 * **Unique Key**: This is the key used to send email in code.
 * **Select Locale**: The email locale template.
@@ -23,7 +23,22 @@ To create a new email template, click **+ Create Mail Template** button and then
 
 ![Create email template](/create-email-template-edit.png)
 
-### Template Content
+## Editing Templates
+
+To edit a template, click **Edit Template** button (pen icon) on **Controls** section of the **Templates** table.
+
+![edit email template](/email-edit-template.png)
+
+
+## Deleting Templates
+
+To delete an email template, click the **Trash** button and confirm the deletion.
+
+<Callout type="warning">
+Be careful to delete any email template on ROQ Console. Make sure the email template is not used in any application code because it will make a runtime error if there is a code that sends an email with a nonexisting email template.
+</Callout>
+
+## Template Content
 
 The email content support custom variables which you can set later through code. Basically, you can create any text for the email content. You can use placeholders or variables for any content you submit in the `data` parameter of the [sendMail API](/mails/api#sendmail).
 
