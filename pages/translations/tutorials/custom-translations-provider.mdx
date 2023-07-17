@@ -1,0 +1,15 @@
+import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
+
+## Create a Custom Translation Provider
+
+If you are already using a translation system, you can pass a function that takes over the translation.
+
+```tsx copy
+return (
+  <RoqProvider translation={myTranslation}>
+    <Component />
+  </RoqProvider>
+);
+```
+
