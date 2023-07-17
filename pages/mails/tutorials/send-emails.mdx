@@ -1,0 +1,50 @@
+import { Callout } from 'nextra-theme-docs'
+
+# How to Send Emails
+
+To send emails via ROQ's API, you need to perform these steps:
+
+## Configure Email Provider
+
+Make sure that an email provider is connected and activated. You will find a list of all integrations in the [ROQ Console](https://console.roq.tech/). To set up the email integration, please read this [documentation](/mails/integration).
+
+## Create Email Template
+
+Before sending emails, make sure to create email templates on ROQ Console. Read this [documentation](/mails/tutorials/create-email-templates) to create email template.
+
+## Send Emails via API
+
+Emails are sent using the [sendMail API](/mails/api#sendmail). You need to use the same key which you set to the email type. For instance to send a **New Product News** email with the unique key `new-product-news` and have data variables: `recipients_name`, `website_url`, `your_name`, `your_position`, and `your_contact_information`, you can send the email by using Node.js SDK
+
+
+```ts copy
+await client.asSuperAdmin().sendMail({
+  mail: {
+      key: "new-product-news",
+      locale: "en-US",
+      emails: ["test@randomemail.com"],
+      data: [   
+      {
+        key: "recipients_name",
+        value: "exampleValue"
+      }, 
+      {
+        key: "website_url",
+        value: "exampleValue"
+      }, 
+      {
+        key: "your_name",
+        value: "exampleValue"
+      }, 
+      {
+        key: "your_position",
+        value: "exampleValue"
+      }, 
+      {
+        key: "your_contact_information",
+        value: "exampleValue"
+      }, 
+    ]
+  },
+});
+```
