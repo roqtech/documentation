@@ -39,6 +39,7 @@ await client.asSuperAdmin().notify({
       userGroups: { operator: 'AND', userGroupIds: ['xyz789'] },
       excludedUserIds: ['abc123'],
       allUsers: false,
+      tenantIds: ['1netenant', 'zxy-ten01']
     },
     data: [{ key: 'xyz789', value: 'xyz789' }],
   },
@@ -56,7 +57,8 @@ mutation {
         userIds: ["abc123"]
         userGroups: { operator: AND, userGroupIds: ["xyz789"] }
         excludedUserIds: ["abc123"]
-        allUsers: false
+        allUsers: false,
+        tenantIds: ["1netenant", "zxy-ten01"]
       }
       data: [{ key: "xyz789", value: "xyz789" }]
     }
@@ -79,6 +81,7 @@ mutation {
 | recipients:userGroups   | object  | An object that represents a list of user groups and an operator which can be set to "AND"(intersection of users) and "OR" (union of users). |
 | recipients:excludedUserIds | array   | List of user IDs (of ROQ Platform) who shouldn't be notified. A typical use case is when a user performs an action and all users of the same user group should be notified, except for the acting user |
 | recipients:allUsers     | bool    | If set to true then all users will be notified. |
+| recipients:tenantIds     | array    | List of tenant IDs that  will be notified. |
 | data                    | array   | List of key/value pairs that you can use in the content section of the Notification template |
 
 
