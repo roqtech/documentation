@@ -29,7 +29,24 @@ The API requires a `key` parameter that you need to configure in ROQ Console, se
 
 The notified users are defined in the `recipients` property or variable as shown below:
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL']}><Tab>
+```ts
+await client.asSuperAdmin().notify({
+  notification: {
+    key: 'aaa',
+    recipients: {
+      userIds: ['abc123'],
+      userGroups: { operator: 'AND', userGroupIds: ['xyz789'] },
+      excludedUserIds: ['abc123'],
+      allUsers: false,
+      tenantIds: ['1netenant', 'zxy-ten01']
+    },
+    data: [{ key: 'xyz789', value: 'xyz789' }],
+  },
+});
+```
+</Tab>
+<Tab>
 
 ```graphql
 mutation {
@@ -40,7 +57,8 @@ mutation {
         userIds: ["abc123"]
         userGroups: { operator: AND, userGroupIds: ["xyz789"] }
         excludedUserIds: ["abc123"]
-        allUsers: false
+        allUsers: false,
+        tenantIds: ["1netenant", "zxy-ten01"]
       }
       data: [{ key: "xyz789", value: "xyz789" }]
     }
@@ -52,23 +70,8 @@ mutation {
 }
 
 ```
-
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().notify({
-  notification: {
-    key: 'aaa',
-    recipients: {
-      userIds: ['abc123'],
-      userGroups: { operator: 'AND', userGroupIds: ['xyz789'] },
-      excludedUserIds: ['abc123'],
-      allUsers: false,
-    },
-    data: [{ key: 'xyz789', value: 'xyz789' }],
-  },
-});
-```
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 
 | Parameter               | Type    | Description |
@@ -78,6 +81,7 @@ await client.asSuperAdmin().notify({
 | recipients:userGroups   | object  | An object that represents a list of user groups and an operator which can be set to "AND"(intersection of users) and "OR" (union of users). |
 | recipients:excludedUserIds | array   | List of user IDs (of ROQ Platform) who shouldn't be notified. A typical use case is when a user performs an action and all users of the same user group should be notified, except for the acting user |
 | recipients:allUsers     | bool    | If set to true then all users will be notified. |
+| recipients:tenantIds     | array    | List of tenant IDs that  will be notified. |
 | data                    | array   | List of key/value pairs that you can use in the content section of the Notification template |
 
 
