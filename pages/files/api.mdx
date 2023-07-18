@@ -259,7 +259,16 @@ and is not intended to be published.
 
 {/* TODO entityIdentifiers will be renamed to entityReferences */}
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['Node.js SDK','GraphQL']}>
+<Tab>
+```ts
+await client.asSuperAdmin().files({ filter: {
+  entityName: { equalTo: "contract" },
+  entityIdentifiers: { equalTo: "123" }
+}});
+```
+</Tab>
+<Tab>
 
 ```graphql
 query {
@@ -284,8 +293,8 @@ query {
 
 | Parameter           | Type   | Description                                                                                 |
 | ------------------- | ------ | ------------------------------------------------------------------------------------------- |
-| `entityName`        | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
-| `entityIdentifiers` | object | References (or IDs) of the related objects from your database                               |
+| `filter:entityName`        | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
+| `filter:entityIdentifiers` | object | References (or IDs) of the related objects from your database                               |
 
 {/* TODO entityIdentifiers will be renamed to entityReferences */}
 
@@ -293,7 +302,13 @@ query {
 
 To download a single file, you can use the `file()` query.
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['Node.js SDK','GraphQL']}>
+<Tab>
+```ts
+await client.asSuperAdmin().file({ id: "849384FileIMG"});
+```
+</Tab>
+<Tab>
 
 ```graphql
 query {
