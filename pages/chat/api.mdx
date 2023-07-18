@@ -20,7 +20,26 @@ functionality.
 
 You can use this endpoint to create a new chat programmatically, from your server-side code.
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL' ]}><Tab>
+
+```ts
+roq.asUser("4c94b763-9021-499f-8ea3-b01adcdafe57").createConversation({
+    conversation: {
+        title: "ROQ Hackathon planning",
+        ownerId: "4c94b763-9021-499f-8ea3-b01adcdafe57",
+        memberIds: [
+            "4c94b763-9021-499f-8ea3-b01adcdafe57",
+            "7c15cbe7-21f1-4ff7-b742-ec8604682772",
+            "cd05a61f-07ca-47e7-abc2-6f0ed9ab645d",
+        ],
+        isGroup: true,
+        tags: ["hackathon"],
+    },
+});
+```
+
+</Tab>
+<Tab>
 
 ```graphql
 mutation {
@@ -45,25 +64,8 @@ mutation {
 }
 ```
 
-</Tab><Tab>
-
-```ts
-roq.asUser("4c94b763-9021-499f-8ea3-b01adcdafe57").createConversation({
-    conversation: {
-        title: "ROQ Hackathon planning",
-        ownerId: "4c94b763-9021-499f-8ea3-b01adcdafe57",
-        memberIds: [
-            "4c94b763-9021-499f-8ea3-b01adcdafe57",
-            "7c15cbe7-21f1-4ff7-b742-ec8604682772",
-            "cd05a61f-07ca-47e7-abc2-6f0ed9ab645d",
-        ],
-        isGroup: true,
-        tags: ["hackathon"],
-    },
-});
-```
-
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 | Parameter   | Type      | Description                                                                                                                                |
 |-------------|-----------|--------------------------------------------------------------------------------------------------------------------------------------------|

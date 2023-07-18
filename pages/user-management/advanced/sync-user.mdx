@@ -14,7 +14,22 @@ Before using ROQ’s feature, you need to synchronize some of your user data. Th
 It’s your decision which information you wish to synchronize to ROQ. It’s recommended to send the data to ROQ after you
 store it in your database using the [**`createUser()`**](/user-management/api#createuser) API:
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL' ]}><Tab>
+```typescript
+const roqUser = await client.asSuperAdmin().createUser({
+    user: {
+        reference: 'abc123',
+        email: 'xyz789',
+        firstName: 'xyz789',
+        lastName: 'xyz789',
+        isOptedIn: true,
+        active: true,
+        locale: "en-US",
+    },
+});
+```
+</Tab>
+<Tab>
 
 ```graphql
 mutation {
@@ -34,24 +49,8 @@ mutation {
   }
 }
 ```
-
-</Tab><Tab>
-
-```typescript
-const roqUser = await client.asSuperAdmin().createUser({
-    user: {
-        reference: 'abc123',
-        email: 'xyz789',
-        firstName: 'xyz789',
-        lastName: 'xyz789',
-        isOptedIn: true,
-        active: true,
-        locale: "en-US",
-    },
-});
-```
-
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 [//]: # (👀 You can find an example usage)
 

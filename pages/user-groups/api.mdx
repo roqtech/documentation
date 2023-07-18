@@ -15,7 +15,16 @@ group users by their home country or any other characteristic. Read more about t
 
 To create a user group, you simply need to define a name and reference.
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={[ 'Node.js SDK', 'GraphQL']}><Tab>
+```ts
+await client.asSuperAdmin().createUserGroup(
+  { userGroup: 
+      { name: 'xyz789', reference: 'xyz789' }
+  }
+);
+```
+</Tab>
+<Tab>
 
 ```graphql
 mutation {
@@ -24,12 +33,8 @@ mutation {
   }
 }
 ```
-
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().createUserGroup({ userGroup: { name: 'xyz789', reference: 'xyz789' } });
-```
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 | Parameter   | Type   | Description                                                                                    |
 |-------------|--------|------------------------------------------------------------------------------------------------|
@@ -40,17 +45,23 @@ await client.asSuperAdmin().createUserGroup({ userGroup: { name: 'xyz789', refer
 
 To add users to a user group, you can use this mutation:
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL' ]}><Tab>
+```ts
+await client.asSuperAdmin().addUsersToUserGroup(
+  { userGroupId: "abc123", 
+    userIds: ["abc123", '321cba'] 
+  }
+);
+```
+</Tab>
+<Tab>
 ```graphql
 mutation {
   addUsersToUserGroup(userGroupId: "123", userIds: [])
 }
 ```
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().addUsersToUserGroup({ userGroupId: "abc123", userIds: ["abc123", '321cba'] });
-```
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 ## Queries
 
@@ -58,7 +69,14 @@ await client.asSuperAdmin().addUsersToUserGroup({ userGroupId: "abc123", userIds
 
 To see user groups with users you run a query like this:
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL']}><Tab>
+```ts
+await client.asSuperAdmin().userGroups({ 
+  withUsers: true 
+});
+```
+</Tab>
+<Tab>
 ```graphql
 query {
   userGroups {
@@ -74,15 +92,20 @@ query {
   }
 }
 ```
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().userGroups({ withUsers: true });
-```
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 Another way to fetch users by a user group could look like:
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={[ 'Node.js SDK', 'GraphQL']}><Tab>
+```ts
+await client.asSuperAdmin().users({ filter: { 
+    userGroupId: {equalTo: "123" } 
+    } 
+});
+```
+</Tab>
+<Tab>
 ```graphql
 query {
   users(filter: { userGroupId: { equalTo: "123" } }) {
@@ -92,8 +115,5 @@ query {
   }
 }
 ```
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().users({ filter: { userGroupId: {equalTo: "123" } } });
-```
-</Tab></Tabs>
+</Tab>
+</Tabs>

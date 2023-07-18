@@ -20,7 +20,12 @@ You can create new tenants by setting a name. The returned ID is needed when you
 
 {/* TODO "user" field needs to be renamed */}
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL']}><Tab>
+```ts
+await client.asSuperAdmin().createTenant({ tenant: { name: 'abc123' } });
+```
+</Tab>
+<Tab>
 
 ```graphql
 mutation {
@@ -29,12 +34,8 @@ mutation {
   }
 }
 ```
-
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().createTenant({ tenant: { name: 'abc123' } });
-```
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 ### `updateTenant()`
 
@@ -46,7 +47,12 @@ await client.asSuperAdmin().createTenant({ tenant: { name: 'abc123' } });
 
 Load tenant data. All [query parameters](/development-guides/graphql-basics-api) can be applied here to narrow down the results.
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK','GraphQL']}><Tab>
+```ts
+await client.asSuperAdmin().tenants();
+```
+</Tab>
+<Tab>
 
 ```graphql
 query {
@@ -57,18 +63,19 @@ query {
   }
 }
 ```
-
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().tenants();
-```
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 ### `tenant()`
 
 Fetch a single tenant by ID
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={[ 'Node.js SDK', 'GraphQL']}><Tab>
+```ts
+await client.asSuperAdmin().tenant({ id: "abc123" });
+```
+</Tab>
+<Tab>
 
 ```graphql
 query {
@@ -78,9 +85,5 @@ query {
 }
 
 ```
-
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().tenant({ id: "abc123" });
-```
-</Tab></Tabs>
+</Tab>
+</Tabs>

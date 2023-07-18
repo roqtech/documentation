@@ -92,7 +92,12 @@ mutation {
 We can fetch notifications by using the `notifications()` query. You can find the full API doc of this query [here](https://mars-pp.roq-platform.com/docs/#query-notifications).
 
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL' ]}><Tab>
+```ts
+await client.asSuperAdmin().notifications();
+```
+</Tab>
+<Tab>
 
 ```graphql
 query {
@@ -107,10 +112,5 @@ query {
     }
   }
 }
-```
-
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().notifications();
 ```
 </Tab></Tabs>

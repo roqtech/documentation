@@ -22,7 +22,25 @@ You can find the full API doc of this mutation [here](https://mars-pp.roq-platfo
   needs it for other functionalities.
 </Callout>
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL']}>
+<Tab>
+```ts
+roqClient.asSuperAdmin().createUser({
+  user: {
+    reference: 'abc123',
+    email: 'xyz789',
+    phone: 'xyz789',
+    firstName: 'xyz789',
+    lastName: 'abc123',
+    locale: 'xyz789',
+    timezone: 'xyz789',
+    isOptedIn: false,
+    active: true
+  },
+});
+```
+</Tab>
+<Tab>
 
 ```graphql
 mutation {
@@ -45,23 +63,6 @@ mutation {
 }
 ```
 
-</Tab>
-<Tab>
-```ts
-roqClient.asSuperAdmin().createUser({
-  user: {
-    reference: 'abc123',
-    email: 'xyz789',
-    phone: 'xyz789',
-    firstName: 'xyz789',
-    lastName: 'abc123',
-    locale: 'xyz789',
-    timezone: 'xyz789',
-    isOptedIn: false,
-    active: true
-  },
-});
-```
 </Tab>
 </Tabs>
 
@@ -90,7 +91,18 @@ To deactivate a user, just use the updateUser mutation as below:
   This is only possible from the server side of your application
 </Callout>
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL']}>
+<Tab>
+```ts
+roqClient.asSuperAdmin().updateUser({
+  id: "4c94b763-9021-499f-8ea3-b01adcdafe57"
+  user: {
+    active: false
+  },
+});
+```
+</Tab>
+<Tab>
 
 ```graphql
 mutation {
@@ -105,17 +117,6 @@ mutation {
 ```
 
 </Tab>
-<Tab>
-```ts
-roqClient.asSuperAdmin().updateUser({
-  id: "4c94b763-9021-499f-8ea3-b01adcdafe57"
-  user: {
-    active: false
-  },
-});
-
-````
-</Tab>
 </Tabs>
 
 ## Queries
@@ -127,8 +128,13 @@ here to narrow down the results.
 
 {/* TODO Add-  For instance to fetch users by your reference you can run this query when CPD-1891 is fixed */}
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
-
+<Tabs items={['Node.js SDK', 'GraphQL',]}>
+<Tab>
+```ts
+roqClient.asSuperAdmin().users();
+```
+</Tab>
+<Tab>
 ```graphql
 query {
   users {
@@ -137,12 +143,6 @@ query {
     }
   }
 }
-````
-
-</Tab>
-<Tab>
-```ts
-roqClient.asSuperAdmin().users();
 ```
 </Tab>
 </Tabs>
@@ -152,7 +152,13 @@ roqClient.asSuperAdmin().users();
 You can fetch a specific user using the user() query. You need to use the ID which was returned by the `createUser()`
 mutation
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL']}>
+<Tab>
+```ts
+roqClient.asSuperAdmin().user({ id: '123' });
+```
+</Tab>
+<Tab>
 
 ```graphql
 query {
@@ -162,10 +168,5 @@ query {
 }
 ```
 
-</Tab>
-<Tab>
-```ts
-roqClient.asSuperAdmin().user({ id: '123' });
-```
 </Tab>
 </Tabs>

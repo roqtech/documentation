@@ -21,7 +21,13 @@ In GraphQL terminology there are two main terms:
 
 You can always fetch any record by the ID like this:
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={[ 'Node.js SDK', 'GraphQL']}>
+<Tab>
+```ts
+await client.asSuperAdmin().user({ id: '123' })
+```
+</Tab>
+<Tab>
 
 ```graphql
 {
@@ -33,11 +39,6 @@ You can always fetch any record by the ID like this:
 ```
 
 </Tab>
-<Tab>
-```ts
-await client.asSuperAdmin().user({ id: '123' })
-```
-</Tab>
 </Tabs>
 
 ## Adding relations
@@ -45,7 +46,13 @@ await client.asSuperAdmin().user({ id: '123' })
 GraphQL empowers the client to define exactly how the data should be returned. In the example below, a user is
 fetched including the names of all the related user groups.
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL']}>
+<Tab>
+```ts
+await client.asSuperAdmin().user({ id: '123', withUserGroups: true })
+```
+</Tab>
+<Tab>
 
 ```graphql
 {
@@ -60,12 +67,6 @@ fetched including the names of all the related user groups.
 }
 
 ```
-
-</Tab>
-<Tab>
-```ts
-await client.asSuperAdmin().user({ id: '123', withUserGroups: true })
-```
 </Tab>
 </Tabs>
 
@@ -73,7 +74,14 @@ await client.asSuperAdmin().user({ id: '123', withUserGroups: true })
 
 When you use a plural query (`files`, `users`, ...), then you can always ask for the total count.
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL', ]}>
+<Tab>
+```ts
+const response = await client.asSuperAdmin().users();
+const { totalCount } = response.users;
+```
+</Tab>
+<Tab>
 
 ```graphql
 {
@@ -85,12 +93,6 @@ When you use a plural query (`files`, `users`, ...), then you can always ask for
 ```
 
 </Tab>
-<Tab>
-```ts
-const response = await client.asSuperAdmin().users();
-const { totalCount } = response.users;
-```
-</Tab>
 </Tabs>
 
 ## Order, Limit and Offset
@@ -98,19 +100,7 @@ const { totalCount } = response.users;
 If you'd like to show the data in a table, you can use the API's advanced functionality with these parameters: `limit`,
 `offset` and `sort`.
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
-
-```graphql
-{
-  users(limit: 10, offset: 0, order: {order: ASC, sort: CREATED_AT}) {
-    data {
-      id
-    }
-  }
-}
-```
-
-</Tab>
+<Tabs items={[ 'Node.js SDK', 'GraphQL']}>
 <Tab>
 ```ts
 await client.asSuperAdmin().users({
@@ -122,6 +112,19 @@ await client.asSuperAdmin().users({
   },
 })
 ```
+</Tab>
+<Tab>
+
+```graphql
+{
+  users(limit: 10, offset: 0, order: {order: ASC, sort: CREATED_AT}) {
+    data {
+      id
+    }
+  }
+}
+```
+
 </Tab>
 </Tabs>
 
@@ -136,7 +139,19 @@ await client.asSuperAdmin().users({
 The filter object enables you to apply advanced filters on all fields. For instance the following query returns only
 active users.
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={[ 'Node.js SDK', 'GraphQL']}>
+<Tab>
+```ts
+await client.asSuperAdmin().users({
+  filter: {
+    active: {
+      equalTo: true,
+    },
+  },
+})
+```
+</Tab>
+<Tab>
 
 ```graphql
 {
@@ -149,16 +164,5 @@ active users.
 }
 ```
 
-</Tab>
-<Tab>
-```ts
-await client.asSuperAdmin().users({
-  filter: {
-    active: {
-      equalTo: true,
-    },
-  },
-})
-```
 </Tab>
 </Tabs>
