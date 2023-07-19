@@ -4,11 +4,22 @@ import Image from 'next/image';
 
 ### Configure File Categories
 
-Each uploaded file belongs to a file category which you can configure in ROQ Console, go to the **File Handling** ➔ **Categories** menu. File categories have two purposes:
+Each uploaded file belongs to a file category which you can configure in ROQ Console, go to the **File Handling** ➔ **Categories** menu. 
 
-* Fetch files by categories (e.g. _get all avatars_)
-* Define max file size of uploaded files
+File categories have two purposes:
 
-You need to input a **key**, which you'll use when uploading the file.
+* Fetch files by categories (e.g. _get all avatars_).
+* Define maximum file size of uploaded files.
+
+If create a new category, you need to input these **required** fields:
+
+* **Name**: The name of the category.
+* **Key**: The key for the category. You will use it when uploading the file.
+* **Max file Size**: Maximum file size.
+* **Unit**: You can choose **MB** for Megabyte or **GB** for Gigabyte.
 
 ![console-file-category](/console-file-category.png)
+
+<Callout type="info">
+There is no strict rule for the key naming system, as long as it maintains consistency. For example, the key name `USER_FILES` serves as a good illustration.
+</Callout>
