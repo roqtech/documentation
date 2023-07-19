@@ -1,14 +1,106 @@
 import { Tab, Tabs } from 'nextra-theme-docs';
-import { Callout } from 'nextra-theme-docs';
+import { Callout, Steps } from 'nextra-theme-docs';
 import Image from 'next/image';
 
 
 # Add the UI Component
 
-ROQ ships with two UI Components which can be used to upload files:
+ROQ provides two UI Components which can be used to upload files:
 
 1. The [**`<FileUpload/>`**](/files/ui-components#fileupload) component represents a button that opens a file selector and starts uploads.
 
 2. The [**`<FileDropzone/>`**](/files/ui-components#filedropzone) UI component represents an area on your application where users can drag and drop files to be uploaded.
 
 Please follow the respective instructions to integrate the UI component into your website. You'll need to pass the `key` of the previously created category as a prop.
+
+
+## Add `<FileUpload>` Into application
+
+<Callout type="info">
+For this example, please check out the generated application code in this [GitHub repository](https://github.com/roq-ai-snapshot/youtubiah-8b47). 
+</Callout>
+
+Add the `<FileUpload>` UI component into the existing application code:
+
+```tsx
+// src\pages\videos\create\index.tsx
+import { 
+	AccessOperationEnum, 
+	AccessServiceEnum, 
+	requireNextAuth, 
+	withAuthorization, 
+	FileUpload 
+} from '@roq/nextjs';
+```
+
+Add the `<FileUpload/>` to the existing video form:
+
+```tsx
+// src\pages\videos\create\index.tsx
+<FormControl id="file" mb="4">
+	<FormLabel>Upload File</FormLabel>
+    <FileUpload 
+		accept={['video/*']} fileCategory="USER_FILES"
+        onUploadSuccess={({ url, id, ...rest }) => {
+            console.log({ id, url });
+            formik.setFieldValue("fileUrl", url);
+            formik.setFieldValue("fileId", id);
+        }}
+		onUploadFail={(err => {
+			console.log(err)
+		})}
+    />
+</FormControl>
+```
+
+In the generated application, go to the **Videos** side menu and the `<FileUpload/>` will be added to the video form.
+
+![add fileupload component](/add-file-upload.png)
+
+For this example, the upload file only `accept` video file types `video/*`. To upload a video file just click the **+ Upload File** button.
+
+![video-upload-file](/video-file-upload.png)
+
+There are still few changes so the upload file will be recorded on the database.
+
+<Callout type="info">
+As we [mentioned earlier](/files#file-uploads), `<FileUpload/>` component will directly upload the file into the data center using _**signed URLs**_.
+</Callout>
+
+<Steps>
+### Change The Interface
+You need to change the `VideoInterface` and added these two fields: `fileUrl` and `fileId`, both of these fields has `string` type.
+
+```tsx
+// src\interfaces\video\index.ts
+export interface VideoInterface {
+  id?: string;
+  title: string;
+  description?: string;
+  url?: string;
+  fileUrl?: string,
+  fileId?: string,
+  organization_id?: string;
+  user_id?: string;
+  created_at?: any;
+  updated_at?: any;
+  comment?: CommentInterface[];
+  organization?: OrganizationInterface;
+  user?: UserInterface;
+  _count?: {
+    comment?: number;
+  };
+}
+
+export interface VideoGetQueryInterface extends GetQueryInterface {
+  id?: string;
+  title?: string;
+  description?: string;
+  fileUrl?: string;
+  fileId?: string;
+  organization_id?: string;
+  user_id?: string;
+}
+```
+
+</Steps>
