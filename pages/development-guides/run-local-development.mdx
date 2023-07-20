@@ -1,0 +1,63 @@
+import { Tab, Tabs, Callout, Steps } from "nextra-theme-docs";
+
+# Running A Local Development
+
+After 
+
+<Steps>
+### Setup Environment Variables
+
+To running a local development, you need to copy environment settings. In the ROQ Console go to **Application Details** → **Environments** menu and then **Copy Env File** in the **Local Development** section. Paste the environment settings into the file `.env` in the root of the generated application project root, you need to create this file it doesn't exist.
+
+For instance, `bistro-94be` has these environment settings:
+
+```env
+# .env
+# Public variables, used on client - Delete these if you are not using Next.js
+NEXT_PUBLIC_ROQ_CLIENT_ID=0da52755-06d4-46cf-b64b-c7a433f4f56a
+NEXT_PUBLIC_ROQ_PLATFORM_URL=https://qa02.roq-platform.com
+
+# If you change the host or port on your local installation from http://localhost:3000 to another value,
+# then you need to update the settings in the console as well. ROQ Console: https://console.roq.tech/
+# Modify this to your application URL
+NEXT_PUBLIC_BASE_URL=http://localhost:3000
+
+# Server variables used for ROQ connection
+ROQ_BASE_URL=http://localhost:3000
+ROQ_PLATFORM_URL=https://qa02.roq-platform.com
+ROQ_ENVIRONMENT_ID=0da52755-06d4-46cf-b64b-c7a433f4f56a
+ROQ_API_KEY=9be9dd8d-371d-4eb4-9cc9-004b214ade4c
+
+# Server variables for ROQ auth
+ROQ_SECRET=CHANGE_THIS_SECRET
+ROQ_CLIENT_ID=0da52755-06d4-46cf-b64b-c7a433f4f56a
+ROQ_CLIENT_SECRET=9be9dd8d-371d-4eb4-9cc9-004b214ade4c
+ROQ_AUTH_CALLBACK_URL=http://localhost:3000/api/auth/callback
+ROQ_AUTH_LOGIN_URL=http://localhost:3000/api/auth/login
+ROQ_AUTH_LOGOUT_URL=http://localhost:3000/api/auth/logout
+ROQ_AUTH_URL=https://0t2xvgrhx2cccakulsofdq8a2.auth.qa02.roq-platform.com
+
+DATABASE_URL=we_will_set_it_later
+```
+
+
+### Install Database
+
+The generated application using [Prisma ORM](https://www.prisma.io/) so you can use any database that is supported by Prisma. For this tutorial we will use [PostgreSQL](https://www.postgresql.org/) and then we will add `DATABASE_URL` key value in the `env` file.
+
+<Callout type="info">
+PostgreSQL is an open source relational database. You can install the database from this [link](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads).
+</Callout>
+
+To create a database for the generated application, we will use **pgAdmin**, a bundled GUI application for administering PostgreSQL. Lets called this database a **bistro**.
+
+![pgAdmin](/pgadmin.png)
+
+With the default PostgreSQL installation and with the database name is **bistro**, the database URL for the generated application is:
+
+```
+DATABASE_URL=postgresql://postgres:3113@127.0.0.1/bistro
+```
+
+
+</Steps>
