@@ -88,14 +88,32 @@ You can verify that the origin was removed correctly by typing:
 git remote -v
 ```
 
-This command should now return no output, indicating that there are no remotes connected to your local Git repository.
+This command should now return no output, indicating that there are no remotes connected to your local Git repository. 
 
-
-
-
-
+The next step is create a repository on GitHub or other providers you preferr such as Gitlab or BitBucket. For this tutorial we choose GitHub.
 
 ## Development on Github
 
+Go to the [GitHub](https://github.com) website and make an account if you haven't done already, then make a repository for our cloned generated application.
+
+![Create github repository](/create-github-repo.png)
+
+You can put any **Repository name**, make the repository **Public** or **Private** but leave the other fields as it is. After you created it, GitHub will inform you how to push an existing repository.
+
+```sh
+git remote add origin git@github.com:junwatu/bistro-app.git
+```
+
+The command above add a new origin or alias to remote repository URL. 
+
 ## Pushing Code to GitHub
+
+To push or send our code to this GitHub repository, type this command:
+
+```sh
+git branch -M main
+git push -u origin main
+```
+
+
 
