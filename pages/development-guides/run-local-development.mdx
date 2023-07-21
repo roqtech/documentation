@@ -4,14 +4,14 @@ import { Tab, Tabs, Callout, Steps } from "nextra-theme-docs";
 
 ## Setup & Installation
 
-There are a few steps to run a local development for the generated application.
+There are a few steps to run the generated application for local development.
 
 <Steps>
 ### Setup Environment Variables
 
-To run a local development, you need to copy the environment settings. In the ROQ Console go to the **Application Details** → **Environments** menu and then **Copy Env File** in the **Local Development** section. Paste the environment settings into the file `.env` in the root of the generated application project root, you need to create this file if it doesn't exist.
+To run the generated application locally, you need to copy the environment settings. In the ROQ Console go to the **Application Details** → **Environments** menu and then **Copy Env File** in the **Local Development** section. 
 
-For instance, `bistro-94be` has these settings:
+Paste the environment settings into the file `.env` in the root of the generated application project, you need to create this file if it doesn't exist. For instance, `bistro-94be` has these settings:
 
 ```dotenv
 # .env
@@ -51,7 +51,7 @@ The generated application uses [Prisma ORM](https://www.prisma.io/) so you can u
 PostgreSQL is an open-source relational database. You can install the database from this [link](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads).
 </Callout>
 
-To create a database for the generated application, we will use **pgAdmin**, a bundled GUI application for administering PostgreSQL. Let's call this database a **bistro**.
+To create a database, we will use **pgAdmin**, a bundled GUI application for administering PostgreSQL. Let's call this database a **bistro**.
 
 ![pgAdmin](/pgadmin.png)
 
@@ -70,11 +70,9 @@ To run the application type this command in the terminal
 npm run dev
 ```
 
-By default, the local application will be running on `http://localhost:3000`
+By default, the local application will be running on `http://localhost:3000` and for first-time use, you need to create an account to be able to use the generated application.
 
 ![Bistro app](/bistro.png)
-
-and for first-time use, you need to create an account to be able to use the generated application.
 
 If you want the application to run on another port, change the port value in the `.env` file as well as the settings in the ROQ Console and go to the **Application Details** → **Settings**.
 
