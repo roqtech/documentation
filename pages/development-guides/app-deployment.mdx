@@ -1,6 +1,30 @@
-import { Tab, Tabs } from 'nextra-theme-docs';
-import { Callout } from 'nextra-theme-docs';
+import { Tab, Tabs, Callout, Steps } from 'nextra-theme-docs';
 import Image from 'next/image';
 
 # Application Deployment
+
+There are so many application hosting service. The generated application is Node.js and Next.js based, so as long as the hosting service support that then it will be ok. 
+
+For this documentation we will use [Vercel](https://vercel.com/). 
+
+## Vercel
+
+There are a few steps tha should be done before deploying our generated application into Vercel.
+
+<Steps>
+### Create Vercel Account
+
+To create a vercel account is a straightforward process. Go to [https://vercel.com/signup](https://vercel.com/signup). You can choose **Hobby** or **Pro** and name the project to whatever you need.
+
+![vercel reg page](/vercel-create-account.png)
+
+Vercel wil try to connect the new account with git providers or you can use the email instead. You can use any git providers, such as GitHub, GitLab, or Bitbucket and for this documentation we will use GitHub.
+
+![Vercel git providers](/vercel-git-provider.png)
+
+
+
+</Steps>
+
+
 
