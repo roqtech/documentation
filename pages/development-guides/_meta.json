@@ -1,6 +1,7 @@
 {
   "api-guides": "API Guides",
-  "start-development": " Start Development",
+  "app-development": "Application Development",
+  "run-local-development": "Local Development",
   "generated-applications": "Generated Applications",
   "custom-styling": "Custom Styling",
   "graphql-basics-api": "GraphQL Basics API",
