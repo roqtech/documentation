@@ -9,5 +9,6 @@
   "sandbox-api": "Sandbox API",
   "sdk-api": "SDK API",
   "ui-components": "UI Components",
-  "webhooks": "Webhooks"
+  "webhooks": "Webhooks",
+  "app-deployment": "Application Deployment"
 }
