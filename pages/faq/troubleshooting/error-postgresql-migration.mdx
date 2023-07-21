@@ -1,8 +1,12 @@
 import { Callout, Tab, Tabs } from "nextra-theme-docs";
 
-#  PostgreSQL `uuid_generate_v4()` is Not Found
+# Error Migration on PostgreSQL  
 
 Prisma migration failed on PostgreSQL, the error message on the command line:
+
+<Callout type="error">
+ERROR: function `uuid_generate_v4()` does not exist
+</Callout>
 
 ![error postgresql migration](/migrate-error-postgresql.png)
 
