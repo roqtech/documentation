@@ -3,34 +3,43 @@ import { Callout } from 'nextra-theme-docs';
 
 # How to Add a New Notification
 
-Establishing notifications is a crucial aspect of any successful software application. Notifications engage users and keep them informed about important updates, events, or required actions. With the ROQ platform, you can add a new notification to your project through a straightforward process.
+Establishing notifications is a crucial aspect of any successful software application. Notifications engage users and
+keep them informed about important updates, events, or required actions. With ROQ Platform, you can add a new
+notification to your project through a straightforward process.
 
 This guide will walk you through the steps needed to add a new notification to your project using ROQ's user interface.
 
 ## Selecting the Project
 
-Begin by selecting the specific project and environment on the [ROQ Console](https://console.roq.tech/) for which you want to create a new notification. Make sure to choose the appropriate **project** and **environment** before proceeding.
+Begin by selecting the specific project and environment on the [ROQ Console](https://console.roq.tech/) for which you
+want to create a new notification. Make sure to choose the appropriate **project** and **environment** before
+proceeding.
 
 ![Select project and environment](/select-project-and-env.png)
 
 ## Accessing the Notifications Settings Page
 
-To access the notifications settings page in the ROQ console, click the Notifications menu (represented by a bell icon). On this page, you will see a list of notification templates for the current project.
+To access the notifications settings page in the ROQ console, click the Notifications menu (represented by a bell icon).
+On this page, you will see a list of notification templates for the current project.
 
 ![ROQ console notification setting](/project-notification-setting.png)
 
 ## Creating a New Notification Template
 
-To create a new notification template, click the **Templates** menu, then locate and click the **Create Template** button. This action will initiate the process of creating a new notification template, enabling you to customize the notification according to your project's needs.
+To create a new notification template, click the **Templates** menu, then locate and click the **Create Template**
+button. This action will initiate the process of creating a new notification template, enabling you to customize the
+notification according to your project's needs.
 
 ![Create notifications template](/create-notifications-template.png)
 
 When creating a new notification template, you need to fill in two fields:
 
-1. **Key**: Each template requires a unique key, which will be used as a reference to trigger notifications using the API or programmatically.
+1. **Key**: Each template requires a unique key, which will be used as a reference to trigger notifications using the
+   API or programmatically.
 2. **Notification Description**: This is where you describe the notification.
 
-After creating a notification template, you will need to configure and activate the channels. Currently, we support three channels: Web (In-App), Email, and SMS.
+After creating a notification template, you will need to configure and activate the channels. Currently, we support
+three channels: Web (In-App), Email, and SMS.
 
 ![Configure template](/configure-template.png)
 
@@ -38,9 +47,11 @@ Each of these channels allows you to configure message templates.
 
 ![Configure messages](/configure-messages-on-channel.png)
 
-Please note that for the **Email** and **SMS** channels to work, you need to set up ROQ with third-party services first in the [Integration](/mails/integration) ROQ Console.
+Please note that for the **Email** and **SMS** channels to work, you need to set up ROQ with third-party services first
+in the [Integration](/mails/integration) ROQ Console.
 
-To create localized content for the channel messages, click **Create Localized Content** button. Fill in the fields to your needs and save it.
+To create localized content for the channel messages, click **Create Localized Content** button. Fill in the fields to
+your needs and save it.
 
 ![Create localized content](/cretae-localized-content.png)
 
@@ -48,28 +59,31 @@ The localized content supports custom variables, enabling you to notify users wi
 
 ![Localized content with vars](/localized-content-with-vars.png)
 
-You can set the `downloadLink` variable with Notification API or by query via GraphQL API. For instance, using Node.js and GraphQL:
+You can set the `downloadLink` variable with Notification API or by query via GraphQL API. For instance, using Node.js
+and GraphQL:
 
 {/* TODO: explain about default vars that always shown in the notifications */}
 
 <Tabs items={['Node.js SDK', 'GraphQL']}>
 <Tab>
+
 ```ts
 await client.asSuperAdmin().notify({
-  notification: {
-    key: 'notification_key_template_here',
-    recipients: {
-      userIds: ['abc123'],
-      userGroups: { operator: 'AND', userGroupIds: ['xyz789'] },
-      excludedUserIds: ['abc123'],
-      allUsers: false,
+    notification: {
+        key: 'notification_key_template_here',
+        recipients: {
+            userIds: ['abc123'],
+            userGroups: {operator: 'AND', userGroupIds: ['xyz789']},
+            excludedUserIds: ['abc123'],
+            allUsers: false,
+        },
+        data: [{key: 'downloadLink', value: 'https://youtubiah-8b47.vercel.app/file/youfile.zip'}],
     },
-    data: [{ key: 'downloadLink', value: 'https://youtubiah-8b47.vercel.app/file/youfile.zip' }],
-  },
 });
 ```
-</Tab>
-<Tab>
+
+</Tab><Tab>
+
 ```graphql
 mutation {
   notify(
@@ -90,11 +104,13 @@ mutation {
   }
 }
 ```
-</Tab>
-</Tabs>
 
-To test the notification read this [tutorial](/notifications/tutorials/test-notification) and if you want to learn more about the Notification API, please go [here](/notifications/api).
+</Tab></Tabs>
 
-After **Create Localized Content** for any channels that you need, the notification will show up on **Notifications Preferences** in your SaaS project.
+To test the notification read this [tutorial](/notifications/tutorials/test-notification) and if you want to learn more
+about the Notification API, please go [here](/notifications/api).
+
+After **Create Localized Content** for any channels that you need, the notification will show up on **Notifications
+Preferences** in your SaaS project.
 
 ![Saas notificatons preferences](/notification-settings.png)
