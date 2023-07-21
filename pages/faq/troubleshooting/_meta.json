@@ -1,4 +1,5 @@
 {
 	"login-fails-local-env": "Register Page Fails",
-	"local-register-error": "Error After Local Registration"
+	"local-register-error": "Error After Local Registration",
+	"error-postgresql-migration": "Error Migration on PostgreSQL"
 }
