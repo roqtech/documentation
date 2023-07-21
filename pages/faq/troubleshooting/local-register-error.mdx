@@ -1,0 +1,23 @@
+import { Callout, Tab, Tabs } from "nextra-theme-docs";
+
+
+# Error After Registration
+
+The generated application is running locally and after the first registration, there is an error page that said:
+
+<Callout type="error">
+ Error:
+ Invalid `prisma.user.create()` invocation:
+
+ The table `public.user` does not exist in the current database
+</Callout>
+
+![Local registration error](/local-registration-error-page.png)
+
+## Solution
+
+To fix this, run this command in the terminal
+
+```shell
+npx prisma migrate deploy
+```

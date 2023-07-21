@@ -1,0 +1,38 @@
+import { Callout, Tab, Tabs } from "nextra-theme-docs";
+
+# Error Migration on PostgreSQL  
+
+Prisma migration failed on PostgreSQL, the error message on the command line:
+
+<Callout type="error">
+ERROR: function `uuid_generate_v4()` does not exist
+</Callout>
+
+![error postgresql migration](/migrate-error-postgresql.png)
+
+
+## Solution
+
+Enable the **uuid-ossp** module in PostgreSQL. One way to do this is by enabling manually via administration tool, such as [**pgAdmin**](https://www.pgadmin.org/).
+
+To enable the **uuid-ossp** on PostgreSQL, run this SQL script:
+
+```sql
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp"
+```
+
+![enable uuid postgresql](/enable-uuid-postgresql.png)
+
+After that go back to the generated application root project and re-run the migration again:
+
+```shell
+npx prisma generate
+```
+
+and deploy again to the PostgreSQL database:
+
+```shell
+npx prisma migrate deploy
+```
+
+![migration ok](/migration-ok.png)
