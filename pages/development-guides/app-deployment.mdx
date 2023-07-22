@@ -25,7 +25,7 @@ Vercel will try to connect the new account with git providers or you can use the
 
 ### Import A Project
 
-To import a project, click the **Add New...** → **Project**. This will bring you into importing a project from GitHub.
+To import a project, click the **Add New...** → **Project**. This will bring you to importing a project from GitHub.
 
 ![vercel importing project](/vercel-import-project.png)
 
@@ -38,7 +38,7 @@ For instance, choose **bistro-app** into our Vercel project and import it into V
 You need to deploy the project first to get into the Vercel project settings. We will set up the environment settings later.
 
 <Callout type="warning">
-The deployment will be error because we haven't set the environment settings yet. This is the fastest way to get the project domain name from Vercel that we will need later for the project environment settings. 
+The deployment will be an error because we haven't set the environment settings yet. This is the fastest way to get the project domain name from Vercel which we will need later for the project environment settings. 
 </Callout>
 
 ### Setup Environment Variables
@@ -104,28 +104,60 @@ At this stage, the project can be redeployed manually from the Vercel Deployment
 
 ### Setup PostgreSQL
 
-We will use PostgreSQL database. This database is supported by Vercel and it's quite easy to setup.
+We will use the PostgreSQL database. This database is supported by Vercel and it's quite easy to set up.
 
 ![Create vercel database](/vercel-create-database.png)
 
-To create **Postgres** database click the **Create** button then follow along, give the database name, any name, for example **bristodb** then click **Create**.
+To create a **Postgres** database click the **Create** button then follow along, give the database name, any name, for example, **bristodb** then click **Create**.
 
 ![Create postgres database](/vercel-create-database-postgres.png)
 
-Vercel will populate PostgreSQL credentials and some integrations. What we should pay atention to is the Prisma integration.
+Vercel will populate PostgreSQL credentials and some integrations. What we should pay attention to is the Prisma integration.
 
 ![vercel postgres prisma](/vercel-postgres-prisma.png)
 
-We need  to put the Vercel's PostgreSQL Prisma integration code into our generated application's Prisma Schema later but before that we need to connect the PostgreSQL into our Vercel project.
-
+We need  to put the Vercel's PostgreSQL Prisma integration code into our generated application's Prisma Schema later but before that, we need to connect the PostgreSQL into our Vercel project.
 
 ![connect postgres into vercel project](/vercel-connect-db-project.png)
 
+Connecting PostgreSQL and our project is needed so we don't need to populate environment variables manually on Vercel (_except for the local development_).
+
+<Callout type="warning">
+Currently, the Prisma schema in the generated application needs the `uuid_generate_v4()` function. In PostgreSQL, this function is in the `uuid-ossp` extension so you need to enable it. Please look into this [documentation](faq/troubleshooting/error-postgresql-migration) and make sure to connect to the PostgreSQL on Vercel.
+</Callout>
 
 
 ### Local Project Changes
 
+<Callout type="info">
+To set up the repository, and set up and run the locally development, please look into these documentations: [Application Development](/development-guides/app-development) and [Run Local Development](/development-guides/run-local-development).
+</Callout>
 
+In the local generated application project, edit the Prisma schema `datasource db` into:
+
+```js
+//prisma\schema.prisma
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
+  shadowDatabaseUrl = env("POSTGRES_URL_NON_POOLING") // used for migrations
+}
+```
+
+and change the `postinstall` script on `package.json` file into:
+
+```js
+"postinstall": "prisma generate && prisma migrate deploy"
+```
+
+The `postinstall` will try to generate SQL and apply any changes to PostgreSQL. Commit the changes and push them to GitHub and Vercel will automatically pick up the changes and build the project.
+
+### Installation Test
+
+To test the installation, open the browser and go to the project URL.
+
+![project URL](/vercel-test.png)
 
 </Steps>
-
