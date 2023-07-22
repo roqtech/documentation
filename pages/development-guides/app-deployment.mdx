@@ -29,11 +29,103 @@ To import a project, click the **Add New...** → **Project**. This will bring y
 
 ![vercel importing project](/vercel-import-project.png)
 
-For instance, choose **bistro-app** into our Vercel project
+### First Deployment
+
+For instance, choose **bistro-app** into our Vercel project and import it into Vercel.
+
+![Vercel first deployment](/vercel-first-deploy.png)
+
+You need to deploy the project first to get into the Vercel project settings. We will set up the environment settings later.
+
+<Callout type="warning">
+The deployment will be error because we haven't set the environment settings yet. This is the fastest way to get the project domain name from Vercel that we will need later for the project environment settings. 
+</Callout>
+
+### Setup Environment Variables
+
+To get the project domain name go to the Vercel project **Settings** → **Domains**. For example, the project domain name is `bistro-reservation.vercel.app`.
+
+
+![Vercel settings](/vercel-project-settings.png)
+
+#### ROQ Console Environments
+
+You need to set this base URL `bistro-reservation.vercel.app` of the project in ROQ Console but first, you need to create another environment in ROQ Console for better project management. Go to the **Application Details** → **Environments** and then click the **Create Environment** button.
+
+![Create new env roq console](/vercel-create-env-roq-console.png)
+
+When the new environment is already created, now we can set the environment variables based on the Vercel project URL:
+
+![Vercel base URL ROQ environment settings](/vercel-base-url-roq-env.png)
+
+Make sure you change all base URL settings on ROQ Console, save it, and then click the **Copy Env File** button for the *Extended environment variables for ROQ's authentication feature*. 
+
+Copy all the environment variables and save them somewhere or save them into `.env.prod` file in our locally generated project repository.
+
+```dotenv
+# .env.prod (don't include this file in the repository)
+# Public variables, used on client - Delete these if you are not using Next.js
+NEXT_PUBLIC_ROQ_CLIENT_ID=a91ffda3-8196-4662-af85-bffcfe1da5a1
+NEXT_PUBLIC_ROQ_PLATFORM_URL=https://qa02.roq-platform.com
+
+# If you change the host or port on your local installation from https://bistro-reservation.vercel.app to another value,
+# then you need to update the settings in the console as well. ROQ Console: https://console.roq.tech/
+# Modify this to your application URL
+NEXT_PUBLIC_BASE_URL=https://bistro-reservation.vercel.app
+
+# Server variables used for ROQ connection
+ROQ_BASE_URL=https://bistro-reservation.vercel.app
+ROQ_PLATFORM_URL=https://qa02.roq-platform.com
+ROQ_ENVIRONMENT_ID=a91ffda3-8196-4662-af85-bffcfe1da5a1
+ROQ_API_KEY=46bf49d7-2f45-4d44-b63f-c4d35b75d99c
+
+# Server variables for ROQ auth
+ROQ_SECRET=CHANGE_THIS_SECRET
+ROQ_CLIENT_ID=a91ffda3-8196-4662-af85-bffcfe1da5a1
+ROQ_CLIENT_SECRET=46bf49d7-2f45-4d44-b63f-c4d35b75d99c
+ROQ_AUTH_CALLBACK_URL=http://bistro-reservation.vercel.app/api/auth/callback
+ROQ_AUTH_LOGIN_URL=http://bistro-reservation.vercel.app/api/auth/login
+ROQ_AUTH_LOGOUT_URL=http://bistro-reservation.vercel.app/api/auth/logout
+ROQ_AUTH_URL=https://a0gc78eutckss9dw2l63z75b5.auth.qa02.roq-platform.com
+```
+#### Vercel Environments
+
+The next step is to import `.env.local` into our Vercel project. Go to **Settings** → **Environment Variables**. 
+
+![vercel import settings](/vercel-import-env.png)
+
+and then click the **Import** button
+
+![vercel import envs](/vercel-import-env-2.png)
+
+<Callout type="info">
+At this stage, the project can be redeployed manually from the Vercel Deployment tab. The build process will be successful; however, please note that creating an account is currently not possible as the database has not been set up yet.
+</Callout>
+
+### Setup PostgreSQL
+
+We will use PostgreSQL database. This database is supported by Vercel and it's quite easy to setup.
+
+![Create vercel database](/vercel-create-database.png)
+
+To create **Postgres** database click the **Create** button then follow along, give the database name, any name, for example **bristodb** then click **Create**.
+
+![Create postgres database](/vercel-create-database-postgres.png)
+
+Vercel will populate PostgreSQL credentials and some integrations. What we should pay atention to is the Prisma integration.
+
+![vercel postgres prisma](/vercel-postgres-prisma.png)
+
+We need  to put the Vercel's PostgreSQL Prisma integration code into our generated application's Prisma Schema later but before that we need to connect the PostgreSQL into our Vercel project.
+
+
+![connect postgres into vercel project](/vercel-connect-db-project.png)
+
+
+
+### Local Project Changes
 
 
 
 </Steps>
-
-
 
