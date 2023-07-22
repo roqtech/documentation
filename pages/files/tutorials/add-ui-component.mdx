@@ -53,19 +53,38 @@ Add the `<FileUpload/>` to the existing video form:
 </FormControl>
 ```
 
+The `<FileUpload/>`  UI component above will only accept video file type and the uploaded file will be save in **USER_FILES** category (please look into the ROQ Console for file categories). The reult of file upload are `fileUrl` and `fileId`. 
+
+
 In the generated application, go to the **Videos** side menu and the `<FileUpload/>` will be added to the video form.
 
 ![add fileupload component](/add-file-upload.png)
 
-For this example, the upload file only `accept` video file types `video/*`. To upload a video file just click the **+ Upload File** button.
+To upload a video file just click the **+ Upload File** button and select the video you want to upload.
 
 ![video-upload-file](/video-file-upload.png)
 
-There are still few changes so the upload file will be recorded on the database.
+The video will directly uploaded to the data server and the response will be set in the `formik` state as `fileUrl` and `fileId`.
 
 <Callout type="info">
-As we [mentioned earlier](/files#file-uploads), `<FileUpload/>` component will directly upload the file into the data center using _**signed URLs**_.
+As we [mentioned earlier](/files#file-uploads), `<FileUpload/>` UI component will directly upload the file into the data center using _**signed URLs**_ and the results data that will be saved into the application database. 
 </Callout>
+
+For this example, the data that will be saved upon succesfully file upload:
+
+```js
+{
+  title: 'The Sea',
+  description: 'Beautiful Sea Video',
+  url: 'https://antvideos.net/sea.mp4',
+  fileUrl: 'https://s3.fr-par.scw.cloud/1e4eba76-328d-4cf0-b478-41076a6b83b3-environment-bucket/sea-1690048762556.mp4',      
+  fileId: 'c6d563dc-1441-4729-9fa5-cca0eeccd518',
+  organization_id: 'k0sal34alksa-e1edklwe49320s',
+  user_id: 'fe7885b3-5667-41e0-b478-6aa43e0635b5'
+}
+```
+
+There are still few changes to the code so the upload file data will be recorded on the database.
 
 <Steps>
 ### Change The Interface
@@ -106,7 +125,7 @@ export interface VideoGetQueryInterface extends GetQueryInterface {
 
 ### Modify The Prisma Schema
 
-To save `fileUrl` and `fileId` to the database, the Prisma Schema should be changed.
+To save the `fileUrl` and `fileId` to the database, the Prisma schema should be changed too.
 
 ```js
 model video {
@@ -126,15 +145,15 @@ model video {
 }
 ```
 
-Here's the `fileUrl` type is set to `Text` because the URL can be longer than 255 characters. To reflect the changes in the Prisma Schema on the database, you need to run:
+Here's the `fileUrl` type is set to `Text` because the uploaded URL can be longer than 255 characters. To reflect the changes in the Prisma schema on the database, you need to run:
 
 ```shell
 npx prisma regenerate
+
 npx prisma migrate deploy
 ```
 
-
-If you use PostgreSQL for the database and pgAdmin for the administration tool, you will see the data is saved on the table **video**.
+and if you use PostgreSQL for the database and pgAdmin for the administration tool, you will see the data is saved on the **video** table.
 
 ![file upload data in postgres](/file-upload-data-postgres.png)
 
