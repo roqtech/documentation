@@ -1,0 +1,85 @@
+import { Callout, Tab, Tabs } from 'nextra-theme-docs'
+
+# Translations API
+
+## Introduction
+
+ROQ provides Translation API for easy integration with a custom application or customize the ROQ'a AI assistant generated application.
+
+## Queries
+
+### `translation()`
+
+With this method, you can get the translation data based on the translation id. For the GraphQL queries detail, please look into the [`translation()`](https://jupiter-pp.roq-platform.com/docs/#query-translation) API.
+
+<Tabs items={["Node.js SDK","GraphQL"]}>
+<Tab>
+```js
+import { Platform } from '@roq/nodejs'
+
+const roqClient = new Platform({
+	apiKey: process.env.ROQ_API_KEY,
+	environmentId: process.env.ROQ_ENVIRONMENT_ID,
+	host: process.env.ROQ_PLATFORM_URL
+})
+
+const translation = await roqClient.asUser("7877d2d0-dea7-473e-a158-57eca3123906").translation({ 
+	id: "8acf421e-2bdc-48e0-9291-42202ac94b6f"
+})
+```
+</Tab>
+<Tab>
+```graphql
+query translation($id: ID! = "8acf421e-2bdc-48e0-9291-42202ac94b6f") {
+  translation(id: $id) {
+    id
+    key
+    value
+    locale
+    createdAt
+    updatedAt
+  }
+}
+```
+</Tab>
+</Tabs>
+
+### `translations()`
+
+<Tabs items={['Node.js SDK','GraphQL']}>
+<Tab>
+```ts
+const translationsData = await roqClient.asSuperAdmin().translations({
+	limit: 1000,
+	filter: {
+		locale: { equalTo: "de-DE" }
+	}
+})
+
+console.log(translationsData.translations.data.length)
+```
+</Tab>
+<Tab>
+```graphql
+query translations(
+  $limit: Int = 40,
+  $offset: Int = 0
+) {
+  translations(
+    limit: $limit,
+    offset: $offset
+  ) {
+    totalCount
+    data {
+      id
+      key
+      value 
+      locale 
+      createdAt 
+      updatedAt
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
