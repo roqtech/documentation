@@ -62,16 +62,17 @@ To upload file via API you need to proceed the following steps:
 Generate a signed URL using the `createFileUpload()` API. The `createFileUpload` API returns a _**signed URL**_ which is then used to upload the file directly from the user's browser to the object storage.
 
 {/* TODO Name of variable createFileDto will be changed to file */}
-{/* TODO add a real content type */}
 {/* TODO Confirm to Dev if ROQ's GraphQL is supporting direct file upload */}
 
 <Tabs items={['Node.js SDK']}>
 <Tab>
 ```ts
 await client.asSuperAdmin().createFileUpload({
-  name: 'abc123',
-  contentType: 'image/png',
-  fileCategory: 'xyz789',
+  createFileDto: {
+    name: 'abc123',
+    contentType: 'image/png',
+    fileCategory: 'xyz789',
+  }
 });
 ```
 </Tab>
