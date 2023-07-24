@@ -53,7 +53,7 @@ Add the `<FileUpload/>` to the existing video form:
 </FormControl>
 ```
 
-The `<FileUpload/>`  UI component above will only accept video file type and the uploaded file will be save in **USER_FILES** category (please look into the ROQ Console for file categories). The reult of file upload are `fileUrl` and `fileId`. 
+The `<FileUpload/>`  UI component above will only accept video file type and the uploaded file will be saved in the **USER_FILES** category (please look into the ROQ Console for file categories). The reult of file upload are `fileUrl` and `fileId`. 
 
 
 In the generated application, go to the **Videos** side menu and the `<FileUpload/>` will be added to the video form.
@@ -64,13 +64,13 @@ To upload a video file just click the **+ Upload File** button and select the vi
 
 ![video-upload-file](/video-file-upload.png)
 
-The video will directly uploaded to the data server and the response will be set in the `formik` state as `fileUrl` and `fileId`.
+The video will be directly uploaded to the data server and the response will be set in the `formik` state as `fileUrl` and `fileId`.
 
 <Callout type="info">
-As we [mentioned earlier](/files#file-uploads), `<FileUpload/>` UI component will directly upload the file into the data center using _**signed URLs**_ and the results data that will be saved into the application database. 
+As we [mentioned earlier](/files#file-uploads), the `<FileUpload/>` UI component will directly upload the file into the data center using _**signed URLs**_, and the results data that will be saved into the application database. 
 </Callout>
 
-For this example, the data that will be saved upon succesfully file upload:
+For this example, the data that will be saved upon succesful file upload:
 
 ```js
 {
@@ -84,12 +84,12 @@ For this example, the data that will be saved upon succesfully file upload:
 }
 ```
 
-There are still few changes to the code so the upload file data will be recorded on the database.
+There are still a few changes to the code so the upload file data will be recorded on the database.
 
 <Steps>
 ### Change The Interface
 
-You need to change the `VideoInterface` and added these two fields: `fileUrl` and `fileId`, both of these fields has a `string` type.
+You need to change the `VideoInterface` and added these two fields: `fileUrl` and `fileId`, both of these fields have a `string` type.
 
 ```tsx
 // src\interfaces\video\index.ts
@@ -145,7 +145,7 @@ model video {
 }
 ```
 
-Here's the `fileUrl` type is set to `Text` because the uploaded URL can be longer than 255 characters. To reflect the changes in the Prisma schema on the database, you need to run:
+Here the `fileUrl` type is set to `Text` because the uploaded URL can be longer than 255 characters. To reflect the changes in the Prisma schema on the database, you need to run:
 
 ```shell
 npx prisma regenerate
