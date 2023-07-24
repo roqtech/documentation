@@ -16,9 +16,9 @@ ROQ provides a complete solution for management of public and private files. Ple
   steps described in `createFileUpload` below, with just a single function call.
 </Callout>
 
-This method can be used when you want to upload files directly from your backend file system to your ROQ file storage:
+This method can be used when you want to upload files directly from your backend file system to your ROQ file storage. 
 
-<Tabs items={['Node.js SDK']}>
+<Tabs items={['Node.js SDK (Super Admin)', 'Node.js SDK (User)']}>
 
 <Tab>
 ```ts
@@ -36,7 +36,47 @@ This method can be used when you want to upload files directly from your backend
   });
 ```
 </Tab>
+<Tab>
+```ts
+const file = fs.readFileSync("./srfKm1dEc-unsplash.jpg");
+const userId = "7877d2d0-dea7-473e-a158-57eca312123";
+const r = await roqClient.asUser(userId).uploadFile({
+	fileInfo: {
+		file,
+		contentType: "image/jpeg",
+		name: `srfKm1dEc-unsplash`,
+		fileCategory: "USER_FILES",
+	},
+	options: {
+		isPublic: true,
+	},
+});
+```
+</Tab>
+</Tabs>
 
+To upload a file using a user account, the function `asUser(userId)` requires a user id. There are multiple methods to retrieve the user id, such as utilizing GraphQL:
+
+<Tabs items={['GraphQL']}>
+<Tab>
+```graphql
+query users(
+  $limit: Int = 10,
+  $offset: Int = 0,
+) {
+  users(
+    limit: $limit,
+    offset: $offset,
+  ) {
+    totalCount
+    data {
+      id
+      email
+    }
+  }
+}
+```
+</Tab>
 </Tabs>
 
 | Parameter      | Type   | Description                                                                               |
