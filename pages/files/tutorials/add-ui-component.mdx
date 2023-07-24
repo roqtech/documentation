@@ -1,0 +1,160 @@
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout, Steps } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+
+# Add the UI Component
+
+ROQ provides two UI Components which can be used to upload files:
+
+1. The [**`<FileUpload/>`**](/files/ui-components#fileupload) component represents a button that opens a file selector and starts uploads.
+
+2. The [**`<FileDropzone/>`**](/files/ui-components#filedropzone) UI component represents an area on your application where users can drag and drop files to be uploaded.
+
+Please follow the respective instructions to integrate the UI component into your website. You'll need to pass the `key` of the previously created category as a prop.
+
+
+## Add `<FileUpload>` Into Application
+
+<Callout type="info">
+For this example, please check out the generated application code in this [GitHub repository](https://github.com/roq-ai-snapshot/youtubiah-8b47). 
+</Callout>
+
+Add the `<FileUpload>` UI component into the existing application code:
+
+```tsx
+// src\pages\videos\create\index.tsx
+import { 
+	AccessOperationEnum, 
+	AccessServiceEnum, 
+	requireNextAuth, 
+	withAuthorization, 
+	FileUpload 
+} from '@roq/nextjs';
+```
+
+Add the `<FileUpload/>` to the existing video form:
+
+```tsx
+// src\pages\videos\create\index.tsx
+<FormControl id="file" mb="4">
+	<FormLabel>Upload File</FormLabel>
+    <FileUpload 
+		accept={['video/*']} fileCategory="USER_FILES"
+        onUploadSuccess={({ url, id, ...rest }) => {
+            console.log({ id, url });
+            formik.setFieldValue("fileUrl", url);
+            formik.setFieldValue("fileId", id);
+        }}
+		onUploadFail={(err => {
+			console.log(err)
+		})}
+    />
+</FormControl>
+```
+
+The `<FileUpload/>`  UI component above will only accept video file type and the uploaded file will be saved in the **USER_FILES** category (please look into the ROQ Console for file categories). The reult of file upload are `fileUrl` and `fileId`. 
+
+
+In the generated application, go to the **Videos** side menu and the `<FileUpload/>` will be added to the video form.
+
+![add fileupload component](/add-file-upload.png)
+
+To upload a video file just click the **+ Upload File** button and select the video you want to upload.
+
+![video-upload-file](/video-file-upload.png)
+
+The video will be directly uploaded to the data server and the response will be set in the `formik` state as `fileUrl` and `fileId`.
+
+<Callout type="info">
+As we [mentioned earlier](/files#file-uploads), the `<FileUpload/>` UI component will directly upload the file into the data center using _**signed URLs**_, and the results data that will be saved into the application database. 
+</Callout>
+
+For this example, the data that will be saved upon succesful file upload:
+
+```js
+{
+  title: 'The Sea',
+  description: 'Beautiful Sea Video',
+  url: 'https://antvideos.net/sea.mp4',
+  fileUrl: 'https://s3.fr-par.scw.cloud/1e4eba76-328d-4cf0-b478-41076a6b83b3-environment-bucket/sea-1690048762556.mp4',      
+  fileId: 'c6d563dc-1441-4729-9fa5-cca0eeccd518',
+  organization_id: 'k0sal34alksa-e1edklwe49320s',
+  user_id: 'fe7885b3-5667-41e0-b478-6aa43e0635b5'
+}
+```
+
+There are still a few changes to the code so the upload file data will be recorded on the database.
+
+<Steps>
+### Change The Interface
+
+You need to change the `VideoInterface` and added these two fields: `fileUrl` and `fileId`, both of these fields have a `string` type.
+
+```tsx
+// src\interfaces\video\index.ts
+export interface VideoInterface {
+  id?: string;
+  title: string;
+  description?: string;
+  url?: string;
+  fileUrl?: string,
+  fileId?: string,
+  organization_id?: string;
+  user_id?: string;
+  created_at?: any;
+  updated_at?: any;
+  comment?: CommentInterface[];
+  organization?: OrganizationInterface;
+  user?: UserInterface;
+  _count?: {
+    comment?: number;
+  };
+}
+
+export interface VideoGetQueryInterface extends GetQueryInterface {
+  id?: string;
+  title?: string;
+  description?: string;
+  fileUrl?: string;
+  fileId?: string;
+  organization_id?: string;
+  user_id?: string;
+}
+```
+
+### Modify The Prisma Schema
+
+To save the `fileUrl` and `fileId` to the database, the Prisma schema should be changed too.
+
+```js
+model video {
+  id              String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  title           String        @db.VarChar(255)
+  description     String?       @db.VarChar(255)
+  url             String        @db.VarChar(255)
+  fileUrl         String?       @db.Text
+  fileId          String?       @db.VarChar(255)
+  organization_id String?       @db.Uuid
+  user_id         String?       @db.Uuid
+  created_at      DateTime      @default(now()) @db.Timestamp(6)
+  updated_at      DateTime      @default(now()) @db.Timestamp(6)
+  comment         comment[]
+  organization    organization? @relation(fields: [organization_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user            user?         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+```
+
+Here the `fileUrl` type is set to `Text` because the uploaded URL can be longer than 255 characters. To reflect the changes in the Prisma schema on the database, you need to run:
+
+```shell
+npx prisma regenerate
+
+npx prisma migrate deploy
+```
+
+and if you use PostgreSQL for the database and pgAdmin for the administration tool, you will see the data is saved on the **video** table.
+
+![file upload data in postgres](/file-upload-data-postgres.png)
+
+</Steps>

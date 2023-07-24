@@ -1,0 +1,16 @@
+
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+
+# Optional: Relate the file to another object
+
+In most scenarios, a file belongs to some other object. For instance, an uploaded PDF file could be related to a `contract` object that exists in your project. Therefore, it is usually needed to link files to other objects.
+
+There are two strategies to achieve this. In both cases, you must retrieve the file's ID and pass it to your server-side backend application. You can get the file's ID from the
+[**`<FileUpload/>`**](/files/ui-components#fileupload) or [**`<FileDropzone/>`**](/files/ui-components#filedropzone) component using the `onUploadSuccess` handler.
+
+1. You can add the file ID to your database tables (e.g., `roqFileId`). This way, you have full control over the relationships and can easily fetch and manipulate them. This works very well in the case of one-to-one relationships, but if an object is related to multiple files, you'll need to add additional tables just for the relation.
+
+2. To keep your database schema clean, you can save the relation on the ROQ Platform side using the [createFileAssociation()](/files/api#createfileassociation) API.

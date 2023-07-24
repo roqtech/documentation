@@ -1,13 +1,11 @@
-import { Tab, Tabs } from "nextra-theme-docs";
-import { Callout } from "nextra-theme-docs";
+import { Tab, Tabs, Callout, Steps } from "nextra-theme-docs";
 import Image from "next/image";
 
 # Files API
 
 ## Introduction
 
-ROQ provides a complete solution for management of public and private files. Please read the
-[files feature guide](/files) for all information.
+ROQ provides a complete solution for management of public and private files. Please read the [files feature guide](/files) for all information.
 
 ## Mutations
 
@@ -15,12 +13,14 @@ ROQ provides a complete solution for management of public and private files. Ple
 
 <Callout type="info" emoji="ℹ️">
   This method is only available on the **server-side SDK**. It executes all the
-  steps described in `createFileUpload` below, with just a single function call
+  steps described in `createFileUpload` below, with just a single function call.
 </Callout>
 
-This method can be used when you want to upload files directly from your backend file system to your ROQ file storage
+This method can be used when you want to upload files directly from your backend file system to your ROQ file storage. 
 
-<Tabs items={['Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK (Super Admin)', 'Node.js SDK (User)']}>
+
+<Tab>
 ```ts
   const file = fs.readFileSync("./roq.png");
   const r = await roqClient.asSuperAdmin().uploadFile({
@@ -35,7 +35,59 @@ This method can be used when you want to upload files directly from your backend
     },
   });
 ```
-</Tab></Tabs>
+</Tab>
+<Tab>
+```ts
+const file = fs.readFileSync("./srfKm1dEc-unsplash.jpg");
+const userId = "7877d2d0-dea7-473e-a158-57eca312123";
+const r = await roqClient.asUser(userId).uploadFile({
+	fileInfo: {
+		file,
+		contentType: "image/jpeg",
+		name: `srfKm1dEc-unsplash`,
+		fileCategory: "USER_FILES",
+	},
+	options: {
+		isPublic: true,
+	},
+});
+```
+</Tab>
+</Tabs>
+
+To upload a file using a user account, the function `asUser(userId)` requires a user id. There are multiple methods to retrieve the user id, such as utilizing GraphQL:
+
+<Tabs items={['GraphQL']}>
+<Tab>
+```graphql
+query users(
+  $limit: Int = 10,
+  $offset: Int = 0,
+) {
+  users(
+    limit: $limit,
+    offset: $offset,
+  ) {
+    totalCount
+    data {
+      id
+      email
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter      | Type   | Description                                                                               |
+| -------------- | ------ | ----------------------------------------------------------------------------------------- |
+| `fileInfo`     | object | File data to be uploaded |
+| `options`:`isPublic`      | boolean | `true` if the file is public |
+| `options`:`associations`  | array | File associations option | 
+
+<Callout type="info">
+Currently, the `uploadFile()` method does not support direct file upload via GraphQL.
+</Callout>
 
 ### `createFileUpload()`
 
@@ -47,41 +99,27 @@ This method can be used when you want to upload files directly from your backend
 
 To upload file via API you need to proceed the following steps:
 
-1. Generate a signed URL using the `createFileUpload()` API
-2. Upload file via the signed URL
-3. Set status of the file using the `updateFileStatus()` API
+<Steps>
+###  Generate a signed URL
 
-**(1) Generate a signed URL**
-
-The `createFileUpload` API returns a "signed URL" which is then used to upload the file directly from the user's browser
-to the object storage.
+Generate a signed URL using the `createFileUpload()` API. The `createFileUpload` API returns a _**signed URL**_ which is then used to upload the file directly from the user's browser to the object storage.
 
 {/* TODO Name of variable createFileDto will be changed to file */}
-{/* TODO add a real content type */}
+{/* TODO Confirm to Dev if ROQ's GraphQL is supporting direct file upload */}
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
-
-```graphql
-mutation {
-  createFileUpload(
-    file: { name: "abc123", contentType: "image/png", fileCategory: "xyz789" }
-  ) {
-    id
-    uploadUrl
-    formFields
-  }
-}
-```
-
-</Tab><Tab>
+<Tabs items={['Node.js SDK']}>
+<Tab>
 ```ts
 await client.asSuperAdmin().createFileUpload({
-  name: 'abc123',
-  contentType: 'image/png',
-  fileCategory: 'xyz789',
+  createFileDto: {
+    name: 'abc123',
+    contentType: 'image/png',
+    fileCategory: 'xyz789',
+  }
 });
 ```
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 | Parameter      | Type   | Description                                                                               |
 | -------------- | ------ | ----------------------------------------------------------------------------------------- |
@@ -89,7 +127,7 @@ await client.asSuperAdmin().createFileUpload({
 | `contentType`  | string | Mime type of the file, see [here](https://mimetype.io/all-types/) for a list of all types |
 | `fileCategory` | string | `Key` of the category of the file                                                         |
 
-**(2) Upload file via the signed URL**
+### Upload File Using Signed URL
 
 With the returned URL you can upload the file, for instance using curl:
 
@@ -121,12 +159,19 @@ With the returned URL you can upload the file, for instance using curl:
 
 </Tab></Tabs>
 
-**(3) Set status of the file**
+### Set Status of The File
 
-When the upload is finished, you need to set the status of the upload. This is needed because the file is uploaded
-directly to the object storage and therefore bypasses ROQ Platform.
+Set status of the file using the `updateFileStatus()` API. When the upload is finished, you need to set the status of the upload. This is needed because the file is uploaded directly to the object storage and therefore bypasses ROQ Platform.
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL']}><Tab>
+```ts
+await client.asSuperAdmin().updateFileStatus({
+  id: '123',
+  status: 'READY',
+});
+```
+</Tab>
+<Tab>
 
 ```graphql
 mutation {
@@ -135,15 +180,11 @@ mutation {
   }
 }
 ```
+</Tab>
+</Tabs>
+</Steps>
 
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().updateFileStatus({
-  id: '123',
-  status: 'READY',
-});
-```
-</Tab></Tabs>
+
 
 ### `createFileAssociation()`
 
@@ -157,7 +198,18 @@ saved on your database. The advantage is that you don't need to add these relati
 
 {/* TODO rename parameter createFileAssociationDto to createFileAssociationDto */}
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL' ]}><Tab>
+```ts
+await client.asSuperAdmin().createFileAssociation({
+  createFileAssociationDto: {
+    entityReference: 'reference',
+    entityName: 'xyz789',
+    fileId: '4',
+  },
+});
+```
+</Tab>
+<Tab>
 
 ```graphql
 mutation {
@@ -172,18 +224,8 @@ mutation {
   }
 }
 ```
-
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().createFileAssociation({
-  createFileAssociationDto: {
-    entityReference: 'reference',
-    entityName: 'xyz789',
-    fileId: '4',
-  },
-});
-```
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 | Parameter         | Type   | Description                                                                                 |
 | ----------------- | ------ | ------------------------------------------------------------------------------------------- |
@@ -195,7 +237,14 @@ await client.asSuperAdmin().createFileAssociation({
 
 To enable public access to a file, run:
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL']}><Tab>
+```ts
+await client.asSuperAdmin().makeFilePublic({
+  id: 'fileId',
+});
+```
+</Tab>
+<Tab>
 
 ```graphql
 mutation makeFilePublic($fileId: ID!) {
@@ -204,20 +253,21 @@ mutation makeFilePublic($fileId: ID!) {
   }
 }
 ```
-
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().makeFilePublic({
-  id: 'fileId',
-});
-```
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 ### `makeFilePrivate()`
 
 To hide a file from public access, you can execute:
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK','GraphQL']}><Tab>
+```ts
+await client.asSuperAdmin().makeFilePrivate({
+  id: 'fileId',
+});
+```
+</Tab>
+<Tab>
 
 ```graphql
 mutation makeFilePrivate($fileId: ID!) {
@@ -227,12 +277,6 @@ mutation makeFilePrivate($fileId: ID!) {
 }
 ```
 
-</Tab><Tab>
-```ts
-await client.asSuperAdmin().makeFilePrivate({
-  id: 'fileId',
-});
-```
 </Tab></Tabs>
 
 ## Queries
@@ -259,7 +303,16 @@ and is not intended to be published.
 
 {/* TODO entityIdentifiers will be renamed to entityReferences */}
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['Node.js SDK','GraphQL']}>
+<Tab>
+```ts
+await client.asSuperAdmin().files({ filter: {
+  entityName: { equalTo: "contract" },
+  entityIdentifiers: { equalTo: "123" }
+}});
+```
+</Tab>
+<Tab>
 
 ```graphql
 query {
@@ -284,8 +337,8 @@ query {
 
 | Parameter           | Type   | Description                                                                                 |
 | ------------------- | ------ | ------------------------------------------------------------------------------------------- |
-| `entityName`        | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
-| `entityIdentifiers` | object | References (or IDs) of the related objects from your database                               |
+| `filter:entityName`        | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
+| `filter:entityIdentifiers` | object | References (or IDs) of the related objects from your database                               |
 
 {/* TODO entityIdentifiers will be renamed to entityReferences */}
 
@@ -293,7 +346,13 @@ query {
 
 To download a single file, you can use the `file()` query.
 
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['Node.js SDK','GraphQL']}>
+<Tab>
+```ts
+await client.asSuperAdmin().file({ id: "849384FileIMG"});
+```
+</Tab>
+<Tab>
 
 ```graphql
 query {
