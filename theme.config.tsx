@@ -48,10 +48,13 @@ const config: DocsThemeConfig = {
     },
     sidebar: {
         defaultMenuCollapseLevel: 0
-    }, 
+    },
+    
+    /**
     search: {
         component: <Search/>
     }
+    */
 }
 
 
