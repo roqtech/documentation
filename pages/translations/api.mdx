@@ -10,7 +10,7 @@ ROQ provides Translation API for easy integration with a custom application or c
 
 ### `translation()`
 
-With this method, you can get the translation data based on the translation id. For the GraphQL queries detail, please look into the [`translation()`](https://jupiter-pp.roq-platform.com/docs/#query-translation) API.
+With this method, you can get the translation data based on the translation id. For the GraphQL queries detail, please look into the [`translation()`](https://jupiter-pp.roq-platform.com/docs/#query-translation) API documentation.
 
 <Tabs items={["Node.js SDK","GraphQL"]}>
 <Tab>
@@ -44,7 +44,14 @@ query translation($id: ID! = "8acf421e-2bdc-48e0-9291-42202ac94b6f") {
 </Tab>
 </Tabs>
 
+| Parameter               | Type    | Description |
+|-------------------------|---------|-------------|
+| `id` | string | the translation id | 
+
+
 ### `translations()`
+
+This method will return all translations and can be filtered with the `filter` option. You can look into the [`translations()`](https://jupiter-pp.roq-platform.com/docs/#query-translations) API documentation.
 
 <Tabs items={['Node.js SDK','GraphQL']}>
 <Tab>
@@ -83,3 +90,94 @@ query translations(
 ```
 </Tab>
 </Tabs>
+
+| Parameter               | Type    | Description |
+|-------------------------|---------|-------------|
+| `limit`  | integer | limiting the translations result |
+| `filter` | object | filter the results |
+| `filter:id` | object | filter based ion the translation id |
+| `filter:locale` | object | filter the results based on locale |
+| `filter:translationKeyId` | object | filter the results based on the translation key id |
+
+### `translationKey()`
+
+With this methhod you can get the translation key based on it's id. For example to find the key for `translationKey` id `052ee336-af23-487f-bce5-3f8c1fa5a972`
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```tsx
+const translationKey = await roqClient
+.asUser("7877d2d0-dea7-473e-a158-57eca3123906")
+.translationKey({
+	 id: "052ee336-af23-487f-bce5-3f8c1fa5a972",
+	 withTranslations: true 
+})
+```
+</Tab>
+<Tab>
+```graphql
+query translationKey($id: ID! = "052ee336-af23-487f-bce5-3f8c1fa5a972") {
+  translationKey(id: $id) {
+    id
+    key
+    translations {
+      data {
+        id
+        key
+        value
+        locale
+      }
+    }
+    createdAt
+    updatedAt
+  }
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter               | Type    | Description |
+|-------------------------|---------|-------------|
+| `id` | string | the translation key id |
+| `withTranslations` | boleean | include all the translations |
+
+If you set `withTranslations` parameter to `true` than you will get all the translations, for instance:
+
+```json
+{
+	"id": "052ee336-af23-487f-bce5-3f8c1fa5a972",
+	"key": "roq-ui.auth.channel-owner.input.company.placeholder",
+	"createdAt": "2023-07-07T02:07:36.785Z",
+	"updatedAt": "2023-07-07T02:07:36.785Z",
+	"translations": {
+		"data": [
+			{
+				"id": "7d259885-e834-4a5b-9153-2ca56ce90a07",
+				"locale": "de-DE",
+				"value": "Geben Sie Ihr Organization ein",
+				"createdAt": "2023-07-07T02:07:36.785Z",
+				"updatedAt": "2023-07-07T02:07:37.267Z"
+			},
+			{
+				"id": "8acf421e-2bdc-48e0-9291-42202ac94b6f",
+				"locale": "en-US",
+				"value": "Enter your Organization",
+				"createdAt": "2023-07-07T02:07:36.785Z",
+				"updatedAt": "2023-07-07T02:07:37.267Z"
+			}
+		],
+		"totalCount": 2
+	}
+}
+```
+
+### `translationKeys()`
+
+
+## Mutations
+
+### `createTranslationKey()`
+
+### `updateTranslationKey()`
+
+### `upsertTranslationKeys()`
