@@ -252,3 +252,52 @@ If you check in the ROQ Console, you will see the translations data are already 
 
 ![ROQ Console translation](/bulk-upload-translation.png)
 
+
+## JSON
+
+If you prefer JSON file, you just need to change the file parser. For example, the following is JSON translation file:
+
+```json
+[
+  {
+    "key": "greeting",
+    "description": "Text for greeting",
+    "en-US": "Hello",
+    "de-DE": "Hallo"
+  },
+  {
+    "key": "farewell",
+    "description": "Text for farewell",
+    "en-US": "Goodbye",
+    "de-DE": "Auf Wiedersehen"
+  }
+]
+```
+
+To read the data in JSON file we can easily use built-in `JSON.parse()` method.
+
+<Tabs items={["JavaScript","TS"]}>
+<Tab>
+```js
+const readJson = (filePath) => {
+  const data = fs.readFileSync(filePath, 'utf8');
+  const results = JSON.parse(data);
+  return results;
+};
+```
+</Tab>
+<Tab>
+```ts
+const readJson = (filePath: string): TranslationRow[] => {
+  const data = fs.readFileSync(filePath, 'utf8');
+  const results: TranslationRow[] = JSON.parse(data);
+  return results;
+};
+```
+</Tab>
+</Tabs>
+
+
+
+
+
