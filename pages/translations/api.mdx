@@ -101,7 +101,7 @@ query translations(
 
 ### `translationKey()`
 
-With this methhod you can get the translation key based on it's id. For example to find the key for `translationKey` id `052ee336-af23-487f-bce5-3f8c1fa5a972`
+With this method you can get the translation key based on it's id. For example to find the key for `translationKey` id `052ee336-af23-487f-bce5-3f8c1fa5a972`
 
 <Tabs items={["Node.js SDK", "GraphQL"]}>
 <Tab>
@@ -171,7 +171,75 @@ If you set `withTranslations` parameter to `true` than you will get all the tran
 }
 ```
 
+Please read the documentation of the [`translationKey()`](https://jupiter-pp.roq-platform.com/docs/#query-translationKey) API for further detail.
+
 ### `translationKeys()`
+
+The `translationKeys()` can query all the translations include with translation keys. Read the documentation of this API [here](https://jupiter-pp.roq-platform.com/docs/#query-translationKeys).
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```ts
+const translationKeys = await roqClient.asSuperAdmin()
+.translationKeys({
+	limit: 3,
+	filter: {
+		key: { like: "%email%"}
+		locale: { equalTo: "de-DE" }
+	},
+	withTranslations: true
+})
+```
+</Tab>
+<Tab>
+```graphql
+query translationKeys(
+  $limit: Int = 10,
+  $offset: Int = 0
+) {
+  translationKeys(
+    limit: $limit,
+    offset: $offset,
+    filter: { key: { like: "%email%"}}
+  ) {
+    totalCount
+    data {
+      id
+      key
+      translations {
+        totalCount
+        data {
+          id 	
+		  key		
+		  value	
+		  locale 	
+		  createdAt	
+		  updatedAt
+        }
+      }
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
+
+With this method you can find a key based on the keyword, for instance if you want to search a key that contain the word "email", you can find the key with this filter.
+
+```js
+filter: {
+	key: { like: "%email%"}
+}
+```
+
+| Parameter               | Type    | Description |
+|-------------------------|---------|-------------|
+| `limit`  | integer | limiting the translations result |
+| `filter` | object | filter the results |
+| `filter:id` | object | filter based on the translation id |
+| `filter:key` | object | filter based on the translation key |
+| `filter:locale` | object | filter the results based on locale |
+| `withTranslations` | boolean | include the translations on the result queries |
 
 
 ## Mutations
