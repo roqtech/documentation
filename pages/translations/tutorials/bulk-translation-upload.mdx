@@ -1,0 +1,254 @@
+import { Callout } from 'nextra-theme-docs'
+import { Tab, Tabs } from 'nextra-theme-docs'
+
+# How to Bulk Upload Translations
+
+Sometime you need to bulk upload translations into the ROQ console and you can do this using [`upsertTranslationKeys()`](https://jupiter-pp.roq-platform.com/docs/#mutation-upsertTranslationKeys) API.
+
+<Callout type="info">
+Please look into the [Translations API](/translations/api#upserttranslationkeys) documentation about how to use this `upsertTranslationKeys()` method.
+</Callout>
+
+You can use this method and Node.js based parser for bulk upload translations. For instance, you can write the translations in csv or JSON format then parse it before uploading to the ROQ console.
+
+## CSV
+
+The format of the csv file could be anything. For this tutorial, we will use `translation.csv` file this content format:
+
+```csv
+key,description,en-US,de-DE
+greeting,Text for greeting,Hello,Hallo
+farewell,Text for farewell,Goodbye,Auf Wiedersehen
+```
+The `key` is the translation key, `description` is the key description, `en-US` is the translation for English, and `de-DE` for the German language translation.
+
+Before running the code example below, you need creds from ROQ Console and then set it in `.env`
+
+```dotenv
+ROQ_PLATFORM_URL=
+ROQ_API_KEY=
+ROQ_ENVIRONMENT_ID=
+FILE_PATH=translation.csv
+```
+
+<Callout type="info">
+The creds are the environment variables from ROG Console. Go to **Project Details** → **Settings**, choose the environment and **Copy Env File** for basic setup without authentication. 
+</Callout>
+
+<Tabs items={["JavaScript", "TS"]}>
+<Tab>
+```js
+// csvupload.js
+import 'dotenv/config';
+import fs from "fs";
+import path from "path";
+import csv from "csv-parser";
+import { Platform } from "@roq/nodejs";
+
+// Initialize a ROQ client using environment variables
+const roqClient = new Platform({
+	apiKey: process.env.ROQ_API_KEY,
+	environmentId: process.env.ROQ_ENVIRONMENT_ID,
+	host: process.env.ROQ_PLATFORM_URL
+});
+
+// Function to read a CSV file and return an array of translation rows
+const readCsv = async (filePath) => {
+	const results = [];
+	const readStream = fs.createReadStream(filePath);
+	readStream.on("error", (err) => {
+		console.error(err);
+		readStream.destroy();
+	});
+
+    // Read the CSV file row by row
+	for await (const row of readStream.pipe(csv())) {
+		results.push(row);
+	}
+	return results;
+};
+
+// Function to split an array into smaller chunks
+const chunkArray = (arr, chunkSize = 50) => {
+	const result = [];
+	for (let i = 0; i < arr.length; i += chunkSize) {
+		result.push(arr.slice(i, i + chunkSize));
+	}
+	return result;
+};
+
+// Function to get the absolute path of a file
+const getAbsolutePath = (filepath) => {
+	const isAbsolute = path.isAbsolute(filepath);
+	if (!isAbsolute) {
+		return path.join(process.cwd(), filepath);
+	}
+	return filepath;
+};
+
+// Function to map rows to translation keys
+const mapRowsToTranslationKeys = (rows) => {
+	return rows.map((row) => {
+		const { key, ...locales } = row;
+		const translations = Object.keys(locales).reduce(
+			(acc, locale) =>
+				locales[locale]?.trim()
+					? [...acc, { locale, value: locales[locale].replace(/\\n/g, "\n") }]
+					: acc,
+			[]
+		);
+		return { key, translations };
+	});
+};
+
+// Main function to import translations from a CSV file
+const importTranslations = async () => {
+	const filePath = process.env.FILE_PATH;
+	if (!filePath) throw new Error("FILE_PATH env is not set");
+
+    // Read the CSV file and map the rows to translation keys
+	const csvRows = await readCsv(getAbsolutePath(process.env.FILE_PATH));
+	const translationKeys = mapRowsToTranslationKeys(csvRows);
+
+	// Split the translation keys into chunks and process each chunk
+	const chunkSize = Number(process.env.TRANSLATION_LOAD_CHUNK_SIZE) || 50;
+	const chunks = chunkArray(translationKeys, chunkSize);
+
+	for (let i = 0; i < chunks.length; i++) {
+		const translationsChunk = chunks[i];
+		const startRow = i * chunkSize + 1;
+		const endRow = startRow + translationsChunk.length - 1;
+
+		 // Log the processing status
+		console.log(`Processing chunk of rows ${startRow} - ${endRow} (chunk ${i + 1} of ${chunks.length})`);
+		console.dir({ translationsChunk }, { depth: null });
+
+		 // Make the API request to upload the translation keys
+		await roqClient.asSuperAdmin().upsertTranslationKeys({ translationKeys: translationsChunk });
+	}
+};
+
+// Execute the main function and handle any errors
+(async () => {
+	await importTranslations();
+})().catch((err) => {
+	console.log("*******-------Error-------*******");
+	console.error(err);
+	process.exit(1);
+});
+```
+</Tab>
+<Tab>
+```ts
+import * as fs from "fs";
+import * as path from "path";
+import * as csv from "csv-parser";
+import 'dotenv/config';
+
+import { Platform } from "@roq/nodejs";
+
+const roqClient = new Platform({
+  apiKey: process.env.ROQ_API_KEY,
+  environmentId: process.env.ROQ_ENVIRONMENT_ID,
+  host: process.env.ROQ_PLATFORM_URL
+});
+
+interface TranslationRow {
+  key: string;
+  description?: string;
+  [key: string]: string;
+}
+
+const readCsv = async (filePath: string): Promise<TranslationRow[]> => {
+  const results = [];
+  const readStream = fs.createReadStream(filePath);
+  readStream.on("error", (err) => {
+    console.error(err);
+    readStream.destroy();
+  });
+
+  for await (const row of readStream.pipe(csv())) {
+    results.push(row);
+  }
+
+  return results;
+};
+
+const chunkArray = <T>(arr: T[], chunkSize = 50): T[][] => {
+  const result = [];
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    result.push(arr.slice(i, i + chunkSize));
+  }
+  return result;
+};
+
+const getAbsolutePath = (filepath: string) => {
+  const isAbsolute = path.isAbsolute(filepath);
+  if (!isAbsolute) {
+    return path.join(process.cwd(), filepath);
+  }
+  return filepath;
+};
+
+const mapRowsToTranslationKeys = (rows: TranslationRow[]) => {
+  return rows.map((row) => {
+    const { key, ...locales } = row;
+    const translations: { locale: string; value: string }[] = Object.keys(
+      locales
+    ).reduce(
+      (acc, locale) =>
+        !!locales[locale]?.trim()
+          ? [...acc, { locale, value: locales[locale].replace(/\\n/g, "\n") }]
+          : acc,
+      []
+    );
+    return { key, translations };
+  });
+};
+
+const importTranslations = async (): Promise<void> => {
+  const filePath = process.env.FILE_PATH;
+  if (!filePath) throw new Error("FILE_PATH env is not set");
+
+  const csvRows = await readCsv(getAbsolutePath(process.env.FILE_PATH));
+  const translationKeys = mapRowsToTranslationKeys(csvRows);
+  const chunkSize = Number(process.env.TRANSLATION_LOAD_CHUNK_SIZE) || 50;
+  const chunks = chunkArray(translationKeys, chunkSize);
+
+  for (let i = 0; i < chunks.length; i++) {
+    const translationsChunk = chunks[i];
+    const startRow = i * chunkSize + 1;
+    const endRow = startRow + translationsChunk.length - 1;
+    console.log(
+      `Processing chunk of rows ${startRow} - ${endRow} (chunk ${i + 1} of ${chunks.length
+      })`
+    );
+    console.dir({ translationsChunk }, { depth: null });
+    await roqClient
+      .asSuperAdmin()
+      .upsertTranslationKeys({ translationKeys: translationsChunk });
+  }
+};
+
+(async () => {
+  await importTranslations();
+})().catch((err) => {
+  console.log("*******-------Error-------*******");
+  console.error(err);
+  process.exit(1);
+});
+
+```
+</Tab>
+</Tabs>
+
+Make sure to install all node.js deps, file `translation.csv` is in the same directory, and then run: 
+
+```shell
+node csvupload.js
+```
+
+If you check in the ROQ Console, you will see the translations data are already saved.
+
+![ROQ Console translation](/bulk-upload-translation.png)
+
