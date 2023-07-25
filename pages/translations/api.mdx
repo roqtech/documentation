@@ -246,6 +246,59 @@ filter: {
 
 ### `createTranslationKey()`
 
+You can create a translation key using [`createTranslationKey()`](https://jupiter-pp.roq-platform.com/docs/#mutation-createTranslationKey) API. 
+
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const createStatus = await roqClient.asSuperAdmin().createTranslationKey({
+	translationKey: {
+		key: "com.myapp.title",
+		translations: {
+			value: "Lokal App",
+			locale: "en-US"
+		}
+	}
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation createTranslationKey($translationKey: TranslationKeyCreateDto! = { key: 
+"com.myapp.title.subtitle"}) {
+  createTranslationKey(translationKey:  $translationKey) {
+    id
+    key
+    translations {
+      data {
+        id
+        key
+        value
+        locale
+      }
+      totalCount
+    }
+    createdAt
+    updatedAt
+  }
+}
+```
+</Tab>
+</Tabs>
+
+
+The created key can be checked in the ROQ Console or by using `translationKey()` API.
+
+| Parameter               | Type    | Description |
+|-------------------------|---------|-------------|
+| `translationKey`  | object | translation key option |
+| `translationKey:key`  | string | translation key name |
+| `translationKey:translations`  | object | translation key value and locale |
+
+
 ### `updateTranslationKey()`
+
+
 
 ### `upsertTranslationKeys()`
