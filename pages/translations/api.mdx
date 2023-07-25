@@ -4,7 +4,7 @@ import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 
 ## Introduction
 
-ROQ provides Translation API for easy integration with a custom application or customize the ROQ'a AI assistant generated application.
+ROQ provides Translation API for easy integration with a custom application or customizes the ROQ's AI generated application.
 
 ## Queries
 
@@ -46,7 +46,7 @@ query translation($id: ID! = "8acf421e-2bdc-48e0-9291-42202ac94b6f") {
 
 | Parameter               | Type    | Description |
 |-------------------------|---------|-------------|
-| `id` | string | the translation id | 
+| `id` | string | The translation id | 
 
 
 ### `translations()`
@@ -93,15 +93,15 @@ query translations(
 
 | Parameter               | Type    | Description |
 |-------------------------|---------|-------------|
-| `limit`  | integer | limiting the translations result |
-| `filter` | object | filter the results |
-| `filter:id` | object | filter based ion the translation id |
-| `filter:locale` | object | filter the results based on locale |
-| `filter:translationKeyId` | object | filter the results based on the translation key id |
+| `limit`  | integer | Limiting the translation result |
+| `filter` | object | Filter the results |
+| `filter:id` | object | Filter based on the translation id |
+| `filter:locale` | object | Filter the results based on locale |
+| `filter:translationKeyId` | object | Filter the results based on the translation key id |
 
 ### `translationKey()`
 
-With this method you can get the translation key based on it's id. For example to find the key for `translationKey` id `052ee336-af23-487f-bce5-3f8c1fa5a972`
+With this method, you can get the translation key based on its id. For example to find the key for `translationKey` id `052ee336-af23-487f-bce5-3f8c1fa5a972`
 
 <Tabs items={["Node.js SDK", "GraphQL"]}>
 <Tab>
@@ -138,10 +138,10 @@ query translationKey($id: ID! = "052ee336-af23-487f-bce5-3f8c1fa5a972") {
 
 | Parameter               | Type    | Description |
 |-------------------------|---------|-------------|
-| `id` | string | the translation key id |
-| `withTranslations` | boleean | include all the translations |
+| `id` | string | The translation key id |
+| `withTranslations` | boolean | Include all the translations |
 
-If you set `withTranslations` parameter to `true` than you will get all the translations, for instance:
+If you set `withTranslations` parameter to `true` then you will get all the translations, for instance:
 
 ```json
 {
@@ -175,7 +175,7 @@ Please read the documentation of the [`translationKey()`](https://jupiter-pp.roq
 
 ### `translationKeys()`
 
-The `translationKeys()` can query all the translations include with translation keys. Read the documentation of this API [here](https://jupiter-pp.roq-platform.com/docs/#query-translationKeys).
+The `translationKeys()` can query all the translations included with translation keys. Read the documentation of this API [here](https://jupiter-pp.roq-platform.com/docs/#query-translationKeys).
 
 <Tabs items={["Node.js SDK", "GraphQL"]}>
 <Tab>
@@ -224,7 +224,7 @@ query translationKeys(
 </Tab>
 </Tabs>
 
-With this method you can find a key based on the keyword, for instance if you want to search a key that contain the word "email", you can find the key with this filter.
+With this method you can find a key based on the keyword, for instance, if you want to search for a key that contains the word "email", you can find the key with this filter.
 
 ```js
 filter: {
@@ -286,10 +286,7 @@ mutation createTranslationKey($translationKey: TranslationKeyCreateDto! = { key:
 ```
 </Tab>
 </Tabs>
-
-
-The created key can be checked in the ROQ Console or by using `translationKey()` API.
-
+ 
 | Parameter               | Type    | Description |
 |-------------------------|---------|-------------|
 | `translationKey`  | object | translation key option |
@@ -297,8 +294,137 @@ The created key can be checked in the ROQ Console or by using `translationKey()`
 | `translationKey:translations`  | object | translation key value and locale |
 
 
+
+The created key can be checked in the ROQ Console or by using `translationKey()` API. For instance, creating a translation key `com.myapp.title` will result:
+
+```js
+{
+  createTranslationKey: {
+    id: 'fb6d4930-9f4b-4fdf-ae0f-c5db5c218f55',
+    key: 'com.myapp.title',
+    createdAt: '2023-07-25T04:45:25.652Z',
+    updatedAt: '2023-07-25T04:45:25.652Z',
+    translations: { data: [Array], totalCount: 1 }
+  }
+}
+```
+
+Then you can use the result `id` as a parameter for the `translationKey()` method.
+
 ### `updateTranslationKey()`
 
+The [`updateTranslationKey()`](https://jupiter-pp.roq-platform.com/docs/#mutation-updateTranslationKey) API will update the translation based on the translation key. For example to update the translation key `com.myapp.title` from the previous example:
 
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const update = await roqClient.asSuperAdmin().updateTranslationKey({
+	id: "fb6d4930-9f4b-4fdf-ae0f-c5db5c218f55",
+	translationKey: {
+		translations: [{
+			locale: "de-DE",
+			value: "Lokale Anwendung"
+		}]
+	}
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation updateTranslationKey(
+  $id: ID! = "fb6d4930-9f4b-4fdf-ae0f-c5db5c218f55",
+  $translationKey: TranslationKeyUpdateDto! = {
+    translations: [{ locale: "de-DE", value: "Lokale"}]
+  }
+) {
+  updateTranslationKey(
+    id: $id,
+    translationKey: $translationKey
+  ) {
+    id
+    key
+    translations {
+      data {
+        id
+        locale
+        value
+      } 
+    }
+    createdAt
+    updatedAt
+  }
+}
+```
+</Tab>
+</Tabs>
+
+The code example above will translate the key `com.myapp.title` into the German language.
+
+| Parameter               | Type    | Description |
+|-------------------------|---------|-------------|
+| `id` | string | The translation key id to be updated |
+| `translationKey` | object | The locale and the translation value. You can update the translation for different locales |
+| `translationKey:translations` | object array | the locales and the translation values |
 
 ### `upsertTranslationKeys()`
+
+This API will insert the key (if not exist) and will update or insert the translation values. This API can update more than one translation key, please read the documentation of this `upsertTranslationKeys()` API [here](https://jupiter-pp.roq-platform.com/docs/#mutation-upsertTranslationKeys).
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const upsert = await roqClient.asSuperAdmin().upsertTranslationKeys({
+	translationKeys: [{
+		key: "com.myapp.footer.author",
+		translations: [
+		{
+		    locale: "en-US",
+			value: "ROQ"
+		}, 
+		{
+			locale: "de-DE",
+			value: "ROQ"
+		}]
+	}]
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation upsertTranslationKeys($translationKeys: [TranslationKeyCreateDto!]! = [{
+  key: "com.myapp.footer.author",
+  translations: [
+    {
+		locale: "en-US",
+		value: "ROQ.AI"
+	}, {
+		locale: "de-DE",
+		value: "ROQ.AI"
+	}
+  ]
+}]) {
+  upsertTranslationKeys(translationKeys: $translationKeys) {
+    id
+    key
+    translations {
+      data {
+        id
+        locale
+        value
+      }
+    }
+    createdAt
+    updatedAt
+  }
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter               | Type    | Description |
+|-------------------------|---------|-------------|
+| `translationKeys` | object array | the translation keys |
+| `translationKeys:key` | string | the translation key to be created or update the translation values |
+| `translationKeys:translations` | object array | the translation locales and values |
+
+
