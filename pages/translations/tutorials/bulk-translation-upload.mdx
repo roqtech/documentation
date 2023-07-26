@@ -3,13 +3,13 @@ import { Tab, Tabs } from 'nextra-theme-docs'
 
 # How to Bulk Upload Translations
 
-Sometime you need to bulk upload translations into the ROQ console and you can do this using [`upsertTranslationKeys()`](https://jupiter-pp.roq-platform.com/docs/#mutation-upsertTranslationKeys) API.
+In the application development, sometime you need automation for translations such as bulk upload. You can do bulk upload translations in ROQ by using  the Translations API and you can use the function [`upsertTranslationKeys()`](https://jupiter-pp.roq-platform.com/docs/#mutation-upsertTranslationKeys) for this purpose. 
 
 <Callout type="info">
-Please look into the [Translations API](/translations/api#upserttranslationkeys) documentation about how to use this `upsertTranslationKeys()` method.
+For detailed instructions on how to use the `upsertTranslationKeys()` method, please refer to the [Translations API](/translations/api#upserttranslationkeys) documentation.
 </Callout>
 
-You can use this method and Node.js based parser for bulk upload translations. For instance, you can write the translations in csv or JSON format then parse it before uploading to the ROQ console.
+You can use `upsertTranslationKeys()` method and Node.js-based parser for bulk upload translations. For instance, you can write the translations in CSV or JSON format then parse it before uploading to the ROQ console.
 
 ## CSV
 
@@ -255,7 +255,7 @@ If you check in the ROQ Console, you will see the translations data are already 
 
 ## JSON
 
-If you prefer JSON file, you just need to change the file parser. For example, the following is JSON translation file:
+If you prefer JSON file for the translation, you customize the code above. For example, the following is JSON translation file:
 
 ```json
 [
@@ -273,7 +273,6 @@ If you prefer JSON file, you just need to change the file parser. For example, t
   }
 ]
 ```
-
 To read the data in JSON file we can easily use built-in `JSON.parse()` method.
 
 <Tabs items={["JavaScript","TS"]}>
@@ -296,8 +295,4 @@ const readJson = (filePath: string): TranslationRow[] => {
 ```
 </Tab>
 </Tabs>
-
-
-
-
 
