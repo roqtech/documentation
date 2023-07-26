@@ -50,11 +50,10 @@ const config: DocsThemeConfig = {
         defaultMenuCollapseLevel: 0
     },
     
-    /**
     search: {
         component: <Search/>
     }
-    */
+    
 }
 
 
