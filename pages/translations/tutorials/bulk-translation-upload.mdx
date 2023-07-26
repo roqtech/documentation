@@ -3,17 +3,17 @@ import { Tab, Tabs } from 'nextra-theme-docs'
 
 # How to Bulk Upload Translations
 
-In the application development, sometime you need automation for translations such as bulk upload. You can do bulk upload translations in ROQ by using  the Translations API and you can use the function [`upsertTranslationKeys()`](https://jupiter-pp.roq-platform.com/docs/#mutation-upsertTranslationKeys) for this purpose. 
+In application development, sometimes you need automation for translations such as bulk upload. You can do bulk upload translations in ROQ by using  the Translations API and you can use the function [`upsertTranslationKeys()`](https://jupiter-pp.roq-platform.com/docs/#mutation-upsertTranslationKeys) for this purpose. 
 
 <Callout type="info">
 For detailed instructions on how to use the `upsertTranslationKeys()` method, please refer to the [Translations API](/translations/api#upserttranslationkeys) documentation.
 </Callout>
 
-You can use `upsertTranslationKeys()` method and Node.js-based parser for bulk upload translations. For instance, you can write the translations in CSV or JSON format then parse it before uploading to the ROQ console.
+You can use the `upsertTranslationKeys()` method and Node.js-based parser for bulk upload translations. For instance, you can write the translations in CSV or JSON format and then parse them before uploading them to the ROQ console.
 
 ## CSV
 
-The format of the csv file could be anything. For this tutorial, we will use `translation.csv` file this content format:
+The format of the CSV file could be anything. For this tutorial, we will use a `translation.csv` file in this content format:
 
 ```csv
 key,description,en-US,de-DE
@@ -32,7 +32,7 @@ FILE_PATH=translation.csv
 ```
 
 <Callout type="info">
-The creds are the environment variables from ROG Console. Go to **Project Details** → **Settings**, choose the environment and **Copy Env File** for basic setup without authentication. 
+The creds are the environment variables from ROG Console. Go to **Project Details** → **Settings**, choose the environment, and **Copy Env File** for basic setup without authentication. 
 </Callout>
 
 <Tabs items={["JavaScript", "TS"]}>
@@ -242,38 +242,43 @@ const importTranslations = async (): Promise<void> => {
 </Tab>
 </Tabs>
 
-Make sure to install all node.js deps, file `translation.csv` is in the same directory, and then run: 
+Make sure to install all node.js dependencies, file `translation.csv` is in the same directory, and then run: 
 
 ```shell
 node csvupload.js
 ```
 
-If you check in the ROQ Console, you will see the translations data are already saved.
+If you check in the ROQ Console, you will see translation data are already saved.
 
 ![ROQ Console translation](/bulk-upload-translation.png)
 
-
 ## JSON
 
-If you prefer JSON file for the translation, you customize the code above. For example, the following is JSON translation file:
+If you prefer a JSON file for the translation, you customize the code above. For example, the following is a JSON translation file:
 
 ```json
 [
-  {
-    "key": "greeting",
-    "description": "Text for greeting",
-    "en-US": "Hello",
-    "de-DE": "Hallo"
-  },
-  {
-    "key": "farewell",
-    "description": "Text for farewell",
-    "en-US": "Goodbye",
-    "de-DE": "Auf Wiedersehen"
-  }
+	{
+		"key": "greeting",
+		"description": "Text for greeting",
+		"en-US": "Hello",
+		"de-DE": "Hallo"
+	},
+	{
+		"key": "conversation",
+		"description": "Text for conversation",
+		"en-US": "How are you?",
+		"de-DE": "Wie geht es dir?"
+	},
+	{
+		"key": "farewell",
+		"description": "Text for farewell",
+		"en-US": "Goodbye",
+		"de-DE": "Auf Wiedersehen"
+	}
 ]
 ```
-To read the data in JSON file we can easily use built-in `JSON.parse()` method.
+To read the data in a JSON file we can easily use the built-in `JSON.parse()` method.
 
 <Tabs items={["JavaScript","TS"]}>
 <Tab>
@@ -296,3 +301,195 @@ const readJson = (filePath: string): TranslationRow[] => {
 </Tab>
 </Tabs>
 
+and then we can change our previous code, and use `readJson()` function to parse the JSON file.
+
+<Tabs items={["JavaScript", "TS"]}>
+<Tab>
+```js
+// Import necessary modules
+import 'dotenv/config';
+import fs from "node:fs";
+import path from "node:path";
+
+import { Platform } from '@roq/nodejs';
+
+// Initialize a ROQ client using environment variables
+const roqClient = new Platform({
+	apiKey: process.env.ROQ_API_KEY,
+	environmentId: process.env.ROQ_ENVIRONMENT_ID,
+	host: process.env.ROQ_PLATFORM_URL
+});
+
+// Function to read a JSON file and return an array of translation rows
+const readJson = (filePath) => {
+	const data = fs.readFileSync(filePath, 'utf8');
+	const results = JSON.parse(data);
+	return results;
+};
+
+// Function to split an array into smaller chunks
+const chunkArray = (arr, chunkSize = 50) => {
+	const result = [];
+	for (let i = 0; i < arr.length; i += chunkSize) {
+		result.push(arr.slice(i, i + chunkSize));
+	}
+	return result;
+};
+
+// Function to get the absolute path of a file
+const getAbsolutePath = (filepath) => {
+	const isAbsolute = path.isAbsolute(filepath);
+	if (!isAbsolute) {
+		return path.join(process.cwd(), filepath);
+	}
+	return filepath;
+};
+
+// Function to map rows to translation keys
+const mapRowsToTranslationKeys = (rows) => {
+	return rows.map((row) => {
+		const { key, ...locales } = row;
+		const translations = Object.keys(locales).reduce(
+			(acc, locale) =>
+				locales[locale]?.trim()
+					? [...acc, { locale, value: locales[locale].replace(/\\n/g, "\n") }]
+					: acc,
+			[]
+		);
+		return { key, translations };
+	});
+};
+
+// Main function to import translations from a JSON file
+const importTranslations = async () => {
+	const filePath = process.env.FILE_PATH;
+	if (!filePath) throw new Error("FILE_PATH env is not set");
+
+	// Read the JSON file and map the rows to translation keys
+	const jsonRows = readJson(getAbsolutePath(process.env.FILE_PATH));
+	const translationKeys = mapRowsToTranslationKeys(jsonRows);
+
+	// Split the translation keys into chunks and process each chunk
+	const chunkSize = Number(process.env.TRANSLATION_LOAD_CHUNK_SIZE) || 50;
+	const chunks = chunkArray(translationKeys, chunkSize);
+
+	for (let i = 0; i < chunks.length; i++) {
+		const translationsChunk = chunks[i];
+		const startRow = i * chunkSize + 1;
+		const endRow = startRow + translationsChunk.length - 1;
+
+		// Log the processing status
+		console.log(`Processing chunk of rows ${startRow} - ${endRow} (chunk ${i + 1} of ${chunks.length})`);
+		console.dir({ translationsChunk }, { depth: null });
+
+		// Make the API request to upload the translation keys
+		await roqClient.asSuperAdmin().upsertTranslationKeys({ translationKeys: translationsChunk });
+	}
+};
+
+// Execute the main function and handle any errors
+(async () => {
+	await importTranslations();
+})().catch((err) => {
+	console.log("*******-------Error-------*******");
+	console.error(err);
+	process.exit(1);
+});
+```
+</Tab>
+<Tab>
+```ts
+import * as fs from "fs";
+import * as path from "path";
+import 'dotenv/config';
+
+import { Platform } from "@roq/nodejs";
+
+const roqClient = new Platform({
+  apiKey: process.env.ROQ_API_KEY,
+  environmentId: process.env.ROQ_ENVIRONMENT_ID,
+  host: process.env.ROQ_PLATFORM_URL
+});
+
+interface TranslationRow {
+  key: string;
+  description?: string;
+  [key: string]: string;
+}
+
+const readJson = (filePath: string): TranslationRow[] => {
+  const data = fs.readFileSync(filePath, 'utf8');
+  const results: TranslationRow[] = JSON.parse(data);
+  return results;
+};
+
+const chunkArray = <T>(arr: T[], chunkSize = 50): T[][] => {
+  const result = [];
+  for (let i = 0; i < arr.length; i += chunkSize) {
+    result.push(arr.slice(i, i + chunkSize));
+  }
+  return result;
+};
+
+const getAbsolutePath = (filepath: string) => {
+  const isAbsolute = path.isAbsolute(filepath);
+  if (!isAbsolute) {
+    return path.join(process.cwd(), filepath);
+  }
+  return filepath;
+};
+
+const mapRowsToTranslationKeys = (rows: TranslationRow[]) => {
+  return rows.map((row) => {
+    const { key, ...locales } = row;
+    const translations: { locale: string; value: string }[] = Object.keys(
+      locales
+    ).reduce(
+      (acc, locale) =>
+        !!locales[locale]?.trim()
+          ? [...acc, { locale, value: locales[locale].replace(/\\n/g, "\n") }]
+          : acc,
+      []
+    );
+    return { key, translations };
+  });
+};
+
+const importTranslations = async (): Promise<void> => {
+  const filePath = process.env.FILE_PATH;
+  if (!filePath) throw new Error("FILE_PATH env is not set");
+
+  const jsonRows = readJson(getAbsolutePath(process.env.FILE_PATH));
+  const translationKeys = mapRowsToTranslationKeys(jsonRows);
+  const chunkSize = Number(process.env.TRANSLATION_LOAD_CHUNK_SIZE) || 50;
+  const chunks = chunkArray(translationKeys, chunkSize);
+
+  for (let i = 0; i < chunks.length; i++) {
+    const translationsChunk = chunks[i];
+    const startRow = i * chunkSize + 1;
+    const endRow = startRow + translationsChunk.length - 1;
+    console.log(
+      `Processing chunk of rows ${startRow} - ${endRow} (chunk ${i + 1} of ${chunks.length
+      })`
+    );
+    console.dir({ translationsChunk }, { depth: null });
+    await roqClient
+      .asSuperAdmin()
+      .upsertTranslationKeys({ translationKeys: translationsChunk });
+  }
+};
+
+(async () => {
+  await importTranslations();
+})().catch((err) => {
+  console.log("*******-------Error-------*******");
+  console.error(err);
+  process.exit(1);
+});
+```
+</Tab>
+</Tabs>
+
+You can check again in the ROQ console after running the code above.
+
+![roq console json](/bulk-upload-translation-json.png)
