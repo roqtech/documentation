@@ -127,7 +127,7 @@ We need  to put the Vercel's PostgreSQL Prisma integration code into our generat
 Connecting PostgreSQL and our project is needed so we don't need to populate environment variables manually on Vercel (_except for the local development_).
 
 <Callout type="warning">
-Currently, the Prisma schema in the generated application needs the `uuid_generate_v4()` function. In PostgreSQL, this function is in the `uuid-ossp` extension so you need to enable it. Please look into this [documentation](faq/troubleshooting/error-postgresql-migration) and make sure to connect to the PostgreSQL on Vercel.
+Currently, the Prisma schema in the generated application needs the `uuid_generate_v4()` function. In PostgreSQL, this function is in the `uuid-ossp` extension so you need to enable it. Please look into this [documentation](/faq/troubleshooting/error-postgresql-migration) and make sure to connect to the PostgreSQL on Vercel.
 </Callout>
 
 
