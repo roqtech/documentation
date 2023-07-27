@@ -1,0 +1,65 @@
+import { Callout, Tab, Tabs} from "nextra-theme-docs"
+
+# User Roles Assignment
+
+To assign a user for roles, you can use the `assignRolesToUser()`. This method need `userId` and `roleKeys`.
+
+<Callout type="info">
+Please refer to the API documentation for the [`assignRolesToUser()`](https://jupiter-pp.roq-platform.com/docs/#mutation-assignRolesToUser) method.
+</Callout>
+
+The `roles()` method can be used to query any available roles. For example, to get all available roles as a **Super Admin**:
+
+```js
+const rolesAvailable = await roqClient.asSuperAdmin().roles({
+	limit: 10,
+	withUserCount: true
+})
+```
+
+You will get all available roles on the ROQ platform:
+
+```js
+[
+  {
+    id: '59a0e1f7-19d3-42ee-9a10-8ab9030568ad',
+    reference: null,
+    description: '',
+    isSystemManaged: false,
+    key: 'marketing',
+    name: 'Marketing',
+    users: { totalCount: 1 }
+  },
+  {
+    id: 'f2b0f40b-b43e-4a76-875c-5b5e84c81cb4',
+    reference: null,
+    description: '',
+    isSystemManaged: false,
+    key: 'content-creator',
+    name: 'Content Creator',
+    users: { totalCount: 1 }
+  },
+  {
+    id: '7f013fcd-44a3-448a-8164-f3a90e5ff2c9',
+    reference: null,
+    description: 'Role for managing platform services',
+    isSystemManaged: true,
+    key: 'global_platform_admin',
+    name: 'Global Platform Admin',
+    users: { totalCount: 0 }
+  }
+]
+```
+
+Let say that we want to assign a role **Marketing** to the user with id `7877d2d0-dea7-473e-a158-57eca3123906` then you should use **Marketing** `key` role from the output above, which is `marketing`:
+
+
+```js
+const assignStatus = await roqClient.asSuperAdmin().assignRolesToUser({
+	userId: "7877d2d0-dea7-473e-a158-57eca3123906",
+	roleKeys: ["marketing"]
+})
+```
+
+
+
