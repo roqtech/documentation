@@ -1,14 +1,22 @@
 import { Callout, Tab, Tabs} from "nextra-theme-docs"
+import InstallROQNodeSDK from "/snippets/do-roq-node-setup.mdx"
 
-# User Roles Assignment
+# User Roles Assignment 
 
-To assign a user for roles, you can use the `assignRolesToUser()`. This method need `userId` and `roleKeys`.
+
+## Using Node.js SDK API
+
+<InstallROQNodeSDK/>
+
+### Assign Roles
+
+To assign a user for roles using ROQ's Node.js SDK API, you can use the [`assignRolesToUser()`](https://jupiter-pp.roq-platform.com/docs/#mutation-assignRolesToUser), which needs `userId` and `roleKeys` parameters. 
 
 <Callout type="info">
-Please refer to the API documentation for the [`assignRolesToUser()`](https://jupiter-pp.roq-platform.com/docs/#mutation-assignRolesToUser) method.
+You can query the user id using [`users()`](https://jupiter-pp.roq-platform.com/docs/#query-users) and available roles using the [`roles()`](https://jupiter-pp.roq-platform.com/docs/#query-roles) API.
 </Callout>
 
-The `roles()` method can be used to query any available roles. For example, to get all available roles as a **Super Admin**:
+For example, to get all available roles as a **Super Admin**:
 
 ```js
 const rolesAvailable = await roqClient.asSuperAdmin().roles({
@@ -51,7 +59,7 @@ You will get all available roles on the ROQ platform:
 ]
 ```
 
-Let say that we want to assign a role **Marketing** to the user with id `7877d2d0-dea7-473e-a158-57eca3123906` then you should use **Marketing** `key` role from the output above, which is `marketing`:
+Let's say that we want to assign a **Marketing** role to a user with id `7877d2d0-dea7-473e-a158-57eca3123906`. From the output above, the `key` we are using is `marketing`:
 
 
 ```js
@@ -61,5 +69,32 @@ const assignStatus = await roqClient.asSuperAdmin().assignRolesToUser({
 })
 ```
 
+`assignStatus` in the code above will return `{ assignRolesToUser: true }` if it succeeds and will return an exception otherwise. You can assign more roles to a user, just add a role into the `roleKeys` array.
+
+To check the new roles assigned, we can use the [`user()`](https://jupiter-pp.roq-platform.com/docs/#query-user) method with the `withRoles` option set to `true`:
+
+```js
+const userData = await roqClient.asSuperAdmin().user({
+	id: "7877d2d0-dea7-473e-a158-57eca3123906",
+	withRoles: true
+})
+
+console.log(userData.user.roles.data)
+```
+
+### Unassign Roles
+
+Unassign roles from a user can be done via API using the [`unassignRolesFromUser()`](https://jupiter-pp.roq-platform.com/docs/#mutation-unassignRolesFromUser). This method has the same parameters with `assignRolesToUser()` API which are `userId` and `roleKeys`.
+
+For example, to unassign a **Marketing** role from a user with an id `7877d2d0-dea7-473e-a158-57eca3123906`:
+
+```js
+const unassignStatus = await roqClient.asSuperAdmin().unassignRolesFromUser({
+	userId: "7877d2d0-dea7-473e-a158-57eca3123906",
+	roleKeys: ["marketing"]
+})
+```
+
+The `unassignStatus` above will return `{ unassignRolesFromUser: true }` if the removal succeeds and will raise an exception if the role doesn't exist. 
 
 
