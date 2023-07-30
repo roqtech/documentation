@@ -1,0 +1,119 @@
+import { Tabs, Tab, Callout } from 'nextra-theme-docs'
+
+# Access Management API
+
+## Introduction
+
+ROQ Platform provides access management API to easily get and apply the access and the permission data for the user application. Please refer to the [access management](/access-management) for feature guide, tutorials, and more information.
+
+## Queries
+
+### `role()`
+
+ROQ provides the [`role()`](https://jupiter-pp.roq-platform.com/docs/#query-role) API to get the role for the specific role id. For example, to get the role with the role id `8f8a676b-7dea-4a06-a249-55e7f899aeeb`
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const roleData = await roqClient.asSuperAdmin().role({
+	id: "8f8a676b-7dea-4a06-a249-55e7f899aeeb", withUserCount: true
+})
+```
+</Tab>
+<Tab>
+```graphql
+query role($id: ID! = "8f8a676b-7dea-4a06-a249-55e7f899aeeb") {
+  role(id: $id) {
+    id
+    key
+    name
+    reference
+    description
+    isSystemManaged
+    users {
+      totalCount
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
+
+The output for the code example above is a simple JavaScript object:
+
+```js
+{
+  role: {
+    id: '8f8a676b-7dea-4a06-a249-55e7f899aeeb',
+    reference: null,
+    description: '',
+    isSystemManaged: false,
+    key: 'channel-owner',
+    name: 'Channel Owner',
+    users: { totalCount: 1 }
+  }
+}
+```
+
+| Parameter      | Type   | Description                                 |
+| -------------- | ------ | --------------------------------------------|
+| `id`         | string | The role id                                   |                             |
+| `withUserCount`  | boolean | Whether to include the user count or not |
+
+### `roles()`
+
+The [`roles()`](https://jupiter-pp.roq-platform.com/docs/#query-roles) API will return all the available roles on the ROQ Platform. You can filter roles based on the key and limit the result. 
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const rolesData = await roqClient.asSuperAdmin().roles({
+	limit: 10,
+	withUserCount: true
+})
+```
+</Tab>
+<Tab>
+```graphql
+query roles(
+  $limit: Int = 10
+) {
+  roles(
+    limit: $limit
+  ) {
+    totalCount
+    data {
+      id 
+	  key 
+	  name		
+	  projectEntityId	
+	  userIdField	
+	  reference	
+	  description	
+	  isSystemManaged	
+	  inviteRoleKeys
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter      | Type   | Description                                 |
+| -------------- | ------ | --------------------------------------------|
+| `limit`         | integer | Limit the results id                                   |                             |
+| `withUserCount`  | boolean | Whether to include the user count or not |
+
+### `userAccess()`
+
+## Mutations
+
+### `assignRolesToUser()`
+### `unassignRolesFromUser()`
+### `buildQueryPlan()`
+### `queryPlans()`
+
+
+##  ROQ Prisma API
+
+### `hasAccess()`

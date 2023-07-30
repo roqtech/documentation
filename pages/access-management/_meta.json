@@ -5,5 +5,6 @@
   "platform-permissions": "Platform Permissions",
   "project-permissions": "Project Permissions",
   "skip-auth": "Skip Authorization",
-  "tutorials": "Tutorials"
+  "tutorials": "Tutorials",
+  "api": "API"
 }
