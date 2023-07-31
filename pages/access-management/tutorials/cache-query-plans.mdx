@@ -2,7 +2,7 @@ import { Callout, Tab, Tabs} from "nextra-theme-docs"
 
 # Cache Query Plans
 
-The access management in ROQ based on query plans which ROQ computes based on the curent user's permissions and the database tables. The [`buildQueryPlan()`](https://jupiter-pp.roq-platform.com/docs/#mutation-buildQueryPlan) method is used to create query plans and this query plans is created on production in the ROQ Platform.
+The access management in ROQ is based on query plans which ROQ computes based on the current user's permissions and the database tables. The [`buildQueryPlan()`](https://jupiter-pp.roq-platform.com/docs/#mutation-buildQueryPlan) method is used to create query plans and these query plans are created on production in the ROQ Platform.
 
 If there are any changes made to role permission either through the ROQ Console or API, the query plans for the generated application will be updated accordingly. The SDK caches this query plan information locally and refreshes it only at specific intervals. This makes your application self-sufficient and not dependent on the ROQ Platform's availability.
 
@@ -12,13 +12,13 @@ Internally, the [`queryPlans()`](https://jupiter-pp.roq-platform.com/docs/#query
 
 ## Local Cache
 
-Initially, the generated application will check if the query plans is already cached locally. If not the `initQueryPlanCache()` will get the query plans from the ROQ Platform.
+Initially, the generated application will check if the query plans are already cached locally. If not the `initQueryPlanCache()` will get the query plans from the ROQ Platform.
 
 <Callout type="info">
 The `initQueryPlanCache()` method is in the `@roq\prismajs` package.
 </Callout>
 
-The query plans is cached in the `node_modules\@roq\prismajs\dist` directory, in the `query-plans.json` file.
+The query plans are cached in the `node_modules\@roq\prismajs\dist` directory, in the `query-plans.json` file.
 
 ```json
 {
@@ -75,12 +75,12 @@ This role doesn't have a create permission, so it has no access and the `queryPl
 The query plans in the generated application is periodically updated from the ROQ Platform but if you need to force update the local query plan, you can do one of the following ways:
 
 ### Using CLI
-You can use utility `roq-authorization` that already exist upon dependencies package installation
+You can use the utility `roq-authorization` that already exist upon dependencies package installation
 
 ```shell
 npx roq-authorization create-cache
 ```
-the output, depends on your operating system:
+the output depends on your operating system:
 
 ```shell
 PS E:\_workspaces\ROQ\genapps\youtubiah-8b47> npx roq-authorization create-cache
