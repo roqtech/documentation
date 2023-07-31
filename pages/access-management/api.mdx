@@ -1,4 +1,7 @@
 import { Tabs, Tab, Callout } from 'nextra-theme-docs'
+import  ROQNodeSDK  from '/snippets/do-roq-node-setup.mdx'
+import ROQPrismaSDK from '/snippets/do-roq-prisma-setup.mdx'
+import ROQNextSDK from '/snippets/do-roq-nextjs-setup.mdx'
 
 # Access Management API
 
@@ -7,6 +10,8 @@ import { Tabs, Tab, Callout } from 'nextra-theme-docs'
 ROQ Platform provides access management API to easily get and apply the access and the permission data for the user application. Please refer to the [access management](/access-management) for feature guide, tutorials, and more information.
 
 ## Queries
+
+<ROQNodeSDK/>
 
 ### `role()`
 
@@ -69,7 +74,12 @@ The [`roles()`](https://jupiter-pp.roq-platform.com/docs/#query-roles) API will 
 ```js
 const rolesData = await roqClient.asSuperAdmin().roles({
 	limit: 10,
-	withUserCount: true
+	withUserCount: true,
+  filter: {
+	    key: {
+        like: "mar%"
+      }
+  }
 })
 ```
 </Tab>
@@ -101,19 +111,200 @@ query roles(
 
 | Parameter      | Type   | Description                                 |
 | -------------- | ------ | --------------------------------------------|
-| `limit`         | integer | Limit the results id                                   |                             |
-| `withUserCount`  | boolean | Whether to include the user count or not |
-
-### `userAccess()`
+| `limit`         | integer | Limit the results                         |
+| `withUserCount` | boolean | Include the user count for this role |
+| `filter`  | object | Filter the result                                |
 
 ## Mutations
 
+<ROQNodeSDK/>
+
 ### `assignRolesToUser()`
+
+The [`assignRolesToUser()`](https://jupiter-pp.roq-platform.com/docs/#mutation-assignRolesToUser) API will assign a role or roles to a user.
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const assignStatus = await roqClient.asSuperAdmin().assignRolesToUser({
+	userId: "7877d2d0-dea7-473e-a158-57eca3123906",
+	roleKeys: [" channel-owner", "marketing"]
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation assignRolesToUser(
+  $userId: ID! = "80c81294-f338-4819-9b1f-acc314babd5f",
+  $roleKeys: [String!]! = ["channel-owner"]
+) {
+  assignRolesToUser(
+    userId: $userId,
+    roleKeys: $roleKeys
+  )
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter      | Type   | Description                                 |
+| -------------- | ------ | --------------------------------------------|
+| `userId` | string | The user id which roles to be applied  |
+| `roleKeys` | array | Key roles |
+
 ### `unassignRolesFromUser()`
-### `buildQueryPlan()`
+
+The [`unassignRolesFromUser()`](https://jupiter-pp.roq-platform.com/docs/#mutation-unassignRolesFromUser) will unassign a role or roles from the user.
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const unassignStatus = await roqClient.asSuperAdmin().unassignRolesFromUser({
+	userId: "7877d2d0-dea7-473e-a158-57eca3123906",
+	roleKeys: ["marketing"]
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation unassignRolesFromUser(
+  $userId: ID! = "80c81294-f338-4819-9b1f-acc314babd5f",
+  $roleKeys: [String!]! = ["channel-owner"]
+) {
+  unassignRolesFromUser(
+    userId: $userId,
+    roleKeys: $roleKeys
+  )
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter      | Type   | Description                                 |
+| -------------- | ------ | --------------------------------------------|
+| `userId` | string | The user id which a role or roles to be removed  |
+| `roleKeys` | array | Key roles |
+
+
 ### `queryPlans()`
 
+The [`queryPlans()`](https://jupiter-pp.roq-platform.com/docs/#query-queryPlans) API method will get the query plans from the ROQ Platform.
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const queryPlans = await roqClient.asSuperAdmin().queryPlans()
+```
+</Tab>
+<Tab>
+```graphql
+query queryPlans {
+  queryPlans {
+    queryPlan
+    kind
+    userIdField
+    role
+    entity
+    operation
+  }
+}
+```
+</Tab>
+</Tabs>
+
+{/*link with the query plans documentation or tutorial*/}
 
 ##  ROQ Prisma API
 
-### `hasAccess()`
+### `hasAccess()` on The Backend
+
+<ROQPrismaSDK/>
+
+Ths `hasAccess()` API method is used to check a user permission or access to an entity.
+
+<Tabs items={["Node.js"]}>
+<Tab>
+```js
+import { Platform } from '@roq/nodejs'
+import { ResourceOperationEnum, RoqAuthorizationClient } from '@roq/prismajs';
+
+const roqClient = new Platform({
+	apiKey: process.env.ROQ_API_KEY,
+	environmentId: process.env.ROQ_ENVIRONMENT_ID,
+	host: process.env.ROQ_PLATFORM_URL
+})
+
+const authorizationClient = new RoqAuthorizationClient(roqClient);
+
+const allowed = await authorizationClient.hasAccess("video", {
+	roqUserId: "80c81294-f338-4819-9b1f-acc314babd5f",
+	tenantId: "ee764883-f2c3-4486-9de6-070345e350af",
+	roles: ["channel-owner"]
+}, ResourceOperationEnum.Create)
+
+console.log(allowed);
+```
+</Tab>
+</Tabs>
+
+The code above will return query plans data. For example:
+
+```js
+{
+  allowed: true,
+  queryPlans: [
+    {
+      kind: 'restricted',
+      queryPlan: null,
+      role: 'channel-owner',
+      entity: 'video',
+      userIdField: 'roq_user_id',
+      operation: 'create'
+    }
+  ]
+}
+```
+
+| Parameter      | Type   | Description                                 |
+| -------------- | ------ | --------------------------------------------|
+| `entity` | string | The entity that user want to access to  |
+| `userData` | object | User data that to be checked |
+| `operation` | enum | create, read, update, or delete operation |
+
+### `hasAccess()` on The Client Side
+
+<ROQNextSDK/>
+
+The `hasAccess` method is currently implemented on the client side and at the moment, it is only compatible with Next.js framework.
+
+<Tabs items={["Next.js"]}>
+<Tab>
+```jsx
+<Flex justifyContent="space-between" mb={4}>
+  <Text as="h1" fontSize="2xl" fontWeight="bold">
+      Video Detail View
+  </Text>
+  {hasAccess('video', AccessOperationEnum.UPDATE, AccessServiceEnum.PROJECT) && (
+      <NextLink href={`/videos/edit/${data?.id}`} passHref legacyBehavior>
+          <Button
+              onClick={(e) => e.stopPropagation()}
+              mr={2}
+              as="a"
+              variant="outline"
+              colorScheme="blue"
+              leftIcon={<FiEdit2 />}
+          >
+              Edit
+          </Button>
+      </NextLink>
+  )}
+</Flex>
+```
+</Tab>
+</Tabs>
+
+| Parameter      | Type   | Description                                 |
+| -------------- | ------ | --------------------------------------------|
+| `entity` | string | The entity that user want to access to  |
+| `operation` | enum | The user operation to the entity |
+| `operation` | enum | The entity permission (project or platform entity) |
