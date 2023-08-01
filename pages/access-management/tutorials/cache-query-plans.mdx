@@ -68,14 +68,14 @@ The user interface in the ROQ Console explains the permissions and operations of
 
 ![query plan](/roles-for-query-plans.png)
 
-This role doesn't have a create permission, so it has no access and the `queryPlan` is `null`.
+This role doesn't have a create permission, so it has no access, and the `queryPlan` is `null`.
 
 ## Force Update
 
-The query plans in the generated application is periodically updated from the ROQ Platform but if you need to force update the local query plan, you can do one of the following ways:
+The query plans in the generated application are periodically updated from the ROQ Platform but if you need to force update the local query plan, you can do one of the following ways:
 
 ### Using CLI
-You can use the utility `roq-authorization` that already exist upon dependencies package installation
+You can use the utility `roq-authorization` that already exists upon dependencies package installation
 
 ```shell
 npx roq-authorization create-cache
