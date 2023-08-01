@@ -12,15 +12,19 @@ In B2B SaaS applications, it is common for users to invite others from their org
 
 ### User Invites
 
-By integrating the `<UserInvitesTable />` UI component, you enable users to invite others. The invitee receives an email with a link to accept the invite. In B2B scenarios, the invited users join the same organization (~tenant) as the inviting user.
+By integrating the `<UserInvitesTable />` UI component, you enable users to invite others. The invitee receives an email with a link to accept the invite. In B2B scenarios, the invited users join the same organization or **tenant** as the inviting user.
 
 ![Image](/user-invite.png)
 
 ### Role of The Invited User
 
-The inviting user can define the role of the invitee. For instance, the new user can be invited as a `member` or `manager`. This behavior is fully customizable in the ROQ Console.
+The inviting user can define the role of the invitee. For instance, the new user can be invited as a **Member** or **Manager**. This behavior is fully customizable in the ROQ Console.
 
 ![Image](/invite-user-role.png)
+
+<Callout type="info">
+To learn how to manage user roles, please refer to the following documentation on [roles](/access-management/roles).
+</Callout>
 
 ## UI Components
 
@@ -29,7 +33,7 @@ ROQ’s user invite provides multiple UI components which can be integrated into
 1. The [**`<UserInvitesTable/>`**](/user-invites/ui-components#userinvitestable-) is an
    advanced component that handles the entire logic at once.
 2. The [**`<UserInvitePane/>`**](/user-invites/ui-components#userinvitepane-) is a pane that allows to invite one or multiple users at once.
-3. The [**`<UserInviteButton/>`**](/user-invites/ui-components#userinvitebutton-) is a button which opens a lightbox.
+3. The [**`<UserInviteButton/>`**](/user-invites/ui-components#userinvitebutton-) is a user invite button which opens a lightbox.
 
 ## API
 
