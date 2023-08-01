@@ -271,7 +271,7 @@ mutation updateUserInvite(
 
 | Parameter         | Type   | Description                                  |
 |-------------------|--------|-----------------|
-| `id`           | uuid   | The invitee ID  |
+| `id`              | uuid   | The invitee ID  |
 | `userInvite` | object | The user invitee data. Please look into [this](https://jupiter-pp.roq-platform.com/docs/#definition-UserInviteUpdateDto) API documentation for input fields detail. |
 
 
@@ -282,23 +282,84 @@ You can fetch invites using the `userInvite` and `userInvites` queries.
 
 ### `userInvites()`
 
+You can get all the user invites list using this [`userInvites()`](https://jupiter-pp.roq-platform.com/docs/#query-userInvites) method API. You can limit the results and searching the invitee by email, name, or keywords, etc.
+
 <Tabs items={['Node.js SDK','GraphQL']}>
 <Tab>
 ```js
-
+const userInvitesData = await roqClient.asSuperAdmin().userInvites({
+  limit: 10
+})
 ```
 </Tab>
 <Tab>
 ```graphql
-query {
-  userInvites {
-    data {
-      email
-      status
+query userInvite($id: ID! = "b968e4b1-eea5-4e63-a208-5923de3113b1") {
+  userInvite(id: $id) {
+    id
+    email
+    firstName
+    lastName
+    locale
+    data
+    status
+    createdByUserId
+    createdBy {
+    	id	
+      email	
+      reference	
+      phone	
+      firstName	
+      lastName	
+      locale	
+      timezone	
+      isOptedIn 
+      synced	
+      active	
+      avatarUrl
+    }
+    userTokenId
+    acceptedByUserId
+    tenantId
+    roleKeys
+    acceptedBy {
+      id	
+      email	
+      reference	
+      phone	
+      firstName	
+      lastName	
+      locale	
+      timezone	
+      isOptedIn 
+      synced	
+      active	
+      avatarUrl
+    }
+    createdAt
+    updatedAt
+    statusUpdatedAt
+    roles {
+      totalCount
+      data{
+        id 	
+        key	
+        name
+        projectEntityId	
+        userIdField	
+        reference	
+        description
+      }
     }
   }
 }
 ```
 </Tab>
 </Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `limit`           | integer   | Limit the results  |
+| `search`          | object    | Search parameter. Look into this [here](https://jupiter-pp.roq-platform.com/docs/#definition-UserInviteSearchArgType)  |
+| `filter`          | object    | Filter parameter. Look into this [here](https://jupiter-pp.roq-platform.com/docs/#definition-UserInviteFilterArgType)
 
