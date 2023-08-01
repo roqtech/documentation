@@ -73,7 +73,7 @@ import { UserInvitePane } from '@roq/ui-react';
 
 function App() {
     return (
-        <UserInvitePane
+        <UserInvitePane locale={'de-DE'}
             onInviteError={function noRefCheck(){}}
             onInviteSuccess={function noRefCheck(){}}
         />
@@ -108,9 +108,8 @@ import { UserInvitesTable } from '@roq/ui-react';
 
 function App() {
     return (
-        <UserInvitesTable />
+        <UserInvitesTable locale={'en-US'}/>
     );
 }
 ```
-
 </Tab></Tabs>
