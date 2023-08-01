@@ -7,7 +7,7 @@ import ROQNextSDK from '/snippets/do-roq-nextjs-setup.mdx'
 
 ## Introduction
 
-ROQ Platform provides access management API to easily get and apply the access and the permission data for the user application. Please refer to the [access management](/access-management) for feature guide, tutorials, and more information.
+ROQ Platform provides access management API to easily get and apply the access and permission data for the user application. Please refer to the [access management](/access-management) for feature guides, tutorials, and more information.
 
 ## Queries
 
@@ -228,7 +228,7 @@ query queryPlans {
 
 <ROQPrismaSDK/>
 
-Ths `hasAccess()` API method is used to check a user permission or access to an entity.
+The `hasAccess()` API method is used to check a user's permission or access to an entity.
 
 <Tabs items={["Node.js"]}>
 <Tab>
@@ -255,7 +255,7 @@ console.log(allowed);
 </Tab>
 </Tabs>
 
-The code above will return query plans data. For example:
+The code above will return query plan data. For example:
 
 ```js
 {
@@ -275,7 +275,7 @@ The code above will return query plans data. For example:
 
 | Parameter      | Type   | Description                                 |
 | -------------- | ------ | --------------------------------------------|
-| `entity` | string | The entity that user want to access to  |
+| `entity` | string | The entity that the user wants to access |
 | `userData` | object | User data that to be checked |
 | `operation` | enum | create, read, update, or delete operation |
 
@@ -285,7 +285,7 @@ The code above will return query plans data. For example:
 
 <ROQNextSDK/>
 
-The `hasAccess` method is currently implemented on the client side and at the moment, it is only compatible with Next.js framework.
+The `hasAccess` method is currently implemented on the client side and at the moment, it is only compatible with the Next.js framework.
 
 <Tabs items={["Next.js"]}>
 <Tab>
@@ -315,7 +315,7 @@ The `hasAccess` method is currently implemented on the client side and at the mo
 
 | Parameter      | Type   | Description                                 |
 | -------------- | ------ | --------------------------------------------|
-| `entity` | string | The entity that user want to access to  |
+| `entity` | string | The entity that the user wants to access |
 | `operation` | enum | The user operation to the entity |
 | `service` | enum | The entity permission (project or platform entity) |
 
