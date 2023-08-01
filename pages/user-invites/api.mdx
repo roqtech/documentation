@@ -211,12 +211,84 @@ The GraphQL response type documentation: [UserModelFragment](https://jupiter-pp.
 |-------------------|--------|-----------------|
 | `token`           | string   | The invitee accept token  |
 
+### `updateUserInvite()`
+
+The [`updateUserInvite()`](https://jupiter-pp.roq-platform.com/docs/#mutation-updateUserInvite) method API will update the data for the specific invitee ID.
+
+{/* Need to check this codes - Equan P.*/}
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const updateUserInvite = await roqClient.asSuperAdmin().updateUserInvite({
+  id: "80c81294-f338-4819-9b1f-acc314babd5f",
+  userInvite: {
+     acceptedByUserId: '89043940ed-9b1f-4819-9092-abd5facc314b',
+     firstName: "Adam",
+     lastName: "Houdini",
+     locale: "de-DE",
+     data: { address: "Somewhere ST." }
+  }
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation updateUserInvite(
+  $id: ID! = "80c81294-f338-4819-9b1f-acc314babd5f",
+  $userInvite: UserInviteUpdateDto! ={
+    acceptedByUserId: "89043940ed-9b1f-4819-9092-abd5facc314b",
+    firstName: "Adam",
+    lastName: "Houdini",
+    locale: "de-DE",
+    data: {address: "Somewhere ST."}
+  }
+) {
+  updateUserInvite(
+    id: $id,
+    userInvite: $userInvite
+  ) {
+    id
+    email
+    firstName
+    lastName
+    locale
+    data
+    status
+    createdByUserId  
+    userTokenId
+    acceptedByUserId
+    tenantId
+    roleKeys
+    createdAt
+    updatedAt
+    statusUpdatedAt
+  }
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `id`           | uuid   | The invitee ID  |
+| `userInvite` | object | The user invitee data. Please look into [this](https://jupiter-pp.roq-platform.com/docs/#definition-UserInviteUpdateDto) API documentation for input fields detail. |
+
+
 ## Queries
 
-You can fetch invites using the `userInvite` and `userInvites` queries:
+You can fetch invites using the `userInvite` and `userInvites` queries.
 
-<Tabs items={['GraphQL']}><Tab>
 
+### `userInvites()`
+
+<Tabs items={['Node.js SDK','GraphQL']}>
+<Tab>
+```js
+
+```
+</Tab>
+<Tab>
 ```graphql
 query {
   userInvites {
@@ -226,6 +298,7 @@ query {
     }
   }
 }
-
 ```
-</Tab></Tabs>
+</Tab>
+</Tabs>
+
