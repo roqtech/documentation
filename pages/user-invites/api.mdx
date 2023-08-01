@@ -5,21 +5,32 @@ import { Tab, Tabs } from 'nextra-theme-docs';
 
 ## Introduction
 
-The user invite API is used directly by the UI components
-(e.g. The [**`<UserInvitesTable/>`**](/user-invites/ui-components#userinvitestable-)). However, you can also use it
+The user invite API is used directly by the UI components (e.g. The [**`<UserInvitesTable/>`**](/user-invites/ui-components#userinvitestable-)). However, you can also use it
 programmatically.
 
 ## Mutations
 
 ### `sendUserInvites()`
 
-The `sendUserInvites` API is used to invite users.
+The `sendUserInvites` API is used to invite users and automatically also create a user invite. You can find the full API doc of this mutation [here](https://jupiter-pp.roq-platform.com/docs/#mutation-sendUserInvites).
 
-You can find the full API doc of this mutation [here](https://jupiter-pp.roq-platform.com/docs/#mutation-sendUserInvites).
-
-{/* TODO add , 'Node.js SDK' */}
-
-<Tabs items={['GraphQL']}><Tab>
+<Tabs items={['Node.js SDK','GraphQL']}>
+<Tab>
+```js
+const status = await roqClient.asUser('530c9a92-71c5-4dce-a6e3-c638c2d0b1bc').sendUserInvites({
+	userInvites: {
+		tenantId: 'ee764883-f2c3-4486-9de6-070345e350af',
+		userInvites: [{
+			createdByUserId: '530c9a92-71c5-4dce-a6e3-c638c2d0b1bc',
+			email: "wick.john@gmail.com",
+			locale: "en-US",
+			roles: ["content-creator"]
+		}]
+	}
+})
+```
+</Tab>
+<Tab>
 
 ```graphql
 mutation {
@@ -27,17 +38,15 @@ mutation {
     userInvites: {
       userInvites: [
         {
-          email: "abc123"
-          firstName: "xyz789"
-          lastName: "xyz789"
-          locale: "xyz789"
-          data: JsonObject
-          createdByUserId: 4
-          tenantId: "4"
-          roles: ["abc123"]
+          email: "wick.john@gmail.com"
+          firstName: "John"
+          lastName: "Wick"
+          locale: "en-US"
+          createdByUserId: "530c9a92-71c5-4dce-a6e3-c638c2d0b1bc"
+          roles: ["content-creator"]
         }
       ]
-      tenantId: "xyz"
+      tenantId: "ee764883-f2c3-4486-9de6-070345e350af"
     }
   ) {
     success {
@@ -54,15 +63,96 @@ mutation {
 
 | Parameter         | Type   | Description                                  |
 |-------------------|--------|----------------------------------------------|
-| `email`           | string | Email of the invitee                         |
-| `firstName`       | string | First name of the invitee                    |
-| `lastName`        | string | Last name of the invitee                     |
-| `locale`          | string | Language of the invitee (used for the email) |
-| `data`            | array  | Additional custom data                       |
-| `createdByUserId` | uuid   | ID of the inviting user                      |
-| `tenantId`        | uuid   | ID of the tenant (organization)              |
-| `roles`           | array  | Array of IDs of roles for the invitee        |
+| `userInvites`     | object | User invites data |
+| `userInvites:tenantId` | uuid |  ID of the tenant (organization) | 
+| `userInvites:userInvites` | array | Array of invitees |
+| `userInvites:userInvites:email`           | string | Email of the invitee                         |
+| `userInvites:userInvites:firstName`       | string | First name of the invitee                    |
+| `userInvites:userInvites:lastName`        | string | Last name of the invitee                     |
+| `userInvites:userInvites:locale`          | string | Language of the invitee (used for the email) |
+| `userInvites:userInvites:data`            | array  | Additional custom data                       |
+| `userInvites:userInvites:createdByUserId` | uuid   | ID of the inviting user                      |
+| `userInvites:userInvites:roles`           | array  | Array of IDs of roles for the invitee        |
 
+
+### `resendUserInvite()`
+
+The `resendUserInvite` API will resend the invitation to the invitee. The full API documentation for this method is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-resendUserInvite).
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const userInviteModel = await roqClient.asUser("530c9a92-71c5-4dce-a6e3-c638c2d0b1bc").resendUserInvite("d1459a92-71c5-4edc-a6a1-c638c2d0d34c")
+```
+</Tab>
+<Tab>
+```graphql
+mutation resendUserInvite($id: ID! = "d1459a92-71c5-4edc-a6a1-c638c2d0d34c" ) {
+  resendUserInvite(id: $id) {
+    id
+    email
+    firstName
+    lastName
+    locale
+    data
+    status
+    createdByUserId
+    userTokenId
+    acceptedByUserId
+    tenantId
+    roleKeys
+    createdAt
+    updatedAt
+    statusUpdatedAt
+  }
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `id`              | uuid   | The invitee ID  |
+
+### `cancelUserInvite()` 
+
+The `cancelUserInvite` API will cancel a user invitation. The documentation for this API is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-cancelUserInvite).
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const userInviteModel = await roqClient.asUser("530c9a92-71c5-4dce-a6e3-c638c2d0b1bc").cancelUserInvite("d1459a92-71c5-4edc-a6a1-c638c2d0d34c")
+```
+</Tab>
+<Tab>
+```graphql
+mutation cancelUserInvite($id: ID! = "d1459a92-71c5-4edc-a6a1-c638c2d0d34c" ) {
+  cancelUserInvite(id: $id) {
+    id
+    email
+    firstName
+    lastName
+    locale
+    data
+    status
+    createdByUserId
+    userTokenId
+    acceptedByUserId
+    tenantId
+    roleKeys
+    createdAt
+    updatedAt
+    statusUpdatedAt
+  }
+}
+```
+</Tab>
+</Tabs>
+
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `id`              | uuid   | The invitee ID  |
 
 ## Queries
 
