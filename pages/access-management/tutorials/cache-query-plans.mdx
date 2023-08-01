@@ -7,7 +7,7 @@ The access management in ROQ is based on query plans which ROQ computes based on
 If there are any changes made to role permission either through the ROQ Console or API, the query plans for the generated application will be updated accordingly. The SDK caches this query plan information locally and refreshes it only at specific intervals. This makes your application self-sufficient and not dependent on the ROQ Platform's availability.
 
 <Callout type="info">
-Internally, the [`queryPlans()`](https://jupiter-pp.roq-platform.com/docs/#query-queryPlans) API is used to get the query plans from the ROQ Platform.
+Internally, in the generated application the [`queryPlans()`](https://jupiter-pp.roq-platform.com/docs/#query-queryPlans) API is used to get the query plans from the ROQ Platform.
 </Callout>
 
 ## Local Cache
