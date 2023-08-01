@@ -154,6 +154,63 @@ mutation cancelUserInvite($id: ID! = "d1459a92-71c5-4edc-a6a1-c638c2d0d34c" ) {
 |-------------------|--------|-----------------|
 | `id`              | uuid   | The invitee ID  |
 
+### `acceptUserInvite()`
+
+The `acceptUserInvite` API is the ROQ's validation if the invitee accept the invitation. For the full API documentation, please look into this [link](https://jupiter-pp.roq-platform.com/docs/#mutation-acceptUserInvite).
+
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const acceptInviteData = await roqClient.asSuperAdmin().acceptUserInvite({
+	acceptUserInvite: {
+		token: "oneTimeToken"
+	}
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation acceptUserInvite($acceptUserInvite: AcceptUserInviteDto! = {
+  token: "onetimetoken"
+}) {
+  acceptUserInvite(acceptUserInvite: $acceptUserInvite) {
+    id
+    email
+    firstName
+    lastName
+    locale
+    data
+    status
+    createdByUserId
+    createdBy {
+      ...UserModelFragment
+    }
+    userTokenId
+    acceptedByUserId
+    tenantId
+    roleKeys
+    acceptedBy {
+      ...UserModelFragment
+    }
+    createdAt
+    updatedAt
+    statusUpdatedAt
+    roles {
+      ...RolePageModelFragment
+    }
+  }
+}
+```
+
+The GraphQL response type documentation: [UserModelFragment](https://jupiter-pp.roq-platform.com/docs/#definition-UserModel), [RolePageModelFragment](https://jupiter-pp.roq-platform.com/docs/#definition-RolePageModel).
+</Tab>
+</Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `token`           | string   | The invitee accept token  |
+
 ## Queries
 
 You can fetch invites using the `userInvite` and `userInvites` queries:
@@ -171,5 +228,4 @@ query {
 }
 
 ```
-
 </Tab></Tabs>
