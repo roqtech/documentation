@@ -7,23 +7,19 @@ import Image from 'next/image';
 ## Introduction
 
 Especially in B2B SaaS applications, users are expected to invite other users into the same organization (~tenant).
-This feature is essential for projects who charge "per seat". ROQ ships with a complete solution for user invites,
-which you can use together with [authentication](/authentication).
+This feature is essential for projects who charge "per seat". ROQ ships with a complete solution for user invites, which you can use together with [authentication](/authentication).
 
-## How it works
+## How It Works
 
-### User invites
+### User Invites
 
-By integrating the `<UserInvitesTable />` UI component, you enable users to invite others. The invitee
-receives an email with a link to accept the invite. In B2B scenarios, the invited users join the same organization (~
-tenant) as the inviting user.
+By integrating the `<UserInvitesTable />` UI component, you enable users to invite others. The invitee receives an email with a link to accept the invite. In B2B scenarios, the invited users join the same organization (~tenant) as the inviting user.
 
 ![Image](/user-invite.png)
 
-### Role of the invited user
+### Role of The Invited User
 
-The inviting user can define the role of the invitee. For instance, the new user can be invited as a `member` or `manager`.
-This behavior is fully customizable in the ROQ Console.
+The inviting user can define the role of the invitee. For instance, the new user can be invited as a `member` or `manager`. This behavior is fully customizable in the ROQ Console.
 
 ![Image](/invite-user-role.png)
 
@@ -36,6 +32,6 @@ ROQ’s user invite provides multiple UI components which can be integrated into
 2. The [**`<UserInvitePane/>`**](/user-invites/ui-components#userinvitepane-) is a pane that allows to invite one or multiple users at once.
 3. The [**`<UserInviteButton/>`**](/user-invites/ui-components#userinvitebutton-) is a button which opens a lightbox.
 
-## APIs
+## User Invite API
 
 Chekout the User Invite API [here](/user-invites/api).
