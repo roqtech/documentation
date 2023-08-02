@@ -156,7 +156,7 @@ mutation cancelUserInvite($id: ID! = "d1459a92-71c5-4edc-a6a1-c638c2d0d34c" ) {
 
 ### `acceptUserInvite()`
 
-The `acceptUserInvite` API is the ROQ's validation if the invitee accept the invitation. For the full API documentation, please look into this [link](https://jupiter-pp.roq-platform.com/docs/#mutation-acceptUserInvite).
+The `acceptUserInvite` API is the ROQ's validation if the invitee accepts the invitation. For the full API documentation, please look into this [link](https://jupiter-pp.roq-platform.com/docs/#mutation-acceptUserInvite).
 
 
 <Tabs items={["Node.js SDK", "GraphQL"]}>
@@ -215,7 +215,7 @@ The GraphQL response type documentation: [UserModelFragment](https://jupiter-pp.
 
 The [`updateUserInvite()`](https://jupiter-pp.roq-platform.com/docs/#mutation-updateUserInvite) method API will update the data for the specific invitee ID.
 
-{/* Need to check this codes - Equan P.*/}
+{/* Need to check these codes - Equan P.*/}
 
 <Tabs items={["Node.js SDK", "GraphQL"]}>
 <Tab>
@@ -277,12 +277,11 @@ mutation updateUserInvite(
 
 ## Queries
 
-You can fetch invites using the `userInvite` and `userInvites` queries.
-
+You can fetch invites using the `userInvites` and `userInvite` queries.
 
 ### `userInvites()`
 
-You can get all the user invites list using this [`userInvites()`](https://jupiter-pp.roq-platform.com/docs/#query-userInvites) method API. You can limit the results and searching the invitee by email, name, or keywords, etc.
+You can get all the user invites list using this [`userInvites()`](https://jupiter-pp.roq-platform.com/docs/#query-userInvites) method API. You can limit the results and search the invitee by email, name, or keywords, etc.
 
 <Tabs items={['Node.js SDK','GraphQL']}>
 <Tab>
@@ -357,7 +356,7 @@ query userInvites(
 
 ### `userInvite()`
 
-Get the data of the invitee. The documentation for `userInvite` API is in the [GraphQL API reference](https://jupiter-pp.roq-platform.com/docs/#query-userInvite).
+Get the data of the invitee. The documentation for the `userInvite` API is in the [GraphQL API reference](https://jupiter-pp.roq-platform.com/docs/#query-userInvite).
 
 
 <Tabs items={["Node.js SDK", "GraphQL"]}>
@@ -432,3 +431,7 @@ query userInvite($id: ID! = "78f665fb-61ab-4931-a565-3136e6d01553") {
 ```
 </Tab>
 </Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `id`              | uuid   | The invitee ID  |
