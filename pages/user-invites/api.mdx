@@ -294,7 +294,83 @@ const userInvitesData = await roqClient.asSuperAdmin().userInvites({
 </Tab>
 <Tab>
 ```graphql
-query userInvite($id: ID! = "b968e4b1-eea5-4e63-a208-5923de3113b1") {
+query userInvites(
+  $limit: Int = 2
+) {
+  userInvites(
+    limit: $limit
+  ) {
+    totalCount
+    data {
+       id
+      email
+      firstName
+      lastName
+      locale
+      data
+      status
+      createdByUserId
+      createdBy {
+        id	
+        email	
+        reference	
+        phone	
+        firstName	
+        lastName	
+        locale	
+        timezone
+      }
+      userTokenId
+      acceptedByUserId
+      tenantId
+      roleKeys
+      acceptedBy {
+        id	
+        email	
+      }
+      createdAt
+      updatedAt
+      statusUpdatedAt
+      roles {
+        totalCount
+        data {
+          id 	
+          key	
+          name
+          projectEntityId	
+          userIdField	
+        }
+      }
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `limit`           | integer   | Limit the results  |
+| `search`          | object    | Search parameter. Look into this [here](https://jupiter-pp.roq-platform.com/docs/#definition-UserInviteSearchArgType)  |
+| `filter`          | object    | Filter parameter. Look into this [here](https://jupiter-pp.roq-platform.com/docs/#definition-UserInviteFilterArgType)
+
+
+### `userInvite()`
+
+Get the data of the invitee. The documentation for `userInvite` API is in the [GraphQL API reference](https://jupiter-pp.roq-platform.com/docs/#query-userInvite).
+
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const userInvite = await roqClient.asSuperAdmin().userInvite({
+	id: "78f665fb-61ab-4931-a565-3136e6d01553"
+})
+```
+</Tab>
+<Tab>
+```graphql
+query userInvite($id: ID! = "78f665fb-61ab-4931-a565-3136e6d01553") {
   userInvite(id: $id) {
     id
     email
@@ -356,10 +432,3 @@ query userInvite($id: ID! = "b968e4b1-eea5-4e63-a208-5923de3113b1") {
 ```
 </Tab>
 </Tabs>
-
-| Parameter         | Type   | Description                                  |
-|-------------------|--------|-----------------|
-| `limit`           | integer   | Limit the results  |
-| `search`          | object    | Search parameter. Look into this [here](https://jupiter-pp.roq-platform.com/docs/#definition-UserInviteSearchArgType)  |
-| `filter`          | object    | Filter parameter. Look into this [here](https://jupiter-pp.roq-platform.com/docs/#definition-UserInviteFilterArgType)
-
