@@ -4,23 +4,12 @@ import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 
 ## How to Use User Invite with Notify API
 
-You can use the user invite API with ROQ notification system. 
+You can use the user invite API with ROQ notification system. The use case here is, for example, to send a user a notification after accept the invitation. For detail on how to do this please look into this [tutorial](/user-invites/tutorials/user-invites-with-notify).
 
-{
-	/**
-	 * use case
-	 * 
-		Invitation: The vendor receives an automated email containing an invitation link to join the B2B applications. This invitation is triggered by the User Invite API.
-
-		Notification Setup: Once the vendor has joined the application, the ROQ notification system is set up to send the vendor updates about the application, such as any changes in tools, dashboard updates, or collaboration opportunities.
-
-		Notifications: The vendor will then receive these notifications through the ROQ system, which can be set up to deliver them via email, SMS, or in-app alerts.
-	 */
-}
 
 ## How to Use User Invite with Mails API
 
-If you use User Invites API its best to combine it with ROQ's Mails API. 
+If you use User Invites API, it's best to combine it with ROQ's Mails API. It's preffered to use User Invites UI Components for easy and fast development but If you need a custom code for user invitation, you can do it with API. Please look into this [tutorial](/user-invites/tutorials/user-invites-with-mails) on how to achieve that.
 
 {
 	/**
@@ -31,6 +20,8 @@ If you use User Invites API its best to combine it with ROQ's Mails API.
 }
 
 ## How to use User Invite With Locale
+
+User Invites UI components support locales, means you can send email invitation to the user language. Read this [tutorial](/user-invites/tutorials/user-invites-with-locales) on how to do that.
 
 {
 	/**
