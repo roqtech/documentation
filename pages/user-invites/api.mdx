@@ -221,13 +221,13 @@ The [`updateUserInvite()`](https://jupiter-pp.roq-platform.com/docs/#mutation-up
 <Tab>
 ```js
 const updateUserInvite = await roqClient.asSuperAdmin().updateUserInvite({
-  id: "80c81294-f338-4819-9b1f-acc314babd5f",
+  id: "3f6f6373-f05e-45be-b0bf-e03dea172881",
   userInvite: {
-     acceptedByUserId: '89043940ed-9b1f-4819-9092-abd5facc314b',
-     firstName: "Adam",
-     lastName: "Houdini",
-     locale: "de-DE",
-     data: { address: "Somewhere ST." }
+     acceptedByUserId: null,
+     firstName: "Fast",
+     lastName: "Ninja",
+     locale: "id-ID",
+     data: { address: "Brosot ST." }
   }
 })
 ```
@@ -235,13 +235,13 @@ const updateUserInvite = await roqClient.asSuperAdmin().updateUserInvite({
 <Tab>
 ```graphql
 mutation updateUserInvite(
-  $id: ID! = "80c81294-f338-4819-9b1f-acc314babd5f",
+  $id: ID! = "3f6f6373-f05e-45be-b0bf-e03dea172881",
   $userInvite: UserInviteUpdateDto! ={
-    acceptedByUserId: "89043940ed-9b1f-4819-9092-abd5facc314b",
-    firstName: "Adam",
-    lastName: "Houdini",
-    locale: "de-DE",
-    data: {address: "Somewhere ST."}
+    acceptedByUserId: null,
+    firstName: "Fast",
+    lastName: "Ninja",
+    locale: "id-ID",
+    data: {address: "Brosot ST."}
   }
 ) {
   updateUserInvite(
