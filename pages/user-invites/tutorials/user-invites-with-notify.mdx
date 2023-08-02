@@ -1,4 +1,120 @@
 import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 
-
 # How to Use User Invite with Notify API
+
+Manually inviting each user, and guiding them through onboarding for the first time, can be laborious and inefficient. We can automate this process using User Invite and Notify API from ROQ. After the invitation acceptance, we can notify the new user about onboarding information.
+
+Other cases than the above are notifying a user periodically for pending status invitations or notifying a user after inviting another user.
+
+We can use the `userInvites()` API to query any user invitation. This API code will get all the invitees:
+
+```js
+const userInvitesData = await roqClient.asSuperAdmin().userInvites({
+  limit: 10
+})
+```
+<Callout type="info">
+For the API details. Please look into the [User Invites API documentation](/user-invites/api).
+</Callout>
+
+If you want to find specific invitee data based on the email, we can use the `filter` option:
+
+```js
+const search = await roqClient.asSuperAdmin().userInvites({
+		filter: {
+			email: {
+				equalTo: "some@email.com"
+			}
+		}
+	}
+)
+```
+
+The response data if such an email exists in the invitee list:
+
+```js
+{
+  "data": {
+    "userInvites": {
+      "totalCount": 1,
+      "data": [
+        {
+          "id": "b968e4b1-eea5-4e63-a208-5923de3113b1",
+          "email": "some@email.com",
+          "firstName": "",
+          "lastName": "",
+          "locale": "de-DE",
+          "data": null,
+          "status": "accepted",
+          "createdByUserId": "530c9a92-71c5-4dce-a6e3-c638c2d0b1bc",
+          "createdBy": {
+            "id": "530c9a92-71c5-4dce-a6e3-c638c2d0b1bc",
+            "email": "anna.w@gmail.com",
+            "reference": "530c9a92-71c5-4dce-a6e3-c638c2d0b1bc",
+            "phone": "+12119113113",
+            "firstName": "Anna",
+            "lastName": "W.",
+            "locale": "en-US",
+            "timezone": "Asia/Jakarta"
+          },
+          "userTokenId": "02b20393-5db0-4388-b9ab-b37392512c26",
+          "acceptedByUserId": "c003d87b-e611-4809-8e44-4d9d4107a0ea",
+          "tenantId": "ee764883-f2c3-4486-9de6-070345e350af",
+          "roleKeys": [
+            "content-creator"
+          ],
+          "acceptedBy": {
+            "id": "c003d87b-e611-4809-8e44-4d9d4107a0ea",
+            "email": "some@email.com"
+          },
+          "createdAt": "2023-08-01T03:01:06.189Z",
+          "updatedAt": "2023-08-01T18:33:21.175Z",
+          "statusUpdatedAt": "2023-08-01T18:33:20.650Z",
+          "roles": {
+            "totalCount": 1,
+            "data": [
+              {
+                "id": "f2b0f40b-b43e-4a76-875c-5b5e84c81cb4",
+                "key": "content-creator",
+                "name": "Content Creator",
+                "projectEntityId": "6cc9e383-0937-409d-9008-b1da37578ad1",
+                "userIdField": "roq_user_id"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+```
+
+From this data, we can, presumably use the invitee id and then send a notification message for onboarding.
+
+<Callout type="info">
+Before we send any custom notification make sure to create a template for the notification in the ROQ Console. Look into this [link](/notifications/tutorials/add-notifications) on how to add a new notification template.
+</Callout>
+
+Assume the notification `key` is `onboardingInvitee` and there are  2 variables which are `email` and `message`:
+
+```js
+// Extract the necessary information from the response data
+let userId = search.data.userInvites.data[0].acceptedByUserId;
+let tenantId = search.data.userInvites.data[0].tenantId;
+let email = search.data.userInvites.data[0].email;
+
+const link = "https://docs.roq.tech/getting-started"
+const notifyUser = await roqClient.asSuperAdmin().notify({
+	notification: {
+		key: "onboardingInvitee",
+		recipients: {
+			userIds: [userId], 
+			allUsers: false,
+			tenantIds: [tenantId]
+		},
+		data: [
+			{ key: "email", value: email },
+			{ key: "message", value: `To get started 👉 ${link}` }]
+	}
+});
+```
