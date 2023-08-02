@@ -95,7 +95,7 @@ From this data, we can, presumably use the invitee id and then send a notificati
 Before we send any custom notification make sure to create a template for the notification in the ROQ Console. Look into this [link](/notifications/tutorials/add-notifications) on how to add a new notification template.
 </Callout>
 
-Assume the notification `key` is `onboardingInvitee` and there are  2 variables which are `email` and `message`:
+Assume the notification `key` is `onboardingInvitee` and there are two variables which are `email` and `message`:
 
 ```js
 // Extract the necessary information from the response data
@@ -104,17 +104,69 @@ let tenantId = search.data.userInvites.data[0].tenantId;
 let email = search.data.userInvites.data[0].email;
 
 const link = "https://docs.roq.tech/getting-started"
-const notifyUser = await roqClient.asSuperAdmin().notify({
-	notification: {
-		key: "onboardingInvitee",
-		recipients: {
-			userIds: [userId], 
-			allUsers: false,
-			tenantIds: [tenantId]
-		},
-		data: [
-			{ key: "email", value: email },
-			{ key: "message", value: `To get started 👉 ${link}` }]
-	}
-});
+if (status === "accepted") {
+	const notifyUser = await roqClient.asSuperAdmin().notify({
+		notification: {
+			key: "onboardingInvitee",
+			recipients: {
+				userIds: [userId], 
+				allUsers: false,
+				tenantIds: [tenantId]
+			},
+			data: [
+				{ key: "email", value: email },
+				{ key: "message", value: `To get started 👉 ${link}` }]
+		}
+	});
+} else {
+    console.log("Invite not accepted, no notification sent.");
+}
+```
+
+
+If you want more robust solution you can wrapped it into a single function:
+
+```js
+async function notifyAcceptedInvites(emailAddress) {
+    const link = "https://docs.roq.tech/getting-started";
+	const search = await roqClient.asSuperAdmin().userInvites({
+        filter: {
+            email: {
+                equalTo: emailAddress
+            }
+        }
+    });
+    
+    // Iterate over all the invites
+    for (let invite of search.data.userInvites.data) {
+        if (invite.status === 'accepted') {
+            const userId = invite.acceptedByUserId;
+            const tenantId = invite.tenantId;
+            const email = invite.email;
+
+            // Send the notification
+            const notifyUser = await roqClient.asSuperAdmin().notify({
+                notification: {
+                    key: "onboardingInvitee",
+                    recipients: {
+                        userIds: [userId],
+                        allUsers: false,
+                        tenantIds: [tenantId]
+                    },
+                    data: [
+                        { key: "email", value: email },
+                        { key: "message", value: `To get started 👉 ${link}` }]
+                }
+            });
+
+            console.log(`Notification sent for accepted invite: ${invite.id}`);
+        }
+    }
+}
+```
+
+To use it, simply call the `notifyAcceptedInvites()` with the email parameter:
+
+```js
+await notifyAcceptedInvites("some@email.com").catch(console.error);
 ```
