@@ -1,0 +1,12 @@
+{
+  "index": "Overview",
+  "user-invites-with-notify": "Using User Invite with Notify",
+  "user-invites-with-mails": {
+    "title": "Using User Invite with Mails",
+    "display": "hidden"
+  },
+  "user-invites-with-locales": {
+    "title": "Using User Invite with Locales",
+    "display": "hidden"
+  }
+}
