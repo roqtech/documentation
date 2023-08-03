@@ -2,3 +2,40 @@ import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 
 
 # How to use User Invites with Mails API
+
+Programmatically you can use User Invites API with [`sendMail()`](/mails/api#sendmail). There are many cases why should use Mails API with User Invites.
+
+For example, if you need to send an addition information by email after the invitee accceptance.
+
+```js
+await client.asSuperAdmin().sendMail({
+  mail: {
+      key: "onboarding-getstarted",
+      locale: "en-US",
+      emails: ["test@randomemail.com"],
+      data: [   
+      {
+        key: "recipients_name",
+        value: "exampleValue"
+      }, 
+      {
+        key: "website_url",
+        value: "exampleValue"
+      }, 
+      {
+        key: "your_name",
+        value: "exampleValue"
+      }, 
+      {
+        key: "your_position",
+        value: "exampleValue"
+      }, 
+      {
+        key: "your_contact_information",
+        value: "exampleValue"
+      }, 
+    ]
+  },
+});
+```
+    
