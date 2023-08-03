@@ -19,7 +19,19 @@ others. Please refer to the [mails feature guide](/mails) for more information a
 The `sendMail()` mutation can be used to send e-mails. The mutation returns the number of emails sent. You can find
 the full API doc of this mutation [here](https://jupiter-pp.roq-platform.com/docs/#mutation-sendMail).
 
-<Tabs items={['Node.js SDK', 'GraphQL']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL']}>
+<Tab>
+```typescript
+await client.asSuperAdmin().sendMail({
+  mail: {
+      key: 'abc123',
+      locale: 'abc123',
+      emails: ['xyz789'],
+      data: [{ key: 'xyz789', value: 'xyz789' }] },
+});
+```
+</Tab>
+<Tab>
 
 ```graphql
 mutation {
@@ -36,20 +48,8 @@ mutation {
 }
 
 ```
-
-</Tab><Tab>
-
-```typescript
-await client.asSuperAdmin().sendMail({
-  mail: {
-      key: 'abc123',
-      locale: 'abc123',
-      emails: ['xyz789'],
-      data: [{ key: 'xyz789', value: 'xyz789' }] },
-});
-```
-
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 | Parameter | Type   | Description                                                                   |
 |-----------|--------|-------------------------------------------------------------------------------|
