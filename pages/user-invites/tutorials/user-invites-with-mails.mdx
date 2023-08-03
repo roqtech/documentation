@@ -2,9 +2,9 @@ import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 
 # How to use User Invites with Mails API
 
-Programmatically you can use User Invites API with [`sendMail()`](/mails/api#sendmail) from Mails API. There are many cases why should use Mails API with User Invites. For example, if you need to send additional information by email after the invitee acceptance or if you need to send information about the invitation to another user address.
+You can utilize the User Invites API in conjunction with the [`sendMail()`](/mails/api#sendmail) function from the Mails API. There are numerous scenarios where it is advantageous to use the Mails API along with User Invites. For instance, if you wish to send supplementary details via email subsequent to the invitee's acceptance, or if you need to forward information about the invitation to a different user's email address.
 
-For example, we want to send information about how to get started with our application after invites accept the invitation. To send an email we will use a code like this:
+As an illustration, we aim to provide instructions on how to begin using our application once invitations are accepted. To send an email, we will utilize a code similar to this:
 
 ```js
 const sendMailStatus = await roqClient.asSuperAdmin().sendMail({
@@ -19,13 +19,13 @@ const sendMailStatus = await roqClient.asSuperAdmin().sendMail({
 	},
 });
 ```
-Before sending any email make sure you have an email template on the ROQ Console with the `key` is `onboarding-getstarted`.
+Make sure to check if you have an email template with the key `onboarding-getstarted` on the ROQ Console before sending any emails.
 
 <Callout type="info">
 To create an email template on the ROQ Console. Please look into this [tutorial](/mails/tutorials/create-email-templates).
 </Callout>
 
-To support emails sent to many invitees, We can query the invitee list and then filter it based on the `status` property. We will send emails based on the `accepted` status value.
+To provide support for emails sent to numerous invitees, we can retrieve the list of invitees and then sort it according to their `status` property. Emails will be sent only to those with an `accepted` status value.
 
 ```js
 import 'dotenv/config';
@@ -83,7 +83,7 @@ async function sendMailToAcceptedInvites(emailAddress) {
 }
 ```
 
-To search invitee with email `user007@mewmail.com` and send an onboarding get started email if the invitation is accepted:
+To search for an invitee with the email address `user007@mewmail.com` and send them an onboarding get started email if they accept the invitation:
 
 ```js
 await sendMailToAcceptedInvites("user007@mewmail.com").catch(console.error);
