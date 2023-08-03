@@ -28,6 +28,19 @@ To create an email template on the ROQ Console. Please look into this [tutorial]
 To support emails sent to many invitees, We can query the invitee list and then filter it based on the `status` property. We will send emails based on the `accepted` status value.
 
 ```js
+import 'dotenv/config';
+import { Platform } from '@roq/nodejs';
+
+/**
+ * Connect to the ROQ Platform
+ * Credentials in .env file
+ */
+const roqClient = new Platform({
+	apiKey: process.env.ROQ_API_KEY,
+	environmentId: process.env.ROQ_ENVIRONMENT_ID,
+	host: process.env.ROQ_PLATFORM_URL
+})
+
 async function sendMailToAcceptedInvites(emailAddress) {
     const search = await roqClient.asSuperAdmin().userInvites({
         filter: {
@@ -68,7 +81,6 @@ async function sendMailToAcceptedInvites(emailAddress) {
         }
     }
 }
-
 ```
 
 To search invitee with email `user007@mewmail.com` and send an onboarding get started email if the invitation is accepted:
