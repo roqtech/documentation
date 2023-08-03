@@ -1,41 +1,41 @@
 import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 
-
 # How to use User Invites with Mails API
 
-Programmatically you can use User Invites API with [`sendMail()`](/mails/api#sendmail). There are many cases why should use Mails API with User Invites.
+Programmatically you can use User Invites API with [`sendMail()`](/mails/api#sendmail). There are many cases why should use Mails API with User Invites. For example, if you need to send an addition information by email after the invitee accceptance or you need to send information about the invitation to another user address.
 
-For example, if you need to send an addition information by email after the invitee accceptance.
+To send an email susing ROQ's Mails API is very easy:
 
 ```js
 await client.asSuperAdmin().sendMail({
   mail: {
       key: "onboarding-getstarted",
       locale: "en-US",
-      emails: ["test@randomemail.com"],
+      emails: ["user007@mewmail.com"],
       data: [   
       {
         key: "recipients_name",
-        value: "exampleValue"
+        value: "any_name"
       }, 
       {
-        key: "website_url",
-        value: "exampleValue"
+        key: "getting_started_url",
+        value: "https://docs.roq.tech/getting-started"
       }, 
       {
         key: "your_name",
-        value: "exampleValue"
-      }, 
-      {
-        key: "your_position",
-        value: "exampleValue"
-      }, 
-      {
-        key: "your_contact_information",
-        value: "exampleValue"
-      }, 
+        value: "user_invitee_name"
+      }
     ]
   },
 });
 ```
-    
+
+Before send any email make sure you have an email template on the ROQ Console.
+
+<Callout type="info">
+To create an email template on the ROQ Console. Please look into this [tutorial](/mails/tutorials/create-email-templates).
+</Callout>
+
+
+
+
