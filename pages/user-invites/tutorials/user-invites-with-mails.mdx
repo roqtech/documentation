@@ -2,40 +2,77 @@ import { Callout, Tab, Tabs } from 'nextra-theme-docs'
 
 # How to use User Invites with Mails API
 
-Programmatically you can use User Invites API with [`sendMail()`](/mails/api#sendmail). There are many cases why should use Mails API with User Invites. For example, if you need to send an addition information by email after the invitee accceptance or you need to send information about the invitation to another user address.
+Programmatically you can use User Invites API with [`sendMail()`](/mails/api#sendmail) from Mails API. There are many cases why should use Mails API with User Invites. For example, if you need to send additional information by email after the invitee acceptance or if you need to send information about the invitation to another user address.
 
-To send an email susing ROQ's Mails API is very easy:
+For example, we want to send information about how to get started with our application after invites accept the invitation. To send an email we will use a code like this:
 
 ```js
-await client.asSuperAdmin().sendMail({
-  mail: {
-      key: "onboarding-getstarted",
-      locale: "en-US",
-      emails: ["user007@mewmail.com"],
-      data: [   
-      {
-        key: "recipients_name",
-        value: "any_name"
-      }, 
-      {
-        key: "getting_started_url",
-        value: "https://docs.roq.tech/getting-started"
-      }, 
-      {
-        key: "your_name",
-        value: "user_invitee_name"
-      }
-    ]
-  },
+const sendMailStatus = await roqClient.asSuperAdmin().sendMail({
+	mail: {
+		key: 'onboarding-getstarted',
+		locale: 'en-US',
+		emails: ['user007@mewmail.com'],
+		data: [
+			{ key: 'recipients_name', value: 'any_name' },
+			{ key: "getting_started_url", value: "https://docs.roq.tech/getting-started" },
+			{ key: "your_name", value: "user_invitee_name" }]
+	},
 });
 ```
-
-Before send any email make sure you have an email template on the ROQ Console.
+Before sending any email make sure you have an email template on the ROQ Console with the `key` is `onboarding-getstarted`.
 
 <Callout type="info">
 To create an email template on the ROQ Console. Please look into this [tutorial](/mails/tutorials/create-email-templates).
 </Callout>
 
+To support emails sent to many invitees, We can query the invitee list and then filter it based on the `status` property. We will send emails based on the `accepted` status value.
 
+```js
+async function sendMailToAcceptedInvites(emailAddress) {
+    const search = await roqClient.asSuperAdmin().userInvites({
+        filter: {
+            email: {
+                equalTo: emailAddress
+            }
+        }
+    });
 
+    // Iterate over all the invites
+    for (let invite of search.data.userInvites.data) {
+        if (invite.status === 'accepted') {
+            const email = invite.email;
+            const name = invite.firstName + ' ' + invite.lastName;
 
+            // Send the mail
+            const sendMailStatus = await roqClient.asSuperAdmin().sendMail({
+                mail: {
+                    key: 'onboarding-getstarted',
+                    locale: 'en-US',
+                    emails: [email],
+                    data: [
+                        { 
+                          key: 'recipients_name', 
+                          value: name
+                        },
+                        { key: "getting_started_url",
+                          value: "https://docs.roq.tech/getting-started"
+                        },
+                        { key: "your_name", 
+                          value: name 
+                        }
+                    ]
+                },
+            });
+
+            console.log(`Mail sent for accepted invite: ${invite.id}`);
+        }
+    }
+}
+
+```
+
+To search invitee with email `user007@mewmail.com` and send an onboarding get started email if the invitation is accepted:
+
+```js
+await sendMailToAcceptedInvites("user007@mewmail.com").catch(console.error);
+```
