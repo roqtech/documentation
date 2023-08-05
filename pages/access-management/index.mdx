@@ -40,7 +40,7 @@ You can also define permissions that are applied to your project!
 
 */}
 
-Technically, the access management works based on a query plan which ROQ computes based on the current user's permissions and your database tables. The SDK is caching this information locally and only refreshes it periodically. This way, your application is independent of the availability of the ROQ Platform. Furthermore, there is no need to send all your data. ROQ only needs to know the schema of your database; the actual queries will be performed on your side.
+Technically, the access management works based on a query plan which ROQ computes based on the current user's permissions and your database tables. The SDK is caching this information locally. This way, your application is independent of the availability of the ROQ Platform. Furthermore, there is no need to send all your data. ROQ only needs to know the schema of your database; the actual queries will be performed on your side.
 
 { /* You can use two functions of the SDK in your project: `hasAccess` and `buildQueryPlan`
 
