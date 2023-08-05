@@ -6,11 +6,12 @@ import { Callout, Tab, Tabs} from "nextra-theme-docs"
 
 To assign or unassign roles to a user, we can use ROQ's Node.js SDK API. For a step-by-step guide on how to accomplish this, please read this [tutorial](/access-management/tutorials/user-roles-assignment).
 
-{/*
+
 ## Filtering Data by User Roles
 
-[DRAFT]
-*/
-}
+Depending on their roles, users will have varying levels of access to different entities. ROQ offers access management that operates through a query plan that is computed based on the user's current permissions and the database tables. To understand how this provides access to different entities, check out this tutorial on [filtering data by user roles](/access-management/tutorials/filtering-data-by-user-roles).
 
+## How to Cache Query Plans
+
+To make changes to user roles and permissions, you can use the ROQ Console. It's important to note that these changes will impact query plans and should be applied to both generated and custom applications. ROQ offers several methods for updating query plans, and you can find a tutorial on how to do so at [how to cache query plans](/access-management/tutorials/cache-query-plans).
 
