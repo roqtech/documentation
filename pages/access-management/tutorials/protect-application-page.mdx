@@ -4,11 +4,11 @@ import InstallROQReact from "/snippets/do-roq-ui-react-setup.mdx"
 
 # How to Protect Application Pages
 
+In the generated application rendering a specific react component is protected by the `withAuthorization()` method. This function is designed to handle access control in your application. It does this by checking if the current user has the required permissions to access a specific feature or resource before rendering the wrapped component.
+
 ## Next.js
 
 <InstallROQNext/>
-
-In the generated application rendering a specific react component is protected by the `withAuthorization()` method. This function is designed to handle access control in your application. It does this by checking if the current user has the required permissions to access a specific feature or resource before rendering the wrapped component.
 
 Let's say we have a React component called `<CommentCreatePage/>` that's used for creating new comments:
 
