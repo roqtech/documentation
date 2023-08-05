@@ -50,7 +50,7 @@ export default function apiHandler(req: NextApiRequest, res: NextApiResponse) {
 }
 ```
 
-The code presented above provides security measures for a POST HTTP request that adds a new comment. Its purpose is to access the route, if you are on local development, which is located at:
+The code presented above provides security measures for a POST HTTP request that adds a new comment using `createComment()` function. Its purpose is to access the route, if you are on local development, which is located at:
 
 ```shell
 http://localhost:3000/comment/create
@@ -58,7 +58,7 @@ http://localhost:3000/comment/create
  
 It assumes that authentication has already been done (that is, the user's identity has been verified), and it focuses on checking whether the authenticated user has the required permissions to perform a certain action.
 
-Let's break it down:
+Let's break it down the last function in the code, the `apiHandler()` function:
 
 1. `authorizationValidationMiddleware(handler)`: This creates a new function that first checks if the user is authorized to perform the requested operation (using `authorizationValidationMiddleware`), and then, if they are, processes the request using `handler`.
 
