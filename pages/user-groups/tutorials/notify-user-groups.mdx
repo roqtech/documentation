@@ -11,7 +11,7 @@ For example, for the development purpose, let use GraphQL query to get all the r
 The GraphQL API URL server can be found in the ROQ Console. Go to the menu **Application Details** → **Super Admin Tokens**. You will need the URL and tokens.
 </Callout>
 
-You will need to install `@roq/nodejs`, `dotenv`, and `graphql-request` npm packages for this code sample:
+To use this code sample, make sure to install the npm packages `@roq/nodejs`, `dotenv`, and `graphql-request`.
 
 ```js
 import 'dotenv/config'
@@ -42,34 +42,114 @@ const graphqlClient = new GraphQLClient(endpoint, {
 
 const query = gql`
 {
-    userGroups {
-    totalCount
+   userGroups {
+  	totalCount
     data {
-        id
-  	    name
-  	    reference
+      id
+  	  name
+  	  reference
+      users {
+        totalCount
+        data {
+          id
+        }
+      }
     }
-   }
+    
+  }
 }
 `
 
 const data = await graphqlClient.request(query)
-const groups = data.userGroups.data
-```
+console.log(JSON.stringify(data))
 
-The output of the `groups` variable is as follows:
+```
+Below is the JSON representation of the `data` variable:
 
 ```js
-[
-  {
-    id: 'a9c828ec-3e3b-47f8-b178-78d903d79791',
-    name: 'Market Research',
-    reference: 'market-research'
-  },
-  {
-    id: '42103455-1e00-41bf-9714-c70a8c17caf9',
-    name: 'Video Creator',
-    reference: 'video-creator-group'
-  }
-]
+{
+	"userGroups": {
+		"totalCount": 2,
+		"data": [
+			{
+				"id": "a9c828ec-3e3b-47f8-b178-78d903d79791",
+				"name": "Market Research",
+				"reference": "market-research",
+				"users": {
+					"totalCount": 2,
+					"data": [
+						{
+							"id": "c003d87b-e611-4809-8e44-4d9d4107a0ea"
+						},
+						{
+                            "id": "530c9a92-71c5-4dce-a6e3-c638c2d0b1bc"
+                        }
+					]
+				}
+			},
+			{
+				"id": "42103455-1e00-41bf-9714-c70a8c17caf9",
+				"name": "Video Creator",
+				"reference": "video-creator-group",
+				"users": {
+					"totalCount": 1,
+					"data": [
+						{
+							"id": "530c9a92-71c5-4dce-a6e3-c638c2d0b1bc"
+						}
+					]
+				}
+			}
+		]
+	}
+}
 ```
+We can use the group IDs from the output response as references for our notifications and to determine which users should receive them.
+
+<Callout type="info">
+To add new notification template in the ROQ Console, please read this  [add notifications](/notifications/tutorials/add-notifications) tutorial.
+</Callout>
+
+For example to send a notification for group **Video Creator** which have a group id `42103455-1e00-41bf-9714-c70a8c17caf9`:
+
+```js
+// Suppose you have the group IDs as follows:
+const selectedGroupIds = ["a9c828ec-3e3b-47f8-b178-78d903d79791"];
+
+// Filter the groups with the provided IDs.
+const selectedGroups = data.userGroups.data.filter(group => selectedGroupIds.includes(group.id));
+
+if (selectedGroups.length === 0) {
+	console.log("No groups found with the provided IDs.");
+} else {
+	// Extract the user IDs from the selected groups.
+	const userIds = selectedGroups.flatMap(group => group.users.data.map(user => user.id));
+
+	const notifyStatus = await roqClient.asSuperAdmin().notify({
+		notification: {
+			key: "news-update",
+			recipients: {
+				userIds: userIds,
+				allUsers: false,
+				userGroups: {
+					operator: "AND",
+					userGroupIds: selectedGroupIds
+				}
+			},
+			data: [
+				{ key: "platform_name", value: "AIVidz" },
+				{ key: "your_name", value: "Anna W." },
+				{ key: "company_name", value: "AIVidz Ltd." }
+			]
+		}
+	});
+
+	console.log(notifyStatus);
+}
+
+```
+
+If you loggin as a user with member of group **Video Creator** in the generated application, you will receive the notification
+
+![notification popup](/notification-group.png)
+
