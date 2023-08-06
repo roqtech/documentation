@@ -2,3 +2,114 @@ import { Tab, Tabs, Callout } from 'nextra-theme-docs';
 
 # Send Email to User Groups
 
+In business applications, it is often necessary to communicate with specific user groups based on their characteristics or behavior. To accomplish this task, we can utilize GraphQL or the [User Groups](/user-groups/api) and [Mails](/mails/api) APIs.
+
+It's easy to query user groups using GraphQL:
+
+```graphql
+query {
+  userGroups {
+  	totalCount
+    data {
+      id
+  	  name
+  	  reference
+      users {
+        totalCount
+        data {
+          id
+          email
+        }
+      }
+    }
+    
+  }
+}
+```
+
+Touse the data from the GraphQL query, we need to filter the response data to obtain the email addresses of users belonging to a particular group. Once we have the required email data, we can use the [`sendEmail()`](/mails/api#sendmail) API to send emails to the group.
+
+Here's the simple code how to achieve such a task using ROQ Node.js SDK and GraphQL query:
+
+```js
+import 'dotenv/config'
+import { Platform } from '@roq/nodejs'
+import { GraphQLClient, gql } from 'graphql-request'
+
+/**
+ * Connect to the ROQ Platform
+ */
+const roqClient = new Platform({
+	apiKey: process.env.ROQ_API_KEY,
+	environmentId: process.env.ROQ_ENVIRONMENT_ID,
+	host: process.env.ROQ_PLATFORM_URL
+})
+
+const endpoint = 'https://qa03.roq-platform.com/v01/server/graphql';
+const graphqlClient = new GraphQLClient(endpoint, {
+	headers: {
+		"roq-platform-authorization": "Bearer <token1_here>",
+		"roq-platform-server-authorization": "Basic <token2_here>"
+	}
+})
+
+const query = gql`
+{
+    userGroups {
+  	totalCount
+    data {
+      id
+  	  name
+  	  reference
+      users {
+        totalCount
+        data {
+          id
+		  email
+
+        }
+      }
+    } 
+  }
+}
+`
+const data = await graphqlClient.request(query);
+// Suppose you have the group IDs as follows:
+const selectedGroupIds = ["a9c828ec-3e3b-47f8-b178-78d903d79791"];
+// Filter the groups with the provided IDs.
+const selectedGroups = data.userGroups.data.filter(group => selectedGroupIds.includes(group.id));
+
+if (selectedGroups.length === 0) {
+	console.log("No groups found with the provided IDs.");
+} else {
+	// Extract the user emails from the selected groups.
+	const emails = selectedGroups.flatMap(group => group.users.data.map(user => user.email));
+	// Send Emails
+	const emailStatus = await roqClient.asSuperAdmin().sendMail({
+		mail: {
+			key: "market-research-group-email",
+			locale: "en-US",
+			emails: emails,
+			data: [
+				{ key: "name", value: "James Davis" },
+				{ key: "news_update", value: "the Analytics Dashboard is available!" },
+				{ key: "your_name", value: "Anna W." },
+				{ key: "your_position", value: "AnyVidz CTO" }
+			]
+		}
+	})
+	console.log(emailStatus)
+}
+```
+
+<Callout type="info">
+To run this code above, you need to:
+1. Install `@roq/nodejs`, `graphql-request`, and `dotenv` npm packages. 
+2. Get the credentials from ROQ Console and put them in the `.env` file.
+3. Make sure there is an email template in ROQ Console with key name `market-research-group-email`. Go to this [tutorial](/mails/tutorials/create-email-templates) to create an email template.
+</Callout>
+
+{
+	/* show mail screenshot
+	*/
+}
