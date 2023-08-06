@@ -58,13 +58,13 @@ http://localhost:3000/comment/create
  
 It assumes that authentication has already been done (that is, the user's identity has been verified), and it focuses on checking whether the authenticated user has the required permissions to perform a certain action.
 
-Let's break it down the last function in the code, the `apiHandler()` function:
+Let's break it down to the last function in the code, the `apiHandler()` function:
 
 1. `authorizationValidationMiddleware(handler)`: This creates a new function that first checks if the user is authorized to perform the requested operation (using `authorizationValidationMiddleware`), and then, if they are, processes the request using `handler`.
 
 2. `errorHandlerMiddleware(authorizationValidationMiddleware(handler))`: This creates a new function that handles any errors that might be thrown when checking the user's authorization or processing the request.
 
-So the end result is a function that does three things: handles errors, checks authorization, and processes the request.
+So the result is a function that does three things: handles errors, checks authorization, and processes the request.
 
 When a request comes in, this function is then called with the request `req` and response `res` objects: 
 
