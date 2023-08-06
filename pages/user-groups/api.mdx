@@ -13,7 +13,7 @@ group users by their home country or any other characteristic. Read more about t
 
 ### `createUserGroup()`
 
-To create a user group, you simply need to define a name and reference.
+To create a user group, you simply need to define a name and reference. The API detail for the method can be find [here](https://jupiter-pp.roq-platform.com/docs/#mutation-createUserGroup).
 
 <Tabs items={[ 'Node.js SDK', 'GraphQL']}><Tab>
 ```ts
@@ -43,7 +43,7 @@ mutation {
 
 ### `addUsersToUserGroup()`
 
-To add users to a user group, you can use this mutation:
+The [`addUsersToUserGroup()`](https://jupiter-pp.roq-platform.com/docs/#mutation-addUsersToUserGroup) API will add users to a user group, you can use this mutation with ROQ Node.js SDK or GraphQL:
 
 <Tabs items={['Node.js SDK', 'GraphQL' ]}><Tab>
 ```ts
@@ -63,21 +63,73 @@ mutation {
 </Tab>
 </Tabs>
 
+| Parameter   | Type   | Description                                                                                    |
+|-------------|--------|------------------------------------------------------------------------------------------------|
+| `userGroupId`      | uuid | The ID of the user group.                                           |
+| `userId` | array | The array of the user ids that will be added to the group |
 
-{/*
 ## `updateUserGroup()`
-*/}
+
+The [`updateUserGroup()`](https://jupiter-pp.roq-platform.com/docs/#mutation-updateUserGroup) API will update the user group data based on the user group id.
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const updateGroup = await roqClient.asSuperAdmin().updateUserGroup({
+  id: "42103455-1e00-41bf-9714-c70a8c17caf9",
+  userGroup: {
+    name: "Video Creator",
+    reference: "video-creator-group"
+  }
+})
+```
+</Tab>
+
+<Tab>
+```graphql
+mutation updateUserGroup(
+  $id: ID! = "42103455-1e00-41bf-9714-c70a8c17caf9",
+  $userGroup: UserGroupUpdateDto! = {
+    name: "Video Creator"
+    reference: "video-creator-group"
+  }
+) {
+  updateUserGroup(
+    id: $id,
+    userGroup: $userGroup
+  ) {
+    id
+    name
+    reference
+  }
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter   | Type   | Description                                                                                    |
+|-------------|--------|------------------------------------------------------------------------------------------------|
+| `id`      | uuid | The ID of the user group group to be updated                                           |
+| `userGroup:name` | string | The new user group name will replacing the old one |
+| `userGroup:reference` | string | The new user group name reference replacing the old one |
 
 
 ## Queries
 
 ### `userGroups()`
 
+With the [`userGroups()`](https://jupiter-pp.roq-platform.com/docs/#query-userGroups) API you can get all the registered user groups. 
+
 To see user groups with users you run a query like this:
 
 <Tabs items={['Node.js SDK', 'GraphQL']}><Tab>
 ```ts
-await client.asSuperAdmin().userGroups({ 
+await client.asSuperAdmin().userGroups({
+  filter: {
+    name: {
+      like: "moderator"
+    }
+  }
   withUsers: true 
 });
 ```
@@ -124,8 +176,42 @@ query {
 </Tab>
 </Tabs>
 
+| Parameter   | Type   | Description                                                                                    |
+|-------------|--------|------------------------------------------------------------------------------------------------|
+| `limit`      | integer | Limit the user groups result group.                                           |
+| `filter` | array | Filter the user groups based on the id, name, etc. Please look into the [UserGroupFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-UserGroupFilterArgType)  |
+
 ## `userGroup()`
 
+The [`userGroup()`](https://jupiter-pp.roq-platform.com/docs/#query-userGroup) API is used to get the information about the specific user group.
 
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const groupId = "42103455-1e00-41bf-9714-c70a8c17caf9";
+const mygroup = await roqClient.asSuperAdmin().userGroup(groupId);
+```
+</Tab>
+<Tab>
+```graphql
+query {
+  userGroup(id: "42103455-1e00-41bf-9714-c70a8c17caf9") {
+  	id
+  	name
+  	reference
+    users {
+     totalCount
+     data {
+        id
+        email
+     }
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
 
-
+| Parameter       | Type   | Description                                                                                    |
+|-----------------|--------|------------------------------------------------------------------------------------------------|
+| `id`   | uuid   | The ID of the user group.                                               |
