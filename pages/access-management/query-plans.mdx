@@ -1,0 +1,79 @@
+import { Tab, Tabs, Callout } from 'nextra-theme-docs'
+
+# Query Plans
+
+Query plans are data structures that describe the series of steps necessary to perform a database operation. These steps include data retrieval, computation, and organization tasks.
+
+Query plans represent the rules and permissions set for different roles in accessing certain data entities (like users, posts, comments, etc.) within a database system. They outline which operations (read, write, update, delete) each role can perform on each entity.
+
+Let's see an example of the query plans:
+
+```json
+"moderator.read.comment":{
+    "kind":"restricted",
+    "queryPlan":{
+        "from":"comment",
+        "to":"video",
+        "case":"many-to-one",
+        "fromField":"video_id",
+        "toField":"id",
+        "in":{
+            "from":"video",
+            "to":"organization",
+            "case":"many-to-one",
+            "fromField":"organization_id",
+            "toField":"id",
+            "in":{
+                "from":"organization",
+                "to":"user",
+                "case":"many-to-one",
+                "fromField":"user_id",
+                "toField":"id",
+                "in":{
+                    "from":"user",
+                    "fromField":"roq_user_id",
+                    "userId":[null],
+                    "tenantId":null
+                }
+            }
+        }
+    },
+    "role":"moderator",
+    "entity":"comment",
+    "userIdField":"roq_user_id",
+    "operation":"read"
+}
+```
+
+This query plans tells us about the access and permissions of the moderator role for the read operation on the comment entity. 
+
+The `queryPlan` field provides the actual query plan, detailing the relationships between different entities and how they link to the user. It specifies how the query should be executed and which computations need to be performed. This includes determining how to access the data, which conditions to use for filtering, how to join tables, etc.
+
+In the query plans JSON example above we can see the the series of steps for retrieving the data:
+
+- Start from the `comment` entity (table) where the access is requested.
+
+- For the particular `comment`, find the related `video` entity. This relationship is described as `many-to-one` meaning many comments can relate to one video. This step is essentially a JOIN operation in SQL terms. It will JOIN the `comment` and `video` entities on the `video_id` field from `comment` and `id` field from `video`.
+
+- Then for that particular `video`, find the related `organization`. Again, this is a `many-to-one` relationship, thus another JOIN operation. This time, it's between `video` and `organization` entities based on `organization_id` from `video` and `id` from `organization`.
+
+- Finally, for that `organization`, find the associated `user`. Again, this is a `many-to-one` relationship, so yet another JOIN operation is performed between `organization` and `user` entities based on `user_id` from `organization` and `id` from `user`.
+
+So the computation part involves JOIN operations to link multiple entities based on the relationships defined in the query plan. The plan is also restricting access based on the `userId` field, allowing only the records related to the specific user ID to be accessed.
+
+If you are developing an application locally, you can view the SQL queries that are generated based on the user's query plan. These queries can be found in the terminal output.
+
+![query plan SQL](/sql-query-plans.png)
+
+
+<Callout type="info">
+To run a local development for the generated application, please refer to this [docoumentation](/development-guides/run-local-development).
+</Callout>
+
+## Get The Query Plans
+
+In this tutorial on [filtering data by user roles](/access-management/tutorials/filtering-data-by-user-roles), you'll learn how to obtain query plans and apply them in your application.
+
+## Cache 
+
+Query plans is cached locally. Please refer to  the [cache the qury plans](/access-management/tutorials/cache-query-plans) tutorial on how to do that.
