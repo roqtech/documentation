@@ -3,9 +3,9 @@ import InstallROQNodeSDK from '/snippets/do-roq-node-setup.mdx';
 
 # Notify User Groups Using Notify API
 
-ROQ offers a convenient [Notifications API](/notifications/api) that allows users to easily send information to one or multiple user groups. With using the `userGroups()` or GraphQL, we you can get all the registered groups and then we can send the notifications to any groups.
+ROQ offers a convenient [Notifications API](/notifications/api) that allows users to easily send information to one or multiple user groups. By using the `userGroups()` or GraphQL,  we can get all the registered groups and then we can send the notifications to any groups.
 
-For example, for the development purpose, let use GraphQL query to get all the registered user groups. 
+For example, for development purposes, let's use GraphQL query to get all the registered user groups. 
 
 <Callout type="info">
 The GraphQL API URL server can be found in the ROQ Console. Go to the menu **Application Details** → **Super Admin Tokens**. You will need the URL and tokens.
@@ -22,9 +22,9 @@ import { GraphQLClient, gql } from 'graphql-request'
  * Connect to the ROQ Platform
  */
 const roqClient = new Platform({
-	apiKey: process.env.ROQ_API_KEY,
-	environmentId: process.env.ROQ_ENVIRONMENT_ID,
-	host: process.env.ROQ_PLATFORM_URL
+    apiKey: process.env.ROQ_API_KEY,
+    environmentId: process.env.ROQ_ENVIRONMENT_ID,
+    host: process.env.ROQ_PLATFORM_URL
 })
 
 // The GraphQL API Server
@@ -32,22 +32,22 @@ const endpoint = 'https://qa03.roq-platform.com/v01/server/graphql';
 
 // Tokens
 const tokens = {
-	"roq-platform-authorization": "Bearer <Token1_Here>",
-	"roq-platform-server-authorization": "Basic <Token2_Here>"
+    "roq-platform-authorization": "Bearer <Token1_Here>",
+    "roq-platform-server-authorization": "Basic <Token2_Here>"
 } 
 
 const graphqlClient = new GraphQLClient(endpoint, {
-	headers: tokens 
+    headers: tokens 
 })
 
 const query = gql`
 {
    userGroups {
-  	totalCount
+    totalCount
     data {
       id
-  	  name
-  	  reference
+      name
+      reference
       users {
         totalCount
         data {
@@ -68,49 +68,49 @@ Below is the JSON representation of the `data` variable:
 
 ```js
 {
-	"userGroups": {
-		"totalCount": 2,
-		"data": [
-			{
-				"id": "a9c828ec-3e3b-47f8-b178-78d903d79791",
-				"name": "Market Research",
-				"reference": "market-research",
-				"users": {
-					"totalCount": 2,
-					"data": [
-						{
-							"id": "c003d87b-e611-4809-8e44-4d9d4107a0ea"
-						},
-						{
+    "userGroups": {
+        "totalCount": 2,
+        "data": [
+            {
+                "id": "a9c828ec-3e3b-47f8-b178-78d903d79791",
+                "name": "Market Research",
+                "reference": "market-research",
+                "users": {
+                    "totalCount": 2,
+                    "data": [
+                        {
+                            "id": "c003d87b-e611-4809-8e44-4d9d4107a0ea"
+                        },
+                        {
                             "id": "530c9a92-71c5-4dce-a6e3-c638c2d0b1bc"
                         }
-					]
-				}
-			},
-			{
-				"id": "42103455-1e00-41bf-9714-c70a8c17caf9",
-				"name": "Video Creator",
-				"reference": "video-creator-group",
-				"users": {
-					"totalCount": 1,
-					"data": [
-						{
-							"id": "530c9a92-71c5-4dce-a6e3-c638c2d0b1bc"
-						}
-					]
-				}
-			}
-		]
-	}
+                    ]
+                }
+            },
+            {
+                "id": "42103455-1e00-41bf-9714-c70a8c17caf9",
+                "name": "Video Creator",
+                "reference": "video-creator-group",
+                "users": {
+                    "totalCount": 1,
+                    "data": [
+                        {
+                            "id": "530c9a92-71c5-4dce-a6e3-c638c2d0b1bc"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
 }
 ```
 We can use the group IDs from the output response as references for our notifications and to determine which users should receive them.
 
 <Callout type="info">
-To add new notification template in the ROQ Console, please read this  [add notifications](/notifications/tutorials/add-notifications) tutorial.
+To add a new notification template in the ROQ Console, please read this  [add notifications](/notifications/tutorials/add-notifications) tutorial.
 </Callout>
 
-For example to send a notification for group **Video Creator** which have a group id `42103455-1e00-41bf-9714-c70a8c17caf9`:
+For example to send a notification for group **Video Creator** which has a group id `42103455-1e00-41bf-9714-c70a8c17caf9`:
 
 ```js
 // Suppose you have the group IDs as follows:
@@ -120,36 +120,36 @@ const selectedGroupIds = ["a9c828ec-3e3b-47f8-b178-78d903d79791"];
 const selectedGroups = data.userGroups.data.filter(group => selectedGroupIds.includes(group.id));
 
 if (selectedGroups.length === 0) {
-	console.log("No groups found with the provided IDs.");
+    console.log("No groups found with the provided IDs.");
 } else {
-	// Extract the user IDs from the selected groups.
-	const userIds = selectedGroups.flatMap(group => group.users.data.map(user => user.id));
+    // Extract the user IDs from the selected groups.
+    const userIds = selectedGroups.flatMap(group => group.users.data.map(user => user.id));
 
-	const notifyStatus = await roqClient.asSuperAdmin().notify({
-		notification: {
-			key: "news-update",
-			recipients: {
-				userIds: userIds,
-				allUsers: false,
-				userGroups: {
-					operator: "AND",
-					userGroupIds: selectedGroupIds
-				}
-			},
-			data: [
-				{ key: "platform_name", value: "AIVidz" },
-				{ key: "your_name", value: "Anna W." },
-				{ key: "company_name", value: "AIVidz Ltd." }
-			]
-		}
-	});
+    const notifyStatus = await roqClient.asSuperAdmin().notify({
+        notification: {
+            key: "news-update",
+            recipients: {
+                userIds: userIds,
+                allUsers: false,
+                userGroups: {
+                    operator: "AND",
+                    userGroupIds: selectedGroupIds
+                }
+            },
+            data: [
+                { key: "platform_name", value: "AIVidz" },
+                { key: "your_name", value: "Anna W." },
+                { key: "company_name", value: "AIVidz Ltd." }
+            ]
+        }
+    });
 
-	console.log(notifyStatus);
+    console.log(notifyStatus);
 }
 
 ```
 
-If you loggin as a user with member of group **Video Creator** in the generated application, you will receive the notification
+If you log in as a user with a member of the group **Video Creator** in the generated application, you will receive the notification.
 
 ![notification popup](/notification-group.png)
 
