@@ -1,0 +1,75 @@
+import { Tab, Tabs, Callout } from 'nextra-theme-docs';
+import InstallROQNodeSDK from '/snippets/do-roq-node-setup.mdx';
+
+# Notify User Groups Using Notify API
+
+ROQ offers a convenient [Notifications API](/notifications/api) that allows users to easily send information to one or multiple user groups. With using the `userGroups()` or GraphQL, we you can get all the registered groups and then we can send the notifications to any groups.
+
+For example, for the development purpose, let use GraphQL query to get all the registered user groups. 
+
+<Callout type="info">
+The GraphQL API URL server can be found in the ROQ Console. Go to the menu **Application Details** → **Super Admin Tokens**. You will need the URL and tokens.
+</Callout>
+
+You will need to install `@roq/nodejs`, `dotenv`, and `graphql-request` npm packages for this code sample:
+
+```js
+import 'dotenv/config'
+import { Platform } from '@roq/nodejs'
+import { GraphQLClient, gql } from 'graphql-request'
+
+/**
+ * Connect to the ROQ Platform
+ */
+const roqClient = new Platform({
+	apiKey: process.env.ROQ_API_KEY,
+	environmentId: process.env.ROQ_ENVIRONMENT_ID,
+	host: process.env.ROQ_PLATFORM_URL
+})
+
+// The GraphQL API Server
+const endpoint = 'https://qa03.roq-platform.com/v01/server/graphql';
+
+// Tokens
+const tokens = {
+	"roq-platform-authorization": "Bearer <Token1_Here>",
+	"roq-platform-server-authorization": "Basic <Token2_Here>"
+} 
+
+const graphqlClient = new GraphQLClient(endpoint, {
+	headers: tokens 
+})
+
+const query = gql`
+{
+    userGroups {
+    totalCount
+    data {
+        id
+  	    name
+  	    reference
+    }
+   }
+}
+`
+
+const data = await graphqlClient.request(query)
+const groups = data.userGroups.data
+```
+
+The output of the `groups` variable is as follows:
+
+```js
+[
+  {
+    id: 'a9c828ec-3e3b-47f8-b178-78d903d79791',
+    name: 'Market Research',
+    reference: 'market-research'
+  },
+  {
+    id: '42103455-1e00-41bf-9714-c70a8c17caf9',
+    name: 'Video Creator',
+    reference: 'video-creator-group'
+  }
+]
+```
