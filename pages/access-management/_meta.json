@@ -4,6 +4,7 @@
   "roles": "Roles",
   "platform-permissions": "Platform Permissions",
   "project-permissions": "Project Permissions",
+  "query-plans": "Query Plans",
   "skip-auth": "Skip Authorization",
   "tutorials": "Tutorials",
   "api": "API"

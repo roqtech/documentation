@@ -1,0 +1,61 @@
+import { Callout, Tab, Tabs} from "nextra-theme-docs"
+import InstallROQNext from "/snippets/do-roq-nextjs-setup.mdx"
+import InstallROQReact from "/snippets/do-roq-ui-react-setup.mdx"
+
+# How to Protect Application Pages
+
+In the generated application rendering a specific react component is protected by the `withAuthorization()` method. This function is designed to handle access control in your application. It does this by checking if the current user has the required permissions to access a specific feature or resource before rendering the wrapped component.
+
+## Next.js
+
+<InstallROQNext/>
+
+Let's say we have a React component called `<CommentCreatePage/>` that's used for creating new comments:
+
+```jsx
+function CommentCreatePage() {
+    return (
+		// UI code is here
+	)
+}
+```
+
+and we need to ensure that this component can only be accessed by users who have the appropriate roles, access, and authorization.
+
+```jsx
+import { AccessOperationEnum, AccessServiceEnum, requireNextAuth, withAuthorization } from '@roq/nextjs';
+import { compose } from 'lib/compose';
+
+function CommentCreatePage() {
+    return (
+        //UI code is here
+	)
+}
+
+export default compose(
+  requireNextAuth({
+    redirectTo: '/',
+  }),
+  withAuthorization({
+    service: AccessServiceEnum.PROJECT,
+    entity: 'comment',
+    operation: AccessOperationEnum.CREATE,
+  }),
+)(CommentCreatePage);
+```
+
+The arguments passed to `withAuthorization()` include:
+
+- `entity`: The entity on which the operation is being performed.
+- `operation`: The type of operation being performed, which comes from the `AccessOperationEnum` (like `CREATE`, `READ`, `UPDATE`, `DELETE`, etc.).
+- `service`: The service that this operation pertains to, which is part of the `AccessServiceEnum`.
+
+The `CommentCreatePage` component is being wrapped with `withAuthorization()`. This means the user must have the **create** permission on the **comment** entity to access this page. If the user does not have the appropriate permissions, the user will be redirected to another route.
+
+<Callout type="info">
+The `compose()` is simply a utility code to compose functions. It calls `withAuthorization()` first and then moves on to `requireNextAuth()`.
+</Callout>
+
+{/*
+## React
+*/}
