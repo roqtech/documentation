@@ -61,9 +61,9 @@ mutation {
 </Tab>
 </Tabs>
 
-| Parameter   | Type    | Description                                                                                                                                                                                        |
-| ----------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `reference` | string  | Here you can set your identifier (e.g. the UUID of the user entity in your database). This way you can filter users by your own identifier.                                                        |
+| Parameter   | Type    | Description   |
+| ----------- | ------- | ------------- |
+| `reference` | string  | Here you can set your identifier (e.g. the UUID of the user entity in your database). This way you can filter users by your own identifier. |
 | `email`     | string  | Email of the user                        |
 | `firstName` | string  | First name of the user  |
 | `lastName`  | string  | Last name of the user  |
@@ -75,14 +75,37 @@ mutation {
 
 ### `updateUser()`
 
-You can change the synchronized user data using the `updateUser()` API. The mutation is working the same way as the`createUser()` mutation described above.
+To modify user data, simply use the [`updateUser()`](https://jupiter-pp.roq-platform.com/docs/#mutation-updateUser) API. The mutation process is similar to that of `createUser()`, but instead of creating a new user, `updateUser()` will alter the existing user data.
 
-#### `Deactivating a user`
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const updateUser = await roqClient.asSuperAdmin().updateUser({
+   id: "4c94b763-9021-499f-8ea3-b01adcdafe57",
+   user: {
+       
+   }
+})
+```
+</Tab>
+<Tab>
+```graphql
+```
+</Tab>
+</Tabs>
 
-To deactivate a user, just use the updateUser mutation as below:
+| Parameter   | Type    | Description   |
+| ----------- | ------- | ------------- |
+| `id`        | uuid    | The user ID   |
+| `user`      | object  | The user data that needs to be updated. Please refer to the [link](https://jupiter-pp.roq-platform.com/docs/#definition-UserUpdateDto) for the necessary details. |
+
+
+#### Deactivating a User
+
+To deactivate a user, just use the `updateUser()` mutation and set the `active` user option to `false`.
 
 <Callout type="info" emoji="ℹ️">
-  This is only possible from the server side of your application.
+This is only possible from the server side of your application.
 </Callout>
 
 <Tabs items={['Node.js SDK', 'GraphQL']}>
@@ -112,6 +135,7 @@ mutation {
 
 </Tab>
 </Tabs>
+
 
 ## Queries
 
