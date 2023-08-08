@@ -5,21 +5,16 @@ import { Tab, Tabs } from "nextra-theme-docs";
 
 ## Introduction
 
-Most of ROQ's features use user-related data like the user`s first name or email. Before you can use these
-features, they need to be pushed to ROQ Platform. Please refer to
-the [users feature guide](/user-management) for more information and instructions.
+With this Users API you can create, update, and deactivate users. Other than that you can get all the information about users.
 
 ## Mutations
 
 ### `createUser()`
 
-The createUser API is used to synchronize user data to ROQ.
-
-You can find the full API doc of this mutation [here](https://jupiter-pp.roq-platform.com/docs/#mutation-createUser).
+The `createUser` API is used to synchronize user data to ROQ. You can find the full API documentation of this mutation [here](https://jupiter-pp.roq-platform.com/docs/#mutation-createUser).
 
 <Callout emoji="💡">
-  It's important to save the returned user ID in your database because the API
-  needs it for other functionalities.
+It's important to save the returned user ID in your database because the API needs it for other functionalities.
 </Callout>
 
 <Tabs items={['Node.js SDK', 'GraphQL']}>
@@ -69,26 +64,25 @@ mutation {
 | Parameter   | Type    | Description                                                                                                                                                                                        |
 | ----------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `reference` | string  | Here you can set your identifier (e.g. the UUID of the user entity in your database). This way you can filter users by your own identifier.                                                        |
-| `email`     | string  | Email of the user                                                                                                                                                                                  |
-| `firstName` | string  | First name of the user                                                                                                                                                                             |
-| `lastName`  | string  | Last name of the user                                                                                                                                                                              |
-| `isOptedIn` | boolean | Set to true after the user confirm the email.                                                                                                                                                      |
-| `active`    | boolean | Set to true if the user is activate and able to login to your application.                                                                                                                         |
+| `email`     | string  | Email of the user                        |
+| `firstName` | string  | First name of the user  |
+| `lastName`  | string  | Last name of the user  |
+| `isOptedIn` | boolean | Set to true after the user confirm the email.|
+| `active`    | boolean | Set to true if the user is activate and able to login to your application.  |
 | `locale`    | string  | The locale represents the language and the country of the user, e.g. en-US means _“english in US”_. The locale is used for translations of all UI components as well as for sending notifications. |
-| `active`    | boolean | Set to true if the user is activate and able to login to your application.                                                                                                                         |
-| `tenantId`  | UUID    | ID of the tenant which you created using the [`createTenant()`](/multi-tenancy/api#createtenant) API                                                                                               |
+| `active`    | boolean | Set to true if the user is activate and able to login to your application.  |
+| `tenantId`  | UUID    | ID of the tenant which you created using the [`createTenant()`](/multi-tenancy/api#createtenant) API  |
 
 ### `updateUser()`
 
-You can change the synchronized user data using the `updateUser()` API. The mutation is working the same way as the
-`createUser()` mutation described above.
+You can change the synchronized user data using the `updateUser()` API. The mutation is working the same way as the`createUser()` mutation described above.
 
 #### `Deactivating a user`
 
 To deactivate a user, just use the updateUser mutation as below:
 
 <Callout type="info" emoji="ℹ️">
-  This is only possible from the server side of your application
+  This is only possible from the server side of your application.
 </Callout>
 
 <Tabs items={['Node.js SDK', 'GraphQL']}>
@@ -123,8 +117,7 @@ mutation {
 
 ### `users()`
 
-You can fetch all users using the `users()` query. All [query parameters](/development-guides/graphql-basics-api) can be applied
-here to narrow down the results.
+You can fetch all users using the `users()` query. All [query parameters](/development-guides/graphql-basics-api) can be applied here to narrow down the results.
 
 {/* TODO Add-  For instance to fetch users by your reference you can run this query when CPD-1891 is fixed */}
 
@@ -132,14 +125,22 @@ here to narrow down the results.
 <Tab>
 ```ts
 roqClient.asSuperAdmin().users();
-```
+  ```
 </Tab>
 <Tab>
 ```graphql
 query {
   users {
     data {
+      id
       email
+      tenantId
+      roles {
+        data {
+          id
+          name
+        }
+      }
     }
   }
 }
@@ -149,20 +150,19 @@ query {
 
 ### `user()`
 
-You can fetch a specific user using the user() query. You need to use the ID which was returned by the `createUser()`
-mutation
+You can fetch a specific user using the `user()` query. You need to use the ID which was returned by the `createUser()` mutation. 
 
 <Tabs items={['Node.js SDK', 'GraphQL']}>
 <Tab>
 ```ts
-roqClient.asSuperAdmin().user({ id: '123' });
+roqClient.asSuperAdmin().user({ id: '80c81294-f338-4819-9b1f-acc314babd5f' });
 ```
 </Tab>
 <Tab>
 
 ```graphql
 query {
-  user(id: "123") {
+  user(id: "80c81294-f338-4819-9b1f-acc314babd5f") {
     email
   }
 }
@@ -170,3 +170,7 @@ query {
 
 </Tab>
 </Tabs>
+
+| Parameter   | Type    | Description  |
+| ----------- | ------- | ------------ |
+| `id`        | uuid    | The user ID. You can get the id by filter the `users()` response or use the repsonse of the `createUser()` API. |
