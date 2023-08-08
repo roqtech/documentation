@@ -117,14 +117,16 @@ mutation {
 
 ### `users()`
 
-You can fetch all users using the `users()` query. All [query parameters](/development-guides/graphql-basics-api) can be applied here to narrow down the results.
+You can fetch all users using the [`users()`](https://jupiter-pp.roq-platform.com/docs/#query-users) query. All the GraphQL query parameters in this [documentation](/development-guides/graphql-basics-api) can be applied here to narrow down the results.
 
 {/* TODO Add-  For instance to fetch users by your reference you can run this query when CPD-1891 is fixed */}
 
 <Tabs items={['Node.js SDK', 'GraphQL',]}>
 <Tab>
 ```ts
-roqClient.asSuperAdmin().users();
+roqClient.asSuperAdmin().users({
+  limit: 10
+});
   ```
 </Tab>
 <Tab>
@@ -150,7 +152,7 @@ query {
 
 ### `user()`
 
-You can fetch a specific user using the `user()` query. You need to use the ID which was returned by the `createUser()` mutation. 
+You can fetch a specific user information using the `user()` query. The API documentation is [here](https://jupiter-pp.roq-platform.com/docs/#query-user).
 
 <Tabs items={['Node.js SDK', 'GraphQL']}>
 <Tab>
