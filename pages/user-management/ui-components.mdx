@@ -10,8 +10,7 @@ import DoBasicSetup from "/snippets/roq-provider.mdx";
 
 ### Description
 
-The `<UserAccountDropdown/>` component can be used to show the user's avatar and their account dropdown.
-It works with ROQ Authentication, and without.
+The `<UserAccountDropdown/>` component can be used to show the user's avatar and their account dropdown. It works with or without ROQ Authentication.
 
 <Tabs items={['Light', 'Dark']}><Tab>
 
@@ -35,7 +34,7 @@ height={300}
 
 ### Integration with ROQ Authentication
 
-To show the `<UserAccountDropdown/>`, add this snippet to your page:
+To show the `<UserAccountDropdown/>` component, add this snippet to your page:
 
 <Tabs items={['Reactjs', 'Next.js']}>
 <Tab>
@@ -60,7 +59,8 @@ function App() {
 
 ### Integration without ROQ Authentication
 
-<Tabs items={['Reactjs', 'Next.js']}><Tab>
+<Tabs items={['Reactjs', 'Next.js']}>
+<Tab>
 
 ```tsx
 import {UserAccountDropdown} from "@roq/ui-react";
@@ -73,9 +73,8 @@ function App() {
     return <UserAccountDropdown onSignOut={handleSignOut}/>;
 }
 ```
-
-</Tab><Tab>
-
+</Tab>
+<Tab>
 ```tsx
 import {UserAccountDropdown} from "@roq/nextjs";
 
@@ -87,8 +86,8 @@ function App() {
     return <UserAccountDropdown onSignOut={handleSignOut}/>;
 }
 ```
-
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 ## `<UserProfile/>`
 
