@@ -4,31 +4,30 @@ import { Callout } from "nextra-theme-docs";
 
 ## Introduction
 
-ROQ provides a complete and secure authentication and user management solution for your generated application. 
-In case you are running an application, then check out our 
-[integration guide](/authentication/advanced-topics/integration-guide) how to use it.
+ROQ provides a complete and secure authentication and user management solution for your generated application. In case you are running an application, then check out our [integration guide](/authentication/advanced-topics/integration-guide) how to use it.
 
-**Key features:**
+**Key Features:**
 
 - Customizable user login and registration
 - Full multi-tenancy support (e.g., creation of new organizations during signup)
 - Secure session handling for your application
 - Social sign-in with Google, Github, or Facebook
+- Multi-factor Authentication (MFA)
 - User invites
 - 360-degree view of all user data
 
-## How it works.
+## How It Works
 
 ROQ's login and session management are based on the [OAuth protocol](https://oauth.net/2/). Here is how it works:
 
-1. The user clicks the "Login" button or is redirected to a login page provided by ROQ.
-2. ROQ prompts the user to log in using username+password or social sign-ins (e.g. Google) and then sends a special
-   token back indicating that the user has granted permission to access your web application.
-3. Using the `requireAuth` wrapper, you can easily define which pages are only accessible to authenticated users. You
+1. The user clicks the **Login** button or is redirected to a login page provided by ROQ.
+2. ROQ prompts the user to log in using username and password or social sign-ins (e.g. Google) and then sends a special token back indicating that the user has granted permission to access your web application.
+3. Using the `requireAuth` wrapper, you can easily define which pages are only accessible to authenticated users.
 
-## Feature overview
+## Feature Overview
 
 - [Customize the managed login and registration pages](/authentication/registration-form)
 - [Using custom domains for the managed login and registration pages](authentication/advanced-topics/custom-domain)
 - [Add **login** and **register** buttons on your page](/authentication/advanced-topics/buttons)
 - [Activate social sign-in providers like Google](/authentication/social-sign-ins)
+- [Multi-factor Authentication (MFA)](/authentication/mfa)
