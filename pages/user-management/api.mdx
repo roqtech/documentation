@@ -210,6 +210,31 @@ query {
 </Tab>
 </Tabs>
 
+The output result from the code above is:
+
+```js
+{ users: { data: [
+  {
+    id: '2d8763f8-ab49-40d1-b989-372bcdd88189',
+    reference: '8d04d09a-8ff8-4393-840d-c69f3f1f7dfa',
+    firstName: '',
+    lastName: '',
+    active: true,
+    email: 'anna.w@gmail.com',
+    phone: null,
+    locale: 'en-US',
+    isOptedIn: false,
+    synced: true,
+    tenantId: 'ee764883-f2c3-4486-9de6-070345e350af',
+    customData: {},
+    timezone: null,
+    avatarUrl: '',
+    createdAt: '2023-08-08T01:25:38.821Z',
+    updatedAt: '2023-08-08T01:25:38.821Z'
+  }
+], totalCount: 1 } }
+```
+
 ### `user()`
 
 You can fetch a specific user information using the `user()` query. The API documentation is [here](https://jupiter-pp.roq-platform.com/docs/#query-user).
