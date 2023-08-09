@@ -141,7 +141,7 @@ mutation {
 
 ### `users()`
 
-You can fetch all users using the [`users()`](https://jupiter-pp.roq-platform.com/docs/#query-users) query. All the GraphQL query parameters in this [documentation](/development-guides/graphql-basics-api) can be applied here to narrow down the results.
+You can fetch all users using the [`users()`](https://jupiter-pp.roq-platform.com/docs/#query-users) query.
 
 {/* TODO Add-  For instance to fetch users by your reference you can run this query when CPD-1891 is fixed */}
 
@@ -174,6 +174,42 @@ query {
 </Tab>
 </Tabs>
 
+All the GraphQL query parameters in this [documentation](/development-guides/graphql-basics-api) can be applied here to narrow down the results.
+
+#### Filter By reference
+
+With `users()` API method you can filter users by reference. For example, if you want to filter the user using reference `8d04d09a-8ff8-4393-840d-c69f3f1f7dfa`:
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const usersResponse = await roqClient.asSuperAdmin().users({
+	filter: {
+		reference: {
+			equalTo: '8d04d09a-8ff8-4393-840d-c69f3f1f7dfa'
+		}
+	}
+})
+```
+</Tab>
+<Tab>
+```graphql
+query {
+  users(
+    filter: { reference: { 
+      equalTo: "8d04d09a-8ff8-4393-840d-c69f3f1f7dfa"}}
+  ) {
+    totalCount
+    data {
+      id
+      tenantId
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
+
 ### `user()`
 
 You can fetch a specific user information using the `user()` query. The API documentation is [here](https://jupiter-pp.roq-platform.com/docs/#query-user).
@@ -181,7 +217,9 @@ You can fetch a specific user information using the `user()` query. The API docu
 <Tabs items={['Node.js SDK', 'GraphQL']}>
 <Tab>
 ```ts
-roqClient.asSuperAdmin().user({ id: '80c81294-f338-4819-9b1f-acc314babd5f' });
+roqClient.asSuperAdmin().user({ 
+  id: '80c81294-f338-4819-9b1f-acc314babd5f' 
+});
 ```
 </Tab>
 <Tab>
