@@ -1,7 +1,6 @@
-import { Tab, Tabs } from 'nextra-theme-docs';
-import { Callout } from 'nextra-theme-docs';
 import Image from 'next/image';
-import DoBasicSetup from "/snippets/roq-provider.mdx"
+import {  Callout, Tab, Tabs } from 'nextra-theme-docs';
+import DoBasicSetup from "/snippets/roq-provider.mdx";
 
 # User UI Components
 
@@ -36,10 +35,10 @@ height={300}
 
 ### Integration with ROQ Authentication
 
-To show the UserAccountDropdown, add this snippet to your page:
+To show the `<UserAccountDropdown/>`, add this snippet to your page:
 
-<Tabs items={['Reactjs', 'Next.js']}><Tab>
-
+<Tabs items={['Reactjs', 'Next.js']}>
+<Tab>
 ```tsx
 import {UserAccountDropdown} from "@roq/ui-react";
 
@@ -47,9 +46,8 @@ function App() {
     return <UserAccountDropdown/>;
 }
 ```
-
-</Tab><Tab>
-
+</Tab>
+<Tab>
 ```tsx
 import {UserAccountDropdown} from "@roq/nextjs";
 
@@ -57,8 +55,8 @@ function App() {
     return <UserAccountDropdown/>;
 }
 ```
-
-</Tab></Tabs>
+</Tab>
+</Tabs>
 
 ### Integration without ROQ Authentication
 
@@ -92,13 +90,11 @@ function App() {
 
 </Tab></Tabs>
 
-
 ## `<UserProfile/>`
 
 ### Description
 
-The `<UserProfile/>` component can be used to show the user's profile information, along with the ability to edit the profile.
-It includes an avatar uploader, and a form to edit the user's password, and other profile information.
+The `<UserProfile/>` component can be used to show the user's profile information, along with the ability to edit the profile. It includes an avatar uploader, and a form to edit the user's password, and other profile information.
 
 <Tabs items={['Light', 'Dark']}><Tab>
 
@@ -128,9 +124,8 @@ function App() {
   return <UserProfile />;
 }
 ```
-
-</Tab><Tab>
-
+</Tab>
+<Tab>
 ```tsx
 import { UserProfile } from "@roq/nextjs";
 
@@ -138,5 +133,5 @@ function App() {
   return <UserProfile />;
 }
 ```
-
-</Tab></Tabs>
+</Tab>
+</Tabs>
