@@ -4,11 +4,9 @@ import { Callout, Tab, Tabs } from "nextra-theme-docs";
 
 ROQ provides an additional layer of protection, which is **Multi-Factor Authentication** or called **MFA**. With this security enhancement, you can use your phone number as additional application authentication.
 
-
-
 ## SMS
 
-### Enable SMS Integration
+### Enable SMS Integrations
 
 To utilize MFA through SMS on ROQ, you must first enable SMS integration in the ROQ Console. This can be done by going to the **Integrations** → **SMS** menu and then activate the integrations. 
 
@@ -25,11 +23,19 @@ To integrate Twilio SMS with ROQ you should  fill the sender number in the SMS i
 
 */}
 
-### Enable Users for Two-factor Authentication
+### Enable MFA for Users
 
-Enable two-factor authentication for users in the ROQ Console.
+To activate Multi-factor Authentication for users, you need to turn on the MFA option in the ROQ Console. Navigate to the **Users & Access** → **Users** section and choose the specific users you wish to enable MFA for.
+
+There are two settings that require attention:
+
+- **Phone**: Enter your phone number, which will be used to send the verification code.
+- **Two-factor Authentication**: Enable this option to apply MFA to the selected user.
 
 ![enable two factor auth for a user](/mfa-enable-user-two-factor-auth.png)
+
+
+
 
 3. Enable Two-factor Authentication on Registration Form Variant in the ROQ Console.
 4. The existing users (with MFA enabled) will be forced to enter a verification code in the login form.
