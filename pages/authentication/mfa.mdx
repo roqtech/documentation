@@ -2,12 +2,25 @@ import { Callout, Tab, Tabs } from "nextra-theme-docs";
 
 # Multi-Factor Authentication
 
-ROQ provide additional layer of protection which is **Multi-Factor Authentication** or simply called **MFA**. With this security enhancement you can use your phone number as additional application authentication.
+ROQ provides an additional layer of protection, which is **Multi-Factor Authentication** or called **MFA**. With this security enhancement, you can use your phone number as additional application authentication.
 
-## Enable MFA
 
-To enable the Multi-factor Authentication please go to the ROQ Console. 
 
-## Setup The Phone Number
+## SMS
 
-## Backup Recovery Codes
+### Enable SMS Integration
+
+Enable SMS integration in the ROQ Console.
+
+### Enable Users for Two-factor Authentication
+
+Enable two-factor authentication for users in the ROQ Console.
+
+![enable two factor auth for a user](/mfa-enable-user-two-factor-auth.png)
+
+3. Enable Two-factor Authentication on Registration Form Variant in the ROQ Console.
+4. The existing users (with MFA enabled) will be forced to enter a verification code in the login form.
+5. Users with successful verification for the first time will get the recovery codes, which can be saved through manual copy-paste or downloading the recovery-codes.txt file.
+6. When the same user login again, the app will send a verification code to the user's phone to verify the login attempt.
+7. If the Two-factor authentication is disabled in the ROG Console authentication configuration. The users will not force to verify the login even though the user is enabled for MFA in the ROQ Console.
+
