@@ -22,13 +22,13 @@ It's important to save the returned user ID in your database because the API nee
 ```ts
 roqClient.asSuperAdmin().createUser({
   user: {
-    reference: 'abc123',
-    email: 'xyz789',
-    phone: 'xyz789',
-    firstName: 'xyz789',
-    lastName: 'abc123',
-    locale: 'xyz789',
-    timezone: 'xyz789',
+    reference: '8d04d09a-8ff8-4393-840d-c69f3f1f7dfa',
+    email: 'xyz789@gmail.com',
+    phone: '+15550001234',
+    firstName: 'Anna',
+    lastName: 'W',
+    locale: 'en-Us',
+    timezone: 'Asia/Bangkok',
     isOptedIn: false,
     active: true
   },
@@ -41,13 +41,13 @@ roqClient.asSuperAdmin().createUser({
 mutation {
   createUser(
     user: {
-      reference: "abc123"
-      email: "xyz789"
-      phone: "xyz789"
-      firstName: "xyz789"
-      lastName: "abc123"
-      locale: "xyz789"
-      timezone: "xyz789"
+      reference: "8d04d09a-8ff8-4393-840d-c69f3f1f7dfa"
+      email: "xyz789@gmail.com"
+      phone: "+15550001234"
+      firstName: "Anna"
+      lastName: "W."
+      locale: "en-US"
+      timezone: "Asia/Bangkok"
       isOptedIn: false
       active: true
       tenantId: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
@@ -220,7 +220,7 @@ The output result from the code above is:
     firstName: '',
     lastName: '',
     active: true,
-    email: 'anna.w@gmail.com',
+    email: 'xyz789@gmail.com',
     phone: null,
     locale: 'en-US',
     isOptedIn: false,
@@ -256,7 +256,6 @@ query {
   }
 }
 ```
-
 </Tab>
 </Tabs>
 
