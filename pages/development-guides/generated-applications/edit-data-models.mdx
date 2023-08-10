@@ -18,12 +18,12 @@ Depending on the generated application, the screenshot below shows entities for 
 
 ![data model editor](/edit-schema-editor.png)
 
-## Add New Models
+## Modifying Models
 
 Let's take an example, to add a new model or new table into the database for a Library Management application. Suppose we want to add ISBN data model into the database, these are the typical neccessary steps:
 
 <Steps>
-### Add New Table
+### Add New Models
 
 To add a new model (essentially the same with add a new table), click the **+ Add new table** button and then ROQ will provides a new table with the default fields and values.
 
@@ -31,13 +31,40 @@ To add a new model (essentially the same with add a new table), click the **+ Ad
 
 ### Add Fields
 
-For our ISBN data model we can name the table **isbn** and then we can add **number** field to the model. 
+For our ISBN data model we can name the table `isbn*` and then we can add `number` field to the model. 
 
 ![add field](/edit-schema-add-field.png)
 
 ### Create Relationships
 
-Generally a book will have one and only one ISBN. From this information we can specify the relationship between isbn and book is **One to One**.
+Generally a book will have one and only one ISBN. From this information we can specify the relationship between **book** and **isbn** is **One to One**.
 
+You can add or edit the relationship with clicking the **Edit** relationships button and then select the options:
+
+- **Select Related Model**: `book`
+- **Model Relationships**: `One to One`
+- **Foreign Key Name**: `isbn_id`
+
+![add relationship](/edit-schema-add-relationship.png)
+
+<Callout type="info">
+Save every changes with clicking the **Save** button.
+</Callout>
 
 </Steps>
+
+## Applied New Models
+
+To apply new models to the application, we need to  regenerate the application.
+
+### Regenerate Application
+
+You can do this by clicking the **Generate Application** button and then ROQ will regenerate the application with the new models applied.
+
+![regenerate application](/edit-schema-regeneration.png)
+
+This regeneration process will create a new application version, yes now you have two application versions, and you can select the application version from the **Environment** → **Projects** menu.
+
+![Select the application version](/edit-schema-application-version.png)
+
+
