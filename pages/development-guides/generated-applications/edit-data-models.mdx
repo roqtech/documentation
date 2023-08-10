@@ -1,4 +1,4 @@
-import { Callout, Tab, Tabs } from 'nextra-theme-docs';
+import { Callout, Tab, Tabs, Steps } from 'nextra-theme-docs';
 
 # Edit Data Models
 
@@ -18,6 +18,26 @@ Depending on the generated application, the screenshot below shows entities for 
 
 ![data model editor](/edit-schema-editor.png)
 
+## Add New Models
+
+Let's take an example, to add a new model or new table into the database for a Library Management application. Suppose we want to add ISBN data model into the database, these are the typical neccessary steps:
+
+<Steps>
+### Add New Table
+
+To add a new model (essentially the same with add a new table), click the **+ Add new table** button and then ROQ will provides a new table with the default fields and values.
+
+![add new table](/edit-schema-add-model.png)
+
+### Add Fields
+
+For our ISBN data model we can name the table **isbn** and then we can add **number** field to the model. 
+
+![add field](/edit-schema-add-field.png)
+
+### Create Relationships
+
+Generally a book will have one and only one ISBN. From this information we can specify the relationship between isbn and book is **One to One**.
 
 
-
+</Steps>
