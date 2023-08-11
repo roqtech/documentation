@@ -16,16 +16,16 @@ PostgreSQL is a powerful, open source object-relational database system with ove
 
 To install PostgreSQL in your operating system please follow the steps bellow:
 
-<Tabs items={["Windows", "Linux"]}>
-<Tab>
+### Windows 
+
 You can easily install PostgreSQL manually through Windows installer. These are general steps to install it:
 <Steps>
 
-### Download Installer
+#### Download Installer
 
 Download the PostgreSQL installer for Windows from a certified [EDB](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads) website. The Windows installer only supports 64-bit systems, and we will use PostgreSQL 15 version in this documentation.
 
-### Run Installation
+#### Installation
 
 The installation for Windows is pretty straight forward process, just click the installer and follow the installation next process.
 
@@ -43,7 +43,7 @@ For example, with the default username is `postgres`, the database name is `libr
 postgresql://postgres:mypassword@localhost:5432/library
 ```
 
-### Run pgAdmin
+#### pgAdmin
 
 You can check the PostgreSQL installation with `psql` CLI tool or with **pgAdmin** GUI tool on Windows.
 
@@ -58,8 +58,79 @@ With this tool we can easily create a database for our generated application.
 ![create a database on pgadmin](/pgadmin-create-db.png)
 
 </Steps>
-</Tab>
-</Tabs>
 
-### Docker
+### Ubuntu Linux
 
+When installing PostgreSQL on Linux, if you need a version not included in the distribution, you must add the PostgreSQL repository. Let's take the Ubuntu distribution.
+
+<Callout type="info">
+For other Linux distribution installation, please go to the PostgreSQL official [website](https://www.postgresql.org/download/).
+</Callout>
+
+#### Installation
+
+We will use Ubuntu 20.04 and you need to run scripts below to install PostgreSQL 15:
+
+```shell
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get -y install postgresql-15
+```
+
+To check if PostgreSQL is already running or not, using `systemd` service:
+
+```shell
+sudo systemctl status postgresql
+```
+
+If it's not running yet, you can start it with this command:
+
+```shell
+sudo systemctl start postgresql
+```
+
+#### Create Database
+
+The installation procedure created a user account called `postgres` that is associated with the default Postgres role. There are a few ways to utilize this account to access Postgres. One way is to switch over to the postgres account:
+
+```shell
+sudo -i -u postgres
+```
+Basically the command above is changed Linux user as `postgres` user. With this user we can create  a new database, let's name it `library`:
+
+```shell
+postgres@GenAI:~$ createdb library
+```
+To connect to the `library` databas, you can use `-d` option:
+
+```shell
+postgres@GenAI:~$ psql -d library
+psql (15.4 (Ubuntu 15.4-1.pgdg20.04+1))
+Type "help" for help.
+
+library=#
+```
+
+To get the connection information, you can use the `\conninfo` command:
+
+```shell
+library=# \conninfo
+You are connected to database "library" as user "postgres" via socket in "/var/run/postgresql" at port "5432". 
+```
+
+To set password for the `library` database, you can use this query:
+
+```shell
+ALTER USER postgres WITH PASSWORD 'mypassword';
+```
+
+Then with all these informations we can form the URL database for our generated application:
+
+```shell
+postgresql://postgres:mypassword@localhost:5432/library
+```
+
+{/*
+## Docker
+*/}
