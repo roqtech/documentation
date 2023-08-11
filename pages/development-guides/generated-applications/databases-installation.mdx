@@ -18,16 +18,37 @@ To install PostgreSQL in your operating system please follow the steps bellow:
 
 <Tabs items={["Windows", "Linux"]}>
 <Tab>
-
+You can easily install PostgreSQL manually through Windows installer. These are general steps to install it:
 <Steps>
 
-### PostgreSQL Installer
+### Download Installer
 
-Download the PostgreSQL installer for Windows from a certified [EDB](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads) website. The Windows installer only supports 64-bit systems, and we will use PostgreSQL 15.4 version in this documentation.
+Download the PostgreSQL installer for Windows from a certified [EDB](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads) website. The Windows installer only supports 64-bit systems, and we will use PostgreSQL 15 version in this documentation.
 
-### Installation
+### Run Installation
 
+The installation for Windows is pretty straight forward process, just click the installer and follow the installation next process.
+
+![postgres install start](/postgresql-install-1.png)
+
+Leave every options as default, what you need to be aware of is you have to set the database password because you will need it later.
+
+![set postgres password](/postgresql-install-password.png)
+
+The default PostgreSQL port installation is at **5432**, with the username and password will be used to form the database URL set in the `DATABASE_URL` environment variable. 
+
+For example, with the default username is `postgres`, the database name is `mydatabase`, running on local host and the password is `mypassword`, we can form the database URL as:
+
+```shell
+postgresql://postgres:mypassword@localhost:5432/mydatabase
+```
+
+### Run pgAdmin
+
+You can check the PostgreSQL installation with `psql` CLI tool or with **pgAdmin** GUI tool on Windows.
 
 </Steps>
 </Tab>
 </Tabs>
+
+### Docker
