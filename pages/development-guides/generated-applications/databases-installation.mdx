@@ -37,18 +37,29 @@ Leave every options as default, what you need to be aware of is you have to set 
 
 The default PostgreSQL port installation is at **5432**, with the username and password will be used to form the database URL set in the `DATABASE_URL` environment variable. 
 
-For example, with the default username is `postgres`, the database name is `mydatabase`, running on local host and the password is `mypassword`, we can form the database URL as:
+For example, with the default username is `postgres`, the database name is `library`, running on local host and the password is `mypassword`, we can form the database URL as:
 
 ```shell
-postgresql://postgres:mypassword@localhost:5432/mydatabase
+postgresql://postgres:mypassword@localhost:5432/library
 ```
 
 ### Run pgAdmin
 
 You can check the PostgreSQL installation with `psql` CLI tool or with **pgAdmin** GUI tool on Windows.
 
+**pgAdmin** is designed to meet the needs of both novice and experienced Postgres users alike, providing a powerful graphical interface that simplifies the creation, maintenance and use of database objects.
+
+<Callout type="info">
+The **pgAdmin** tool is bundled with the PostgreSQL server installation there is no need additional installation step.
+</Callout>
+
+With this tool we can easily create a database for our generated application.
+
+![create a database on pgadmin](/pgadmin-create-db.png)
+
 </Steps>
 </Tab>
 </Tabs>
 
 ### Docker
+
