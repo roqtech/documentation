@@ -1,4 +1,25 @@
 import { Callout, Tab, Tabs } from 'nextra-theme-docs';
 
+# Database Installation
 
-# Database Instalation
+ROQ already provides a managed database even for local development purposes. The default database that ROQ provides is PostgreSQL. You can use this database or setup your own locally. 
+
+<Callout type="info">
+The database URL is set in the environment variable `DATABASE_URL`. You will find the database variable and other required environment variables on the ROQ Console **Get Started** page.
+</Callout>
+
+{/*add link to local development documentation*/}
+
+## PostgreSQL
+
+PostgreSQL is a powerful, open source object-relational database system with over 35 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance.
+
+To install PostgreSQL in your operating system please follow the steps bellow:
+
+<Tabs items={["Windows", "Linux"]}>
+<Tab>
+Download PostgreSQL installer for Windows from certified [EDB](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads). The Windows installer only support 64 bit system and we will use PostgreSQL 15.4 version in this documentation.
+
+
+</Tab>
+</Tabs>
