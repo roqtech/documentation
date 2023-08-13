@@ -47,7 +47,7 @@ The session data returned by the server is JSON:
 To force an update or refresh session using code, you can use `refetchSessionHandler()` API method from the `@roq/nextjs` package.
 
 <Callout type="warning">
-For `@roq\nextjs`  up to version 1.0.17, you must directly import `refetchSessionHandler()` as it is not exported by default. Please use it carefully.
+For `@roq\nextjs`  up to version 1.0.17, you must directly import `refetchSessionHandler()` as it is not exported by default.
 </Callout>
 
 ```ts
@@ -58,7 +58,6 @@ import { withAuth, getServerSession } from '@roq/nextjs';
 // this is a direct import change the path relative to the file
 import { refetchSessionHandler } from "../../../node_modules/@roq/nextjs/dist/src/handlers/refetch-session";
 
-
 async function handler(req: NextApiRequest, res: NextApiResponse) {
     await refetchSessionHandler(req, res);
 }
@@ -68,4 +67,3 @@ export default function tokenHandler(req: NextApiRequest, res: NextApiResponse) 
 }
 
 ```
-
