@@ -167,26 +167,12 @@ mutation {
 
 ### `createMessage()`
 
-Send a message to a conversation
+Send a message to a conversation. The API documentation for `createMessage()` is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-createMessage).
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
-
-```graphql
-mutation {
-  createMessage(
-    authorId: "4c94b763-9021-499f-8ea3-b01adcdafe57"
-    body: "#### Johannes Berge has requested a sample"
-    conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
-    fileId: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
-    isSystem: false
-  )
-}
-```
-
-</Tab><Tab>
-
+<Tabs items={['Node.js SDK', 'GraphQL']}>
+<Tab>
 ```ts
-roq.asUser("7c15cbe7-21f1-4ff7-b742-ec8604682772").createMessage({
+roqClient.asUser("7c15cbe7-21f1-4ff7-b742-ec8604682772").createMessage({
     message: {
         authorId: "7c15cbe7-21f1-4ff7-b742-ec8604682772",
         body: `#### Johannes Berge has requested a sample
@@ -202,8 +188,21 @@ Please Click [Documentation](https://docs.roq.tech/)`,
 });
 
 ```
-
-</Tab></Tabs>
+</Tab>
+<Tab>
+```graphql
+mutation {
+  createMessage(
+    authorId: "4c94b763-9021-499f-8ea3-b01adcdafe57"
+    body: "#### Johannes Berge has requested a sample"
+    conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
+    fileId: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
+    isSystem: false
+  )
+}
+```
+</Tab>
+</Tabs>
 
 | Parameter        | Type     | Description                                                                                                                        |
 |------------------|----------|------------------------------------------------------------------------------------------------------------------------------------|
