@@ -18,7 +18,7 @@ functionality.
   This endpoint is only available from the server side of your application.
 </Callout>
 
-You can use this endpoint to create a new chat programmatically, from your server-side code.
+You can use this endpoint to create a new chat programmatically, from your server-side code. The API documenation for this method is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-createConversation).
 
 <Tabs items={['Node.js SDK', 'GraphQL' ]}><Tab>
 
@@ -78,9 +78,19 @@ mutation {
 
 ### `deleteConversation()`
 
-Delete a conversation with it's ID
+Delete a conversation for a specific ID. The API documenation for `deleteConversation()` is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteConversation).
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
+<Tabs items={['Node.js SDK', 'GraphQL']}>
+<Tab>
+
+```ts
+roqClient.asUser("4c94b763-9021-499f-8ea3-b01adcdafe57").deleteConversation({
+    id: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
+});
+```
+
+</Tab>
+<Tab>
 
 ```graphql
 mutation {
@@ -88,15 +98,11 @@ mutation {
 }
 ```
 
-</Tab><Tab>
-
-```ts
-roq.asUser("4c94b763-9021-499f-8ea3-b01adcdafe57").deleteConversation({
-    id: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
-});
-```
-
 </Tab></Tabs>
+
+| Parameter   | Type      | Description     |
+|-------------|-----------|-----------------|
+| `id`        | uuid      | Conversation ID.  |
 
 ### `assignTagsToConversation()`
 
