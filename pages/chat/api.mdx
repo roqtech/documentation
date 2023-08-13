@@ -78,7 +78,7 @@ mutation {
 
 ### `deleteConversation()`
 
-Delete a conversation for a specific ID. The API documenation for `deleteConversation()` is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteConversation).
+Delete a conversation for a specific ID. The API documenation for the `deleteConversation()` is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteConversation).
 
 <Tabs items={['Node.js SDK', 'GraphQL']}>
 <Tab>
@@ -102,14 +102,22 @@ mutation {
 
 | Parameter   | Type      | Description     |
 |-------------|-----------|-----------------|
-| `id`        | uuid      | Conversation ID.  |
+| `id`        | uuid      | Conversation ID  |
 
 ### `assignTagsToConversation()`
 
-Assign tags to an existing conversation. These tags can be used to filter conversations on the UI components
+Assign tags to an existing conversation. These tags can be used to filter conversations on the UI components. Please check the API documentation for `assignTagsToConversation()` [here](https://jupiter-pp.roq-platform.com/docs/#mutation-assignTagsToConversation).
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
-
+<Tabs items={['Node.js SDK', 'GraphQL']}>
+<Tab>
+```ts
+roqClient.asUser("7c15cbe7-21f1-4ff7-b742-ec8604682772").assignTagsToConversation({
+    conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772",
+    tags: ["hackathon", "hiring"]
+});
+```
+</Tab>
+<Tab>
 ```graphql
 mutation {
   assignTagsToConversation(
@@ -118,24 +126,28 @@ mutation {
   )
 }
 ```
+</Tab>
+</Tabs>
 
-</Tab><Tab>
+| Parameter   | Type      | Description     |
+|-------------|-----------|-----------------|
+| `conversationId`        | uuid      | The conversation ID  |
+| `tags`      | array | Array of tags to be assigned to the conversation |
 
+### `unassignTagsFromConversation()`
+
+Remove tags from a conversation. The API documentation is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-unassignTagsFromConversation).
+
+<Tabs items={['Node.js SDK', 'GraphQL']}>
+<Tab>
 ```ts
-roq.asUser("7c15cbe7-21f1-4ff7-b742-ec8604682772").assignTagsToConversation({
+roqClient.asUser("7c15cbe7-21f1-4ff7-b742-ec8604682772").unassignTagsFromConversation({
     conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772",
     tags: ["hackathon", "hiring"]
 });
 ```
-
-</Tab></Tabs>
-
-### `unassignTagsFromConversation()`
-
-Remove tags from a conversation.
-
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
-
+</Tab>
+<Tab>
 ```graphql
 mutation {
   unassignTagsFromConversation(
@@ -144,17 +156,14 @@ mutation {
   )
 }
 ```
+</Tab>
+</Tabs>
 
-</Tab><Tab>
+| Parameter   | Type      | Description     |
+|-------------|-----------|-----------------|
+| `conversationId`        | uuid      | The conversation ID  |
+| `tags`      | array | Array of tags to be unassigned to the conversation |
 
-```ts
-roq.asUser("7c15cbe7-21f1-4ff7-b742-ec8604682772").unassignTagsFromConversation({
-    conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772",
-    tags: ["hackathon", "hiring"]
-});
-```
-
-</Tab></Tabs>
 
 ### `createMessage()`
 
