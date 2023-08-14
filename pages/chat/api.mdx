@@ -206,12 +206,12 @@ mutation {
 
 | Parameter        | Type     | Description                                                                                                                        |
 |------------------|----------|------------------------------------------------------------------------------------------------------------------------------------|
-| `authorId`       | string!  | UserID of the message sender                                                                                                       |
-| `body`           | string!  | The body of the message, as a string or markdown                                                                                   |
-| `conversationId` | string!  | The ID of the conversation into which you want to send the message                                                                 |
-| `ownerId`        | string!  | The userId of the owner - i.e usually the creator who has permissions to archive the conversation                                  |
-| `fileId`         | string?  | If you want to include an attach a file with the message, specify a fileId                                                         |
-| `isSystem`       | Boolean? | System messages are styled differently in our UI components and can be used to visualize a message from a "bot" or a "system user" |
+| `message:authorId`       | string!  | UserID of the message sender                                                                                                       |
+| `message:body`           | string!  | The body of the message, as a string or markdown                                                                                   |
+| `message:conversationId` | string!  | The ID of the conversation into which you want to send the message                                                                 |
+| `message:ownerId`        | string!  | The userId of the owner - i.e usually the creator who has permissions to archive the conversation                                  |
+| `message:fileId`         | string?  | If you want to include an attach a file with the message, specify a fileId                                                         |
+| `message:isSystem`       | Boolean? | System messages are styled differently in our UI components and can be used to visualize a message from a "bot" or a "system user" |
 
 ## Queries
 
