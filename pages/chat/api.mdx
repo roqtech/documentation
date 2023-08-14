@@ -219,8 +219,8 @@ mutation {
 
 Returns a list of chat messages for a given conversation.
 
-<Tabs items={['GraphQL', 'Node.js SDK']}><Tab>
-
+<Tabs items={['Node.js SDK', 'GraphQL']}>
+<Tab>
 ```graphql
 query {
   messages(filter: { conversationId: 123 }) {
@@ -232,9 +232,8 @@ query {
   }
 }
 ```
-
-</Tab><Tab>
-
+</Tab>
+<Tab>
 ```ts
 client
   .asSuperAdmin()
@@ -251,10 +250,9 @@ client
     console.log(response.messages);
   });
 ```
+</Tab>
+</Tabs>
 
-</Tab></Tabs>
-
-If you don't use the super admin user and the query isn't working for you, then please check if the user has the
-related permission.
+If you don't use the super admin user and the query isn't working for you, then please check if the user has the related permission.
 
 ![Image](/message-permission.png)
