@@ -222,9 +222,7 @@ Returns a list of chat messages for a given conversation. The API documentation 
 <Tabs items={['Node.js SDK', 'GraphQL']}>
 <Tab>
 ```ts
-client
-  .asSuperAdmin()
-  .messages({
+roqClient.asSuperAdmin().messages({
     withFile: true,
     filter: {
       conversationId: { equalTo: 'your-conversationId' },
