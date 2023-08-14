@@ -217,22 +217,9 @@ mutation {
 
 ### `messages()`
 
-Returns a list of chat messages for a given conversation.
+Returns a list of chat messages for a given conversation. The API documentation for the `messages()` method is [here](https://jupiter-pp.roq-platform.com/docs/#query-messages).
 
 <Tabs items={['Node.js SDK', 'GraphQL']}>
-<Tab>
-```graphql
-query {
-  messages(filter: { conversationId: 123 }) {
-    data {
-      id
-      body
-      fileId
-    }
-  }
-}
-```
-</Tab>
 <Tab>
 ```ts
 client
@@ -251,8 +238,25 @@ client
   });
 ```
 </Tab>
+<Tab>
+```graphql
+query {
+  messages(filter: { conversationId: 123 }) {
+    data {
+      id
+      body
+      fileId
+    }
+  }
+}
+```
+</Tab>
 </Tabs>
 
+The `messages()` parameters support [GraphQL Basics API](/development-guides/graphql-basics-api) such as `order`, `limit`, `offset` and `filter`.
+
+<Callout type="info">
 If you don't use the super admin user and the query isn't working for you, then please check if the user has the related permission.
+</Callout>
 
 ![Image](/message-permission.png)
