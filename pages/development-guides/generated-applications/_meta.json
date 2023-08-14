@@ -1,6 +1,7 @@
 {
   "api-endpoints": "Add/Modify APIs",
   "form": "Customize Form Fields",
+  "databases-installation": "Databases Installation",
   "database-schema": "Database Schema",
   "edit-data-models": "Edit Data Models"
 }
