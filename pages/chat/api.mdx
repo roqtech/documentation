@@ -6,8 +6,8 @@ import Image from "next/image";
 
 ## Introduction
 
-ROQ's Chat solution can also be used programmatically using graphQL, or our SDKs.
-While the primary use-cases are taken care of using the UI components, the GraphQL API may be used to achieve custom
+ROQ's Chat solution can also be used programmatically using GraphQL or our SDKs.
+While the primary use cases are taken care of using the UI components, the GraphQL API may be used to achieve custom
 functionality.
 
 ## Mutations
@@ -18,7 +18,7 @@ functionality.
   This endpoint is only available from the server side of your application.
 </Callout>
 
-You can use this endpoint to create a new chat programmatically, from your server-side code. The API documenation for this method is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-createConversation).
+You can use this endpoint to create a new chat programmatically from your server-side code. The API documentation for this method is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-createConversation).
 
 <Tabs items={['Node.js SDK', 'GraphQL' ]}><Tab>
 
@@ -70,15 +70,15 @@ mutation {
 | Parameter   | Type      | Description                                                                                                                                |
 |-------------|-----------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | `archived`  | Boolean?  | Is the conversation archived or not                                                                                                        |
-| `isGroup`   | Boolean?  | Usually set to true when you have 3 or more participants, or when you need to have a named title for a conversation between 2 participants |
+| `isGroup`   | Boolean?  | Usually set to true when you have three or more participants or when you need to have a named title for a conversation between 2 participants |
 | `memberIds` | string[]! | An array of userIds for participants of the conversation                                                                                   |
-| `ownerId`   | string!   | The userId of the owner - i.e usually the creator who has permissions to archive the conversation                                          |
+| `ownerId`   | string!   | The userId of the owner - i.e. usually the creator who has permission to archive the conversation                                          |
 | `tags`      | string[]? | An array of strings. These may be used to filter conversations on the UI Components                                                        |
 | `title`     | string!   | The title of the conversation, shown at the top of the chat window                                                                         |
 
 ### `deleteConversation()`
 
-Delete a conversation for a specific ID. The API documenation for the `deleteConversation()` is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteConversation).
+Delete a conversation for a specific ID. The API documentation for the `deleteConversation()` is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteConversation).
 
 <Tabs items={['Node.js SDK', 'GraphQL']}>
 <Tab>
@@ -194,7 +194,7 @@ Please Click [Documentation](https://docs.roq.tech/)`,
 mutation {
   createMessage(
     authorId: "4c94b763-9021-499f-8ea3-b01adcdafe57"
-    body: "#### Johannes Berge has requested a sample"
+    body: "#### Johannes Berge has requested a sample."
     conversationId: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
     fileId: "7c15cbe7-21f1-4ff7-b742-ec8604682772"
     isSystem: false
@@ -209,8 +209,8 @@ mutation {
 | `message:authorId`       | string!  | UserID of the message sender                                                                                                       |
 | `message:body`           | string!  | The body of the message, as a string or markdown                                                                                   |
 | `message:conversationId` | string!  | The ID of the conversation into which you want to send the message                                                                 |
-| `message:ownerId`        | string!  | The userId of the owner - i.e usually the creator who has permissions to archive the conversation                                  |
-| `message:fileId`         | string?  | If you want to include an attach a file with the message, specify a fileId                                                         |
+| `message:ownerId`        | string!  | The userId of the owner - i.e., usually the creator who has permission to archive the conversation                                  |
+| `message:fileId`         | string?  | If you want to include and attach a file with the message, specify a fileId                                                         |
 | `message:isSystem`       | Boolean? | System messages are styled differently in our UI components and can be used to visualize a message from a "bot" or a "system user" |
 
 ## Queries
@@ -251,10 +251,10 @@ query {
 </Tab>
 </Tabs>
 
-The `messages()` parameters support [GraphQL Basics API](/development-guides/graphql-basics-api) such as `order`, `limit`, `offset` and `filter`.
+The `messages()` parameters support [GraphQL Basics API](/development-guides/graphql-basics-api) such as `order`, `limit`, `offset`, and `filter`.
 
 <Callout type="info">
-If you don't use the super admin user and the query isn't working for you, then please check if the user has the related permission.
+If you don't use the super admin user and the query isn't working, please check if the user has the related permission.
 </Callout>
 
 ![Image](/message-permission.png)
