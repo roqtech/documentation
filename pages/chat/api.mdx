@@ -69,12 +69,12 @@ mutation {
 
 | Parameter   | Type      | Description                                                                                                                                |
 |-------------|-----------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| `archived`  | Boolean?  | Is the conversation archived or not                                                                                                        |
-| `isGroup`   | Boolean?  | Usually set to true when you have three or more participants or when you need to have a named title for a conversation between 2 participants |
-| `memberIds` | string[]! | An array of userIds for participants of the conversation                                                                                   |
-| `ownerId`   | string!   | The userId of the owner - i.e. usually the creator who has permission to archive the conversation                                          |
-| `tags`      | string[]? | An array of strings. These may be used to filter conversations on the UI Components                                                        |
-| `title`     | string!   | The title of the conversation, shown at the top of the chat window                                                                         |
+| `conversation: archived`  | Boolean?  | Is the conversation archived or not                                                                                                        |
+| `conversation:isGroup`   | Boolean?  | Usually set to true when you have three or more participants or when you need to have a named title for a conversation between 2 participants |
+| `conversation:memberIds` | string[]! | An array of userIds for participants of the conversation                                                                                   |
+| `conversation:ownerId`   | string!   | The userId of the owner - i.e. usually the creator who has permission to archive the conversation                                          |
+| `conversation:tags`      | string[]? | An array of strings. These may be used to filter conversations on the UI Components                                                        |
+| `conversation:title`     | string!   | The title of the conversation, shown at the top of the chat window                                                                         |
 
 ### `deleteConversation()`
 
