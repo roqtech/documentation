@@ -1,3 +1,86 @@
 import { Tab, Tabs, Callout } from "nextra-theme-docs";
 
 # Filter Chat by Tags
+
+ROQ Chat provides filtering chat by tags. This feature is available only in the Chat UI Component. If ypu use Next.js the usage of `<Chat/>` is much simpler.
+
+## Next.js API
+
+To illustrate, in a Next.js application, we can create an API that enables us to add a system bot for a new conversation and then assigned tags of `greeting` and `onboarding`:
+
+```js
+// src/pages/api/chat.js
+const tags =  ["greeting", "onboarding"];
+
+// Creat a user to chat with
+const user = await roqClient.asSuperAdmin().createUser({
+    user: {
+        firstName: "System",
+        lastName: "Bot",
+        email: "sysbot-1@reporter.x",
+        password: "sysb0t1",
+        active: true,
+        isOptedIn: true,
+        reference: randomUUID(),
+      },
+});
+
+// Create the conversation
+const conv = await roqClient.asUser(session.roqUserId).createConversation({
+      conversation: {
+        title: user.createUser.firstName,
+        ownerId: session.roqUserId,
+        isGroup: false, //Not a group
+        memberIds: [user.createUser.id, session.roqUserId],
+        tags: tags,
+      },
+});
+```
+
+And then we can create a first message from the user that we have created earlier:
+
+```js
+// src/pages/api/chat.js
+await roqClient.asSuperAdmin().createMessage({
+    message: {
+        conversationId: conv.createConversation.id,
+        body: `This conversation has the tags ${tags.join(', ')}`,
+        authorId: user.createUser.id,
+        isSystem: true,
+    },
+});
+```
+You can send the conversation to the client using the usual Next.js API route.
+
+```js
+// import necessary packages
+
+// without any ROQ auth
+export default function handler(req, res) {
+  // all the code above
+  return res.status(200).json({ data: conv });
+}
+```
+
+## Chat UI Component
+
+The `<Chat/>` UI Component can be easily use to consume data from the API with React hooks.
+
+```jsx
+import {useState, useCallback} from 'react';
+import { Chat } from '@roq/nextjs';
+
+function ChatPage(){
+	const [tags, setTags] = useState(['novice', 'ecosystem']);
+	const [isTagApplied, setIsTagApplied] = useState(false);
+
+	return (
+	    <div style={{ flex: 1, height: '80vh' }}>
+            <Chat fluid={true} tags={isTagApplied ? tags : undefined}/>
+        </div>
+	)
+}
+```
+
+
+
