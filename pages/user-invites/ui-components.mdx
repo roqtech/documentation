@@ -1,11 +1,11 @@
-import { Tab, Tabs } from 'nextra-theme-docs';
-import { Callout } from 'nextra-theme-docs';
+import { Callout, Tab, Tabs } from 'nextra-theme-docs';
 import Image from 'next/image';
-import DoBasicSetup from "/snippets/do-basic-setup.mdx"
+import DoBasicSetup from "/snippets/do-basic-setup.mdx";
+import ROQProvider from "/snippets/roq-provider.mdx";
 
 # User Invites UI Components
 
-<DoBasicSetup />
+<ROQProvider/>
 
 ## `<UserInviteButton />`
 
@@ -51,7 +51,7 @@ function App() {
 
 ### Description
 
-The `<UserInvitePane />` component renders a pane that allows to invite one or multiple users at once.
+The `<UserInvitePane />` component renders a pane that allows to invite one or multiple users at once. This component support locales.
 
 <Tabs items={['Light', 'Dark']}><Tab>
 
@@ -73,7 +73,7 @@ import { UserInvitePane } from '@roq/ui-react';
 
 function App() {
     return (
-        <UserInvitePane
+        <UserInvitePane locale={'de-DE'}
             onInviteError={function noRefCheck(){}}
             onInviteSuccess={function noRefCheck(){}}
         />
@@ -83,12 +83,13 @@ function App() {
 
 </Tab></Tabs>
 
+The email sent to the invitee is based on the locale property of the `<UserInvitePane/>` component. Make sure the email template for the local is exist in the ROQ Console.
+
 ## `<UserInvitesTable />`
 
 ### Description
 
-The `<UserInvitesTable />` component renders all related components at once. Users can invite other users and manage
-their invitees in a table.
+The `<UserInvitesTable />` component renders all related components at once. Users can invite other users and manage their invitees in a table. This component support locales property.
 
 {/* TODO add missing screenshot */}
 <Tabs items={['Light']}><Tab>
@@ -108,9 +109,8 @@ import { UserInvitesTable } from '@roq/ui-react';
 
 function App() {
     return (
-        <UserInvitesTable />
+        <UserInvitesTable locale={'en-US'}/>
     );
 }
 ```
-
 </Tab></Tabs>

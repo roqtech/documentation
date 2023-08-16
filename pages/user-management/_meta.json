@@ -1,6 +1,9 @@
 {
   "index": "Overview",
   "api": "API",
-  "advanced": "Advanced Topics",
+  "sync-user": {
+    "title": "sync-user",
+    "display": "hidden"
+  },
   "ui-components": "UI Components"
 }

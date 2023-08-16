@@ -1,0 +1,115 @@
+import { Callout, Tab, Tabs, Steps } from "nextra-theme-docs";
+
+# Multi-Factor Authentication
+
+ROQ provides an additional layer of protection, which is **Multi-Factor Authentication** or called **MFA**. With this security enhancement, you can use your phone number as additional authentication.
+
+## MFA SMS Setup
+
+A few steps must be done on the ROQ Console before using the Multi-factor Authentication with SMS.
+
+<Steps>
+### Enable SMS Integrations
+
+To utilize MFA through SMS on ROQ, you must enable SMS integration in the ROQ Console. The SMS integration can be done by going to the **Integrations** → **SMS** menu and activating the integrations. 
+
+![](/mfa-enable-sms-integration.png)
+
+<Callout type="info">
+Please note that at least one active SMS integration is required.
+</Callout>
+
+{/*
+#### Twilio
+
+To integrate Twilio SMS with ROQ, you should fill in the sender number in the configuration of the SMS integration form.
+
+*/}
+
+### Enable MFA on Authentication Configuration
+
+The next step is to enable MFA on the registration or login form in the ROQ Console. 
+
+Go to the **Authentication** → **Configuration**. You can enable MFA for each registration form variant by selecting the **Two-factor Authentication** flag.
+
+![enable mfa on auth config](/mfa-enable-auth-configuration.png)
+
+<Callout type="info">
+This configuration will impact new users who register. To implement MFA for existing users, please follow the next steps. 
+</Callout>
+
+### Enable MFA for Existing Users
+
+To activate Multi-factor Authentication for existing users, you must turn on the ROQ Console's user MFA option. Navigate to the **Users & Access** → **Users** section and choose the specific users you wish to enable MFA.
+
+Two settings require attention:
+
+- **Two-factor Authentication**: Enable this option to apply MFA to the selected user.
+- **Phone**: Enter your phone number, which will be used to send the OTP for login verification. {/* This can be changed later on the user account in the generated application or the MFA form.*/}
+
+![enable two factor auth for a user](/mfa-enable-user-two-factor-auth.png)
+
+</Steps>
+
+Users will have the Multi-factor Authentication feature once the above steps have been completed.
+
+## MFA for Existing Users
+
+Next, when the existing users with MFA enabled try to login, the user will be asked to enter a verification code. The user workflow can be described in the steps below:
+
+<Steps>
+
+### Enter OTP
+
+ROQ will send a One-Time Password or OTP for login verification to the user phone number registered on the ROQ Console ([Step 3](/authentication/mfa#enable-mfa-for-existing-users) on MFA SMS Setup above). 
+
+![mfa user verification code](/mfa-user-send-verification-code.png)
+
+You can also change the number if you have entered the wrong phone number by clicking the **Change phone number**.
+
+### Recovery codes
+
+Users with successful verification will get the recovery codes, which can be saved through manual copy-paste or downloading the recovery codes file.
+
+![mfa recovery codes](/mfa-recovery-codes.png)
+
+<Callout type="warning">
+The recovery codes will only be displayed once. Please ensure you keep them safe and confidential.
+</Callout>
+
+</Steps>
+
+
+## MFA for New Users
+
+For a new user, MFA will be applied after successful registration. The user workflow can be shown in the steps below:
+
+<Steps>
+
+### Enter Phone Number
+
+After registering successfully, new users will be prompted to provide their phone number to receive an OTP SMS as additional authentication.
+
+At present, it is necessary to include both the phone number and its corresponding international code.
+
+![ask phone number](/mfa-new-user-ask-phone.png)
+
+### Enter OTP  
+
+The following steps are the same for existing users. You will need to enter the OTP into the MFA form for verification.
+
+![mfa user verification code](/mfa-user-send-verification-code.png)
+
+### Recovery Codes
+
+You will receive a list of recovery codes and you should backup by copying and pasting or downloading the recovery codes file.
+
+![mfa recovery codes](/mfa-recovery-codes.png)
+
+Again, please ensure you keep them safe and confidential.
+
+</Steps>
+
+## Disable MFA
+
+If the Two-Factor Authentication flag is turned off in the ROG Console authentication settings. In that case, users will not need to verify their login even if they have MFA enabled.

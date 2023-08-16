@@ -1,0 +1,69 @@
+import { Callout, Tab, Tabs } from "nextra-theme-docs";
+
+# Refresh Session
+
+When user profile data is updated in the ROQ Console, it may not immediately update in the generated application. You can force an update to quickly update session data when there are changes in the ROQ console.
+
+## Update Sessions
+
+ROQ session can be forced to update or refreshed by using one of these ways:
+
+## Call Endpoint
+
+You can call the endpoint `/api/auth/refetch-session` path URL to update the session. For example, in the local development, you can call this URL:
+
+```shell
+http://localhost:3000/api/auth/refetch-session
+```
+
+The session data returned by the server is JSON:
+
+```json
+{
+    "session": {
+        "id": "6ce651f6-6446-4210-b0c4-5f9445696e8e",
+        "roqAccessToken": "<session_token>",
+        "roqUserId": "4f4d4bc6-7fd8-439c-ad5c-d4a60e8aeaef",
+        "user": {
+            "firstName": "Manga",
+            "lastName": "Man",
+            "email": "john.doe@gmail.com",
+            "timezone": "Asia/Bangkok",
+            "locale": "en-US",
+            "roles": [
+                "library-administrator"
+            ],
+            "tenantId": "9e15aa37-4b28-4fae-8c19-2591a93e8e24"
+        },
+        "iat": 1691913517,
+        "exp": 1691999917
+    },
+    "status": "authenticated"
+}
+```
+
+## Using Code
+
+To force an update or refresh session using code, you can use `refetchSessionHandler()` API method from the `@roq/nextjs` package.
+
+<Callout type="warning">
+For `@roq\nextjs`  up to version 1.0.17, you must directly import `refetchSessionHandler()` as it is not exported by default.
+</Callout>
+
+```ts
+// pages/api/refresh.ts
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { withAuth, getServerSession } from '@roq/nextjs';
+
+// this is a direct import change the path relative to the file
+import { refetchSessionHandler } from "../../../node_modules/@roq/nextjs/dist/src/handlers/refetch-session";
+
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+    await refetchSessionHandler(req, res);
+}
+
+export default function tokenHandler(req: NextApiRequest, res: NextApiResponse) {
+    return withAuth(req, res)(handler);
+}
+
+```

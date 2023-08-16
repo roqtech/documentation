@@ -13,6 +13,10 @@ ERROR: function `uuid_generate_v4()` does not exist
 
 ## Solution
 
+<Callout type="info">
+The error occurred specifically in the older version of the application that was generated. However, the problem with the UUID extension has been fixed in the newer version. If you encounter this error, please refer to the solution provided below.
+</Callout>
+
 Enable the **uuid-ossp** module in PostgreSQL. One way to do this is by enabling manually via administration tool, such as [**pgAdmin**](https://www.pgadmin.org/).
 
 To enable the **uuid-ossp** on PostgreSQL, run this SQL script:

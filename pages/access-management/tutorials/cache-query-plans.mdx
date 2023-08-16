@@ -1,0 +1,92 @@
+import { Callout, Tab, Tabs} from "nextra-theme-docs"
+
+# Cache Query Plans
+
+The access management in ROQ is based on query plans which ROQ computes based on the current user's permissions and the database tables. The [`buildQueryPlan()`](https://jupiter-pp.roq-platform.com/docs/#mutation-buildQueryPlan) method is used to create query plans and these query plans are created on production in the ROQ Platform.
+
+If there are any changes made to role permission either through the ROQ Console or API, the query plans for the generated application will be updated accordingly. The SDK caches this query plan information locally and refreshes it only at specific intervals. This makes your application self-sufficient and not dependent on the ROQ Platform's availability.
+
+<Callout type="info">
+Internally, in the generated application the [`queryPlans()`](https://jupiter-pp.roq-platform.com/docs/#query-queryPlans) API is used to get the query plans from the ROQ Platform.
+</Callout>
+
+## Local Cache
+
+Initially, the generated application will check if the query plans are already cached locally. If not the `initQueryPlanCache()` will get the query plans from the ROQ Platform.
+
+<Callout type="info">
+The `initQueryPlanCache()` method is in the `@roq\prismajs` package.
+</Callout>
+
+The query plans are cached in the `node_modules\@roq\prismajs\dist` directory, in the `query-plans.json` file.
+
+```json
+{
+	{...},
+	"moderator.read.video": {
+		"kind": "restricted",
+		"queryPlan": {
+			"from": "video",
+			"to": "organization",
+			"case": "many-to-one",
+			"fromField": "organization_id",
+			"toField": "id",
+			"in": {
+				"from": "organization",
+				"to": "user",
+				"case": "many-to-one",
+				"fromField": "user_id",
+				"toField": "id",
+				"in": {
+					"from": "user",
+					"fromField": "roq_user_id",
+					"userId": [
+						null
+					],
+					"tenantId": null
+				}
+			}
+		},
+		"role": "moderator",
+		"entity": "video",
+		"userIdField": "roq_user_id",
+		"operation": "read"
+	},
+	"moderator.create.video": {
+		"kind": "noAccess",
+		"queryPlan": null,
+		"role": "moderator",
+		"entity": "video",
+		"userIdField": "roq_user_id",
+		"operation": "create"
+	},
+	{...}
+}
+```
+
+The user interface in the ROQ Console explains the permissions and operations of a role in the query plans. For example, for the **Moderator** role:
+
+![query plan](/roles-for-query-plans.png)
+
+This role doesn't have a create permission, so it has no access, and the `queryPlan` is `null`.
+
+## Force Update
+
+There are a few ways to update the query plans in the generated application. You can do one of the following ways:
+
+### Using CLI
+You can use the utility `roq-authorization` that already exists upon dependencies package installation
+
+```shell
+npx roq-authorization create-cache
+```
+the output depends on your operating system:
+
+```shell
+PS E:\_workspaces\ROQ\genapps\youtubiah-8b47> npx roq-authorization create-cache
+info: query plan successfully cached to: E:\_workspaces\ROQ\genapps\youtubiah-8b47\node_modules\@roq\prismajs\dist\src\query-plans.json
+```
+
+### Restart Application
+
+The other way to force update the local query plans cache is by restarting the running generated application.
