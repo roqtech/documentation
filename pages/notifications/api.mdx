@@ -114,3 +114,20 @@ query {
 }
 ```
 </Tab></Tabs>
+
+
+## Default Variables
+
+In the ROQ Notification template system, default variables will always be passed to the template. These variables are:
+
+### `recipient.firstName`
+
+This variable hold the first name of the recipient. If you don't set the first name in your profile, this variable will return empty.
+
+### `recipient.lastName`
+
+This variable holds the last name of the recipient, and if you are not set this in the user profile, then this variable will return empty.
+
+### `APPLICATION_URL`
+
+This variable will return the application URL for a particular environment.
