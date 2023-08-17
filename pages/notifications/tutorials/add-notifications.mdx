@@ -57,6 +57,12 @@ your needs and save it.
 
 The localized content supports custom variables, enabling you to notify users with custom values in the message.
 
+<Callout type="info">
+Some default variables are always passed to the template, such as `recipient.firstName`, `recipient.lastName`, and `APPLICATION_URL`.
+</Callout>
+
+For example, if we create a template with a custom variable `downloadLink`:
+
 ![Localized content with vars](/localized-content-with-vars.png)
 
 You can set the `downloadLink` variable with Notification API or by query via GraphQL API. For instance, using Node.js
