@@ -1,0 +1,25 @@
+import { Tab, Tabs, Callout } from 'nextra-theme-docs';
+
+
+# Post Login Redirect
+
+The post login redirect works by passing a URL as a query parameter to the `signIn` or `signUp` method. Once the user is logged in successfully, they will be redirected to that URL.ey are then redirected to that URL.
+
+```js
+signIn(type, {stateParams: {
+	postLoginRedirect: redirectPath,
+	},
+})
+```
+
+For example to redirect the URL to `/figure-inventories` you can pass the URL into the `signIn` method:
+
+```js
+signIn(type, {stateParams: {
+	postLoginRedirect: "/figure-inventories",
+	},
+})
+```
+{/* 
+Test on client not successfull even with path hard coded
+*/}
