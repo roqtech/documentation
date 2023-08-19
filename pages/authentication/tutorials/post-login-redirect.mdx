@@ -14,6 +14,9 @@ The `postLoginRedirect` is a state parameter option for the `signIn` and `signUp
 For example, In the generated application, to redirect the URL to `/discussion-boards` after user login, you can pass the path URL into the `signIn` method:
 
 ```js
+import { signIn, signUp, requireNextAuth } from '@roq/nextjs';
+
+//...
 signIn(type, {
         postLoginRedirect: "/discussion-boards",
     },
