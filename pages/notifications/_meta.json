@@ -1,6 +1,5 @@
 {
   "index": "Overview",
-  "tutorials": "Tutorials",
   "video": {
     "title": "Video Tutorial",
     "display": "hidden"
@@ -12,5 +11,6 @@
   "api": "API",
   "ui-components": {
     "title": "UI Components"
-  }
+  },
+  "tutorials": "Tutorials"
 }
