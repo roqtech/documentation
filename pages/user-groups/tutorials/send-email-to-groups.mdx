@@ -2,6 +2,15 @@ import { Tab, Tabs, Callout } from 'nextra-theme-docs';
 
 # Send Email to User Groups
 
+<Callout type="info">
+To run this code above, you need to:
+1. Install `@roq/nodejs` and `dotenv` npm packages. 
+2. Get the credentials from ROQ Console and put them in the `.env` file.
+3. Make sure there is an email template in ROQ Console with key name `market-research-group-email`. Please, go to this [tutorial](/mails/tutorials/create-email-templates) to create an email template.
+</Callout>
+
+## ROQ GraphQL Query
+
 In business applications, it is often necessary to communicate with specific user groups based on their characteristics or behavior. To accomplish this task, we can utilize GraphQL or the [User Groups](/user-groups/api) and [Mails](/mails/api) APIs.
 
 It's easy to query user groups using GraphQL:
@@ -22,19 +31,17 @@ query {
         }
       }
     }
-    
   }
 }
 ```
 
-Touse the data from the GraphQL query, we need to filter the response data to obtain the email addresses of users belonging to a particular group. Once we have the required email data, we can use the [`sendEmail()`](/mails/api#sendmail) API to send emails to the group.
+We need to filter the response data to obtain the email addresses of users belonging to a particular group. Once we have the required email data, we can use the [`sendEmail()`](/mails/api#sendmail) API to send emails to the group.
 
 Here's the simple code how to achieve such a task using ROQ Node.js SDK and GraphQL query:
 
 ```js
 import 'dotenv/config'
 import { Platform } from '@roq/nodejs'
-import { GraphQLClient, gql } from 'graphql-request'
 
 /**
  * Connect to the ROQ Platform
@@ -45,15 +52,7 @@ const roqClient = new Platform({
 	host: process.env.ROQ_PLATFORM_URL
 })
 
-const endpoint = 'https://qa03.roq-platform.com/v01/server/graphql';
-const graphqlClient = new GraphQLClient(endpoint, {
-	headers: {
-		"roq-platform-authorization": "Bearer <token1_here>",
-		"roq-platform-server-authorization": "Basic <token2_here>"
-	}
-})
-
-const query = gql`
+const query = `
 {
     userGroups {
   	totalCount
@@ -66,18 +65,33 @@ const query = gql`
         data {
           id
 		  email
-
         }
       }
     } 
   }
 }
 `
-const data = await graphqlClient.request(query);
+const roqGraphQLRequest = await roqClient.asSuperAdmin().graphqlRequest(query);
+```
+
+<Callout type="info">
+The ROQ Node.js SDK provide API to run a GraphQL query natively, its' called `graphqlRequest`, so you don't need to add any additional packages. For more information about this API, please read the [GraphQL Query](/development-guides/graphql-query) documentation.
+</Callout>
+
+{/** userGroups({withUsers: true}) return 500 internal server error
+ * that's why here, the tutorial is using GraphQl query.
+*/}
+
+
+## Send Emails
+
+To send emails we can use one of the user group IDs and filter users emails.
+
+```js
 // Suppose you have the group IDs as follows:
-const selectedGroupIds = ["a9c828ec-3e3b-47f8-b178-78d903d79791"];
+const selectedGroupIds = ["554a2843-66dd-4c9a-adc1-0c48484591b6"];
 // Filter the groups with the provided IDs.
-const selectedGroups = data.userGroups.data.filter(group => selectedGroupIds.includes(group.id));
+const selectedGroups = roqGraphQLRequest.data.userGroups.data.filter(group => selectedGroupIds.includes(group.id));
 
 if (selectedGroups.length === 0) {
 	console.log("No groups found with the provided IDs.");
@@ -101,14 +115,6 @@ if (selectedGroups.length === 0) {
 	console.log(emailStatus)
 }
 ```
-
-<Callout type="info">
-To run this code above, you need to:
-1. Install `@roq/nodejs`, `graphql-request`, and `dotenv` npm packages. 
-2. Get the credentials from ROQ Console and put them in the `.env` file.
-3. Make sure there is an email template in ROQ Console with key name `market-research-group-email`. Please, go to this [tutorial](/mails/tutorials/create-email-templates) to create an email template.
-</Callout>
-
 The email for **Market Research** group was sent to every group members.
 
 ![email for market reasearch group](/email-group-template.png)

@@ -4,18 +4,21 @@ import { Tab, Tabs, Callout } from 'nextra-theme-docs';
 
 ROQ offers a convenient [Notifications API](/notifications/api) that allows users to easily send information to one or multiple user groups. By using the `userGroups()` or GraphQL,  we can get all the registered groups and then we can send the notifications to any groups.
 
+## ROQ GraphQL Query 
+
+The ROQ Node.js SDK provide `graphqlRequest()` API to run a GraphQL query natively so you don't need to add any additional packages. You just need to provide GraphQL query string. For more information about this API, please read the [GraphQL Query](/development-guides/graphql-query) documentation.
+
 For example, for development purposes, let's use GraphQL query to get all the registered user groups. 
 
 <Callout type="info">
 The GraphQL API URL server can be found in the ROQ Console. Go to the menu **Application Details** → **Super Admin Tokens**. You will need the URL and tokens.
 </Callout>
 
-To use this code sample, make sure to install the npm packages `@roq/nodejs`, `dotenv`, and `graphql-request`.
+To use this code sample, make sure to install the npm packages `@roq/nodejs` and `dotenv`.
 
 ```js
 import 'dotenv/config'
 import { Platform } from '@roq/nodejs'
-import { GraphQLClient, gql } from 'graphql-request'
 
 /**
  * Connect to the ROQ Platform
@@ -26,20 +29,7 @@ const roqClient = new Platform({
     host: process.env.ROQ_PLATFORM_URL
 })
 
-// The GraphQL API Server
-const endpoint = 'https://qa03.roq-platform.com/v01/server/graphql';
-
-// Tokens
-const tokens = {
-    "roq-platform-authorization": "Bearer <Token1_Here>",
-    "roq-platform-server-authorization": "Basic <Token2_Here>"
-} 
-
-const graphqlClient = new GraphQLClient(endpoint, {
-    headers: tokens 
-})
-
-const query = gql`
+const query = `
 {
    userGroups {
     totalCount
@@ -53,70 +43,66 @@ const query = gql`
           id
         }
       }
-    }
-    
+    }    
   }
 }
 `
 
-const data = await graphqlClient.request(query)
-console.log(JSON.stringify(data))
+const roqGraphQLRequest = await roqClient.asSuperAdmin().graphqlRequest(query);
+console.log(roqGraphQLRequest);
 
 ```
+
 Below is the JSON representation of the `data` variable:
 
 ```js
 {
     "userGroups": {
-        "totalCount": 2,
+        "totalCount": 3,
         "data": [
             {
-                "id": "a9c828ec-3e3b-47f8-b178-78d903d79791",
-                "name": "Market Research",
-                "reference": "market-research",
-                "users": {
-                    "totalCount": 2,
-                    "data": [
-                        {
-                            "id": "c003d87b-e611-4809-8e44-4d9d4107a0ea"
-                        },
-                        {
-                            "id": "530c9a92-71c5-4dce-a6e3-c638c2d0b1bc"
-                        }
-                    ]
-                }
+                id: '554a2843-66dd-4c9a-adc1-0c48484591b6',
+                name: 'General Affair',
+                reference: 'general-affair',
+                users: { totalCount: 2, data: [Array] }
             },
             {
-                "id": "42103455-1e00-41bf-9714-c70a8c17caf9",
-                "name": "Video Creator",
-                "reference": "video-creator-group",
-                "users": {
-                    "totalCount": 1,
-                    "data": [
-                        {
-                            "id": "530c9a92-71c5-4dce-a6e3-c638c2d0b1bc"
-                        }
-                    ]
-                }
+                id: 'a3040727-4142-44e5-a2be-14c383f53506',
+                name: 'Sales',
+                reference: 'sales',
+                users: { totalCount: 0, data: [] }
+            },
+            {
+                id: 'b2b2b399-746f-49cc-bec1-d43101ffb138',
+                name: 'Marketing',
+                reference: 'marketing',
+                users: { totalCount: 0, data: [] }
             }
         ]
     }
 }
 ```
+
 We can use the group IDs from the output response as references for our notifications and to determine which users should receive them.
+
+{/** userGroups({withUsers: true}) return 500 internal server error
+ * that's why here, the tutorial is using GraphQl query.
+*/}
+
+## Send Notifications
 
 <Callout type="info">
 To add a new notification template in the ROQ Console, please read this  [add notifications](/notifications/tutorials/add-notifications) tutorial.
 </Callout>
 
-For example to send a notification for group **Video Creator** which has a group id `42103455-1e00-41bf-9714-c70a8c17caf9`:
+For example to send a notification for group **General Affair** which has a group id `554a2843-66dd-4c9a-adc1-0c48484591b6`:
 
 ```js
 // Suppose you have the group IDs as follows:
-const selectedGroupIds = ["a9c828ec-3e3b-47f8-b178-78d903d79791"];
+const selectedGroupIds = ["554a2843-66dd-4c9a-adc1-0c48484591b6"];
 
 // Filter the groups with the provided IDs.
-const selectedGroups = data.userGroups.data.filter(group => selectedGroupIds.includes(group.id));
+const selectedGroups = roqGraphQLRequest.data.userGroups.data.filter(group => selectedGroupIds.includes(group.id));
 
 if (selectedGroups.length === 0) {
     console.log("No groups found with the provided IDs.");
@@ -136,19 +122,18 @@ if (selectedGroups.length === 0) {
                 }
             },
             data: [
-                { key: "platform_name", value: "AIVidz" },
+                { key: "platform_name", value: "AnimFig" },
                 { key: "your_name", value: "Anna W." },
-                { key: "company_name", value: "AIVidz Ltd." }
+                { key: "company_name", value: "AnimFig Ltd." }
             ]
         }
     });
 
     console.log(notifyStatus);
 }
-
 ```
 
-If you log in as a user with a member of the group **Video Creator** in the generated application, you will receive the notification.
+If you log in as a user with a member of the group **General Affair** in the generated application, you will receive the notification.
 
 ![notification popup](/notification-group.png)
 
