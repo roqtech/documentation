@@ -2,17 +2,18 @@ import { Callout } from "nextra-theme-docs";
 import { Tab, Tabs } from "nextra-theme-docs";
 import Image from "next/image";
 
-# Get data of current session
+# Get Data on The Current Session
 
 ## Client-side
 
-If you want to access the current user's data, e.g., to show the user's first name, you can either use the
-useSession hook or an async helper.
+If you want to access the current user's data, e.g., to show the user's first name, you can either use the useSession hook or an async helper.
 
 {/* TODO Replace code when SaaS template is done */}
 
 #### Hooks
-- useSession
+
+##### `useSession()`
+
 <Tabs items={['React', "Next.js"]}><Tab>
 
 ```typescript
@@ -31,11 +32,13 @@ import { useSession } from "@roq/nextjs";
 const { session, status } = useSession();
 const firstName = session.user.firstName;
 ```
-
 </Tab>
 </Tabs>
 
-- useRefetchSession: use to refetch current token & session data (e.g. after a user updates their profile)
+##### `useRefetchSession()` 
+
+This method is used to refetch the current token & session data (e.g., after a user updates their profile).
+
 <Tabs items={['React', "Next.js"]}><Tab>
 
 ```tsx
@@ -58,7 +61,8 @@ function Button() {
 
 </Tab>
 </Tabs>
-#### async helper
+
+#### Async Helper
 
 {/* TODO add import and check if correct */}
 
@@ -96,5 +100,5 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const user = session.user;
 }
 ```
-
-</Tab></Tabs>
+</Tab>
+</Tabs>
