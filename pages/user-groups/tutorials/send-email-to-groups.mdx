@@ -74,6 +74,11 @@ const query = `
 const roqGraphQLRequest = await roqClient.asSuperAdmin().graphqlRequest(query);
 ```
 
+{/** userGroups({withUsers: true}) return 500 internal server error
+ * that's why here, the tutorial is using GraphQl query.
+*/}
+
+
 ## Send Emails
 
 To send emails we can use one of the user group IDs and filter users emails.
