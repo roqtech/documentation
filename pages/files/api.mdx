@@ -285,19 +285,12 @@ mutation makeFilePrivate($fileId: ID!) {
 
 You can get a list of files using the `files()` query.
 
-**Access management:** The query returns all files that are accessible for the
-current user.
+**Access management:** The query returns all files that are accessible for the current user.
 
 **Associations:** You can use the filters to find files which are associated with other objects;
-see [createFileAssociation()](#createfileassociation). The typical flow looks loke this: First, you fetch the ID of an
-object from your database and then query the related
-files. For instance, the query shown below requests all files that are associated with a specific _"contract"_.
+see [createFileAssociation()](#createfileassociation). The typical flow looks loke this: First, you fetch the ID of an object from your database and then query the related files. For instance, the query shown below requests all files that are associated with a specific _"contract"_.
 
-**Visibility:** For files marked as _“public”_, the returned URL is static. If the file is marked as _“private”_, then
-the
-URL is
-referred to as a signed URL which is created for only one purpose. A signed URL works only for a short amount of time
-and is not intended to be published.
+**Visibility:** For files marked as _“public”_, the returned URL is static. If the file is marked as _“private”_, then the URL is referred to as a signed URL which is created for only one purpose. A signed URL works only for a short amount of time and is not intended to be published.
 
 {/* TODO Does files return a signed URL if the fiel is private */}
 
@@ -336,9 +329,9 @@ query {
 </Tab></Tabs>
 
 | Parameter           | Type   | Description                                                                                 |
-| ------------------- | ------ | ------------------------------------------------------------------------------------------- |
-| `filter:entityName`        | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
-| `filter:entityIdentifiers` | object | References (or IDs) of the related objects from your database                               |
+| ------------------- | ------ |----------------------------------------------------------- |
+| `filter:entityName` | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
+| `filter:entityIdentifiers` | object | References (or IDs) of the related objects from your database  |
 
 {/* TODO entityIdentifiers will be renamed to entityReferences */}
 
