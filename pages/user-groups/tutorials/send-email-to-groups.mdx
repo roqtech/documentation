@@ -37,8 +37,6 @@ query {
 
 We need to filter the response data to obtain the email addresses of users belonging to a particular group. Once we have the required email data, we can use the [`sendEmail()`](/mails/api#sendmail) API to send emails to the group.
 
-The ROQ Node.js SDK provide API to run a GraphQL query natively, its' called `graphqlRequest`, so you don't need to add any additional packages. For more information about this API, please read the [GraphQL Query](/development-guides/graphql-query) documentation.
-
 Here's the simple code how to achieve such a task using ROQ Node.js SDK and GraphQL query:
 
 ```js
@@ -75,6 +73,10 @@ const query = `
 `
 const roqGraphQLRequest = await roqClient.asSuperAdmin().graphqlRequest(query);
 ```
+
+<Callout type="info">
+The ROQ Node.js SDK provide API to run a GraphQL query natively, its' called `graphqlRequest`, so you don't need to add any additional packages. For more information about this API, please read the [GraphQL Query](/development-guides/graphql-query) documentation.
+</Callout>
 
 {/** userGroups({withUsers: true}) return 500 internal server error
  * that's why here, the tutorial is using GraphQl query.
