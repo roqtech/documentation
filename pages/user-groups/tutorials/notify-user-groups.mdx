@@ -4,6 +4,8 @@ import { Tab, Tabs, Callout } from 'nextra-theme-docs';
 
 ROQ offers a convenient [Notifications API](/notifications/api) that allows users to easily send information to one or multiple user groups. By using the `userGroups()` or GraphQL,  we can get all the registered groups and then we can send the notifications to any groups.
 
+## ROQ GraphQL Query 
+
 The ROQ Node.js SDK provide API to run a GraphQL query natively so you don't need to add any additional packages. You just need to provide GraphQL query string:
 
 For example, for development purposes, let's use GraphQL query to get all the registered user groups. 
@@ -80,7 +82,10 @@ Below is the JSON representation of the `data` variable:
     }
 }
 ```
+
 We can use the group IDs from the output response as references for our notifications and to determine which users should receive them.
+
+## Send Notifications
 
 <Callout type="info">
 To add a new notification template in the ROQ Console, please read this  [add notifications](/notifications/tutorials/add-notifications) tutorial.
