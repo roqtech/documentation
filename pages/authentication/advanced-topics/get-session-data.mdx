@@ -11,8 +11,8 @@ useSession hook or an async helper.
 
 {/* TODO Replace code when SaaS template is done */}
 
-#### useSession hook
-
+#### Hooks
+- useSession
 <Tabs items={['React', "Next.js"]}><Tab>
 
 ```typescript
@@ -35,12 +35,34 @@ const firstName = session.user.firstName;
 </Tab>
 </Tabs>
 
+- useRefetchSession: use to refetch current token & session data (e.g. after a user updates their profile)
+<Tabs items={['React', "Next.js"]}><Tab>
+
+```tsx
+import { useRoqComponents } from "@roq/ui-react";
+function Button() {
+  const { refetchSession } = useRoqComponents();
+  return <button onClick={refetchSession}>Refetch session</button>;
+}
+```
+</Tab>
+<Tab>
+
+```tsx
+import { useRoqComponents } from "@roq/nextjs";
+function Button() {
+  const { refetchSession } = useRoqComponents();
+  return <button onClick={refetchSession}>Refetch session</button>;
+}
+```
+
+</Tab>
+</Tabs>
 #### async helper
 
 {/* TODO add import and check if correct */}
 
 <Tabs items={['React', 'Nextjs']}><Tab>
-
 ```tsx
 import { getSession } from "@roq/ui-react";
 
