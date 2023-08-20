@@ -1,0 +1,91 @@
+import { Tab, Tabs, Callout } from 'nextra-theme-docs';
+
+# GraphQL Query
+
+## Introduction
+
+When developing an application with the ROQ platform, you can use API from the ROQ SDKs, such as ROQ NOde.js SDK or use directly with GraphQL query. 
+
+Suppose you want to develop the application by using GraphQL. In that case, ROQ provides the `graphqlRequest()` method to query or mutate data directly. This API is available in the ROQ Node.js SDK.
+ 
+## `graphqlRequest()`
+
+The benefit of using `graphqlRequest()`, you don't need any additional package dependencies installed, and everything is already setup internally, such as authentication and the GraphQL server URL. All you have to do is provide the GraphQL query.
+
+This API method has signature:
+
+```ts
+graphqlRequest(query, variables, requestHeaders);
+```
+
+For example, if you want to query data for specific users by using the key user `id`. You can use static GraphQL query with known user id:
+
+```graphql
+query {
+  users(
+    filter: { reference: { 
+      equalTo: "8d04d09a-8ff8-4393-840d-c69f3f1f7dfa"}}
+  ) {
+    totalCount
+    data {
+      id
+      tenantId
+    }
+  }
+}
+```
+and then directly call the GraphQL query with `graphqlRequest()` method.
+
+```js
+import { Platform } from '@roq/nodejs'
+
+const roqClient = new Platform({
+	apiKey: process.env.ROQ_API_KEY,
+	environmentId: process.env.ROQ_ENVIRONMENT_ID,
+	host: process.env.ROQ_PLATFORM_URL
+})
+
+const graphqlQuery = `
+  query {
+  users(
+    filter: { reference: { 
+      equalTo: "8d04d09a-8ff8-4393-840d-c69f3f1f7dfa"}}
+  ) {
+    totalCount
+    data {
+      id
+      tenantId
+    }
+  }
+}
+`
+const queryResult = await roqClient.asSuperAdmin().graphqlRequest(graphqlQuery)
+```
+
+For dynamic variables you can use `variables` option in the `graphqlRequest()`:
+
+```js
+const queryUsers = `
+query users( $filter: UserFilterArgType ) {
+	users( filter: $filter ) {
+	  totalCount
+	  data {
+		id
+		email
+		tenantId
+	  }
+	}
+}
+`
+
+const graphqlRequestVars = {
+	filter: {
+		id: {
+			equalTo: "f4c09fef-843f-4501-acd3-0847d3b417c0"
+		}
+	}
+}
+
+const queryUsersByGraphQL = await roqClient.asSuperAdmin().graphqlRequest(queryUsers, graphqlRequestVars);
+```
+
