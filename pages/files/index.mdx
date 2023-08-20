@@ -6,10 +6,14 @@ import { Callout } from 'nextra-theme-docs'
 
 ROQ provides a complete solution for file management, including these features:
 
-* File upload using the UI component
-* Files visiblity (public or private)
-* File associations (files can be related to any object)
+* File upload using the UI component.
+* File categories.
+* Files visiblity (public or private).
+* File associations (files can be related to any object).
  
+## API
+
+ROQ offers a complete solution for managing public and private files with its Files API. Refer to this [section](/files/api) for detailed information on the API.
 
 ## UI Components
 
@@ -22,7 +26,7 @@ ROQ’s file management provides multiple UI components which can be integrated 
 3. The [**`<FileActiveUploads/>`**](/files/ui-components#fileactiveuploads) component shows a progress bar of all active files
    uploads.
 
-## Basic concepts
+## Basic Concepts
 
 ### File Uploads
 
@@ -53,20 +57,16 @@ A file can be either **public** or **private**. Public means that there is a per
 while private files can only be accessed by user who are allowed to do so. The visibility of a file can be changed in
 ROQ Console or via [makeFilePublic()](/files/api#makefilepublic) / [makeFilePrivate()](/files/api#makefileprivate) APIs
 
-### Access Management
-
-You can define permissions of files using ROQ's [access management feature](/access-management). Files
-are always owned by the user who uploaded it. You can restrict the access to this user or enable users of the same
-tenant to download the file.
-
 ### File Associations
 
 When a file is stored on ROQ Platform, then it usually belongs to another object. For instance PDF files can be uploaded
 and related to a _"contract"_.
 
-### File Categories
+### Access Management
 
-Additionally, you can also configure categories in [ROQ Console](https://console.roq.tech/) 
+You can define permissions of files using ROQ's [access management feature](/access-management). Files
+are always owned by the user who uploaded it. You can restrict the access to this user or enable users of the same
+tenant to download the file.
 
 
 ## Tutorials
