@@ -283,12 +283,11 @@ mutation makeFilePrivate($fileId: ID!) {
 
 ### `files()`
 
-You can get a list of files using the `files()` query.
+You can get a list of files using the `files()` query and you can read the API documentation [here](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType). 
 
 **Access management:** The query returns all files that are accessible for the current user.
 
-**Associations:** You can use the filters to find files which are associated with other objects;
-see [createFileAssociation()](#createfileassociation). The typical flow looks loke this: First, you fetch the ID of an object from your database and then query the related files. For instance, the query shown below requests all files that are associated with a specific _"contract"_.
+**Associations:** You can use the filters to find files which are associated with other objects; see [createFileAssociation()](#createfileassociation). The typical flow looks like this: First, you fetch the ID of an object from your database and then query the related files. For instance, the query shown below requests all files that are associated with a specific _"contract"_.
 
 **Visibility:** For files marked as _“public”_, the returned URL is static. If the file is marked as _“private”_, then the URL is referred to as a signed URL which is created for only one purpose. A signed URL works only for a short amount of time and is not intended to be published.
 
