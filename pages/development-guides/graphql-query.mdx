@@ -62,7 +62,7 @@ const graphqlQuery = `
 const queryResult = await roqClient.asSuperAdmin().graphqlRequest(graphqlQuery)
 ```
 
-For dynamic variables you can use `variables` option in the `graphqlRequest()`:
+or for dynamic variables you can use `variables` option in the `graphqlRequest()` method:
 
 ```js
 const queryUsers = `
@@ -77,15 +77,14 @@ query users( $filter: UserFilterArgType ) {
 	}
 }
 `
-
+const userId = "f4c09fef-843f-4501-acd3-0847d3b417c0"
 const graphqlRequestVars = {
 	filter: {
 		id: {
-			equalTo: "f4c09fef-843f-4501-acd3-0847d3b417c0"
+			equalTo: userId
 		}
 	}
 }
 
 const queryUsersByGraphQL = await roqClient.asSuperAdmin().graphqlRequest(queryUsers, graphqlRequestVars);
 ```
-
