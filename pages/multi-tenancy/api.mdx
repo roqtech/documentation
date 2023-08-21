@@ -5,16 +5,17 @@ import { Tab, Tabs } from 'nextra-theme-docs';
 
 ## Introduction
 
-In B2B SaaS applications, all users are usually grouped into tenants. Each of your business customers is represented as
-a tenant. The related users and all the data are fully isolated. Please refer to
-the [multi-tenancy feature guide](/multi-tenancy) for more information and instructions.
+In B2B SaaS applications, all users are usually grouped into tenants. Each of your business customers is represented as a tenant. The related users and all the data are fully isolated. Please refer to the [multi-tenancy feature guide](/multi-tenancy) for more information and instructions.
 
 ## Mutations
 
 ### `createTenant()`
 
-You can create new tenants by setting a name. The returned ID is needed when you assign tenants to users by using
-[`createUser()`](/user-management/api#createuser) or [`updateUser()`](/user-management/api#updateuser)
+You can create a new tenant by setting a name and reference. The API documentation for `createTenant()` is [here](https://jupiter-pp.roq-platform.com/docs/#mutation-createTenant).
+
+<Callout type="info">
+The returned id is needed when you assign tenants to users by using [`createUser()`](/user-management/api#createuser) or [`updateUser()`](/user-management/api#updateuser).
+</Callout>
 
 {/* TODO reference should be added, see CPD-1892 */}
 
@@ -22,14 +23,22 @@ You can create new tenants by setting a name. The returned ID is needed when you
 
 <Tabs items={['Node.js SDK', 'GraphQL']}><Tab>
 ```ts
-await client.asSuperAdmin().createTenant({ tenant: { name: 'abc123' } });
+const tenantId = await client.asSuperAdmin().createTenant({ tenant: { 
+    name: 'Car Rental',
+    reference: "car-rental" 
+  } 
+});
 ```
 </Tab>
 <Tab>
 
 ```graphql
 mutation {
-  createTenant(user: { name: "abc123" }) {
+  createTenant(
+    user: { 
+      name: "Car Rental", 
+      reference: "car-rental" 
+    }) {
     id
   }
 }
@@ -37,28 +46,93 @@ mutation {
 </Tab>
 </Tabs>
 
+| Parameter               | Type    | Description |
+|-------------------------|---------|-------------|
+| `tenant:name` | string | The tenant name |
+| `tenant:reference` | string | The tenant reference |
+
 ### `updateTenant()`
 
-`updateTenant()` works the same way as `createTenant()` described above.
+The `updateTenant()` API method works the same way as `createTenant()`. This API will update the tenant data. Read [here](https://jupiter-pp.roq-platform.com/docs/#mutation-updateTenant) for the API documentation.
+
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+await roqClient.asSuperAdmin().updateTenant({
+  id: "tenant_id_is_here",
+  tenant: {
+    name: "Truck Rental",
+    reference: "truck-rental"
+  }
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation updateTenant(
+  $id: ID! = "tenant_id_is_here",
+  $tenant: TenantUpdateDto! = {
+    name: "Truck Rental",
+    reference: "truck-rental"
+  }
+) {
+  updateTenant(
+    id: $id,
+    tenant: $tenant
+  ) {
+    id
+    name
+    reference
+    isDefault
+    createdAt
+    updatedAt
+  }
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter               | Type    | Description          |
+|-------------------------|---------|----------------------|
+| `id`                    | uuid    | The tenant id        |
+| `tenant:name`           | string  | The tenant name      |
+| `tenant:reference`      | string  | The tenant reference |
 
 ## Queries
 
 ### `tenants()`
 
-Load tenant data. All [query parameters](/development-guides/graphql-basics-api) can be applied here to narrow down the results.
+Get the tenants data. For the documentation of this API can be found [here](https://jupiter-pp.roq-platform.com/docs/#query-tenants). 
 
-<Tabs items={['Node.js SDK','GraphQL']}><Tab>
+<Callout type="info">
+All GraphQL [query parameters](/development-guides/graphql-basics-api) can be applied here to narrow down the results.
+</Callout>
+
+<Tabs items={['Node.js SDK','GraphQL']}>
+<Tab>
 ```ts
-await client.asSuperAdmin().tenants();
+const tenantsData = await client.asSuperAdmin().tenants({
+  limit: 3
+});
 ```
 </Tab>
 <Tab>
-
 ```graphql
-query {
-  tenants {
+query tenants(
+  $limit: Int = 10
+) {
+  tenants(
+    limit: $limit
+  ) {
+    totalCount
     data {
+      id
       name
+      reference
+      isDefault
+      createdAt
+      updatedAt
     }
   }
 }
@@ -66,20 +140,24 @@ query {
 </Tab>
 </Tabs>
 
+
+
 ### `tenant()`
 
-Fetch a single tenant by ID
+Retrieve tenant data using its ID. Refer to the `tenant()` API documentation [here](https://jupiter-pp.roq-platform.com/docs/#query-tenant).
 
 <Tabs items={[ 'Node.js SDK', 'GraphQL']}><Tab>
 ```ts
-await client.asSuperAdmin().tenant({ id: "abc123" });
+await client.asSuperAdmin().tenant({ 
+  id: "tenant_id_is_here"
+});
 ```
 </Tab>
 <Tab>
 
 ```graphql
 query {
-  tenant(id: "123") {
+  tenant(id: "tenant_id_is_here") {
     name
   }
 }
@@ -87,3 +165,8 @@ query {
 ```
 </Tab>
 </Tabs>
+
+
+| Parameter    | Type    | Description   |
+|--------------|---------|---------------|
+| `id`         | uuid    | The tenant id |
