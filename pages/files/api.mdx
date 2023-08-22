@@ -299,7 +299,7 @@ You can get a list of files using the `files()` query and you can read the API d
 <Tabs items={['Node.js SDK','GraphQL']}>
 <Tab>
 ```ts
-await client.asSuperAdmin().files({ filter: {
+await roqClient.asSuperAdmin().files({ filter: {
   entityName: { equalTo: "contract" },
   entityIdentifiers: { equalTo: "123" }
 }});
@@ -334,6 +334,7 @@ query {
 | ------------------- | ------ |--------------- |
 | `filter:entityName` | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_. Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter |
 | `filter:entityReferences` | object | References (or IDs) of the related objects from your database.  Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter  |
+| `filter:fileCategory`  |  object   | Filter file by categories. Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter  |
 | `withFileCategory` | boolean | Include file categories |
 | `withCreatedByUser` | boolean | Include user data that created the file |
 | `withFileAssociations` | boolean | Include file associations |
