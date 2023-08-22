@@ -339,25 +339,37 @@ query {
 
 ### `file()`
 
-To download a single file, you can use the `file()` query.
+You can use the `file()` query to download a single file. This API method will return all the file data, such as the URL, file category, who creates it, or the file associations. The API documentation is [here](https://jupiter-pp.roq-platform.com/docs/#query-file).
 
 <Tabs items={['Node.js SDK','GraphQL']}>
 <Tab>
 ```ts
-await client.asSuperAdmin().file({ id: "849384FileIMG"});
+await client.asSuperAdmin().file({ id: "a1db443e-5726-4c15-873a-2643e34fa7f2"});
 ```
 </Tab>
 <Tab>
 
 ```graphql
-query {
-  file(fileId: "123") {
+query file($id: ID! = "a1db443e-5726-4c15-873a-2643e34fa7f2") {
+  file(id: $id) {
     id
     name
-    url
+    status
+    createdByUserId
+    fileCategoryId
+    contentType
+    createdAt
+    updatedAt
     isPublic
   }
 }
 ```
 
 </Tab></Tabs>
+
+| Parameter              | Type    | Description                  |
+| ---------------------- | ------- |------------------------------|
+| `id`                   | UUID    | The file ID                  |
+| `withFileCategory`     | boolean | Include file category        |
+| `withCreatedByUser`    | boolean | The user that create the file|
+| `withFileAssociations` | boolean | Include file associations    |
