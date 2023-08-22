@@ -1,5 +1,6 @@
 import { Tab, Tabs, Callout, Steps } from "nextra-theme-docs";
 import Image from "next/image";
+import GraphQLParams from "/snippets/do-graphql-params.mdx"
 
 # Files API
 
@@ -16,7 +17,7 @@ ROQ provides a complete solution for management of public and private files. Ple
   steps described in `createFileUpload` below, with just a single function call.
 </Callout>
 
-This method can be used when you want to upload files directly from your backend file system to your ROQ file storage. 
+This method can be used when you want to upload files directly from your backend file system to your ROQ file storage.
 
 <Tabs items={['Node.js SDK (Super Admin)', 'Node.js SDK (User)']}>
 
@@ -78,12 +79,12 @@ query users(
 ```
 </Tab>
 </Tabs>
-
-| Parameter      | Type   | Description                                                                               |
-| -------------- | ------ | ----------------------------------------------------------------------------------------- |
-| `fileInfo`     | object | File data to be uploaded |
-| `options`:`isPublic`      | boolean | `true` if the file is public |
-| `options`:`associations`  | array | File associations option | 
+ 
+| Parameter                 | Type     | Description              |
+| -------------- -----------| -------- |--------------------------|
+| `fileInfo`                | object   | File data to be uploaded |
+| `options`:`isPublic`      | boolean  | `true` if the file is public |
+| `options`:`associations`  | array    | File associations option | 
 
 <Callout type="info">
 Currently, the `uploadFile()` method does not support direct file upload via GraphQL.
@@ -326,6 +327,8 @@ query {
 ```
 
 </Tab></Tabs>
+
+<GraphQLParams/>
 
 | Parameter           | Type   | Description    |
 | ------------------- | ------ |--------------- |
