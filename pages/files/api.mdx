@@ -1,5 +1,6 @@
 import { Tab, Tabs, Callout, Steps } from "nextra-theme-docs";
 import Image from "next/image";
+import GraphQLParams from "/snippets/do-graphql-params.mdx"
 
 # Files API
 
@@ -16,7 +17,7 @@ ROQ provides a complete solution for management of public and private files. Ple
   steps described in `createFileUpload` below, with just a single function call.
 </Callout>
 
-This method can be used when you want to upload files directly from your backend file system to your ROQ file storage. 
+This method can be used when you want to upload files directly from your backend file system to your ROQ file storage.
 
 <Tabs items={['Node.js SDK (Super Admin)', 'Node.js SDK (User)']}>
 
@@ -78,12 +79,12 @@ query users(
 ```
 </Tab>
 </Tabs>
-
-| Parameter      | Type   | Description                                                                               |
-| -------------- | ------ | ----------------------------------------------------------------------------------------- |
-| `fileInfo`     | object | File data to be uploaded |
-| `options`:`isPublic`      | boolean | `true` if the file is public |
-| `options`:`associations`  | array | File associations option | 
+ 
+| Parameter                 | Type     | Description              |
+| -------------- -----------| -------- |--------------------------|
+| `fileInfo`                | object   | File data to be uploaded |
+| `options`:`isPublic`      | boolean  | `true` if the file is public |
+| `options`:`associations`  | array    | File associations option | 
 
 <Callout type="info">
 Currently, the `uploadFile()` method does not support direct file upload via GraphQL.
@@ -283,21 +284,13 @@ mutation makeFilePrivate($fileId: ID!) {
 
 ### `files()`
 
-You can get a list of files using the `files()` query.
+You can get a list of files using the `files()` query and you can read the API documentation [here](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType). 
 
-**Access management:** The query returns all files that are accessible for the
-current user.
+**Access management:** The query returns all files that are accessible for the current user.
 
-**Associations:** You can use the filters to find files which are associated with other objects;
-see [createFileAssociation()](#createfileassociation). The typical flow looks loke this: First, you fetch the ID of an
-object from your database and then query the related
-files. For instance, the query shown below requests all files that are associated with a specific _"contract"_.
+**Associations:** You can use the filters to find files which are associated with other objects; see [createFileAssociation()](#createfileassociation). The typical flow looks like this: First, you fetch the ID of an object from your database and then query the related files. For instance, the query shown below requests all files that are associated with a specific _"contract"_.
 
-**Visibility:** For files marked as _“public”_, the returned URL is static. If the file is marked as _“private”_, then
-the
-URL is
-referred to as a signed URL which is created for only one purpose. A signed URL works only for a short amount of time
-and is not intended to be published.
+**Visibility:** For files marked as _“public”_, the returned URL is static. If the file is marked as _“private”_, then the URL is referred to as a signed URL which is created for only one purpose. A signed URL works only for a short amount of time and is not intended to be published.
 
 {/* TODO Does files return a signed URL if the fiel is private */}
 
@@ -306,9 +299,14 @@ and is not intended to be published.
 <Tabs items={['Node.js SDK','GraphQL']}>
 <Tab>
 ```ts
-await client.asSuperAdmin().files({ filter: {
+await roqClient.asSuperAdmin().files({ filter: {
   entityName: { equalTo: "contract" },
-  entityIdentifiers: { equalTo: "123" }
+  entityIdentifiers: { equalTo: "123" },
+  fileCategory: {
+    key: {
+      equalTo: "CHAT_FILES"
+    }
+  }
 }});
 ```
 </Tab>
@@ -335,34 +333,91 @@ query {
 
 </Tab></Tabs>
 
-| Parameter           | Type   | Description                                                                                 |
-| ------------------- | ------ | ------------------------------------------------------------------------------------------- |
-| `filter:entityName`        | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
-| `filter:entityIdentifiers` | object | References (or IDs) of the related objects from your database                               |
+<GraphQLParams/>
+
+| Parameter           | Type   | Description    |
+| ------------------- | ------ |--------------- |
+| `filter:entityName` | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_. Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter |
+| `filter:entityReferences` | object | References (or IDs) of the related objects from your database.  Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter  |
+| `filter:fileCategory`  |  object   | Filter file by categories. Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter  |
+| `withFileCategory` | boolean | Include file categories |
+| `withCreatedByUser` | boolean | Include user data that created the file |
+| `withFileAssociations` | boolean | Include file associations |
+
 
 {/* TODO entityIdentifiers will be renamed to entityReferences */}
 
 ### `file()`
 
-To download a single file, you can use the `file()` query.
+You can use the `file()` query to download a single file. This API method will return all the file data, such as the URL, file category, who creates it, or the file associations. The API documentation is [here](https://jupiter-pp.roq-platform.com/docs/#query-file).
 
 <Tabs items={['Node.js SDK','GraphQL']}>
 <Tab>
 ```ts
-await client.asSuperAdmin().file({ id: "849384FileIMG"});
+await client.asSuperAdmin().file({ id: "a1db443e-5726-4c15-873a-2643e34fa7f2"});
 ```
 </Tab>
 <Tab>
 
 ```graphql
-query {
-  file(fileId: "123") {
+query file($id: ID! = "a1db443e-5726-4c15-873a-2643e34fa7f2") {
+  file(id: $id) {
     id
     name
-    url
+    status
+    createdByUserId
+    fileCategoryId
+    contentType
+    createdAt
+    updatedAt
     isPublic
   }
 }
 ```
 
 </Tab></Tabs>
+
+| Parameter              | Type    | Description                  |
+| ---------------------- | ------- |------------------------------|
+| `id`                   | UUID    | The file ID                  |
+| `withFileCategory`     | boolean | Include file category        |
+| `withCreatedByUser`    | boolean | The user that create the file|
+| `withFileAssociations` | boolean | Include file associations    |
+
+## `fileCategories()`
+
+With this `fileCategories()` API method, we can get all the available file categories. This category can be used to upload file or filter files. For API documentation, visit [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategories).
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const cats = await roqClient.asSuperAdmin().fileCategories({
+	withFileCategoryContentGroups: true
+})
+```
+</Tab>
+<Tab>
+```graphql
+query fileCategories(
+  $limit: Int = 10
+ ) {
+  fileCategories(
+    limit: $limit
+  ) {
+    totalCount
+    data {
+      id
+      name
+      key
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
+
+<GraphQLParams/>
+
+| Parameter              | Type    | Description                  |
+| ---------------------- | ------- |------------------------------|
+| `withFileCategoryContentGroups`  | boolean    | The response will contain the data groups for the file content |
