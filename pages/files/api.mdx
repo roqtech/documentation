@@ -90,6 +90,14 @@ query users(
 Currently, the `uploadFile()` method does not support direct file upload via GraphQL.
 </Callout>
 
+### `updateFile()`
+
+TODO
+
+### `updateFileStatus()`
+
+TODO
+
 ### `createFileUpload()`
 
 <Callout type="warning" emoji="⚠️">
@@ -185,7 +193,51 @@ mutation {
 </Tabs>
 </Steps>
 
+### `deleteFiles()`
 
+To delete one or multiple files, use the `deleteFiles()` API. See this [link](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteFiles) fior the API documentation.
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const delFiles = await roqClient.asSuperAdmin().deleteFiles({
+	filter: {
+		id: {
+			equalTo: "76dada4e-4f07-456b-90e7-a43099f07052"
+		}
+	}
+})
+```
+
+To delete multiple files, utilize the `valueIn` filter option.
+
+```js
+{
+  filter: {
+    id: {
+      valueIn: ["file_id_1", "file_id_2"]
+    }
+  }
+}
+```
+</Tab>
+<Tab>
+```graphql
+mutation deleteFiles($filter: DeleteFilterArgType = {
+	id: {
+	  equalTo: "76dada4e-4f07-456b-90e7-a43099f07052"
+	}
+}) {
+    deleteFiles(filter: $filter)
+}
+```
+</Tab>
+</Tabs>
+
+
+| Parameter      | Type   | Description               |
+| -------------- | ------ | --------------------------|
+| `filter:id`    | object | The IDs of files to delete can be filtered using `equalTo` for a single file or `valueIn` for multiple file IDs.|
 
 ### `createFileAssociation()`
 
@@ -257,6 +309,13 @@ mutation makeFilePublic($fileId: ID!) {
 </Tab>
 </Tabs>
 
+### `deleteFileAssociations()`
+
+This API will delete any file associations.
+
+[DRAFT]
+
+
 ### `makeFilePrivate()`
 
 To hide a file from public access, you can execute:
@@ -277,7 +336,6 @@ mutation makeFilePrivate($fileId: ID!) {
   }
 }
 ```
-
 </Tab></Tabs>
 
 ## Queries
