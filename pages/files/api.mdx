@@ -386,8 +386,7 @@ query file($id: ID! = "a1db443e-5726-4c15-873a-2643e34fa7f2") {
 
 ## `fileCategories()`
 
-With this `fileCategories()` API method, we can get all the available file categories. This category can be used to upload file or filter files.
-
+With this `fileCategories()` API method, we can get all the available file categories. This category can be used to upload file or filter files. For API documentation, visit [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategories).
 
 <Tabs items={["Node.js SDK", "GraphQL"]}>
 <Tab>
@@ -399,6 +398,20 @@ const cats = await roqClient.asSuperAdmin().fileCategories({
 </Tab>
 <Tab>
 ```graphql
+query fileCategories(
+  $limit: Int = 10
+ ) {
+  fileCategories(
+    limit: $limit
+  ) {
+    totalCount
+    data {
+      id
+      name
+      key
+    }
+  }
+}
 ```
 </Tab>
 </Tabs>
