@@ -301,7 +301,12 @@ You can get a list of files using the `files()` query and you can read the API d
 ```ts
 await roqClient.asSuperAdmin().files({ filter: {
   entityName: { equalTo: "contract" },
-  entityIdentifiers: { equalTo: "123" }
+  entityIdentifiers: { equalTo: "123" },
+  fileCategory: {
+    key: {
+      equalTo: "CHAT_FILES"
+    }
+  }
 }});
 ```
 </Tab>
@@ -378,3 +383,28 @@ query file($id: ID! = "a1db443e-5726-4c15-873a-2643e34fa7f2") {
 | `withFileCategory`     | boolean | Include file category        |
 | `withCreatedByUser`    | boolean | The user that create the file|
 | `withFileAssociations` | boolean | Include file associations    |
+
+## `fileCategories()`
+
+With this `fileCategories()` API method, we can get all the available file categories. This category can be used to upload file or filter files.
+
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const cats = await roqClient.asSuperAdmin().fileCategories({
+	withFileCategoryContentGroups: true
+})
+```
+</Tab>
+<Tab>
+```graphql
+```
+</Tab>
+</Tabs>
+
+<GraphQLParams/>
+
+| Parameter              | Type    | Description                  |
+| ---------------------- | ------- |------------------------------|
+| `withFileCategoryContentGroups`  | boolean    | The response will contain the data groups for the file content |
