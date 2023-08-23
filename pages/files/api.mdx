@@ -90,6 +90,7 @@ query users(
 Currently, the `uploadFile()` method does not support direct file upload via GraphQL.
 </Callout>
 
+{/*
 ### `updateFile()`
 
 TODO
@@ -99,6 +100,7 @@ TODO
 TODO
 
 ### `createFileUpload()`
+*/}
 
 <Callout type="warning" emoji="⚠️">
   It's not recommended to implement file uploads yourself. Use ROQ's [File
@@ -286,6 +288,14 @@ mutation {
 | `entityReference` | string | Reference (or ID) of the related entity in your database                                    |
 | `entityName`      | string | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
 
+{/*
+### `deleteFileAssociations()`
+
+This API will delete any file associations.
+
+[DRAFT]
+*/}
+
 ### `makeFilePublic()`
 
 To enable public access to a file, run:
@@ -308,13 +318,6 @@ mutation makeFilePublic($fileId: ID!) {
 ```
 </Tab>
 </Tabs>
-
-### `deleteFileAssociations()`
-
-This API will delete any file associations.
-
-[DRAFT]
-
 
 ### `makeFilePrivate()`
 
