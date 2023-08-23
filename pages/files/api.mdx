@@ -421,3 +421,43 @@ query fileCategories(
 | Parameter              | Type    | Description                  |
 | ---------------------- | ------- |------------------------------|
 | `withFileCategoryContentGroups`  | boolean    | The response will contain the data groups for the file content |
+
+## `fileCategory()`
+
+This API method will give details data about a file category. The API documentation can be found [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategory).
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const fileCategoryData = await roqClient.asSuperAdmin().fileCategory({ 
+  id: "76dada4e-4f07-456b-90e7-a43099f07052" 
+});
+```
+</Tab>
+<Tab>
+```graphql
+query fileCategory($id: ID! = "76dada4e-4f07-456b-90e7-a43099f07052") {
+  fileCategory(id: $id) {
+    id
+    name
+    key
+    maxSize
+    isPublicByDefault
+    fileCategoryContentGroups {
+      totalCount
+      data
+    }
+    createdAt
+    updatedAt
+  }
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter              | Type    | Description                  |
+| ---------------------- | ------- |------------------------------|
+| `id`                   | UUID    | The file category ID         |
+| `fileCategoryContentGroups`  | boolean  | The response will contain the  category groups for the file content. You can find out more about this API [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategoryContentGroups)  |
+
+
