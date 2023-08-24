@@ -1,5 +1,4 @@
 import { Tab, Tabs, Callout, Steps } from "nextra-theme-docs";
-import Image from "next/image";
 import GraphQLParams from "/snippets/do-graphql-params.mdx"
 
 # Files API
@@ -89,6 +88,84 @@ query users(
 <Callout type="info">
 Currently, the `uploadFile()` method does not support direct file upload via GraphQL.
 </Callout>
+
+### `updateFile()`
+
+You can use the `updateFile()` API to rename the uploaded files. Visit the API documentation [here](https://jupiter-pp.roq-platform.com/docs/#mutation-updateFile). 
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const updateResult = await roqClient.asSuperAdmin().updateFile({
+	id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
+	updateFileDto: {
+		name: "screenshot.png"
+	}
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation updateFile(
+  $id: ID! = "97eeb4da-d402-4a89-b034-bcb277b9e65c",
+  $updateFileDto: FileUpdateDto! = {
+    name: "screenshot.png"
+  }
+) {
+  updateFile(
+    id: $id,
+    updateFileDto: $updateFileDto
+  ) {
+    id
+    name
+    status
+    createdByUserId
+    fileCategoryId
+    contentType
+    createdAt
+    updatedAt
+    isPublic
+  }
+}
+```
+</Tab>
+</Tabs>
+
+
+| Parameter                 | Type     | Description                  |
+| --------------------------| -------- |------------------------------|
+| `id`                      | UUID     | The file ID to be updated    |
+| `updateFileDto`:`name`    | boolean  | New filename                 |
+
+{/*
+### `updateFileStatus()`
+
+The `updateFileStatus()` API is a method to set the upload file status. The use case of this API is, for example, you upload a file without using UI Component, and after the file upload is completed, you need to set the upload file status manually.
+
+Five status files are currently available: `cancelled`, `error`, `processing`, `ready`, and `upload_pending`.
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const upfileStatus = await roqClient.asSuperAdmin().updateFileStatus({
+	id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
+	status: FileStatusEnum.Cancelled
+})
+```
+</Tab>
+<Tab>
+```graphql
+
+```
+</Tab>
+</Tabs>
+
+| Parameter                 | Type     | Description                  |
+| --------------------------| -------- |------------------------------|
+| `id`                      | UUID     | The file ID to be updated    |
+| `status`                  | string   | The file status              |
+
+*/}
 
 ### `createFileUpload()`
 
@@ -185,7 +262,51 @@ mutation {
 </Tabs>
 </Steps>
 
+### `deleteFiles()`
 
+To delete one or multiple files, use the `deleteFiles()` API. See this [link](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteFiles) fior the API documentation.
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const delFiles = await roqClient.asSuperAdmin().deleteFiles({
+	filter: {
+		id: {
+			equalTo: "76dada4e-4f07-456b-90e7-a43099f07052"
+		}
+	}
+})
+```
+
+To delete multiple files, utilize the `valueIn` filter option.
+
+```js
+{
+  filter: {
+    id: {
+      valueIn: ["file_id_1", "file_id_2"]
+    }
+  }
+}
+```
+</Tab>
+<Tab>
+```graphql
+mutation deleteFiles($filter: DeleteFilterArgType = {
+	id: {
+	  equalTo: "76dada4e-4f07-456b-90e7-a43099f07052"
+	}
+}) {
+    deleteFiles(filter: $filter)
+}
+```
+</Tab>
+</Tabs>
+
+
+| Parameter      | Type   | Description               |
+| -------------- | ------ | --------------------------|
+| `filter:id`    | object | The IDs of files to delete can be filtered using `equalTo` for a single file or `valueIn` for multiple file IDs.|
 
 ### `createFileAssociation()`
 
@@ -228,11 +349,19 @@ mutation {
 </Tab>
 </Tabs>
 
-| Parameter         | Type   | Description                                                                                 |
-| ----------------- | ------ | ------------------------------------------------------------------------------------------- |
-| `fileId`          | string | UUID of the file                                                                            |
-| `entityReference` | string | Reference (or ID) of the related entity in your database                                    |
+| Parameter         | Type   | Description     |
+| ----------------- | ------ |-----------------|
+| `fileId`          | string | UUID of the file|
+| `entityReference` | string | Reference (or ID) of the related entity in your database |
 | `entityName`      | string | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
+
+{/*
+### `deleteFileAssociations()`
+
+This API will delete any file associations.
+
+[DRAFT]
+*/}
 
 ### `makeFilePublic()`
 
@@ -277,7 +406,6 @@ mutation makeFilePrivate($fileId: ID!) {
   }
 }
 ```
-
 </Tab></Tabs>
 
 ## Queries
@@ -459,5 +587,3 @@ query fileCategory($id: ID! = "76dada4e-4f07-456b-90e7-a43099f07052") {
 | ---------------------- | ------- |------------------------------|
 | `id`                   | UUID    | The file category ID         |
 | `fileCategoryContentGroups`  | boolean  | The response will contain the  category groups for the file content. You can find out more about this API [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategoryContentGroups)  |
-
-
