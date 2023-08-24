@@ -314,9 +314,7 @@ mutation deleteFiles($filter: DeleteFilterArgType = {
   This endpoint is only available from the server side of your application.
 </Callout>
 
-Files usually belong to some other object. For instance, you may have PDFs which represent _"contracts"_. Or you may
-have images which are _"avatars"_ and so on. To simplify this, ROQ enables you to relate files with objects which are
-saved on your database. The advantage is that you don't need to add these relations to your own database.
+Files usually belong to some other object. For instance, you may have PDFs which represent _"contracts"_. Or you may have images which are _"avatars"_ and so on. To simplify this, ROQ enables you to relate files with objects which are saved on your database. The advantage is that you don't need to add these relations to your own database. File associations will simplify the database schema.
 
 {/* TODO rename parameter createFileAssociationDto to createFileAssociationDto */}
 
@@ -324,9 +322,9 @@ saved on your database. The advantage is that you don't need to add these relati
 ```ts
 await client.asSuperAdmin().createFileAssociation({
   createFileAssociationDto: {
-    entityReference: 'reference',
-    entityName: 'xyz789',
-    fileId: '4',
+    entityName: "purchase_history",
+		entityReference: "3c0e2ce1-3105-447a-b214-ac1e0b1e7304",
+		fileId: "97eeb4da-d402-4a89-b034-bcb277b9e65c"
   },
 });
 ```
@@ -337,9 +335,9 @@ await client.asSuperAdmin().createFileAssociation({
 mutation {
   createFileAssociation(
     createFileAssociationDto: {
-      entityReference: "reference"
-      entityName: "xyz789"
-      fileId: "4"
+        entityName: "purchase_history",
+		    entityReference: "3c0e2ce1-3105-447a-b214-ac1e0b1e7304",
+		    fileId: "97eeb4da-d402-4a89-b034-bcb277b9e65c"
     }
   ) {
     id
@@ -351,17 +349,43 @@ mutation {
 
 | Parameter         | Type   | Description     |
 | ----------------- | ------ |-----------------|
-| `fileId`          | string | UUID of the file|
-| `entityReference` | string | Reference (or ID) of the related entity in your database |
-| `entityName`      | string | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
+| `fileId`          | UUID   | The ID of the file|
+| `entityReference` | UUID   | Reference (or ID) of the related entity in your database |
+| `entityName`      | string | Name of the object. This could be the name of the table in your database, e.g. _"purchase_history"_ |
 
-{/*
 ### `deleteFileAssociations()`
 
-This API will delete any file associations.
+Using this API will result in the deletion of any file associations. If you require more information, please refer to the [API documentation](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteFileAssociations).
 
-[DRAFT]
-*/}
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const delFileAssoc = await roqClient.asSuperAdmin().deleteFileAssociations({
+	filter: {
+		id: {
+			equalTo: "7526d4b4-26db-4872-834d-68da2a1447e9"
+		}
+	}
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation deleteFileAssociations($filter: FileAssociationBulkFilterArgType! = {
+  id: {
+    equalTo: "7526d4b4-26db-4872-834d-68da2a1447e9"
+  }
+}) {
+  deleteFileAssociations(filter: $filter)
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter         | Type     | Description                                                            |
+| ----------------- | -------- |------------------------------------------------------------------------|
+| `filter:id`       | object   | You can use `equalTo` or `valueIn` for the ID of the file associations |
+| `filter:fileId`   | object   | You can use `equalTo` or `valueIn` for the ID of the files             |
 
 ### `makeFilePublic()`
 
