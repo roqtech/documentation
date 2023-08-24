@@ -5,5 +5,6 @@
 	"add-ui-component": "Add UI Component",
 	"relate-file-to-another-object": "Relate File to Another Object",
 	"file-visibility": "File Visibility",
-	"how-to-fetch-files": "How to Fetch Files Using API "
+	"how-to-fetch-files": "How to Fetch Files Using API ",
+	"how-to-associate-files": "How to Associate Files"
 }

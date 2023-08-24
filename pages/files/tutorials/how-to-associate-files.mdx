@@ -1,0 +1,36 @@
+import { Tab, Tabs, Callout } from 'nextra-theme-docs';
+
+# How to Associate Files
+
+The purpose of file associations is to relate files with entities and the technical benefit from it is to make a less complicated database schema.
+
+
+## Get Entities
+
+Before create any file associations we need to get the entities. We can do this using GraphQL query and ROQ's API `graphqlRequest()`.
+
+<Callout type="info">
+For more information about how to query data using GraphQL on ROQ platform, please read this [documentation](/development-guides/graphql-query).
+</Callout>
+
+
+```graphql
+query projectEntities(
+  $limit: Int = 20
+) {
+  projectEntities(
+    limit: $limit
+  ) {
+    totalCount
+    data {
+      id 
+      name
+    }
+  }
+}
+```
+
+
+## Create Association
+
+## 
