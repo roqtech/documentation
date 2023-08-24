@@ -138,13 +138,34 @@ mutation updateFile(
 | `updateFileDto`:`name`    | boolean  | New filename                 |
 
 {/*
-
 ### `updateFileStatus()`
 
-TODO
+The `updateFileStatus()` API is a method to set the upload file status. The use case of this API is, for example, you upload a file without using UI Component, and after the file upload is completed, you need to set the upload file status manually.
+
+Five status files are currently available: `cancelled`, `error`, `processing`, `ready`, and `upload_pending`.
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const upfileStatus = await roqClient.asSuperAdmin().updateFileStatus({
+	id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
+	status: FileStatusEnum.Cancelled
+})
+```
+</Tab>
+<Tab>
+```graphql
+
+```
+</Tab>
+</Tabs>
+
+| Parameter                 | Type     | Description                  |
+| --------------------------| -------- |------------------------------|
+| `id`                      | UUID     | The file ID to be updated    |
+| `status`                  | string   | The file status              |
 
 */}
-
 
 ### `createFileUpload()`
 
