@@ -2,9 +2,7 @@ import { Tab, Tabs, Callout } from 'nextra-theme-docs';
 
 # How to Associate Files
 
-The purpose of file associations is to link files with entities, simplifying the database schema.
-
-Let's take an example of file associations for discussion attachments on inventory. When users discuss particular figures on the discussion board, they might upload photos relevant to the figure inventory.
+Let's take an example of file associations for discussion attachments on inventory. When users discuss particular figures on the discussion board, they might upload a photo relevant to the figure inventory. So, this photo will be associated with the discussion board and figure inventory.
 
 ## Get Entities
 
@@ -147,7 +145,7 @@ const fileDetailsAgain = await roqClient.asSuperAdmin().file({
 console.log(fileDetailsAgain.file.fileAssociations.data)
 ```
 
-The associations response will be an array:
+The associations response will be an array with containe associations collection:
 
 ```js
 [
@@ -170,3 +168,10 @@ The associations response will be an array:
 ]
 ```
 
+## Simplified Database Schema
+
+In traditional relational database design, associating two different tables often requires the creation of a "junction" or "bridge" table. This table is used to maintain many-to-many relationships between tables. 
+
+For example, if we have a table for **Files** and another for **Entities**, the junction table would typically contain two foreign keys, one pointing to each of the associated tables. Over time, as the number of entities or associations increases, these junction tables can become substantial in size and can potentially complicate the schema.
+
+The `createFileAssociation()` will simplified the database schema. By using a function-based approach, there's no need to maintain separate junction tables. This reduces the number of tables in the database and streamlines the schema.
