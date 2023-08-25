@@ -11,17 +11,24 @@ You may use another term, like organization, workspace, or team. For instance, i
 ## How to Use Multi-Tenancy
 
 <Callout type="info" emoji="ℹ️">
-  In case you are using multiple tenants in your application, then it's highly recommended to activate this feature in ROQ as well. This way you can define access rights accordingly, and don't risk to leak data accross tenants.  
+Suppose you are using multiple tenants in your application. In that case, it's also highly recommended to activate this feature in ROQ. This way, you can define access rights accordingly and don't risk leaking data across tenants.  
 </Callout>
+
+In the AI generated application, when registering or signing up, a tenant is automatically created. However, tenants can also be manually created and users can be assigned to them using the API.
 
 ### Active Multi-Tenancy
 
-Before you can start grouping your users into tenants, you need to activate this feature in ROQ Console. Look in details here for the [documentation](/multi-tenancy/activate-multi-tenancy).
+Before you can start grouping your users into tenants, you need to activate this feature in ROQ Console. Please read this [documentation](/multi-tenancy/activate-multi-tenancy) on how to activate multi-tenancy.
 
-### Create Tenants via API
+## API 
+
+ROQ offers simple APIs for managing tenant data, including creation, updates, and querying. For API documentation and code samples, visit [Multi-tenancy api](/multi-tenancy/api).
+
+## Create Tenants via API
 
 New tenants can be created programmatically using the [**`createTenant()`**](/multi-tenancy/api#createtenant) API.
 
-### Assign Users to Tenants via API
+## Assign Users to Tenants via API
 
-`createTenant()` returns an `id`, that is used when you create users using [**`createUser()`**](/user-management/api#createuser) API.
+`createTenant()` returns an `id` that is used when you create users using [**`createUser()`**](/user-management/api#createuser) API.
+

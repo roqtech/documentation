@@ -2,16 +2,17 @@ import { Callout } from "nextra-theme-docs";
 import { Tab, Tabs } from "nextra-theme-docs";
 import Image from "next/image";
 
-# Get data of current session
+# Get Data on The Current Session
 
 ## Client-side
 
-If you want to access the current user's data, e.g., to show the user's first name, you can either use the
-useSession hook or an async helper.
+If you want to access the current user's data, e.g., to show the user's first name, you can either use the useSession hook or an async helper.
 
 {/* TODO Replace code when SaaS template is done */}
 
-#### useSession hook
+#### Hooks
+
+##### `useSession()`
 
 <Tabs items={['React', "Next.js"]}><Tab>
 
@@ -31,16 +32,41 @@ import { useSession } from "@roq/nextjs";
 const { session, status } = useSession();
 const firstName = session.user.firstName;
 ```
+</Tab>
+</Tabs>
+
+##### `refetchSession()` 
+
+This method is used to refetch the current token & session data (e.g., after a user updates their profile).
+
+<Tabs items={['React', "Next.js"]}><Tab>
+
+```tsx
+import { useRoqComponents } from "@roq/ui-react";
+function Button() {
+  const { refetchSession } = useRoqComponents();
+  return <button onClick={refetchSession}>Refetch session</button>;
+}
+```
+</Tab>
+<Tab>
+
+```tsx
+import { useRoqComponents } from "@roq/nextjs";
+function Button() {
+  const { refetchSession } = useRoqComponents();
+  return <button onClick={refetchSession}>Refetch session</button>;
+}
+```
 
 </Tab>
 </Tabs>
 
-#### async helper
+#### Async Helper
 
 {/* TODO add import and check if correct */}
 
 <Tabs items={['React', 'Nextjs']}><Tab>
-
 ```tsx
 import { getSession } from "@roq/ui-react";
 
@@ -74,5 +100,5 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const user = session.user;
 }
 ```
-
-</Tab></Tabs>
+</Tab>
+</Tabs>

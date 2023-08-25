@@ -1,5 +1,5 @@
 import { Tab, Tabs, Callout, Steps } from "nextra-theme-docs";
-import Image from "next/image";
+import GraphQLParams from "/snippets/do-graphql-params.mdx"
 
 # Files API
 
@@ -16,7 +16,7 @@ ROQ provides a complete solution for management of public and private files. Ple
   steps described in `createFileUpload` below, with just a single function call.
 </Callout>
 
-This method can be used when you want to upload files directly from your backend file system to your ROQ file storage. 
+This method can be used when you want to upload files directly from your backend file system to your ROQ file storage.
 
 <Tabs items={['Node.js SDK (Super Admin)', 'Node.js SDK (User)']}>
 
@@ -78,16 +78,110 @@ query users(
 ```
 </Tab>
 </Tabs>
-
-| Parameter      | Type   | Description                                                                               |
-| -------------- | ------ | ----------------------------------------------------------------------------------------- |
-| `fileInfo`     | object | File data to be uploaded |
-| `options`:`isPublic`      | boolean | `true` if the file is public |
-| `options`:`associations`  | array | File associations option | 
+ 
+| Parameter                 | Type     | Description              |
+| --------------------------| -------- |--------------------------|
+| `fileInfo`                | object   | File data to be uploaded |
+| `options`:`isPublic`      | boolean  | `true` if the file is public |
+| `options`:`associations`  | array    | File associations option | 
 
 <Callout type="info">
 Currently, the `uploadFile()` method does not support direct file upload via GraphQL.
 </Callout>
+
+### `updateFile()`
+
+You can use the `updateFile()` API to rename the uploaded files. Visit the API documentation [here](https://jupiter-pp.roq-platform.com/docs/#mutation-updateFile). 
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const updateResult = await roqClient.asSuperAdmin().updateFile({
+	id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
+	updateFileDto: {
+		name: "screenshot.png"
+	}
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation updateFile(
+  $id: ID! = "97eeb4da-d402-4a89-b034-bcb277b9e65c",
+  $updateFileDto: FileUpdateDto! = {
+    name: "screenshot.png"
+  }
+) {
+  updateFile(
+    id: $id,
+    updateFileDto: $updateFileDto
+  ) {
+    id
+    name
+    status
+    createdByUserId
+    fileCategoryId
+    contentType
+    createdAt
+    updatedAt
+    isPublic
+  }
+}
+```
+</Tab>
+</Tabs>
+
+
+| Parameter                 | Type     | Description                  |
+| --------------------------| -------- |------------------------------|
+| `id`                      | UUID     | The file ID to be updated    |
+| `updateFileDto`:`name`    | string   | New filename                 |
+
+
+### `updateFileStatus()`
+
+The `updateFileStatus()` API is a method to set the upload file status. The use case of this API is, for example, you upload a file without using UI Component, and after the file upload is completed, you need to set the upload file status manually.
+
+Five status files are currently available: `cancelled`, `error`, `processing`, `ready`, and `upload_pending`.
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const upfileStatus = await roqClient.asSuperAdmin().updateFileStatus({
+	id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
+	status: FileStatusEnum.Cancelled
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation updateFileStatus(
+  $id: ID! = "97eeb4da-d402-4a89-b034-bcb277b9e65c"
+  $status: FileStatusEnum! = cancelled
+) {
+  updateFileStatus(id: $id, status: $status) {
+    id
+    name
+    status
+    createdByUserId
+    fileCategoryId
+    contentType
+    createdAt
+    updatedAt
+    isPublic
+  }
+}
+```
+<Callout type="warning">
+Make sure to set the status as a non-string value, such as **cancelled** without `" "`.
+</Callout>
+</Tab>
+</Tabs>
+
+| Parameter                 | Type     | Description                  |
+| --------------------------| -------- |------------------------------|
+| `id`                      | UUID     | The file ID to be updated    |
+| `status`                  | string   | The file status. Look for [FileStatusEnum](https://jupiter-pp.roq-platform.com/docs/#definition-FileStatusEnum) for the details             |
 
 ### `createFileUpload()`
 
@@ -184,7 +278,51 @@ mutation {
 </Tabs>
 </Steps>
 
+### `deleteFiles()`
 
+To delete one or multiple files, use the `deleteFiles()` API. See this [link](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteFiles) fior the API documentation.
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const delFiles = await roqClient.asSuperAdmin().deleteFiles({
+	filter: {
+		id: {
+			equalTo: "76dada4e-4f07-456b-90e7-a43099f07052"
+		}
+	}
+})
+```
+
+To delete multiple files, utilize the `valueIn` filter option.
+
+```js
+{
+  filter: {
+    id: {
+      valueIn: ["file_id_1", "file_id_2"]
+    }
+  }
+}
+```
+</Tab>
+<Tab>
+```graphql
+mutation deleteFiles(
+  $filter: DeleteFilterArgType = {
+    id: { equalTo: "76dada4e-4f07-456b-90e7-a43099f07052" }
+  }
+) {
+  deleteFiles(filter: $filter)
+}
+```
+</Tab>
+</Tabs>
+
+
+| Parameter      | Type   | Description               |
+| -------------- | ------ | --------------------------|
+| `filter:id`    | object | The IDs of files to delete can be filtered using `equalTo` for a single file or `valueIn` for multiple file IDs.|
 
 ### `createFileAssociation()`
 
@@ -192,9 +330,7 @@ mutation {
   This endpoint is only available from the server side of your application.
 </Callout>
 
-Files usually belong to some other object. For instance, you may have PDFs which represent _"contracts"_. Or you may
-have images which are _"avatars"_ and so on. To simplify this, ROQ enables you to relate files with objects which are
-saved on your database. The advantage is that you don't need to add these relations to your own database.
+Files usually belong to some other object. For instance, you may have PDFs which represent _"contracts"_. Or you may have images which are _"avatars"_ and so on. To simplify this, ROQ enables you to relate files with objects which are saved on your database. The advantage is that you don't need to add these relations to your own database. File associations will simplify the database schema.
 
 {/* TODO rename parameter createFileAssociationDto to createFileAssociationDto */}
 
@@ -202,9 +338,9 @@ saved on your database. The advantage is that you don't need to add these relati
 ```ts
 await client.asSuperAdmin().createFileAssociation({
   createFileAssociationDto: {
-    entityReference: 'reference',
-    entityName: 'xyz789',
-    fileId: '4',
+    entityName: "purchase_history",
+		entityReference: "3c0e2ce1-3105-447a-b214-ac1e0b1e7304",
+		fileId: "97eeb4da-d402-4a89-b034-bcb277b9e65c"
   },
 });
 ```
@@ -215,9 +351,9 @@ await client.asSuperAdmin().createFileAssociation({
 mutation {
   createFileAssociation(
     createFileAssociationDto: {
-      entityReference: "reference"
-      entityName: "xyz789"
-      fileId: "4"
+        entityName: "purchase_history",
+		    entityReference: "3c0e2ce1-3105-447a-b214-ac1e0b1e7304",
+		    fileId: "97eeb4da-d402-4a89-b034-bcb277b9e65c"
     }
   ) {
     id
@@ -227,11 +363,45 @@ mutation {
 </Tab>
 </Tabs>
 
-| Parameter         | Type   | Description                                                                                 |
-| ----------------- | ------ | ------------------------------------------------------------------------------------------- |
-| `fileId`          | string | UUID of the file                                                                            |
-| `entityReference` | string | Reference (or ID) of the related entity in your database                                    |
-| `entityName`      | string | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
+| Parameter         | Type   | Description     |
+| ----------------- | ------ |-----------------|
+| `fileId`          | UUID   | The ID of the file|
+| `entityReference` | UUID   | Reference (or ID) of the related entity in your database |
+| `entityName`      | string | Name of the object. This could be the name of the table in your database, e.g. _"purchase_history"_ |
+
+### `deleteFileAssociations()`
+
+Using this API will result in the deletion of any file associations. If you require more information, please refer to the [API documentation](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteFileAssociations).
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const delFileAssoc = await roqClient.asSuperAdmin().deleteFileAssociations({
+	filter: {
+		id: {
+			equalTo: "7526d4b4-26db-4872-834d-68da2a1447e9"
+		}
+	}
+})
+```
+</Tab>
+<Tab>
+```graphql
+mutation deleteFileAssociations(
+  $filter: FileAssociationBulkFilterArgType! = {
+    id: { equalTo: "7526d4b4-26db-4872-834d-68da2a1447e9" }
+  }
+) {
+  deleteFileAssociations(filter: $filter)
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter         | Type     | Description                                                            |
+| ----------------- | -------- |------------------------------------------------------------------------|
+| `filter:id`       | object   | You can use `equalTo` or `valueIn` for the ID of the file associations |
+| `filter:fileId`   | object   | You can use `equalTo` or `valueIn` for the ID of the files             |
 
 ### `makeFilePublic()`
 
@@ -276,28 +446,19 @@ mutation makeFilePrivate($fileId: ID!) {
   }
 }
 ```
-
 </Tab></Tabs>
 
 ## Queries
 
 ### `files()`
 
-You can get a list of files using the `files()` query.
+You can get a list of files using the `files()` query and you can read the API documentation [here](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType). 
 
-**Access management:** The query returns all files that are accessible for the
-current user.
+**Access management:** The query returns all files that are accessible for the current user.
 
-**Associations:** You can use the filters to find files which are associated with other objects;
-see [createFileAssociation()](#createfileassociation). The typical flow looks loke this: First, you fetch the ID of an
-object from your database and then query the related
-files. For instance, the query shown below requests all files that are associated with a specific _"contract"_.
+**Associations:** You can use the filters to find files which are associated with other objects; see [createFileAssociation()](#createfileassociation). The typical flow looks like this: First, you fetch the ID of an object from your database and then query the related files. For instance, the query shown below requests all files that are associated with a specific _"contract"_.
 
-**Visibility:** For files marked as _“public”_, the returned URL is static. If the file is marked as _“private”_, then
-the
-URL is
-referred to as a signed URL which is created for only one purpose. A signed URL works only for a short amount of time
-and is not intended to be published.
+**Visibility:** For files marked as _“public”_, the returned URL is static. If the file is marked as _“private”_, then the URL is referred to as a signed URL which is created for only one purpose. A signed URL works only for a short amount of time and is not intended to be published.
 
 {/* TODO Does files return a signed URL if the fiel is private */}
 
@@ -306,9 +467,14 @@ and is not intended to be published.
 <Tabs items={['Node.js SDK','GraphQL']}>
 <Tab>
 ```ts
-await client.asSuperAdmin().files({ filter: {
+await roqClient.asSuperAdmin().files({ filter: {
   entityName: { equalTo: "contract" },
-  entityIdentifiers: { equalTo: "123" }
+  entityIdentifiers: { equalTo: "123" },
+  fileCategory: {
+    key: {
+      equalTo: "CHAT_FILES"
+    }
+  }
 }});
 ```
 </Tab>
@@ -335,34 +501,129 @@ query {
 
 </Tab></Tabs>
 
-| Parameter           | Type   | Description                                                                                 |
-| ------------------- | ------ | ------------------------------------------------------------------------------------------- |
-| `filter:entityName`        | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_ |
-| `filter:entityIdentifiers` | object | References (or IDs) of the related objects from your database                               |
+<GraphQLParams/>
+
+| Parameter           | Type   | Description    |
+| ------------------- | ------ |--------------- |
+| `filter:entityName` | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_. Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter |
+| `filter:entityReferences` | object | References (or IDs) of the related objects from your database.  Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter  |
+| `filter:fileCategory`  |  object   | Filter file by categories. Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter  |
+| `withFileCategory` | boolean | Include file categories |
+| `withCreatedByUser` | boolean | Include user data that created the file |
+| `withFileAssociations` | boolean | Include file associations |
+
 
 {/* TODO entityIdentifiers will be renamed to entityReferences */}
 
 ### `file()`
 
-To download a single file, you can use the `file()` query.
+You can use the `file()` query to download a single file. This API method will return all the file data, such as the URL, file category, who creates it, or the file associations. The API documentation is [here](https://jupiter-pp.roq-platform.com/docs/#query-file).
 
 <Tabs items={['Node.js SDK','GraphQL']}>
 <Tab>
 ```ts
-await client.asSuperAdmin().file({ id: "849384FileIMG"});
+await client.asSuperAdmin().file({ id: "a1db443e-5726-4c15-873a-2643e34fa7f2"});
 ```
 </Tab>
 <Tab>
 
 ```graphql
-query {
-  file(fileId: "123") {
+query file($id: ID! = "a1db443e-5726-4c15-873a-2643e34fa7f2") {
+  file(id: $id) {
     id
     name
-    url
+    status
+    createdByUserId
+    fileCategoryId
+    contentType
+    createdAt
+    updatedAt
     isPublic
   }
 }
 ```
 
 </Tab></Tabs>
+
+| Parameter              | Type    | Description                  |
+| ---------------------- | ------- |------------------------------|
+| `id`                   | UUID    | The file ID                  |
+| `withFileCategory`     | boolean | Include file category        |
+| `withCreatedByUser`    | boolean | The user that create the file|
+| `withFileAssociations` | boolean | Include file associations    |
+
+### `fileCategories()`
+
+With this `fileCategories()` API method, we can get all the available file categories. This category can be used to upload file or filter files. For API documentation, visit [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategories).
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const cats = await roqClient.asSuperAdmin().fileCategories({
+	withFileCategoryContentGroups: true
+})
+```
+</Tab>
+<Tab>
+```graphql
+query fileCategories(
+  $limit: Int = 10
+ ) {
+  fileCategories(
+    limit: $limit
+  ) {
+    totalCount
+    data {
+      id
+      name
+      key
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
+
+<GraphQLParams/>
+
+| Parameter              | Type    | Description                  |
+| ---------------------- | ------- |------------------------------|
+| `withFileCategoryContentGroups`  | boolean    | The response will contain the data groups for the file content |
+
+### `fileCategory()`
+
+This API method will give details data about a file category. The API documentation can be found [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategory).
+
+<Tabs items={["Node.js SDK", "GraphQL"]}>
+<Tab>
+```js
+const fileCategoryData = await roqClient.asSuperAdmin().fileCategory({ 
+  id: "76dada4e-4f07-456b-90e7-a43099f07052" 
+});
+```
+</Tab>
+<Tab>
+```graphql
+query fileCategory($id: ID! = "76dada4e-4f07-456b-90e7-a43099f07052") {
+  fileCategory(id: $id) {
+    id
+    name
+    key
+    maxSize
+    isPublicByDefault
+    fileCategoryContentGroups {
+      totalCount
+      data
+    }
+    createdAt
+    updatedAt
+  }
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter              | Type    | Description                  |
+| ---------------------- | ------- |------------------------------|
+| `id`                   | UUID    | The file category ID         |
+| `fileCategoryContentGroups`  | boolean  | The response will contain the  category groups for the file content. You can find out more about this API [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategoryContentGroups)  |

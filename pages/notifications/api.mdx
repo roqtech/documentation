@@ -76,13 +76,13 @@ mutation {
 
 | Parameter               | Type    | Description |
 |-------------------------|---------|-------------|
-| key                     | string  | Key of notification-type that you created in the Console, eg."WELCOME_NOTIFICATION" |
-| recipients:userIds      | array   | Array of user IDs that are notified. |
-| recipients:userGroups   | object  | An object that represents a list of user groups and an operator which can be set to "AND"(intersection of users) and "OR" (union of users). |
-| recipients:excludedUserIds | array   | List of user IDs (of ROQ Platform) who shouldn't be notified. A typical use case is when a user performs an action and all users of the same user group should be notified, except for the acting user |
-| recipients:allUsers     | bool    | If set to true then all users will be notified. |
-| recipients:tenantIds     | array    | List of tenant IDs that  will be notified. |
-| data                    | array   | List of key/value pairs that you can use in the content section of the Notification template |
+| `key`                     | string  | Key of notification-type that you created in the Console, eg."WELCOME_NOTIFICATION" |
+| `recipients:userIds`      | array   | Array of user IDs that are notified. |
+| `recipients:userGroups`   | object  | An object that represents a list of user groups and an operator which can be set to "AND"(intersection of users) and "OR" (union of users). |
+| `recipients:excludedUserIds` | array   | List of user IDs (of ROQ Platform) who shouldn't be notified. A typical use case is when a user performs an action and all users of the same user group should be notified, except for the acting user |
+| `recipients:allUsers`     | bool    | If set to true then all users will be notified. |
+| `recipients:tenantIds`     | array    | List of tenant IDs that  will be notified. |
+| `data`                    | array   | List of key/value pairs that you can use in the content section of the Notification template |
 
 
 ## Queries
@@ -114,3 +114,20 @@ query {
 }
 ```
 </Tab></Tabs>
+
+
+## Default Variables
+
+In the ROQ Notification template system, default variables will always be passed to the template. These variables are:
+
+### `recipient.firstName`
+
+This variable hold the first name of the recipient. If you don't set the first name in your profile, this variable will return empty.
+
+### `recipient.lastName`
+
+This variable holds the last name of the recipient, and if you are not set this in the user profile, then this variable will return empty.
+
+### `APPLICATION_URL`
+
+This variable will return the application URL for a particular environment.

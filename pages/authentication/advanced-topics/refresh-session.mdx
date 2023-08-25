@@ -8,7 +8,7 @@ When user profile data is updated in the ROQ Console, it may not immediately upd
 
 ROQ session can be forced to update or refreshed by using one of these ways:
 
-## Call Endpoint
+### Call Endpoint
 
 You can call the endpoint `/api/auth/refetch-session` path URL to update the session. For example, in the local development, you can call this URL:
 
@@ -42,7 +42,11 @@ The session data returned by the server is JSON:
 }
 ```
 
-## Using Code
+### Using Code
+
+In addition to calling the endpoint directly, you can also utilize the refetch session programmatically.
+
+#### `refetchSessionHandler()`
 
 To force an update or refresh session using code, you can use `refetchSessionHandler()` API method from the `@roq/nextjs` package.
 
@@ -67,3 +71,7 @@ export default function tokenHandler(req: NextApiRequest, res: NextApiResponse) 
 }
 
 ```
+
+#### `refetchSession()`
+
+You can also use `refetchSession` to manually refetch and update the current token and session data. Please look into [here](/authentication/advanced-topics/get-session-data#userefetchsession) for code examples. 

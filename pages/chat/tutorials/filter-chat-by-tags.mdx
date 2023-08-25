@@ -1,0 +1,255 @@
+import { Tab, Tabs, Callout } from "nextra-theme-docs";
+
+# Filter Chat by Tags
+
+ROQ Chat provides filtering chat by tags. This feature is available only in the Chat UI Component. If you use Next.js, using `<Chat/>` is much simpler.
+
+## Next.js
+
+### Assign Tag API
+
+To illustrate, in a ROQ Next.js generated application, we can create an API that enables us to add a system bot for a new conversation and then assign tags of `greeting` and `onboarding`.
+
+Let's create a file `src\pages\api\chat\assign-tags.ts`:
+
+```ts
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { getServerSession, withAuth } from '@roq/nextjs';
+import { roqClient } from 'server/roq';
+import { randomUUID } from 'crypto';
+
+const EMAIL = "sysbot-1@reporter.x";
+
+async function createUser() {
+	return await roqClient.asSuperAdmin().createUser({
+		user: {
+			firstName: "System",
+			lastName: "Bot",
+			email: EMAIL,
+			password: "sysb0t1",
+			active: true,
+			isOptedIn: true,
+			tenantId: "8d5f33d1-9f55-4869-9c14-affe0020166a",
+			reference: randomUUID(),
+		},
+	});
+}
+
+async function createConversationAndMessage(userId, sessionUserId, tags) {
+	const conv = await roqClient.asUser(sessionUserId).createConversation({
+		conversation: {
+			title: userId === sessionUserId ? "System" : userId,
+			ownerId: sessionUserId,
+			isGroup: false,
+			memberIds: [userId, sessionUserId],
+			tags: tags
+		},
+	});
+
+	await roqClient.asSuperAdmin().createMessage({
+		message: {
+			conversationId: conv.createConversation.id,
+			body: `This conversation has the tags ${tags.join(', ')}`,
+			authorId: userId,
+			isSystem: true,
+		},
+	});
+
+	return conv;
+}
+
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+	if (req.method !== 'POST') {
+		return res.status(405).send({ message: 'Method not allowed' });
+	}
+
+	const session = getServerSession(req);
+
+	if (!session.user) {
+		return res.status(200).json({ success: false });
+	}
+
+	try {
+		const userExist = await roqClient.asSuperAdmin().users({
+			filter: { email: { equalTo: EMAIL } }
+		});
+
+		let userId;
+
+		if (userExist.users.totalCount === 0) {
+			const user = await createUser();
+			userId = user.createUser.id;
+		} else {
+			userId = userExist.users.data[0]?.id;
+		}
+
+		const conv = await createConversationAndMessage(userId, session.roqUserId, req.body.tags);
+
+		return res.status(200).json({ data: conv });
+
+	} catch (e) {
+		console.error(e);
+		return res.status(200).json({ success: false });
+	}
+}
+
+export default (req: NextApiRequest, res: NextApiResponse) => {
+	return withAuth(req, res)(handler);
+};
+
+```
+
+The `assign-tags.ts` file creates a new user if it doesn't exist:
+
+```js
+// Creat a user to chat with
+const user = await roqClient.asSuperAdmin().createUser({
+    user: {
+        firstName: "System",
+        lastName: "Bot",
+        email: "sysbot-1@reporter.x",
+        password: "sysb0t1",
+        active: true,
+        isOptedIn: true,
+        tenantId: "8d5f33d1-9f55-4869-9c14-affe0020166a",
+        reference: randomUUID(),
+      },
+});
+```
+
+And then create a conversation and message from the user that we have created earlier:
+
+```ts
+// Create the conversation
+const conv = await roqClient.asUser(session.roqUserId).createConversation({
+      conversation: {
+        title: user.createUser.firstName,
+        ownerId: session.roqUserId,
+        isGroup: false, //Not a group
+        memberIds: [user.createUser.id, session.roqUserId],
+        tags: tags,
+      },
+});
+
+await roqClient.asSuperAdmin().createMessage({
+    message: {
+        conversationId: conv.createConversation.id,
+        body: `This conversation has the tags ${tags.join(', ')}`,
+        authorId: user.createUser.id,
+        isSystem: true,
+    },
+});
+```
+
+### Filtered Chat
+
+The `<Chat/>` UI Component can be easily used to consume data from the API with React hooks. For example, to use tags in the `chat.tsx` page in the generated application:
+
+```jsx
+// src\pages\chat.tsx
+import { Chat, requireNextAuth } from '@roq/nextjs';
+import { useCallback, useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import AppLayout from 'layout/app-layout';
+import { Box, Checkbox } from '@chakra-ui/react'; // Import the Checkbox component
+import { routes } from 'routes';
+
+function ChatPage() {
+  const router = useRouter();
+  const [tags, setTags] = useState<string[]>(['greeting', 'onboarding']);
+  const [isTagApplied, setIsTagApplied] = useState(false);
+
+  // Checkbox state and handler
+  const [isChecked, setIsChecked] = useState(false);
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsChecked(event.target.checked);
+  };
+
+  const handleCreateConversationWithTags = useCallback(async () => {
+    if (!isChecked) {
+      setIsTagApplied(false);
+      return;
+    }
+
+    try {
+      const response = await fetch(routes.server.chat.createConversationWithTags, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ tags }),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        setIsTagApplied(true);
+      } else {
+        setIsTagApplied(false);
+      }
+    } catch (error) {
+      setIsTagApplied(false);
+    } finally {
+      console.log('end of fetch');
+    }
+
+  }, [tags, isChecked]);
+
+  useEffect(() => {
+    handleCreateConversationWithTags();
+  }, [handleCreateConversationWithTags, isChecked]); // add isChecked as a dependency
+
+  return (
+    <AppLayout>
+      {/* Checkbox component */}
+      <Checkbox isChecked={isChecked} onChange={handleCheckboxChange}>
+        Apply Tags
+      </Checkbox>
+      <Box w="100%" h="80vh">
+        <Chat fluid={true} tags={isTagApplied ? tags : undefined} />
+      </Box>
+    </AppLayout>
+  );
+}
+
+export default requireNextAuth({
+  redirectIfAuthenticated: false,
+  redirectTo: '/',
+})(ChatPage);
+```
+
+The `tags={isTagApplied ? tags : undefined}` will filter the conversations based on the `tags`. If the **Apply Tags** checkbox is unchecked, the `isTagApplied` flag is `false`. The chat will show all conversations:
+
+![chat with tags conversation](/chat-tags-conversation.png)
+
+On the contrary, if the **Apply Tags** checkbox is checked, which means the `isTagApplied` flag is `false`. The chat will be filtered to the applied tags:
+
+![chat with tags conversation applied](/chat-tags-conversation-applied.png)
+
+On further development, you can `setTags` to other values.
+
+### Route Mapping
+
+To consume the assign API we need to mapping it. Open or create a file `src\routes.ts` and add `/api/chat/assign-tags` as `createConversationWithTags`. For example:
+
+```js
+export const routes = Object.freeze({
+  frontend: {
+    home: {
+      index: '/app',
+    },
+    users: {
+      index: '/users',
+    },
+    chat: {
+      index: '/chat',
+    }
+  },
+  server: {
+    chat: {
+      createConversationWithTags: "/api/chat/assign-tags"
+    }
+  },
+});
+```
