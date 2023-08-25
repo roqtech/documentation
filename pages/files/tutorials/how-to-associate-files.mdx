@@ -1,0 +1,51 @@
+import { Tab, Tabs, Callout } from 'nextra-theme-docs';
+
+# How to Associate Files
+
+The purpose of file associations is to link files with entities, simplifying the database schema.
+
+Let's take an example of file associations for discussion attachments on inventory. When users discuss particular figures on the discussion board, they might upload photos relevant to the figure inventory.
+
+## Get Entities
+
+Before creating any file associations, we need to get the entities. We need the entity's name and references to connect or associate the file.
+
+<Callout type="info">
+You can read more about entities [here](/access-management/entity).
+</Callout>
+
+### GraphQL API Sandbox
+
+There are many ways to get entities in the ROQ platform. One of the ways is to use the [`projectEntities()`](https://jupiter-pp.roq-platform.com/docs/#query-projectEntities) API method. With this method, we can get all the project entities.
+
+```graphql
+query projectEntities($limit: Int = 20) {
+  projectEntities(limit: $limit) {
+    totalCount
+    data {
+      id
+      name
+    }
+  }
+}
+```
+We can run the GraphQL query directly in the sandbox:
+
+<Callout type="info">
+You can read more about [GraphQL sandbox](/development-guides/sandbox-api).
+</Callout>
+
+![graphql query entities](/graphql-queries-entities.png)
+
+We should focus on the entities of `discussion_board` and `figure_inventory` because, as we stated earlier, we need to associate files with both entities.
+
+### `graphqlRequest()`
+
+GraphQL sandbox is perfect for application development because we can get the data result directly. Hence, we know how to process or integrate the data into the application. However, we can automate the GraphQL query in the application using ROQ's API `graphqlRequest()` for flexibility.
+
+<Callout type="info">
+For more information about how to query data using `graphqlRequest()` on the ROQ platform, please read this [documentation](/development-guides/graphql-query).
+</Callout>
+
+## Create Association
+
