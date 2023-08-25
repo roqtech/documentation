@@ -137,7 +137,7 @@ mutation updateFile(
 | `id`                      | UUID     | The file ID to be updated    |
 | `updateFileDto`:`name`    | string   | New filename                 |
 
-{/*
+
 ### `updateFileStatus()`
 
 The `updateFileStatus()` API is a method to set the upload file status. The use case of this API is, for example, you upload a file without using UI Component, and after the file upload is completed, you need to set the upload file status manually.
@@ -155,17 +155,33 @@ const upfileStatus = await roqClient.asSuperAdmin().updateFileStatus({
 </Tab>
 <Tab>
 ```graphql
-
+mutation updateFileStatus(
+  $id: ID! = "97eeb4da-d402-4a89-b034-bcb277b9e65c"
+  $status: FileStatusEnum! = cancelled
+) {
+  updateFileStatus(id: $id, status: $status) {
+    id
+    name
+    status
+    createdByUserId
+    fileCategoryId
+    contentType
+    createdAt
+    updatedAt
+    isPublic
+  }
+}
 ```
+<Callout type="warning">
+Make sure to set the status as a non-string value, such as **cancelled** without `" "`.
+</Callout>
 </Tab>
 </Tabs>
 
 | Parameter                 | Type     | Description                  |
 | --------------------------| -------- |------------------------------|
 | `id`                      | UUID     | The file ID to be updated    |
-| `status`                  | string   | The file status              |
-
-*/}
+| `status`                  | string   | The file status. Look for [FileStatusEnum](https://jupiter-pp.roq-platform.com/docs/#definition-FileStatusEnum) for the details             |
 
 ### `createFileUpload()`
 
@@ -292,12 +308,12 @@ To delete multiple files, utilize the `valueIn` filter option.
 </Tab>
 <Tab>
 ```graphql
-mutation deleteFiles($filter: DeleteFilterArgType = {
-	id: {
-	  equalTo: "76dada4e-4f07-456b-90e7-a43099f07052"
-	}
-}) {
-    deleteFiles(filter: $filter)
+mutation deleteFiles(
+  $filter: DeleteFilterArgType = {
+    id: { equalTo: "76dada4e-4f07-456b-90e7-a43099f07052" }
+  }
+) {
+  deleteFiles(filter: $filter)
 }
 ```
 </Tab>
@@ -371,11 +387,11 @@ const delFileAssoc = await roqClient.asSuperAdmin().deleteFileAssociations({
 </Tab>
 <Tab>
 ```graphql
-mutation deleteFileAssociations($filter: FileAssociationBulkFilterArgType! = {
-  id: {
-    equalTo: "7526d4b4-26db-4872-834d-68da2a1447e9"
+mutation deleteFileAssociations(
+  $filter: FileAssociationBulkFilterArgType! = {
+    id: { equalTo: "7526d4b4-26db-4872-834d-68da2a1447e9" }
   }
-}) {
+) {
   deleteFileAssociations(filter: $filter)
 }
 ```
