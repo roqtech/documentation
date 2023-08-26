@@ -98,4 +98,8 @@ const queryUsersByGraphQL = await roqClient.asSuperAdmin().graphqlRequest(queryU
  */
 }
 
-You can access this API as either a Super Admin or a regular User. For more information, please refer to the [user vs superadmin](/development-guides/sdk-api#user-vs-superadmin) section of the SDK API documentation.
+You can access this API as a **Super Admin** or a regular **User**. If you use GraphQL query as a regular user, you have to know the user ID. You can look into this [Users API](/user-management/api#queries) to get any user ID.
+
+<Callout type="info">
+For more information about **Super Admin**, please refer to the [user vs superadmin](/development-guides/sdk-api#user-vs-superadmin) section of the SDK API documentation. 
+</Callout>
