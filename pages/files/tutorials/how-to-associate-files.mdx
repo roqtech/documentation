@@ -37,7 +37,7 @@ You can read more about [GraphQL sandbox](/development-guides/sandbox-api).
 
 ![graphql query entities](/graphql-queries-entities.png)
 
-We should focus on the entities of `discussion_board` and `figure_inventory` because, as we stated earlier, we need to associate files with both entities.
+We should focus on the entities of `discussion_board` and `figure_inventory` because, as we stated earlier, we need to associate a file photo with both entities.
 
 ### `graphqlRequest()`
 
@@ -98,7 +98,7 @@ The file that needs to be associated can be accessed using the `files()` or `fil
 For more information about `createFileAssociations()` API usage, please read this [documentation](/files/api#createfileassociation) section.
 </Callout>
 
-For example, for an image with the file ID 
+For example, for a file photo or image with the file ID 
 `97eeb4da-d402-4a89-b034-bcb277b9e65c`, and we want to associate it with the entity `discussion_board`:
 
 ```js
@@ -147,7 +147,7 @@ const fileDetailsAgain = await roqClient.asSuperAdmin().file({
 console.log(fileDetailsAgain.file.fileAssociations.data)
 ```
 
-The associations response will be an array with containe associations collection:
+The response will be an array containing the file associations data:
 
 ```js
 [
