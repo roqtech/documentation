@@ -5,23 +5,23 @@ import ROQNodeSDK from '/snippets/do-roq-node-setup.mdx'
 
 ## Introduction
 
-When developing an application with the ROQ platform, you can use API from the ROQ SDKs, such as ROQ NOde.js SDK or use directly with GraphQL query. 
+When developing an application with the ROQ platform, you can use API from the ROQ SDKs, such as ROQ NOde.js SDK, or use directly with GraphQL query. 
 
 Suppose you want to develop the application by using GraphQL. In that case, ROQ provides the `graphqlRequest()` method to query or mutate data directly. 
 
 <ROQNodeSDK/>
- 
+
 ## `graphqlRequest()`
 
 The benefit of using `graphqlRequest()`, you don't need any additional package dependencies installed, and everything is already setup internally, such as authentication and the GraphQL server URL. All you have to do is provide the GraphQL query.
 
-This API method has signature:
+This API method has the signature:
 
 ```ts
 graphqlRequest(query, variables, requestHeaders);
 ```
 
-For example, if you want to query data for specific users by using the key user `id`. You can use static GraphQL query with known user id:
+For example, if you want to query data for specific users by using the key user `id`. You can use a static GraphQL query with a known user ID:
 
 ```graphql
 query {
@@ -37,7 +37,7 @@ query {
   }
 }
 ```
-and then directly call the GraphQL query with `graphqlRequest()` method.
+And then directly call the GraphQL query with `graphqlRequest()` method.
 
 ```js
 import { Platform } from '@roq/nodejs'
