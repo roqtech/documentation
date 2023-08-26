@@ -1,24 +1,27 @@
 import { Tab, Tabs, Callout } from 'nextra-theme-docs';
+import ROQNodeSDK from '/snippets/do-roq-node-setup.mdx'
 
 # GraphQL Query
 
 ## Introduction
 
-When developing an application with the ROQ platform, you can use API from the ROQ SDKs, such as ROQ NOde.js SDK or use directly with GraphQL query. 
+When developing an application with the ROQ platform, you can use API from the ROQ SDKs, such as ROQ NOde.js SDK, or use directly with GraphQL query. 
 
-Suppose you want to develop the application by using GraphQL. In that case, ROQ provides the `graphqlRequest()` method to query or mutate data directly. This API is available in the ROQ Node.js SDK.
- 
+Suppose you want to develop the application by using GraphQL. In that case, ROQ provides the `graphqlRequest()` method to query or mutate data directly. 
+
+<ROQNodeSDK/>
+
 ## `graphqlRequest()`
 
 The benefit of using `graphqlRequest()`, you don't need any additional package dependencies installed, and everything is already setup internally, such as authentication and the GraphQL server URL. All you have to do is provide the GraphQL query.
 
-This API method has signature:
+This API method has the signature:
 
 ```ts
 graphqlRequest(query, variables, requestHeaders);
 ```
 
-For example, if you want to query data for specific users by using the key user `id`. You can use static GraphQL query with known user id:
+For example, if you want to query data for specific users by using the key user `id`. You can use a static GraphQL query with a known user ID:
 
 ```graphql
 query {
@@ -34,7 +37,7 @@ query {
   }
 }
 ```
-and then directly call the GraphQL query with `graphqlRequest()` method.
+And then directly call the GraphQL query with `graphqlRequest()` method.
 
 ```js
 import { Platform } from '@roq/nodejs'
@@ -94,3 +97,14 @@ const queryUsersByGraphQL = await roqClient.asSuperAdmin().graphqlRequest(queryU
  * The Difference for asSuperAdmin() vs asUser()?
  */
 }
+
+You can access this API as a **Super Admin** or a regular **User**. If you use GraphQL query as a regular user, you have to know the user ID. You can look into this [Users API](/user-management/api#queries) to get any user ID.
+
+```js
+const userID = "805420cb-e75c-4e6d-8365-064babe18ec1"
+const queryData = await roqClient.asUser(userID).graphqlRequest(queryUsers, graphqlRequestVars)
+```
+
+<Callout type="info">
+For more information about **Super Admin**, please refer to the [user vs superadmin](/development-guides/sdk-api#user-vs-superadmin) section of the SDK API documentation. 
+</Callout>
