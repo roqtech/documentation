@@ -1,8 +1,7 @@
-import { Callout } from 'nextra-theme-docs'
-import { Tab, Tabs } from 'nextra-theme-docs';
+import { Tab, Tabs, Callout } from 'nextra-theme-docs';
 import Image from 'next/image';
 
-# Setup credentials
+# Setup Credentials
 
 {/* TODO https://roqtech.atlassian.net/wiki/spaces/RC/pages/705232897/ROQ+Auth+Doc#(2)-Credentials */}
 
@@ -11,7 +10,7 @@ your web application. You need to add the `ROQ_SECRET` variable. The value can b
 running `openssl rand -hex 32` on the
 command line.
 
-## Public variables, used on client-side
+## Public Variables, Used on Client-side
 
 | Variable                       | Description                                                     |
 |--------------------------------|-----------------------------------------------------------------|
@@ -19,7 +18,7 @@ command line.
 | `NEXT_PUBLIC_ROQ_PLATFORM_URL` | Instance of ROQ Platform to which this environment is connected |
 | `NEXT_PUBLIC_BASE_URL`         | Application base URL                                            |
 
-## Server variables used for ROQ connection
+## Server Variables Used for ROQ Connection
 
 | Variable             | Description                                                                                                                                             |
 |----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -28,7 +27,7 @@ command line.
 | `ROQ_ENVIRONMENT_ID` | Identifier of the environment, like "production- or staging-environment"                                                                                |
 | `ROQ_API_KEY`        | The ROQ API key secures the server-side interaction between your application and ROQ Platform. Keep confidential and don't exose it to the client-side. |
 
-## Server variables for ROQ auth
+## Server Variables for ROQ Auth
 
 | Variable                | Description                                                                                                                                             |
 |-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -39,7 +38,7 @@ command line.
 | `ROQ_AUTH_LOGOUT_URL`   | Clears the session tokens.                                                                                                                              |
 | `ROQ_AUTH_URL`          | The URL of the managed login and registration page. This URL can be [customized](/authentication/advanced-topics/custom-domain).                        |
 
-# Additional configuration
+# Additional Configuration
 
 The following parameters are optional and can be used for further adjustments:
 
@@ -47,7 +46,6 @@ The following parameters are optional and can be used for further adjustments:
 |----------------------------------|-----------------------------------------------------------------|--------------------|
 | `ROQ_SESSION_MAX_AGE`            | Maximum time (seconds) of an active session. Default: 30 days   | `86400` (1 day)    |
 | `ROQ_SESSION_INACTIVITY_TIMEOUT` | Maximum time (seconds) of allowed inactivity. Default: 24 hours | `43200` (12 hours) |
-|                                  |                                                                 |                    |
 
 {/* TODO Then we have a bunch of cookie settings. In cookie we have domain which is basically the domain for
 which the cookie will be set. Then, we have bot which defaults to the root path of the application. And this is the path

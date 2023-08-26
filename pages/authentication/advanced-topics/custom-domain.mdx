@@ -1,15 +1,15 @@
-import { Callout } from 'nextra-theme-docs'
-import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout, Tab, Tabs } from 'nextra-theme-docs';
 import Image from 'next/image';
 
-## Use custom domain
+## Use Custom Domain
 
-For production environments, it's often required to use a custom domain like auth.myproject.com instead of ROQ's default
-URLs. To change the domain, you need to:
+For production environments, it's often required to use a custom domain like `auth.myproject.com` instead of ROQ's default URLs. 
 
-1. Login to [ROQ Console](https://console.roq.tech/) and go to `Authentication` ➔ `URLs` ➔ `Custom Domain`
-2. Copy the `CNAME`, go to your domain registrar (e.g. Godaddy) and set your DNS records
-3. Wait a few minutes until this change takes effect, then enter the custom domain and press the `verify` button.
-4. Configure the new URL using the `ROQ_AUTH_URL` variable
+To change the domain, you need to:
+
+1. Login to [ROQ Console](https://console.roq.tech/) and go to **Authentication** ➔ **URLs** ➔ **Custom Domain**
+2. Copy the **CNAME** and set your DNS records at your domain registrar (e.g., Godaddy).
+3. Wait a few minutes until this change takes effect, then enter the custom domain and press the **Verify Domain** button.
+4. Configure the new URL using the `ROQ_AUTH_URL` variable.
 
 ![Image](/custom-domain.png)
