@@ -7,7 +7,6 @@
 	"file-visibility": "File Visibility",
 	"how-to-fetch-files": "How to Fetch Files Using API ",
 	"how-to-associate-files": {
-		"title": "How to Associate Files",
-		"display": "hidden"
+		"title": "How to Associate Files"
 	}
 }

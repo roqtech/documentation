@@ -5,7 +5,7 @@ import GraphQLParams from "/snippets/do-graphql-params.mdx"
 
 ## Introduction
 
-ROQ provides a complete solution for management of public and private files. Please read the [files feature guide](/files) for all information.
+ROQ provides a complete solution for the management of public and private files. Please read the [files feature guide](/files) for all information.
 
 ## Mutations
 
@@ -13,7 +13,7 @@ ROQ provides a complete solution for management of public and private files. Ple
 
 <Callout type="info" emoji="ℹ️">
   This method is only available on the **server-side SDK**. It executes all the
-  steps described in `createFileUpload` below, with just a single function call.
+  steps described in `createFileUpload` below with just a single function call.
 </Callout>
 
 This method can be used when you want to upload files directly from your backend file system to your ROQ file storage.
@@ -55,7 +55,7 @@ const r = await roqClient.asUser(userId).uploadFile({
 </Tab>
 </Tabs>
 
-To upload a file using a user account, the function `asUser(userId)` requires a user id. There are multiple methods to retrieve the user id, such as utilizing GraphQL:
+To upload a file using a user account, the function `asUser(userId)` requires a user id. There are multiple methods to retrieve the user ID, such as utilizing GraphQL:
 
 <Tabs items={['GraphQL']}>
 <Tab>
@@ -191,12 +191,12 @@ Make sure to set the status as a non-string value, such as **cancelled** without
   uploads up and running in minutes.
 </Callout>
 
-To upload file via API you need to proceed the following steps:
+To upload a file via API, you need to proceed with the following steps:
 
 <Steps>
 ###  Generate a signed URL
 
-Generate a signed URL using the `createFileUpload()` API. The `createFileUpload` API returns a _**signed URL**_ which is then used to upload the file directly from the user's browser to the object storage.
+Generate a signed URL using the `createFileUpload()` API. The `createFileUpload` API returns a _**signed URL**_, which is then used to upload the file directly from the user's browser to the object storage.
 
 {/* TODO Name of variable createFileDto will be changed to file */}
 {/* TODO Confirm to Dev if ROQ's GraphQL is supporting direct file upload */}
@@ -223,7 +223,7 @@ await client.asSuperAdmin().createFileUpload({
 
 ### Upload File Using Signed URL
 
-With the returned URL you can upload the file, for instance using curl:
+With the returned URL, you can upload the file, for instance, using curl:
 
 <Tabs items={['Shell', 'TS']}><Tab>
 
@@ -253,9 +253,9 @@ With the returned URL you can upload the file, for instance using curl:
 
 </Tab></Tabs>
 
-### Set Status of The File
+### Set The File Status
 
-Set status of the file using the `updateFileStatus()` API. When the upload is finished, you need to set the status of the upload. This is needed because the file is uploaded directly to the object storage and therefore bypasses ROQ Platform.
+Set the status of the file using the `updateFileStatus()` API. When the upload is finished, you need to set the upload status. This is required because the file is uploaded directly to the object storage, bypassing the ROQ Platform.
 
 <Tabs items={['Node.js SDK', 'GraphQL']}><Tab>
 ```ts
@@ -280,7 +280,7 @@ mutation {
 
 ### `deleteFiles()`
 
-To delete one or multiple files, use the `deleteFiles()` API. See this [link](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteFiles) fior the API documentation.
+To delete one or multiple files, use the `deleteFiles()` API. See this [link](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteFiles) for the API documentation.
 
 <Tabs items={["Node.js SDK", "GraphQL"]}>
 <Tab>
@@ -452,15 +452,15 @@ mutation makeFilePrivate($fileId: ID!) {
 
 ### `files()`
 
-You can get a list of files using the `files()` query and you can read the API documentation [here](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType). 
+You can get a list of files using the `files()` query, and you can read the API documentation [here](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType). 
 
 **Access management:** The query returns all files that are accessible for the current user.
 
 **Associations:** You can use the filters to find files which are associated with other objects; see [createFileAssociation()](#createfileassociation). The typical flow looks like this: First, you fetch the ID of an object from your database and then query the related files. For instance, the query shown below requests all files that are associated with a specific _"contract"_.
 
-**Visibility:** For files marked as _“public”_, the returned URL is static. If the file is marked as _“private”_, then the URL is referred to as a signed URL which is created for only one purpose. A signed URL works only for a short amount of time and is not intended to be published.
+**Visibility:** For files marked as _“public”_, the returned URL is static. If the file is marked as _“private”_, then the URL is referred to as a signed URL, which is created for only one purpose. A signed URL works only for a short amount of time and is not intended to be published.
 
-{/* TODO Does files return a signed URL if the fiel is private */}
+{/* TODO Does files return a signed URL if the file is private */}
 
 {/* TODO entityIdentifiers will be renamed to entityReferences */}
 
@@ -517,7 +517,7 @@ query {
 
 ### `file()`
 
-You can use the `file()` query to download a single file. This API method will return all the file data, such as the URL, file category, who creates it, or the file associations. The API documentation is [here](https://jupiter-pp.roq-platform.com/docs/#query-file).
+You can use the `file()` query to download a single file. This API method will return all the file data, such as the URL, file category, who created it, or the file associations. The API documentation is [here](https://jupiter-pp.roq-platform.com/docs/#query-file).
 
 <Tabs items={['Node.js SDK','GraphQL']}>
 <Tab>
@@ -554,7 +554,7 @@ query file($id: ID! = "a1db443e-5726-4c15-873a-2643e34fa7f2") {
 
 ### `fileCategories()`
 
-With this `fileCategories()` API method, we can get all the available file categories. This category can be used to upload file or filter files. For API documentation, visit [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategories).
+With this `fileCategories()` API method, we can get all the available file categories. This category can be used to upload files or filter files. For API documentation, visit [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategories).
 
 <Tabs items={["Node.js SDK", "GraphQL"]}>
 <Tab>
@@ -592,7 +592,7 @@ query fileCategories(
 
 ### `fileCategory()`
 
-This API method will give details data about a file category. The API documentation can be found [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategory).
+This API method will give detailed data about a file category. The API documentation can be found [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategory).
 
 <Tabs items={["Node.js SDK", "GraphQL"]}>
 <Tab>
@@ -626,4 +626,4 @@ query fileCategory($id: ID! = "76dada4e-4f07-456b-90e7-a43099f07052") {
 | Parameter              | Type    | Description                  |
 | ---------------------- | ------- |------------------------------|
 | `id`                   | UUID    | The file category ID         |
-| `fileCategoryContentGroups`  | boolean  | The response will contain the  category groups for the file content. You can find out more about this API [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategoryContentGroups)  |
+| `fileCategoryContentGroups`  | boolean  | The response will contain the category groups for the file content. You can find out more about this API [here](https://jupiter-pp.roq-platform.com/docs/#query-fileCategoryContentGroups)  |

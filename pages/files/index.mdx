@@ -9,7 +9,7 @@ ROQ provides a complete solution for file management, including these features:
 * File associations (files can be related to any object).
 * File upload using the UI component.
 * File categories.
-* Files visiblity (public or private).
+* Files visibility (public or private).
 
 ## API
 
@@ -17,7 +17,7 @@ ROQ offers a complete solution for managing public and private files with its Fi
 
 ## UI Components
 
-ROQ’s file management provides multiple UI components which can be integrated into your application:
+ROQ's file management provides multiple UI components that can be integrated into your application:
 
 1. The [**`<FileUpload/>`**](/files/ui-components#fileupload) component represents a button which opens a file selector and
    starts uploads.
@@ -30,38 +30,38 @@ ROQ’s file management provides multiple UI components which can be integrated 
 
 ### File Associations
 
-When a file is stored on ROQ Platform, then it usually also belongs to another object. For instance PDF files can be uploaded and related to a _"contract"_. The main purpose and advantage of file associations is to simplify the database schema.
+When a file is stored on the ROQ Platform, it usually belongs to another object. For instance, PDF files can be uploaded and related to a _"contract"_. The primary purpose and advantage of file associations is simplifying the database schema.
 
 ### File Uploads
 
 <Callout type="info" emoji="ℹ️">
-  Files that are uploaded to ROQ Platform are stored on [Scaleway Object Storage](https://www.scaleway.com/en/object-storage/). The data center is located in Paris. 
+  Files uploaded to the ROQ Platform are stored on [Scaleway Object Storage](https://www.scaleway.com/en/object-storage/). The data center is located in Paris. 
 </Callout>
 
 Files can be uploaded via [File Upload UI component](/files/ui-components#fileupload) or programmatically using the [createFileUpload() API](/files/api#createfileupload). The upload is realized using _**signed URLs**_, which means the files are uploaded directly from the user's browser to the object storage without sending it through your backend.
 
 ### File Categories
 
-File categories can be managed via [ROQ Console](https://console.roq.tech/) only. 
-You can enable filtering by categories, see [files()](/files/api#files) API.
+File categories can only be managed via [ROQ Console](https://console.roq.tech/). 
+You can enable filtering by categories. See [files()](/files/api#files) API.
 {/* * Add validators to categories (see next section) */}
 
 {/*
 ### Upload Validations
 
 ROQ is using file categories to define rules for the upload in [ROQ Console](https://console.roq.tech/). For
-instance, you can set a category called _"pictures"_ which requires the mime type of the uploaded file to be an image
+instance, you can set a category called _"pictures"_, which requires the mime type of the uploaded file to be an image
 (see [image mime type](https://mimetype.io/all-types/#image)). You can also restrict the maximum size of uploads.
 */}
 
 ### File Visibility
 
-A file can be either **public** or **private**. Public means that there is a permanent URL which can be used by anyone, while private files can only be accessed by user who are allowed to do so. The visibility of a file can be changed in ROQ Console or via [makeFilePublic()](/files/api#makefilepublic)/[makeFilePrivate()](/files/api#makefileprivate) APIs
+A file can be either **public** or **private**. Public means that there is a permanent URL that anyone can use, while private files can only be accessed by users who are allowed to do so. The visibility of a file can be changed in ROQ Console or via [makeFilePublic()](/files/api#makefilepublic)/[makeFilePrivate()](/files/api#makefileprivate) APIs
 
 ### Access Management
 
-You can define permissions of files using ROQ's [access management feature](/access-management). Files are always owned by the user who uploaded it. You can restrict the access to this user or enable users of the same tenant to download the file.
+You can define permissions of files using ROQ's [access management feature](/access-management). Files are always owned by the user who uploaded them. You can restrict access to this user or enable users of the same tenant to download the file.
 
 ## Tutorials
 
-These [tutorials](/files/tutorials) sections explain more about ROQ File API for the generated or custom application development, such as how to upload files, configure file categories, create file associations, or fetch uploaded files, etc.
+These [tutorials](/files/tutorials) sections explain more about ROQ File API for the generated or custom application development, such as how to upload files, configure file categories, create file associations, fetch uploaded files, etc.
