@@ -4,27 +4,27 @@ import { Callout } from 'nextra-theme-docs'
 
 ## Introduction
 
-Imagine you're the owner of a club, and you decide who gets to enter and what they can do inside. **Access Management** for SaaS applications works similarly – it controls who enters an application and their actions inside. In our context, these rules are called [**roles**](/access-management#roles) and [**permissions**](/access-management#permissions).
+Imagine you're the club owner, and you decide who gets to enter and what they can do inside. **Access Management** for SaaS applications works similarly – it controls who enters an application and their actions inside. In our context, these rules are called [**roles**](/access-management#roles) and [**permissions**](/access-management#permissions).
 
 With ROQ's access management system, you can:
 
 * Specify roles (e.g., _admin_, _member_, _clerk_).
 * Assign these roles to users.
-* Decide what each role allows – maybe viewing certain pages, or pressing specific buttons.
+* Decide what each role allows – maybe viewing certain pages or pressing specific buttons.
 * Control what data each role can see.
 * Set permissions and apply them to the application.
 
 ## The Big Picture
 
-The entire ROQ system works in a coordinated manner to ensure seamless access management.
+The entire ROQ system works in coordinated to ensure seamless access management.
 
 Imagine the ROQ system as a secure club where members get special access based on their membership cards. 
 
-- **Membership Desk (ROQ Console)**: At this desk, members get their cards that determine where they can go and what they can do inside the club. This card-giving process is like assigning roles and permissions in the system, which decides what each user can see and do.
+- **Membership Desk (ROQ Console)**: At this desk, members get cards that determine where they can go and what they can do inside the club. This card-giving process is like assigning roles and permissions in the system, which decides what each user can see and do.
 
-- **Tailored Club Experience (Database Interaction & User Customization)**: Just as club staff check your card before letting you into VIP areas or offering special services, the ROQ system ensures users see only what their roles allow. Think of it as having doors within the club that only open for specific cards, making sure members have a unique experience tailored to their privileges.
+- **Tailored Club Experience (Database Interaction & User Customization)**: As club staff check your card before letting you into VIP areas or offering special services, the ROQ system ensures users see only what their roles allow. Think of it as having doors within the club that are only open for specific cards, ensuring members have a unique experience tailored to their privileges.
 
-- **Super-Efficient Clerk (AI-Assistant)**: Instead of manually selecting what each card can do, imagine a smart clerk at the desk who quickly gives out the best membership cards based on common choices. This is like ROQ's AI Assistant, which auto-sets user roles and permissions based on predefined templates to make things quicker and easier.
+- **Super-Efficient Clerk (AI-Assistant)**: Instead of manually selecting what each card can do, imagine an intelligent clerk at the desk who quickly gives out the best membership cards based on common choices. This is like ROQ's AI Assistant, which auto-sets user roles and permissions based on predefined templates to make things quicker and easier.
 
 In summary, ROQ's access management is like a high-tech club where your membership card determines your access and experience. Combines the power of user-configured roles and permissions with an AI-driven automatic setup to deliver a robust, flexible, and efficient access management system.
 
@@ -43,18 +43,18 @@ In essence, ROQ's access management combines the power of user-configured roles 
 
 ## How It Works
 
-Using our previous analogy, imagine you're at the entrance of our high-tech club, the ROQ Club and let's explore how access management comes to life in a familiar setting.
+Using our previous analogy, imagine you're at the entrance of our high-tech club, the ROQ Club, and let's explore how access management comes to life in a familiar setting.
 
-### 🎫 Membership Desk ([ROQ Console](https://console.roq.tech/))
+### 🎫 Membership Desk
 
 The [ROQ Console](https://console.roq.tech/) is like the club's Membership Desk. Here, various membership cards (roles and permissions) are crafted. 
 
 Just as a VIP card might grant its holder special privileges in a club, permissions in ROQ define what actions a user can perform. When setting up these permissions, you're essentially deciding what doors or areas each membership card can access – be it all rooms (`all` records), just their reserved lounge (`own` records), or spaces exclusive to their group or friends (`tenant`). 
 
-### 🚪 Access Throughout the Club
-With card in hand, your experience within the club is personalized. ROQ ensures that the boundaries set by each card are respected throughout the club, from the bar to the VIP lounge, including its various rooms and services (UI Components and APIs).
+### 🚪 Access The Club
+With a card in hand, your experience within the club is personalized. ROQ ensures that the boundaries set by each card are respected throughout the club, from the bar to the VIP lounge, including its various rooms and services (UI Components and APIs).
 
-### 🎉 Customizing Your Club Night
+### 🎉 Customizing The Club
 
 Remember, you can also customize the club's rules (permissions) to fit the unique theme of your event (project)!
 
@@ -62,20 +62,15 @@ Remember, you can also customize the club's rules (permissions) to fit the uniqu
 For more information on how to set up permissions for your project, please refer to the documentation on [Project Permissions](/access-management/project-permissions).
 </Callout>
 
-### 🔧 Behind the Scenes: Club's Tech
+### 🔧 Behind the Scenes
 
 Dive deeper into the club's operations:
 
-On a more technical note, our club uses an advanced system, it's called a **Query Plans**, that instantly knows what each member is allowed to do based on their membership card.
+On a more technical note, our club uses an advanced system called **Query Plans** that instantly knows what each member is allowed to do based on their membership card.
 
-While the details of all members and their activities are stored securely in a central system, that is the database, individual terminals at the club (your application) only access and display relevant details to each member, ensuring a personalized experience.
+While the details of all members and their activities are stored securely in a central system, that is, the database, individual terminals at the club (your application) only access and display relevant details to each member, ensuring a personalized experience.
 
-The best part? The club doesn't need to know everything happening in real-time. It only requires the layout (schema) of your event. The real interactions or queries happen in real-time, right on the dance floor (on your side).
-
-<Callout type="info">
-"On your side" emphasizes that these real-time interactions occur directly in your application environment rather than on the ROQ platform.
-</Callout>
-
+The best part? The club can only know some things happening in real time. It only requires the layout (schema) of your event. The real interactions, or queries, occur on the dance floor – which, in our analogy, represents your application environment.
 
 {/*
 
@@ -111,13 +106,13 @@ In the ROQ Club, the way you retrieve information about attendees from your data
 For instance, consider you have a digital guest list named `/club-guests`. This list gives details about everyone currently enjoying the club. The entrance system (query plan) filters this list based on the type of membership card:
 
 - An **Admin** cardholder (akin to club management) is granted full access to the list, seeing every guest present.
-- A **VIP Member** cardholder can view a filtered list, featuring only those partying in the VIP lounge.
+- A **VIP Member** cardholder can view a filtered list featuring only those partying in the VIP lounge.
 - A **Regular Member** cardholder is granted a more limited view, seeing details of just their group and perhaps a few acquaintances.
 
 This dynamic filtering ensures that each member gets a personalized and secure experience in the club, just as tailored queries ensure that each user interacts with the data meant for them. The complexity of managing these multiple views and permissions is made simple through the club's entrance system, or in our technical terms, the **Query Plan**.
 
 <Callout type="info">
-For an in-depth dive into how ROQ Query Plan works, check out this [link](/access-management/query-plans).
+For an in-depth dive into how the ROQ Query Plan works, check out this [link](/access-management/query-plans).
 </Callout>
 
 {/*
@@ -150,7 +145,7 @@ This [documentation](/access-management/roles) section explains more about roles
 
 ### Permissions
 
-Permissions define the privileges associated with each users. 
+Permissions define the privileges associated with each user. 
 
 For example, a **VIP Member** might be allowed to access the VIP lounge and enjoy certain exclusive events based on their membership card type.
 
@@ -188,11 +183,11 @@ Scopes:
 |----------|---------------------------------------------------------------------------|
 | `All`    | Grants the user access to all records                        |
 | `Own`    | Limits the access to records directly associated with the user    |
-| `Tenant` | Restricts the access to records associated with the user's tenant or organization |
+| `Tenant` | Restricts access to records associated with the user's tenant or organization |
 
 
 <Callout type="info">
-You will find the necessary information in the following two documents, regarding [platform permissions](/access-management/platform-permissions) and [project permissions](/access-management/project-permissions).
+You will find the necessary information in the following two documents regarding [platform permissions](/access-management/platform-permissions) and [project permissions](/access-management/project-permissions).
 </Callout>
 
 ## API 
