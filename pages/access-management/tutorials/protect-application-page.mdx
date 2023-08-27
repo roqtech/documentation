@@ -117,7 +117,7 @@ If `allowed` return `true` which means the user is allowed to have access to the
 
 <InstallROQNext/>
 
-#### Protecting Components
+#### Protecting Page Routes
 
 ROQs also expose the `hasAccess()` method to the client side internally as a hook to the original method on the backend. This method resides in the `@roq/nextjs` package. 
 
@@ -146,10 +146,9 @@ function VideoListPage() {
 }
 ```
 
-#### Protecting Page Routes
+#### Protecting Components
 
 In the generated application rendering a specific react component is protected by the `withAuthorization()` method. This function is designed to handle access control in your application. It does this by checking if the current user has the required permissions to access a specific feature or resource before rendering the wrapped component.
-
 
 Let's say we have a React component called `<CommentCreatePage/>` that's used for creating new comments:
 
