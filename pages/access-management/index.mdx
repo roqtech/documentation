@@ -4,7 +4,7 @@ import { Callout } from 'nextra-theme-docs'
 
 ## Introduction
 
-Imagine you're the club owner, and you decide who gets to enter and what they can do inside. **Access Management** for SaaS applications works similarly – it controls who enters an application and their actions inside. In our context, these rules are called [**roles**](/access-management#roles) and [**permissions**](/access-management#permissions).
+Access management in SaaS applications involves regulating who can access the application and what actions they are allowed to perform. This is accomplished through roles and permissions, which bestow varying levels of access to different users.
 
 With ROQ's access management system, you can:
 
@@ -16,18 +16,29 @@ With ROQ's access management system, you can:
 
 ## The Big Picture
 
-The entire ROQ system works in coordinated to ensure seamless access management.
+The entire ROQ system works in coordination to ensure seamless access management. To better understand how ROQ Access Management, let's use an analogy.
 
-Imagine the ROQ system as a secure club where members get special access based on their membership cards. 
+### 🍾 Analogy
 
-- **Membership Desk (ROQ Console)**: At this desk, members get cards that determine where they can go and what they can do inside the club. This card-giving process is like assigning roles and permissions in the system, which decides what each user can see and do.
+Imagine you're the club owner, and you decide who gets to enter and what they can do inside. **Access Management** for SaaS applications works similarly – it controls who enters an application and their actions inside. In our context, these rules are called [**roles**](/access-management#roles) and [**permissions**](/access-management#permissions).
 
-- **Tailored Club Experience (Database Interaction & User Customization)**: As club staff check your card before letting you into VIP areas or offering special services, the ROQ system ensures users see only what their roles allow. Think of it as having doors within the club that are only open for specific cards, ensuring members have a unique experience tailored to their privileges.
 
-- **Super-Efficient Clerk (AI-Assistant)**: Instead of manually selecting what each card can do, imagine an intelligent clerk at the desk who quickly gives out the best membership cards based on common choices. This is like ROQ's AI Assistant, which auto-sets user roles and permissions based on predefined templates to make things quicker and easier.
+The ROQ platform in this analogy is a secure club where members get special access based on their membership cards. 
 
-In summary, ROQ's access management is like a high-tech club where your membership card determines your access and experience. Combines the power of user-configured roles and permissions with an AI-driven automatic setup to deliver a robust, flexible, and efficient access management system.
+- **Membership Desk**: At this desk, members get cards that determine where they can go and what they can do inside the club. This card-giving process is like assigning roles and permissions in the system, which decides what each user can see and do.
 
+  In the ROQ platform this **Membership Desk** is the [ROQ Console](https://console.roq.tech/), specifically the access management section.
+
+
+- **Tailored Club Experience**: As club staff check your card before letting you into VIP areas or offering special services, the club system ensures users see only what their roles allow. Think of it as having doors within the club that are only open for specific cards, ensuring members have a unique experience tailored to their privileges.
+
+  In the ROQ platform, database interaction and user customization heavily depend on the user's access.
+
+- **Super-Efficient Clerk**: Instead of manually selecting what each card can do, imagine an intelligent clerk at the desk who quickly gives out the best membership cards based on common choices. 
+
+  This is like AI Assistant on the ROQ platform, which auto-sets user roles and permissions based on predefined templates to make things quicker and easier.
+
+ROQ's access management is like a high-tech club where your membership card determines your access and experience. Combines the power of user-configured roles and permissions with an AI-driven automatic setup to deliver a robust, flexible, and efficient access management system.
 
 {/*
 The entire system works in a coordinated manner to ensure seamless access management. Here's how all the components fit together: 
@@ -56,7 +67,7 @@ With a card in hand, your experience within the club is personalized. ROQ ensure
 
 ### 🎉 Customizing The Club
 
-Remember, you can also customize the club's rules (permissions) to fit the unique theme of your event (project)!
+Remember, you can also customize the club's rules (permissions) to fit the unique theme of your event or in the ROQ point of view, the event is the project!
 
 <Callout type="info">
 For more information on how to set up permissions for your project, please refer to the documentation on [Project Permissions](/access-management/project-permissions).
@@ -68,9 +79,9 @@ Dive deeper into the club's operations:
 
 On a more technical note, our club uses an advanced system called **Query Plans** that instantly knows what each member is allowed to do based on their membership card.
 
-While the details of all members and their activities are stored securely in a central system, that is, the database, individual terminals at the club (your application) only access and display relevant details to each member, ensuring a personalized experience.
+All member details and activities are kept safe in a main vault (think of this as the database). But when you're in the club, the kiosks you interact with (akin to ROQ's app or user interface) only show info that's relevant to member, ensuring a personal touch.
 
-The best part? The club can only know some things happening in real time. It only requires the layout (schema) of your event. The real interactions, or queries, occur on the dance floor – which, in our analogy, represents your application environment.
+And here's the fun twist: While the club's main stage captures the broad strokes, the real action is on the dance floor. That's where all real-time interactions, or in techy terms **queries**, happen. In our tale, this dance floor symbolizes our app's environment.
 
 {/*
 
