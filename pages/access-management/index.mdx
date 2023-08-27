@@ -139,63 +139,65 @@ For this scenario, ROQ provides a query builder that automatically creates the r
 
 ### Roles
 
-Roles are assigned directly to users. 
+Roles are assigned directly to users. In our analogy, roles correspond to the types of membership cards a user holds in the ROQ Club or levels of access one might have. 
 
-In our analogy, roles correspond to the types of membership cards a user holds in the ROQ Club. Here's how to envision them:
+Picture it this way:
 
-* User Mary holds the **Club Manager** card.
-* User Jane is a **VIP Member**.
-* User John is a **Regular Member**.
-* User Richard is a **Guest Attendee**.
+* Mary is our **Club Manager**, with the master key, overseeing everything.
+* Jane flaunts her **VIP Member** badge, granting her special privileges and access to elite zones.
+* John, with his **Regular Member** status, enjoys the main and some exclusive events.
+* Richard, as a **Guest Attendee**, is here to taste the ROQ Club experience but might not have the full access other members enjoy.
 
-In the club context, a **role** is represented by its membership type, like **Club Manager**, **VIP Member**, **Regular Member**, or **Guest Attendee**.
+So, when discussing roles in the ROQ Club, consider them different membership tiers or categories: **Club Manager**, **VIP Member**, **Regular Member**, and **Guest Attendee**. Each has its own perks and access limits.
 
 <Callout type="info">
-This [documentation](/access-management/roles) section explains more about roles on the ROQ Console. For a tutorial on how to assign or unassign roles from a user using ROQ's Node.js SDK API, read this [tutorial](/access-management/tutorials/user-roles-assignment).
+This [documentation](/access-management/roles) section explains more about roles on the ROQ Console. For a tutorial on how to assign or unassign roles from a user using ROQ's Node.js SDK API, please read this [tutorial](/access-management/tutorials/user-roles-assignment).
 </Callout>
 
 ### Permissions
 
-Permissions define the privileges associated with each user. 
+Permissions define the privileges associated with each user. Think of permissions as the exclusive benefits and experiences each club member is entitled to based on their membership type.
 
-For example, a **VIP Member** might be allowed to access the VIP lounge and enjoy certain exclusive events based on their membership card type.
+Imagine a **Platinum Cardholder** at the ROQ Club. This elite member would have special access to premium zones like the Platinum Lounge and might be invited to some behind-the-scenes events, all thanks to the perks tied to their card.
 
-These permissions involve:
+These club privileges (permissions) are broken down as follows:
 
-* The particular club area or feature (e.g., `VIP_lounge`),
-* An activity or privilege (`enter`, `reserve`, `invite guests`, or `access special events`),
-* And the extent of the privilege (`unlimited`, `self`, or `group` access).
+* The specific club zone or service (e.g., `Platinum_Lounge`),
+* The activity or benefit they can indulge in (`entry`, `table booking`, `bring a friend, or `attend private shows`),
+* And the range or span of that benefit (`anytime access`, `personal`, or `with a crew` privileges).
 
 #### Access Levels
 
-To specify access levels for your application, select an object type or entity (e.g., `VIP_lounge`). If the required entity isn't available in the dropdown, it means it wasn't declared during the initial preparation.
+To specify access levels for your application, select an object type or entity.
+
+Imagine you're planning a special night at the ROQ Club and want to determine who gets access to various parts of the club, like the `Platinum_Lounge`. Think of these parts as object types or entities. If a particular area of the club isn't listed, it's probably because it wasn't considered during the initial planning of the event.
 
 <Callout type="info">
-Please read this [entity](/access-management/entity) documentation for further information.
+Please read more about entity in this [documentation](/access-management/entity).
 </Callout>
 
-For each entity, you can set the following access levels:
+For each club area (entity), you can decide the following access levels, which can be thought of as different privileges or activities members can engage in:
 
-| Level    | Description                                                 |
-|----------|-------------------------------------------------------------|
-| `Read`   | Permits the user to retrieve objects         |
-| `Create` | Allows the user to create new objects of the chosen type |
-| `Update` | Enables the user to modify objects of the chosen type    |
-| `Delete` | Authorizes the user to remove objects of the chosen type    |
-
+| Level    | Club Analogy                                               |
+|----------|------------------------------------------------------------|
+| `Read`   | Lets the member peek into the area, like viewing the inside of the `Plainum_Lounge` |
+| `Create` | Allows the member to set up a personal spot or reserve a table in that area |
+| `Update` | Lets the member make changes to their spot or order in that area, like changing their drink or adding decorations |
+| `Delete` | Gives the member the authority to clear their space or remove their reservation in the area |
 
 ### Scopes
 
-**Scope** determines the range of access within the permission. Scope the access levels are defined similarly.
+In our analogy, the ROQ Club, the **Scope** is like the boundaries set for different members based on their membership cards. It decides the extent of the club they can explore and the events they can join.
 
-Scopes:
+Visualize the scopes as follows:
 
-| Scope    | Description                                                               |
-|----------|---------------------------------------------------------------------------|
-| `All`    | Grants the user access to all records                        |
-| `Own`    | Limits the access to records directly associated with the user    |
-| `Tenant` | Restricts access to records associated with the user's tenant or organization |
+| Scope    | Club Analogy                                                            |
+|----------|-------------------------------------------------------------------------|
+| `All`    | A member can visit all areas and events within the club.                |
+| `Own`    | A member is restricted to their reserved lounge or private event.       |
+| `Tenant` | Access is confined to areas or events designated for their group or party. |
 
+In essence, just like different passes give varying access at a festival or event, these scopes determine how much of the ROQ Club's experience a member can enjoy.
 
 <Callout type="info">
 You will find the necessary information in the following two documents regarding [platform permissions](/access-management/platform-permissions) and [project permissions](/access-management/project-permissions).
