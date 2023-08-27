@@ -133,14 +133,16 @@ For this scenario, ROQ provides a query builder that automatically creates the r
 
 ### Roles
 
-Roles are assigned directly to users. You can easily read them in sentences like this:
+Roles are assigned directly to users. 
 
-* User Mary is an **admin**
-* User Jane is a **chef**
-* User John is a **driver**
-* User Richard is a **customer**
+In our analogy, roles correspond to the types of membership cards a user holds in the ROQ Club. Here's how to envision them:
 
-A **role** is represented by its name, such as **owner**, **member**, **manager**, **chef**, **driver**, or **customer**.
+* User Mary holds the **Club Manager** card.
+* User Jane is a **VIP Member**.
+* User John is a **Regular Member**.
+* User Richard is a **Guest Attendee**.
+
+In the club context, a **role** is represented by its membership type, like **Club Manager**, **VIP Member**, **Regular Member**, or **Guest Attendee**.
 
 <Callout type="info">
 This [documentation](/access-management/roles) section explains more about roles on the ROQ Console. For a tutorial on how to assign or unassign roles from a user using ROQ's Node.js SDK API, read this [tutorial](/access-management/tutorials/user-roles-assignment).
@@ -148,19 +150,25 @@ This [documentation](/access-management/roles) section explains more about roles
 
 ### Permissions
 
-**Permissions** determine the access level to a specific type of object. For instance, the role **manager** may be granted read access to the sales orders of a restaurant management application.
+Permissions define the privileges associated with each users. 
 
-Permissions involve:
+For example, a **VIP Member** might be allowed to access the VIP lounge and enjoy certain exclusive events based on their membership card type.
 
-* The restricted entity (like `sales_order`),
-* An operation (`read`, `create`, `update`, or `delete`),
-* And a scope (`all`, `own`, or `tenant`).
+These permissions involve:
+
+* The particular club area or feature (e.g., `VIP_lounge`),
+* An activity or privilege (`enter`, `reserve`, `invite guests`, or `access special events`),
+* And the extent of the privilege (`unlimited`, `self`, or `group` access).
 
 #### Access Levels
 
-To specify access levels for your application, select an object type (e.g., `salesOrder`). If the required object isn't available in the dropdown, it means it wasn't declared during the initial preparation.
+To specify access levels for your application, select an object type or entity (e.g., `VIP_lounge`). If the required entity isn't available in the dropdown, it means it wasn't declared during the initial preparation.
 
-For each object, you can set the following access levels:
+<Callout type="info">
+Please read this [entity](/access-management/entity) documentation for further information.
+</Callout>
+
+For each entity, you can set the following access levels:
 
 | Level    | Description                                                 |
 |----------|-------------------------------------------------------------|
@@ -194,4 +202,4 @@ Use ROQ's [Access Management API](/access-management/api) for custom application
 
 ## Tutorials
 
-These [tutorials](/access-management/tutorials) will explain many concepts and implementations of ROq's Access Management API, such as how to cache query plans, protect API routes, deactivate access management for development, etc.
+These [tutorials](/access-management/tutorials) will explain many concepts and implementations of ROQ's Access Management API, such as how to cache query plans, protect API routes, deactivate access management for development, etc.
