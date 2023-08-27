@@ -20,13 +20,13 @@ The entire ROQ system works in a coordinated manner to ensure seamless access ma
 
 Imagine the ROQ system as a secure club where members get special access based on their membership cards. 
 
-- **The Membership Desk (ROQ Console)**: At this desk, members get their cards that determine where they can go and what they can do inside the club. This card-giving process is like assigning roles and permissions in the system, which decides what each user can see and do.
+- **Membership Desk (ROQ Console)**: At this desk, members get their cards that determine where they can go and what they can do inside the club. This card-giving process is like assigning roles and permissions in the system, which decides what each user can see and do.
 
 - **Tailored Club Experience (Database Interaction & User Customization)**: Just as club staff check your card before letting you into VIP areas or offering special services, the ROQ system ensures users see only what their roles allow. Think of it as having doors within the club that only open for specific cards, making sure members have a unique experience tailored to their privileges.
 
-- **The Super-Efficient Clerk (AI-Assistant)**: Instead of manually selecting what each card can do, imagine a smart clerk at the desk who quickly gives out the best membership cards based on common choices. This is like ROQ's AI Assistant, which auto-sets user roles and permissions based on predefined templates to make things quicker and easier.
+- **Super-Efficient Clerk (AI-Assistant)**: Instead of manually selecting what each card can do, imagine a smart clerk at the desk who quickly gives out the best membership cards based on common choices. This is like ROQ's AI Assistant, which auto-sets user roles and permissions based on predefined templates to make things quicker and easier.
 
-In summary, ROQ is like a high-tech club where your membership card determines your access and experience. And with a mix of manual choices and smart automation, it ensures a smooth, personalized, and secure visit for everyone.
+In summary, ROQ's access management is like a high-tech club where your membership card determines your access and experience. Combines the power of user-configured roles and permissions with an AI-driven automatic setup to deliver a robust, flexible, and efficient access management system.
 
 
 {/*
@@ -43,6 +43,42 @@ In essence, ROQ's access management combines the power of user-configured roles 
 
 ## How It Works
 
+Using our previous analogy, imagine you're at the entrance of our high-tech club, the ROQ Club and let's explore how access management comes to life in a familiar setting.
+
+### 🎫 Membership Desk ([ROQ Console](https://console.roq.tech/))
+
+The [ROQ Console](https://console.roq.tech/) is like the club's Membership Desk. Here, various membership cards (roles and permissions) are crafted. 
+
+Just as a VIP card might grant its holder special privileges in a club, permissions in ROQ define what actions a user can perform. When setting up these permissions, you're essentially deciding what doors or areas each membership card can access – be it all rooms (`all` records), just their reserved lounge (`own` records), or spaces exclusive to their group or friends (`tenant`). 
+
+### 🚪 Access Throughout the Club
+With card in hand, your experience within the club is personalized. ROQ ensures that the boundaries set by each card are respected throughout the club, from the bar to the VIP lounge, including its various rooms and services (UI Components and APIs).
+
+### 🎉 Customizing Your Club Night
+
+Remember, you can also customize the club's rules (permissions) to fit the unique theme of your event (project)!
+
+<Callout type="info">
+For more information on how to set up permissions for your project, please refer to the documentation on [Project Permissions](/access-management/project-permissions).
+</Callout>
+
+### 🔧 Behind the Scenes: Club's Tech
+
+Dive deeper into the club's operations:
+
+On a more technical note, our club uses an advanced system, it's called a **Query Plans**, that instantly knows what each member is allowed to do based on their membership card.
+
+While the details of all members and their activities are stored securely in a central system, that is the database, individual terminals at the club (your application) only access and display relevant details to each member, ensuring a personalized experience.
+
+The best part? The club doesn't need to know everything happening in real-time. It only requires the layout (schema) of your event. The real interactions or queries happen in real-time, right on the dance floor (on your side).
+
+<Callout type="info">
+"On your side" emphasizes that these real-time interactions occur directly in your application environment rather than on the ROQ platform.
+</Callout>
+
+
+{/*
+
 Roles and permissions are defined in the [ROQ Console](https://console.roq.tech/). Generally, permissions grant access to objects, e.g., _a customer is allowed to make an order_. You can specify the operation (read, create, update, and delete) and set the scope. The scope determines if a user has access to either `all` records, only the `own` records, or to records related to the own account (~ `tenant`). These permissions are automatically enforced on all UI Components and APIs of ROQ and can also be applied to the project's user interface and queries.
 
 <Callout type="info" emoji="ℹ️">
@@ -54,6 +90,8 @@ You can also define permissions that are applied to your project!
 [//]: # (TODO This needs more details)
 
 */}
+
+{/*
 
 Technically, the access management works based on a query plan which ROQ computes based on the current user's permissions and your database tables. The SDK is caching this information locally. This way, your application is independent of the availability of the ROQ Platform. Furthermore, there is no need to send all your data. ROQ only needs to know the schema of your database; the actual queries will be performed on your side.
 
