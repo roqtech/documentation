@@ -113,15 +113,15 @@ If `allowed` return `true` which means the user is allowed to have access to the
 `hasAccess()` is a utility method from the `@roq/prismajs` package that uses the query plan to determine whether a user has access to a particular entity.
 </Callout>
 
-### Client Side
-
-#### Next.js
+### Next.js
 
 <InstallROQNext/>
 
+#### Protecting Components
+
 ROQs also expose the `hasAccess()` method to the client side internally as a hook to the original method on the backend. This method resides in the `@roq/nextjs` package. 
 
-On the client, it has the form:
+On the client side, it has the form:
 
 ```ts
 hasAccess(entity: string, operation: AccessOperationEnum, service?: AccessServiceEnum): boolean;
@@ -146,7 +146,7 @@ function VideoListPage() {
 }
 ```
 
----
+#### Protecting Page Routes
 
 In the generated application rendering a specific react component is protected by the `withAuthorization()` method. This function is designed to handle access control in your application. It does this by checking if the current user has the required permissions to access a specific feature or resource before rendering the wrapped component.
 
