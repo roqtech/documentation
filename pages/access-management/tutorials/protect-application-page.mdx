@@ -4,11 +4,152 @@ import InstallROQReact from "/snippets/do-roq-ui-react-setup.mdx"
 
 # How to Protect Application Pages
 
-In the generated application rendering a specific react component is protected by the `withAuthorization()` method. This function is designed to handle access control in your application. It does this by checking if the current user has the required permissions to access a specific feature or resource before rendering the wrapped component.
+User roles will determine what kind of access each user has to data in a system. For example, different users with different roles will have different data access to `/video` routes. A **Channel Owner** might have access to all videos available and a **Content Creator** may have access only to videos that they have created.
 
-## Next.js
+ROQ provides access management works based on a query plan which ROQ computes based on the current user's permission and the database tables. For more information about how it works, please read this documentation [section](/access-management#how-it-works).
+
+## User Query Plans
+
+### Backend
+
+We can get the user query plans using [`queryPlans()`](https://jupiter-pp.roq-platform.com/docs/#query-queryPlans) API. For example to get the query plans for all users:
+
+```js
+const queryPlans = await roqClient.asSuperAdmin().queryPlans()
+```
+
+The `queryPlans` will return such data:
+
+```js
+ {
+  queryPlans: [
+	{
+      kind: 'noAccess',
+      queryPlan: null,
+      role: 'marketing',
+      entity: 'review',
+      userIdField: 'userId',
+      operation: 'delete'
+    },
+    {
+      kind: 'fullAccess',
+      queryPlan: null,
+      role: 'channel-owner',
+      entity: 'comment',
+      userIdField: 'roq_user_id',
+      operation: 'read'
+    },
+	{
+	  kind: 'restricted',
+	  queryPlan: {
+		from: 'video',
+		to: 'user',
+		case: 'many-to-one',
+		fromField: 'user_id',
+		toField: 'id',
+		in: { from: 'user', fromField: 'roq_user_id', userId: [Array] }
+	  },
+	  role: 'content-creator',
+	  entity: 'video',
+	  userIdField: 'roq_user_id',
+	  operation: 'update'
+	}
+	...
+   ]
+}
+```
+In local development, this method is internally used by the generated application to get the query plans and then cached them to the user disk, and then ROQ uses the `hasAccess()` method to retrieve these query plans relevant to the user's roles, the entity, and the operation they are attempting. Then it evaluates these plans to decide if the user has the necessary access.
+
+{/** Link to documentation, how and where it cached the query plans*/}
+
+<Callout type="info">
+The code for this example is in the `src/server/middlewares` folder in the generated application.
+</Callout>
+
+For example, to get the video list from route `https://localhost:3000/videos` with the current user role as **Channel Owner**.
+
+```js
+const { allowed } = await authorizationClient.hasAccess(
+	convertRouteToEntityUtil(mainPath.split('/').pop()),
+    {
+    	roqUserId,
+        roles: user.roles,
+        tenantId: user.tenantId,
+    },
+    convertMethodToOperation(req.method as HttpMethod),
+);
+```
+The code above will automatically check if the user has access to read operations within the current roles. 
+
+The `convertRouteToEntityUtil()` will get the last segment of the URL path into the corresponding entity name, which is the `video` (the `videos` mapping) and the `convertMethodToOperation(req.method as HttpMethod)` will convert `req.method` into `read` or GET HTTP method.
+
+With the user data:
+
+```js
+{ 
+	roqUserId: "80c81294-f338-4819-9b1f-acc314babd5f",
+	roles: "channel-owner",
+	tenantId: "ee764883-f2c3-4486-9de6-070345e350af"
+}
+```
+
+The `hasAccess()` method will check according to the query plan if the user has access to read the video list.
+
+```js
+const { allowed } = await authorizationClient.hasAccess(
+	"video",
+    { 
+		roqUserId: "80c81294-f338-4819-9b1f-acc314babd5f",
+		roles: "channel-owner",
+		tenantId: "ee764883-f2c3-4486-9de6-070345e350af"
+	},
+    ResourceOperationEnum.Read
+);
+```
+
+If `allowed` return `true` which means the user is allowed to have access to the video list on `http://localhost:3000/videos`.
+
+<Callout type="info">
+`hasAccess()` is a utility method from the `@roq/prismajs` package that uses the query plan to determine whether a user has access to a particular entity.
+</Callout>
+
+### Client Side
+
+#### Next.js
 
 <InstallROQNext/>
+
+ROQs also expose the `hasAccess()` method to the client side internally as a hook to the original method on the backend. This method resides in the `@roq/nextjs` package. 
+
+On the client, it has the form:
+
+```ts
+hasAccess(entity: string, operation: AccessOperationEnum, service?: AccessServiceEnum): boolean;
+```
+
+For example to check if the current user role has access to create a video with access route `/video/create`:
+
+```jsx
+import { AccessOperationEnum, useAuthorizationApi } from "@roq/nextjs"
+
+function VideoListPage() {
+    const { hasAccess } = useAuthorizationApi()
+	return (
+		{hasAccess("video", AccessOperationEnum.CREATE, AccessServiceEnum.PROJECT) && (
+			<NextLink href={`/videos/create`} passHref legacyBehavior>
+				<Button onClick={(e) => e.stopPropagation()} colorScheme="blue" mr="4" as="a">
+					Create
+				</Button>
+			</NextLink>
+		)}   
+	)
+}
+```
+
+---
+
+In the generated application rendering a specific react component is protected by the `withAuthorization()` method. This function is designed to handle access control in your application. It does this by checking if the current user has the required permissions to access a specific feature or resource before rendering the wrapped component.
+
 
 Let's say we have a React component called `<CommentCreatePage/>` that's used for creating new comments:
 
