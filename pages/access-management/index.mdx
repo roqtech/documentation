@@ -106,6 +106,21 @@ You can use it for any object, whether it's an entity from your database, a URL,
 
 ## Filter Down Data of A Query
 
+In the ROQ Club, the way you retrieve information about attendees from your database mimics the club's special entrance system. Think of the entrance system as our club's query plan.
+
+For instance, consider you have a digital guest list named `/club-guests`. This list gives details about everyone currently enjoying the club. The entrance system (query plan) filters this list based on the type of membership card:
+
+- An **Admin** cardholder (akin to club management) is granted full access to the list, seeing every guest present.
+- A **VIP Member** cardholder can view a filtered list, featuring only those partying in the VIP lounge.
+- A **Regular Member** cardholder is granted a more limited view, seeing details of just their group and perhaps a few acquaintances.
+
+This dynamic filtering ensures that each member gets a personalized and secure experience in the club, just as tailored queries ensure that each user interacts with the data meant for them. The complexity of managing these multiple views and permissions is made simple through the club's entrance system, or in our technical terms, the **Query Plan**.
+
+<Callout type="info">
+For an in-depth dive into how ROQ Query Plan works, check out this [link](/access-management/query-plans).
+</Callout>
+
+{/*
 When you retrieve data from your database, you'll often need to filter it by the user's role. For example, let’s say you have a REST endpoint called `/rented-cars` which returns a list of rented cars. Depending on the user's role, the result will be different: an _admin_ will see all the rented cars, while a _customer_ will see only their rented cars. This can result in complicated WHERE conditions, especially if you have more than these two simple roles.
 
 { /*
@@ -113,10 +128,6 @@ For this scenario, ROQ provides a query builder that automatically creates the r
 
 [//]: # (TODO buildQueryPlan link missing)
 */}
-
-<Callout type="info">
-To learn more about the query plane, visit this [link](/access-management/query-plans).
-</Callout>
 
 ## Roles, Permissions, and Scopes
 
