@@ -5,8 +5,7 @@ import Image from "next/image";
 
 ## Introduction
 
-To get more fine-grained control over the login and registration experience, or add your own business logic, you can supply options to the RoqAuth handlers.
-We provide hooks that allow you to execute code on various events during registration, login, and logout.
+To get more fine-grained control over the login and registration experience, or add your own business logic, you can supply options to the RoqAuth handlers. We provide hooks that allow you to execute code on various events during registration, login, and logout.
 
 ## Authentication Hooks
 
@@ -16,8 +15,7 @@ The following hooks can (optionally) be passed in to the RoqAuth handler
 
 <Tabs items={['Next.js']}><Tab>
 
-Create a new file: `pages/api/[...roqAuth].ts` with this content. Next.js will automatically detect and import the
-handler.
+Create a new file: `pages/api/[...roqAuth].ts` with this content. Next.js will automatically detect and import the handler.
 
 ```typescript
 import { RoqAuth } from "@roq/nextjs";
@@ -54,6 +52,5 @@ export default RoqAuth({
   },
 });
 ```
-
 </Tab>
 </Tabs>
