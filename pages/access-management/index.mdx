@@ -6,17 +6,42 @@ import { Callout } from 'nextra-theme-docs'
 
 Access management in SaaS applications involves regulating who can access the application and what actions they are allowed to perform. This is accomplished through roles and permissions, which bestow varying levels of access to different users.
 
-With ROQ's access management, you can:
+With ROQ's access management system, you can:
 
-* Define user roles such as admin, member, customer, and more.
-* Establish roles and assign them to your users.
-* Utilize these permissions to determine if a user is permitted to view specific content (e.g., buttons, pages) or execute a particular action (e.g., create an entity).
+* Specify roles (e.g., _admin_, _member_, _clerk_).
+* Assign these roles to users.
+* Decide what each role allows – maybe viewing certain pages or pressing specific buttons.
+* Control what data each role can see.
 * Set permissions and apply them to the application.
-* Filter data displayed within the application.
 
 ## The Big Picture
 
-The entire system works in a coordinated manner to ensure seamless access management. Here's how all the components fit together:
+The entire ROQ system works in coordination to ensure seamless access management. To better understand how ROQ Access Management, let's use an analogy.
+
+### 🍾 ROQ Club Analogy
+
+Imagine you're the club owner, and you decide who gets to enter and what they can do inside. **Access Management** for SaaS applications works similarly – it controls who enters an application and their actions inside. In our context, these rules are called [**roles**](/access-management#roles) and [**permissions**](/access-management#permissions).
+
+
+The ROQ platform in this analogy is a secure club where members get special access based on their membership cards. 
+
+- **Membership Desk**: At this desk, members get cards that determine where they can go and what they can do inside the club. This card-giving process is like assigning roles and permissions in the system, which decides what each user can see and do.
+
+  In the ROQ platform this **Membership Desk** is the [ROQ Console](https://console.roq.tech/), specifically the access management section.
+
+
+- **Tailored Club Experience**: As club staff check your card before letting you into VIP areas or offering special services, the club system ensures users see only what their roles allow. Think of it as having doors within the club that are only open for specific cards, ensuring members have a unique experience tailored to their privileges.
+
+  In the ROQ platform, database interaction and user customization heavily depend on the user's access.
+
+- **Super-Efficient Clerk**: Instead of manually selecting what each card can do, imagine an intelligent clerk at the desk who quickly gives out the best membership cards based on common choices. 
+
+  This is like AI Assistant on the ROQ platform, which auto-sets user roles and permissions based on predefined templates to make things quicker and easier.
+
+ROQ's access management is like a high-tech club where your membership card determines your access and experience. Combines the power of user-configured roles and permissions with an AI-driven automatic setup to deliver a robust, flexible, and efficient access management system.
+
+{/*
+The entire system works in a coordinated manner to ensure seamless access management. Here's how all the components fit together: 
 
 In the ROQ Console, users configure roles and permissions. These are integral in defining user access rights and restrictions within the application.
 
@@ -25,8 +50,40 @@ Simultaneously, every database query within the project is supplemented with con
 To streamline the process and minimize manual intervention, the AI Assistant provides an auto-configuration feature. This advanced functionality allows for an automatic setup of roles and permissions based on predefined templates, significantly reducing the time and effort required in the initial configuration.
 
 In essence, ROQ's access management combines the power of user-configured roles and permissions with an AI-driven automatic setup to deliver a robust, flexible, and efficient access management system.
+*/}
 
 ## How It Works
+
+Using our previous analogy, imagine you're at the entrance of our high-tech club, the ROQ Club, and let's explore how access management comes to life in a familiar setting.
+
+### 🎫 Membership Desk
+
+The [ROQ Console](https://console.roq.tech/) is like the club's Membership Desk. Here, various membership cards (roles and permissions) are crafted. 
+
+Just as a VIP card might grant its holder special privileges in a club, permissions in ROQ define what actions a user can perform. When setting up these permissions, you're essentially deciding what doors or areas each membership card can access – be it all rooms (`all` records), just their reserved lounge (`own` records), or spaces exclusive to their group or friends (`tenant`). 
+
+### 🚪 Access The Club
+With a card in hand, your experience within the club is personalized. ROQ ensures that the boundaries set by each card are respected throughout the club, from the bar to the VIP lounge, including its various rooms and services (UI Components and APIs).
+
+### 🎉 Customizing The Club
+
+Remember, you can also customize the club's rules (permissions) to fit the unique theme of your event or in the ROQ point of view, the event is the project!
+
+<Callout type="info">
+For more information on how to set up permissions for your project, please refer to the documentation on [Project Permissions](/access-management/project-permissions).
+</Callout>
+
+### 🔧 Behind the Scenes
+
+Dive deeper into the club's operations:
+
+On a more technical note, our club uses an advanced system called **Query Plans** that instantly knows what each member is allowed to do based on their membership card.
+
+All member details and activities are kept safe in a main vault (think of this as the database). But when you're in the club, the kiosks you interact with (akin to ROQ's app or user interface) only show info that's relevant to member, ensuring a personal touch.
+
+And here's the fun twist: While the club's main stage captures the broad strokes, the real action is on the dance floor. That's where all real-time interactions, or in techy terms **queries**, happen. In our tale, this dance floor symbolizes our app's environment.
+
+{/*
 
 Roles and permissions are defined in the [ROQ Console](https://console.roq.tech/). Generally, permissions grant access to objects, e.g., _a customer is allowed to make an order_. You can specify the operation (read, create, update, and delete) and set the scope. The scope determines if a user has access to either `all` records, only the `own` records, or to records related to the own account (~ `tenant`). These permissions are automatically enforced on all UI Components and APIs of ROQ and can also be applied to the project's user interface and queries.
 
@@ -39,6 +96,8 @@ You can also define permissions that are applied to your project!
 [//]: # (TODO This needs more details)
 
 */}
+
+{/*
 
 Technically, the access management works based on a query plan which ROQ computes based on the current user's permissions and your database tables. The SDK is caching this information locally. This way, your application is independent of the availability of the ROQ Platform. Furthermore, there is no need to send all your data. ROQ only needs to know the schema of your database; the actual queries will be performed on your side.
 
@@ -53,6 +112,21 @@ You can use it for any object, whether it's an entity from your database, a URL,
 
 ## Filter Down Data of A Query
 
+In the ROQ Club, the way you retrieve information about attendees from your database mimics the club's special entrance system.
+
+For instance, consider you have a digital guest list named `/club-guests`. This list gives details about everyone currently enjoying the club. The club system (query plan) filters this list based on the type of membership card:
+
+- An **Admin** cardholder (akin to club management) is granted full access to the list, seeing every guest present.
+- A **VIP Member** cardholder can view a filtered list featuring only those partying in the VIP lounge.
+- A **Regular Member** cardholder is granted a more limited view, seeing details of just their group and perhaps a few acquaintances.
+
+This dynamic filtering ensures that each member gets a personalized and secure experience in the club, just as tailored queries ensure that each user interacts with the data meant for them. The complexity of managing these multiple views and permissions is made simple through the club's entrance system, or in our technical terms, the **Query Plan**.
+
+<Callout type="info">
+For an in-depth dive into how the ROQ Query Plan works, check out this [link](/access-management/query-plans).
+</Callout>
+
+{/*
 When you retrieve data from your database, you'll often need to filter it by the user's role. For example, let’s say you have a REST endpoint called `/rented-cars` which returns a list of rented cars. Depending on the user's role, the result will be different: an _admin_ will see all the rented cars, while a _customer_ will see only their rented cars. This can result in complicated WHERE conditions, especially if you have more than these two simple roles.
 
 { /*
@@ -61,66 +135,72 @@ For this scenario, ROQ provides a query builder that automatically creates the r
 [//]: # (TODO buildQueryPlan link missing)
 */}
 
-<Callout type="info">
-To learn more about the query plane, visit this [link](/access-management/query-plans).
-</Callout>
-
 ## Roles, Permissions, and Scopes
 
 ### Roles
 
-Roles are assigned directly to users. You can easily read them in sentences like this:
+Roles are assigned directly to users. In our analogy, roles correspond to the types of membership cards a user holds in the ROQ Club or levels of access one might have. 
 
-* User Mary is an **admin**
-* User Jane is a **chef**
-* User John is a **driver**
-* User Richard is a **customer**
+Picture it this way:
 
-A **role** is represented by its name, such as **owner**, **member**, **manager**, **chef**, **driver**, or **customer**.
+* Mary is our **Club Manager**, with the master key, overseeing everything.
+* Jane flaunts her **VIP Member** badge, granting her special privileges and access to elite zones.
+* John, with his **Regular Member** status, enjoys the main and some exclusive events.
+* Richard, as a **Guest Attendee**, is here to taste the ROQ Club experience but might not have the full access other members enjoy.
+
+So, when discussing roles in the ROQ Club, consider them different membership tiers or categories: **Club Manager**, **VIP Member**, **Regular Member**, and **Guest Attendee**. Each has its own perks and access limits.
 
 <Callout type="info">
-This [documentation](/access-management/roles) section explains more about roles on the ROQ Console. For a tutorial on how to assign or unassign roles from a user using ROQ's Node.js SDK API, read this [tutorial](/access-management/tutorials/user-roles-assignment).
+This [documentation](/access-management/roles) section explains more about roles on the ROQ Console. For a tutorial on how to assign or unassign roles from a user using ROQ's Node.js SDK API, please read this [tutorial](/access-management/tutorials/user-roles-assignment).
 </Callout>
 
 ### Permissions
 
-**Permissions** determine the access level to a specific type of object. For instance, the role **manager** may be granted read access to the sales orders of a restaurant management application.
+Permissions define the privileges associated with each user. Think of permissions as the exclusive benefits and experiences each club member is entitled to based on their membership type.
 
-Permissions involve:
+Imagine a **Platinum Cardholder** at the ROQ Club. This elite member would have special access to premium zones like the Platinum Lounge and might be invited to some behind-the-scenes events, all thanks to the perks tied to their card.
 
-* The restricted entity (like `sales_order`),
-* An operation (`read`, `create`, `update`, or `delete`),
-* And a scope (`all`, `own`, or `tenant`).
+These club privileges (permissions) are broken down as follows:
+
+* The specific club zone or service (e.g., `Platinum_Lounge`),
+* The activity or benefit they can indulge in (`entry`, `table booking`, `bring a friend, or `attend private shows`),
+* And the range or span of that benefit (`anytime access`, `personal`, or `with a crew` privileges).
 
 #### Access Levels
 
-To specify access levels for your application, select an object type (e.g., `salesOrder`). If the required object isn't available in the dropdown, it means it wasn't declared during the initial preparation.
+To specify access levels for your application, select an object type or entity.
 
-For each object, you can set the following access levels:
+Imagine you're planning a special night at the ROQ Club and want to determine who gets access to various parts of the club, like the `Platinum_Lounge`. Think of these parts as object types or entities. If a particular area of the club isn't listed, it's probably because it wasn't considered during the initial planning of the event.
 
-| Level    | Description                                                 |
-|----------|-------------------------------------------------------------|
-| `Read`   | Permits the user to retrieve objects         |
-| `Create` | Allows the user to create new objects of the chosen type |
-| `Update` | Enables the user to modify objects of the chosen type    |
-| `Delete` | Authorizes the user to remove objects of the chosen type    |
+<Callout type="info">
+Please read more about entity in this [documentation](/access-management/entity).
+</Callout>
 
+For each club area (entity), you can decide the following access levels, which can be thought of as different privileges or activities members can engage in:
+
+| Level    | Club Analogy                                               |
+|----------|------------------------------------------------------------|
+| `Read`   | Lets the member peek into the area, like viewing the inside of the `Plainum_Lounge` |
+| `Create` | Allows the member to set up a personal spot or reserve a table in that area |
+| `Update` | Lets the member make changes to their spot or order in that area, like changing their drink or adding decorations |
+| `Delete` | Gives the member the authority to clear their space or remove their reservation in the area |
 
 ### Scopes
 
-**Scope** determines the range of access within the permission. Scope the access levels are defined similarly.
+In our analogy, the ROQ Club, the **Scope** is like the boundaries set for different members based on their membership cards. It decides the extent of the club they can explore and the events they can join.
 
-Scopes:
+Visualize the scopes as follows:
 
-| Scope    | Description                                                               |
-|----------|---------------------------------------------------------------------------|
-| `All`    | Grants the user access to all records                        |
-| `Own`    | Limits the access to records directly associated with the user    |
-| `Tenant` | Restricts the access to records associated with the user's tenant or organization |
+| Scope    | Club Analogy                                                            |
+|----------|-------------------------------------------------------------------------|
+| `All`    | A member can visit all areas and events within the club.                |
+| `Own`    | A member is restricted to their reserved lounge or private event.       |
+| `Tenant` | Access is confined to areas or events designated for their group or party. |
 
+In essence, just like different passes give varying access at a festival or event, these scopes determine how much of the ROQ Club's experience a member can enjoy.
 
 <Callout type="info">
-You will find the necessary information in the following two documents, regarding [platform permissions](/access-management/platform-permissions) and [project permissions](/access-management/project-permissions).
+You will find the necessary information in the following two documents regarding [platform permissions](/access-management/platform-permissions) and [project permissions](/access-management/project-permissions).
 </Callout>
 
 ## API 
@@ -130,4 +210,4 @@ Use ROQ's [Access Management API](/access-management/api) for custom application
 
 ## Tutorials
 
-These [tutorials](/access-management/tutorials) will explain many concepts and implementations of ROq's Access Management API, such as how to cache query plans, protect API routes, deactivate access management for development, etc.
+These [tutorials](/access-management/tutorials) will explain many concepts and implementations of ROQ's Access Management API, such as how to cache query plans, protect API routes, deactivate access management for development, etc.
