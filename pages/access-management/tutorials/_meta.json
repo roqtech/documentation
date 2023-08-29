@@ -1,7 +1,10 @@
 {
 	"index": "Overview",
 	"user-roles-assignment": "User Roles Assignment",
-	"filtering-data-by-user-roles": "Filter Data by User Roles",
+	"filtering-data-by-user-roles": {
+		"title": "Filter Data by User Roles",
+		"display": "hidden"
+	},
 	"cache-query-plans": "Cache Query Plans",
 	"protect-api-routes": "How to Protect API Routes",
 	"protect-application-page": "How to Protect Pages"
