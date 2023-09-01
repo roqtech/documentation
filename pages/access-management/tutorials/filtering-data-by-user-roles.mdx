@@ -20,15 +20,6 @@ The process for this technique can be described as auto-injects SQL query, which
  
 For example, the generated application is a multi-tenant application where each user belongs to a specific tenant and should only see records related to their tenant. The filter query might add a condition like `WHERE tenantId = 'user_tenant_id'` to all queries, ensuring that the user can only access records belonging to their own tenant.
 
-```js
-{
-  AND: [
-    { tenant_id: '8d5f33d1-9f55-4869-9c14-affe0020166a' },
-    { user: { roq_user_id: 'f4c09fef-843f-4501-acd3-0847d3b417c0' } }
-  ]
-}
-```
-
 ROQ's generated application provides the methods like `findMany`, `count`, and `findManyPaginated` that make dynamic filters to the query. These methods or functions are part of the `@roq/prismajs` package.
 
 ## Code Study
@@ -51,7 +42,7 @@ The `prisma.ts` is a gateway to the project entities' resources. The extended me
 
 1. **Authorization Checks**: Validate if a user is allowed to perform an operation.
 
-2. **Filter Application**: Dynamically modify query parameters to ensure that the data accessed is within the bounds of what the user is authorized to see.
+2. **Filter Data**: Dynamically modify query parameters to ensure that the data accessed is within the bounds of what the user is authorized to see.
 
 In this way, the `prisma.ts` provides both **authorization** (_can this user perform this operation?_) and **data filtering** (_can this user see this specific piece of data?_). This provides a comprehensive way of ensuring that data is not just secure but also contextually accurate based on user permissions.
 
@@ -83,7 +74,7 @@ async function getApplications() {
 The source code for the code above is [here](https://github.com/roq-ai-snapshot/upworkerx-2b35/blob/main/src/pages/api/applications/index.ts#L34-L39)
 </Callout>
 
-The `withAuthorization()` will modify the query for the current user ID and user's permissions. For example, to get the list of applications, the `findManyPaginated()` method will be called with this custom filter WHERE condition:
+The `withAuthorization()` will modify the query for the current user ID, tenant, and roles. For example, to get the list of applications, the `findManyPaginated()` method will be called with this custom filter WHERE condition:
 
 ```ts
 {
@@ -93,8 +84,11 @@ The `withAuthorization()` will modify the query for the current user ID and user
   ]
 }
 ```
+{/*
+Since the ROQ platform using Prisma ORM, this query parameters need to be converted to a format that Prisma understands. Hence the `convertQueryToPrismaUtil()` is needed.
+*/}
 
-Other than `withAuthorization()`, ROQ also provides another layer of security. The `hasAccess()` The hasAccess method ensures that the user can only proceed to perform these CRUD operations if they are authorized to do so.
+Other than `withAuthorization()`, ROQ also provides another layer of security. The `hasAccess()` The hasAccess method ensures that the user can only proceed to perform these CRUD operations if they are authorized or have permissions to do so.
 
 ```ts
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -131,5 +125,36 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 The source code for the code above is [here](https://github.com/roq-ai-snapshot/upworkerx-2b35/blob/main/src/pages/api/applications/%5Bid%5D/index.ts#L11-L17)
 </Callout>
 
-The `hasAccess()` method also will query and return the data based on the user's ID, roles, and permissions.
+The `hasAccess()` method will also filters data based on the WHERE condition that uses the user's ID.
 
+```js
+{
+  AND: [
+    { id: '148512db-9cc5-4ab4-ad53-0b85a8487f3b' },
+    { user: { roq_user_id: '3b48a269-ab9c-4b0d-a327-3b4f9db3c389' }}
+  ]
+}
+```
+
+For example, when you use `getApplicationById()` method with the application ID `148512db-9cc5-4ab4-ad53-0b85a8487f3b`, it will return the corresponding data:
+
+```js
+{
+  id: '148512db-9cc5-4ab4-ad53-0b85a8487f3b',
+  application: 'Power Anime Figure',
+  user_id: 'c935e8dd-0aba-48bc-98a4-7fe1d4493495',
+  created_at: 2023-09-01T11:07:36.536Z,
+  updated_at: 2023-09-01T11:07:36.536Z,
+  user: {
+    id: 'c935e8dd-0aba-48bc-98a4-7fe1d4493495',
+    email: 'aitesta100@gmail.com',
+    firstName: null,
+    lastName: null,
+    roq_user_id: '3b48a269-ab9c-4b0d-a327-3b4f9db3c389',
+    tenant_id: '5f9af4ba-0d84-49e9-875a-42e5b2af3b26',
+    created_at: 2023-09-01T10:57:19.760Z,
+    updated_at: 2023-09-01T10:57:19.760Z
+  }
+}
+```
+Pay attention to the `roq_user_id` in the query and the data result. The specific application will be filtered based on the user's ID.
