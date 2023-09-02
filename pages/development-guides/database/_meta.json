@@ -1,5 +1,8 @@
 {
 	"index": "Overview",
 	"postgresql": "PostgreSQL",
-	"mongodb": "MongoDB"
+	"mongodb": {
+		"title": "MongoDB",
+		"display": "hidden"
+	}
 }
