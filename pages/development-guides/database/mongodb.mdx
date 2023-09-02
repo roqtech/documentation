@@ -6,10 +6,107 @@ This documentation explains how to integrate ROQ's generated application with Mo
 
 ## What is MongoDB?
 
-MongoDB is a type of database known as NoSQL. It stores data in BSON format, which is similar to JSON and is designed for storing data in key-value pairs. MongoDB is popular in JavaScript application development because its document model is easily mappable to objects in application code. Additionally, it includes built-in support for high availability and horizontal scaling, making it a reliable choice for large-scale applications.
+[MongoDB](https://www.mongodb.com/) is a type of database known as NoSQL. It stores data in BSON format, which is similar to JSON and is designed for storing data in key-value pairs. MongoDB is popular in JavaScript application development because its document model is easily mappable to objects in application code. Additionally, it includes built-in support for high availability and horizontal scaling, making it a reliable choice for large-scale applications.
 
 MongoDB is a database that stores data in collections without requiring a schema to be defined beforehand, unlike in a relational database where you need to define tables. The structure of each collection can also be modified over time, making it easy to iterate your data model.
 
 To install MongoDB in your operating system, please follow the documentation below:
 
+### Windows 
+
+MongoDB provides many licensing type and package for installation: There are **msi** and **zip** packages, depends on the situation and how familiar you are with Windows OS.
+
+#### Installation
+
+In this documentation we will use MongoDB Community edition with **msi** package, that can be downloaded [here](https://www.mongodb.com/try/download/community).
+
+![mongodb windows install](/mongodb-windows-install.png)
+
+By default this installation will also install the [MongoDB Compass](https://www.mongodb.com/products/tools/compass), which is a MongoDB GUI for querying and analyzing MongoDB data. You can, of course choose not to install it and leave everything at it's default.
+
+MongoDB is installed as a Windows service for the network service user by default on Windows. We will later create a database for our application and set up a new username and password.
+
+![mongodb install default](/mongodb-install-2.png)
+
+For development purpose the basic installation is enough. If you not install MongoDB Compass then you'll need [MongoDB Shell](https://www.mongodb.com/docs/mongodb-shell/).
+
+<Callout type="info">
+MongoDB Shell is a modern and extensible command-line interface with syntax highlighting, autocomplete, help, and error messages.
+</Callout>
+
+Download the MongoDB Shell **zip** package from [here](https://www.mongodb.com/try/download/shell) and unzip it into the MongoDB installation:
+
+ ```shell
+ C:\Program Files\MongoDB\Server\7.0\bin
+``` 
+
+##### Add MongoDB to Environment
+
+The MongoDB for Windows doesn't automatically set MongoDB `bin` folder into the environment path (so you can use it later in the terminal). 
+
+To solve this problem you can include the MongoDB `bin` folder in the user environment using the Environment Variables Windows editor.
+
+<Callout type="info">
+You can open the Environment Variables Windows editor by typing `sysdm.cpl` in the terminal, then in the dialog, click the **Advanced** tab ➔ **Environment Variables** button.
+</Callout>
+
+
+![add mongodb to env](/mongodb-shell-env.png)
+
+By adding MongoDB to the user environment path, you will be able to access it through the CLI.
+
+#### Create Database
+
+In this section, we will walk you through the process of creating a single database for your ROQ application. For example, we will create a new database `animefigure` that will act as the primary data store for the generated application's data.
+
+Connect to MongoDB server using MongoDB Shell:
+
+```shell
+mongosh
+```
+The server is currently running as a Windows service. However, please note that the default configuration of the server does not enable access control for the database. This means that read and write access to data and configuration is currently unrestricted.
+
+To create `animefigure` database from MongoDB Shell:
+
+```shell
+use animefigure
+```
+
+The best practice is create a new user with read write permission for this specific database.     
+
+```shell
+ db.createUser({ 
+	user: "roq", 
+	pwd: "developm3nt", 
+	roles: [ { role: "readWrite", db: "animefigure" }] 
+})
+```
+
+From the setup above we can form the MongoDB URL:
+
+```shell
+mongodb://roq:developm3nt@localhost:27017/animefigure
+```
+
+{/*
+Assume the Prisma provider for MongoDB is already exist.
+*/}
+
+#### `DATABASE_URL`
+
+The last step is to replace the `DATABASE_URL` environment variable in the `.env` file with the PostgreSQL local URL:
+
+```ini
+#.env
+DATABASE_URL=mongodb://roq:developm3nt@localhost:27017/animefigure
+```
+
+And we should restart the application to pick up any changes on the `.env` file.
+
+<Callout type="info">
+To run the generated application for local development please read this [documentation](/development-guides/generated-applications/run-local-development).
+</Callout>
+
+
+## Ubuntu Linux
 
