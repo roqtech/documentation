@@ -1,0 +1,160 @@
+import { Callout, Tab, Tabs} from "nextra-theme-docs"
+
+
+# Filtering Data by User Roles
+
+## Introduction
+
+The data filtering concept is based on associating user IDs with data. Users can access only items related to their respective user IDs. This implies a higher level of data protection and customization based on the user.
+
+In the context of databases and data retrieval, filters are conditions that you apply to a query to narrow down the data that is returned. Typically, these filters are static and are coded into the application based on business rules or user input. However, when adding an authorization layer, we might need to apply additional filters that are based on the user's role, group membership, or other attributes.
+
+
+## How Does It Work?
+
+When a request is made, the ROQ authorization understands the context, which includes details about who is making the request (user roles, tenant information, etc.), and before the query is executed against the database, the ROQ will build authorization filter dynamically such as adds additional WHERE clauses or modifies existing ones based on what the user is authorized to see.
+
+<Callout type="info">
+The process for this technique can be described as auto-injects SQL query, which refers to an automated process that appends or modifies SQL queries based on certain conditions, often before the query is executed against a database.
+</Callout>
+ 
+For example, the generated application is a multi-tenant application where each user belongs to a specific tenant and should only see records related to their tenant. The filter query might add a condition like `WHERE tenantId = 'user_tenant_id'` to all queries, ensuring that the user can only access records belonging to their own tenant.
+
+ROQ's generated application provides the methods like `findMany`, `count`, and `findManyPaginated` that make dynamic filters to the query. These methods or functions are part of the `@roq/prismajs` package.
+
+## Code Study
+
+Let's take sample codes from the generated application, [Upworkerx](https://github.com/roq-ai-snapshot/upworkerx-2b35).
+
+The `findMany`, `count`, and `findManyPaginated` methods are exposed to the client through `createPrismaAuthorizationExtension()`. This extension resides in the Prisma extension file [`prisma.ts`](https://github.com/roq-ai-snapshot/upworkerx-2b35/blob/main/src/server/db/prisma.ts#L34):
+
+```ts
+const extendedPrisma = prisma.$extends({
+    model: {
+      $allModels: {
+        withAuthorization: createPrismaAuthorizationExtension(authorizationClient),
+      },
+    },
+})
+```
+
+The `prisma.ts` is a gateway to the project entities' resources. The extended methods add two crucial features:
+
+1. **Authorization Checks**: Validate if a user is allowed to perform an operation.
+
+2. **Filter Data**: Dynamically modify query parameters to ensure that the data accessed is within the bounds of what the user is authorized to see.
+
+In this way, the `prisma.ts` provides both **authorization** (_can this user perform this operation?_) and **data filtering** (_can this user see this specific piece of data?_). This provides a comprehensive way of ensuring that data is not just secure but also contextually accurate based on user permissions.
+
+### Query Modification & Data Filtering
+
+This Next.js API uses the Prisma extension `withAuthorization()` method to check if the user with the ID `roqUserId`, `tenantId`, and `roles` is authorized or not to access the resources of the application and then will implicitly modify the database SQL query.
+
+```ts
+async function getApplications() {
+    //...code omitted
+    const response = await prisma.application
+      .withAuthorization({
+        roqUserId,
+        tenantId: user.tenantId,
+        roles: user.roles,
+      })
+      .findManyPaginated({
+        ...convertQueryToPrismaUtil(query, 'application'),
+        take: limit,
+        skip: offset,
+        ...(order?.length && {
+          orderBy: getOrderByOptions(order),
+        }),
+      });
+    return res.status(200).json(response);
+}
+```
+<Callout type="info">
+The source code for the code above is [here](https://github.com/roq-ai-snapshot/upworkerx-2b35/blob/main/src/pages/api/applications/index.ts#L34-L39)
+</Callout>
+
+The `withAuthorization()` will modify the query for the current user ID, tenant, and roles. For example, to get the list of applications, the `findManyPaginated()` method will be called with this custom filter WHERE condition:
+
+```ts
+{
+  AND: [
+    { tenant_id: '8d5f33d1-9f55-4869-9c14-affe0020166a' },
+    { user:  { roq_user_id: 'f4c09fef-843f-4501-acd3-0847d3b417c0' } }
+  ]
+}
+```
+{/*
+Since the ROQ platform using Prisma ORM, this query parameters need to be converted to a format that Prisma understands. Hence the `convertQueryToPrismaUtil()` is needed.
+*/}
+
+Other than `withAuthorization()`, ROQ also provides another layer of security. The `hasAccess()` The hasAccess method ensures that the user can only proceed to perform these CRUD operations if they are authorized or have permissions to do so.
+
+```ts
+async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const { roqUserId, user } = await getServerSession(req);
+  
+  const allowed = await prisma.application
+    .withAuthorization({
+      roqUserId,
+      tenantId: user.tenantId,
+      roles: user.roles,
+    })
+    .hasAccess(req.query.id as string, convertMethodToOperation(req.method as HttpMethod));
+
+  if (!allowed) {
+    return res.status(403).json({ message: 'Forbidden' });
+  }
+
+  switch (req.method) {
+    case 'GET':
+      return getApplicationById();
+    case 'PUT':
+      return updateApplicationById();
+    case 'DELETE':
+      return deleteApplicationById();
+    default:
+      return res.status(405).json({ message: `Method ${req.method} not allowed` });
+  }
+
+  //...
+}
+```
+
+<Callout type="info">
+The source code for the code above is [here](https://github.com/roq-ai-snapshot/upworkerx-2b35/blob/main/src/pages/api/applications/%5Bid%5D/index.ts#L11-L17)
+</Callout>
+
+The `hasAccess()` method will also filters data based on the WHERE condition that uses the user's ID.
+
+```js
+{
+  AND: [
+    { id: '148512db-9cc5-4ab4-ad53-0b85a8487f3b' },
+    { user: { roq_user_id: '3b48a269-ab9c-4b0d-a327-3b4f9db3c389' }}
+  ]
+}
+```
+
+For example, when you use `getApplicationById()` method with the application ID `148512db-9cc5-4ab4-ad53-0b85a8487f3b`, it will return the corresponding data:
+
+```js
+{
+  id: '148512db-9cc5-4ab4-ad53-0b85a8487f3b',
+  application: 'Power Anime Figure',
+  user_id: 'c935e8dd-0aba-48bc-98a4-7fe1d4493495',
+  created_at: 2023-09-01T11:07:36.536Z,
+  updated_at: 2023-09-01T11:07:36.536Z,
+  user: {
+    id: 'c935e8dd-0aba-48bc-98a4-7fe1d4493495',
+    email: 'aitesta100@gmail.com',
+    firstName: null,
+    lastName: null,
+    roq_user_id: '3b48a269-ab9c-4b0d-a327-3b4f9db3c389',
+    tenant_id: '5f9af4ba-0d84-49e9-875a-42e5b2af3b26',
+    created_at: 2023-09-01T10:57:19.760Z,
+    updated_at: 2023-09-01T10:57:19.760Z
+  }
+}
+```
+Pay attention to the `roq_user_id` in the query and the data result. The specific application will be filtered based on the user's ID.
