@@ -2,13 +2,19 @@ import { Callout, Tab, Tabs, Steps } from 'nextra-theme-docs';
 
 # Database Installation
 
-ROQ already provides a managed database even for local development purposes. The default database that ROQ provides is PostgreSQL. You can use this database or setup your own locally. 
+ROQ offers a managed database service that can be used even for local development requirements. By default, ROQ provides managed PostgreSQL as a database solution, which can be used as is or you can set up your own database locally. If you prefer to use PostgreSQL locally or any other database, please refer to the documentation below for further guidance.
 
 <Callout type="info">
 The database URL is set in the environment variable `DATABASE_URL`. You will find the database variable and other required environment variables on the ROQ Console **Get Started** page or **Application Details** page. 
 </Callout>
 
+
 ## PostgreSQL
 
 To integrate ROQ's generated application with a PostgreSQL database, please refer to this [guide](/development-guides/database/postgresql) on installation and usage.
 						
+{/*						
+## MongoDB
+
+You can integrate ROQ's generated application with MongoDB database. Refer to this [guide](/development-guides/database/mongodb) on installation and usage.
+*/}
