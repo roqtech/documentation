@@ -1,10 +1,96 @@
-import { Tab, Tabs, Callout } from 'nextra-theme-docs';
+import { Tab, Tabs, Callout, Steps } from 'nextra-theme-docs';
 
 # Application Deployment on Heroku
 
+ROQ's generated application can be deployed to many platform such as Vercel, Amazon AWS, or Google Cloud Platform, etc. and this guide will explain how to deploy the generated application on Heroku.
+
+
 ## Heroku
 
-[Heroku](https://www.heroku.com/) is a Platform-as-a-Service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud.
+[Heroku](https://www.heroku.com/) is a Platform-as-a-Service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud. It was one of the first cloud platforms and has become popular for its ease of use, simplicity, and developer-friendly features as well as programming languages support.
 
+There are a few steps that should be done before deploying our generated application into Heroku.
+
+<Steps>
+### Create Heroku Account
+
+If you don't have an existing account, please create a Heroku account by signup [here](https://signup.heroku.com/). 
+
+
+### Create New Project
+
+<Callout type="info">
+You need to add a verified payment method if you intend to try Heroku because it doesn't provide free tiers.
+</Callout>
+
+To host our generated application on Heroku, you can create a new project in two ways:
+
+#### Heroku Dashboard 
+ 
+Using [Heroku Dashboard](https://dashboard.heroku.com/) is the easiest way to start a new project. It's using web user interfaces. 
+
+![heroku add new app](/heroku-new-app.png)
+
+#### Heroku CLI
+
+The [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) or `heroku` command-line interface (CLI) is a tool that makes any Heroku-related task right from the terminal. 
+
+<Callout type="info">
+To install `heroku` please go to their [documentation](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli).
+</Callout>
+
+Before using this CLI tool, you need to be authenticated first. You can run `heroku` with the `login` option:
+
+```shell
+$ heroku login
+
+heroku: Press any key to open up the browser to login or q to exit:
+Opening browser to https://cli-auth.heroku.com/auth/cli/browser/e4f42c4d?requestor=SFMyNTY
+Logging in... done
+Logged in as han+solo@gmail.com
+```
+
+And then to create a new project from Heroku CLI:
+
+```shell
+$ heroku create anime-figure-store
+
+Creating ⬢ anime-figure-store... done
+https://anime-figure-store-d294970a1217.herokuapp.com/ | https://git.heroku.com/anime-figure-store.git
+```
+This process is the same with creating a project with Heroku Dashboard. From now on we will use Heroku CLI as our main deployment tool.
+
+### Deploy Generated Application
+
+Currently there are three different deployment methods to Heroku:
+
+- **Git repository**: Deploy git repositories using Heroku CLI.
+- **GitHub**
+- **Container Registry**
+
+#### Git Repository
+
+To generate a new application using ROQ AI assistant, please go to [app.roq.ai](https://app.roq.ai/). If you already have it then clone your generated application from GitHub repository and because we want to deploy an existing repositories, we should add Heroku as the remote repository target.
+
+<Callout type="info">
+To use your own GitHub repository and run a local development, please read this [documentation](/development-guides/generated-applications/app-development) and [this](/development-guides/generated-applications/run-local-development).
+</Callout>
+
+Suppose we are already in the generated application root directory source code, to add Heroku as the remote repository, run this command:
+
+```shell
+$ heroku git:remote -a anime-figure-store
+```
+
+If everything set it right, you will see that our local git repository will have **heroku** as the remote target:
+
+```shell
+set git remote heroku to https://git.heroku.com/anime-figure-store.git
+```
+
+
+
+
+</Steps>
 
 
