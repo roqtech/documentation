@@ -1,5 +1,6 @@
 import { Tab, Tabs, Callout, Steps } from 'nextra-theme-docs';
 import Image from 'next/image';
+import ROQEnv from '/snippets/setup-new-env.mdx';
 
 # Application Deployment on Vercel
 
@@ -54,7 +55,9 @@ To get the project domain name go to the Vercel project **Settings** → **Domai
 
 #### ROQ Console Environments
 
-You need to set this base URL `bistro-reservation.vercel.app` of the project in ROQ Console but first, you need to create another environment in ROQ Console for better project management. Go to the **Application Details** → **Environments** and then click the **Create Environment** button.
+You need to set this base URL `bistro-reservation.vercel.app` of the project in ROQ Console but first, you need to create another environment in ROQ Console for better project management. 
+
+<ROQEnv/>
 
 ![Create new env roq console](/vercel-create-env-roq-console.png)
 
