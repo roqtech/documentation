@@ -108,7 +108,33 @@ For a better management, we need to create a new environment in ROQ Console for 
 
 ![heroku new env](/heroku-new-env.png)
 
+Next, we need to set the base URL for the Heroku application in the ROQ Console. We can find this URL in the Heroku Dashboard domains setting page or using Heroku CLI:
 
+```shell
+$ heroku domains
+```
+
+The command will output all domains attached to the app. For the first time application setup, this command will return the default URL created by Heroku. For example:
+
+```shell
+=== anime-figure-store Heroku Domain
+
+anime-figure-store-3e469cbd65b3.herokuapp.com
+```
+
+We need to set this base URL in the ROQ Console application settings. Go to the ROQ Console and find **Application Details** ➔ **Settings** menu.
+
+![roq console app settings](/heroku-set-env.png)
+
+You need to configure these two main settings:
+
+- **Base URL**: `https://anime-figure-store-3e469cbd65b3.herokuapp.com`
+
+- **Authentication URLs**: `https://[base_url_heroku]/api/auth/[action]`
+
+Click **Copy Env File** button to copy new environment variables for Heroku deployment. Paste them into the `.env` file in the app's root directory.
+
+#### 
 
 </Steps>
 
