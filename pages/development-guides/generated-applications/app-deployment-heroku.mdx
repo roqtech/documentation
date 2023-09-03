@@ -75,8 +75,8 @@ For simplicity, we will use the **Git repository** method for the deployment of 
 
 If you already have an application, you can clone it from the GitHub repository. For our example, we will clone it to the local machine.
 
-```
-git clone git@github.com:roq-ai/anime-scaled-fig-2d3f.git
+```shell
+$ git clone git@github.com:roq-ai/anime-scaled-fig-2d3f.git
 ```
 
 In order to deploy existing repositories, we need to add Heroku as the target remote repository.
@@ -132,7 +132,7 @@ You need to configure these two main settings:
 
 - **Authentication URLs**: `https://[base_url_heroku]/api/auth/[action]`
 
-Click **Copy Env File** button to copy new environment variables for Heroku deployment. Paste them into the `.env` file in the app's root directory.
+Click **Copy Env File** button (choose the on with the ROQ's authentication feature) to copy new environment variables for Heroku deployment. Paste them into the `.env` file in the app's root directory.
 
 
 #### Heroku PostgreSQL
