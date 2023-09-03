@@ -3,20 +3,20 @@ import ROQEnv from '/snippets/setup-new-env.mdx';
 
 # Application Deployment on Heroku
 
-ROQ's generated application can be deployed to many platform such as Vercel, Amazon AWS, or Google Cloud Platform, etc. and this guide will explain how to deploy the generated application on Heroku.
+ROQ's generated application can be deployed to many platforms, such as Vercel, Amazon AWS, Google Cloud Platform, etc., and this guide will explain how to deploy the generated application on Heroku.
 
 ## Heroku
 
-[Heroku](https://www.heroku.com/) is a Platform-as-a-Service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud. It was one of the first cloud platforms and has become popular for its ease of use, simplicity, and developer-friendly features as well as programming languages support.
+[Heroku](https://www.heroku.com/) is a Platform-as-a-Service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud. It was one of the first cloud platforms and has become popular for its ease of use, simplicity, developer-friendly features, and programming language support.
 
 <Callout type="info">
 You need to add a verified payment method if you intend to try Heroku because it doesn't provide free tiers.
 </Callout>
 
-There are a few steps that should be done before deploying our generated application into Heroku.
+A few steps should be done before deploying our generated application into Heroku.
 
 <Steps>
-### Create Heroku Account
+### Create a Heroku Account
 
 If you don't have an existing account, create a Heroku account by signup [here](https://signup.heroku.com/). 
 
@@ -30,13 +30,13 @@ We will use the generated application in this [GitHub repository](https://github
 
 #### Heroku Dashboard 
  
-Using [Heroku Dashboard](https://dashboard.heroku.com/) is the easiest way to start a new project. It's using web user interfaces. 
+Using [Heroku Dashboard](https://dashboard.heroku.com/) is the easiest way to start a new project. It uses web user interfaces. 
 
 ![heroku add new app](/heroku-new-app.png)
 
 #### Heroku CLI
 
-The [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) or `heroku` command-line interface (CLI) is a tool that makes any Heroku-related task right from the terminal. To install `heroku` please go to their [documentation](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli).
+The [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) or `heroku` command-line interface (CLI) is a tool that makes any Heroku-related task right from the terminal. To install `heroku`, please go to their [documentation](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli).
 
 Before using this CLI tool, you need to be authenticated first. You can run `heroku` with the `login` option:
 
@@ -57,11 +57,11 @@ $ heroku create anime-figure-store
 Creating ⬢ anime-figure-store... done
 https://anime-figure-store-d294970a1217.herokuapp.com/ | https://git.heroku.com/anime-figure-store.git
 ```
-This process is the same with creating a project with Heroku Dashboard and from now on we will use Heroku CLI as our main deployment tool.
+This process is the same as creating a project with Heroku Dashboard, and from now on, we will use Heroku CLI as our main deployment tool.
 
 ### Deploying Generated Application
 
-Currently there are three different deployment methods to Heroku
+Currently, there are three different deployment methods for Heroku.
 
 | Deployment Method  | Description                     |
 |--------------------|---------------------------------|
@@ -69,7 +69,7 @@ Currently there are three different deployment methods to Heroku
 | GitHub             | Deploy automatically using GitHub.          |
 | Container Registry | Deploy Docker-based application.            |
 
-For simplicity, we will use the **Git repository** method for deployment the generated application to Heroku.
+For simplicity, we will use the **Git repository** method for the deployment of the generated application to Heroku
 
 #### Git Repository
 
@@ -85,24 +85,24 @@ In order to deploy existing repositories, we need to add Heroku as the target re
 To use your own GitHub repository and run a local development, please read this [documentation](/development-guides/generated-applications/app-development) and [this](/development-guides/generated-applications/run-local-development).
 </Callout>
 
-Suppose we are already in the generated application root directory source code, to add Heroku as the remote repository, run this command:
+Suppose we are already in the generated application root directory source code. To add Heroku as the remote repository, run this command:
 
 ```shell
 $ heroku git:remote -a anime-figure-store
 ```
 
-If everything set it right, you will see that our local git repository will have **heroku** as the remote target:
+If everything is set right, you will see that our local git repository will have **heroku** as the remote target:
 
 ```shell
 set git remote heroku to https://git.heroku.com/anime-figure-store.git
 ```
 
-before we push our application code into Heroku, we need to setup environment configuration on ROQ Console.
+Before we push our application code into Heroku, we need to set the environment configuration on the ROQ Console.
 
 
 #### ROQ Console Environments 
 
-For a better management, we need to create a new environment in ROQ Console for the Heroku deployment. 
+For better management, we need to create a new environment in the ROQ Console for the Heroku deployment.
 
 <ROQEnv/>
 
@@ -114,7 +114,7 @@ Next, we need to set the base URL for the Heroku application in the ROQ Console.
 $ heroku domains
 ```
 
-The command will output all domains attached to the app. For the first time application setup, this command will return the default URL created by Heroku. For example:
+The command will output all domains attached to the app. For the first-time application setup, this command will return the default URL created by Heroku. For example:
 
 ```shell
 === anime-figure-store Heroku Domain
@@ -137,11 +137,11 @@ Click **Copy Env File** button to copy new environment variables for Heroku depl
 
 #### Heroku PostgreSQL
 
-ROQ's generated application need PostgreSQL by default and Heroku already provides an add-on. Go to the **Resources** tab in the Heroku Dashboard and find "PostgreSQL" from Heroku.
+ROQ's generated application needs PostgreSQL by default, and Heroku already provides an add-on. Go to the **Resources** tab in the Heroku Dashboard and find "PostgreSQL" from Heroku.
 
 ![PostgreSQL addon](/heroku-add-postgresql.png)
 
-Click the **Submit Order Form** button and Heroku will automatically setup the `DATABASE_URL` environment variable in the dashboard settings.
+Click the **Submit Order Form** button, and Heroku will automatically setup the `DATABASE_URL` environment variable in the dashboard settings.
 
 ![PostgreSQL Heroku env](/heroku-add-postgresql-env.png)
 
@@ -149,7 +149,7 @@ Click the **Submit Order Form** button and Heroku will automatically setup the `
 
 Heroku's **Config Vars** are equivalent to environment variables. However, setting environment variables on Heroku can be tedious since it must be done one at a time. 
 
-We can set the environment variables manually or create an automated scripts for that. For example, to automate it using Node.js:
+We can set the environment variables manually or create automated scripts for that. For example, to automate it using Node.js:
 
 ```js
 // set-heroku-env.js
@@ -181,15 +181,16 @@ exec(command, (error, stdout, stderr) => {
   console.log(`STDERR: ${stderr}`);
 });  
 ```
-The we can run in the root project folder (where the `.env` reside).
+Then, we can run it in the root project folder (where the `.env` resides). The script will set config var in Heroku one by one:
 
 ```shell
 $ node set-heroku-env.js
 ```
 
+
 #### Push the code
 
-The last step is push the generated application code into Heroku repository. This command will automatically build the generated application on Heroku:
+The last step is to push the generated application code into the Heroku repository. This command will automatically build the generated application on Heroku:
 
 ```shell
 $ git push heroku main
@@ -197,7 +198,11 @@ $ git push heroku main
 
 ### ROQ on Heroku
 
-If everything is set up correctly, we can run the installation test for our application on Heroku.
+If everything is set up correctly, we can run the installation test for our application on Heroku. We can use `heroku` to directly open the deployed application.
+
+```shell
+$ heroku open
+```
 
 ![ROQ and Heroku](/heroku-appp-deployed.png)
 
@@ -205,11 +210,11 @@ If everything is set up correctly, we can run the installation test for our appl
 
 ## Troubleshooting
 
-If the generated application database schema not deployed correctly on PostgreSQL, we can re-run `prisma migrate` using Heroku CLI. For example: 
+Suppose the generated application database schema is not deployed correctly on PostgreSQL. In that case, we can re-run `prisma migrate` using Heroku CLI. For example: 
 
 ```shell
 $ heroku run "prisma migrate deploy" --app anime-figure-store
 ```
 
 
-For other troubleshooting, please look into our [Troubleshooting](/faq) documentation section.
+Please look into our [FAQ](/faq) documentation section for other troubleshooting.
