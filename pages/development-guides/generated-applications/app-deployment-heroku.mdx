@@ -17,7 +17,7 @@ There are a few steps that should be done before deploying our generated applica
 If you don't have an existing account, please create a Heroku account by signup [here](https://signup.heroku.com/). 
 
 
-### Create New Project
+### Create New Projects
 
 <Callout type="info">
 You need to add a verified payment method if you intend to try Heroku because it doesn't provide free tiers.
@@ -33,11 +33,7 @@ Using [Heroku Dashboard](https://dashboard.heroku.com/) is the easiest way to st
 
 #### Heroku CLI
 
-The [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) or `heroku` command-line interface (CLI) is a tool that makes any Heroku-related task right from the terminal. 
-
-<Callout type="info">
-To install `heroku` please go to their [documentation](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli).
-</Callout>
+The [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) or `heroku` command-line interface (CLI) is a tool that makes any Heroku-related task right from the terminal. To install `heroku` please go to their [documentation](https://devcenter.heroku.com/articles/heroku-cli#install-the-heroku-cli).
 
 Before using this CLI tool, you need to be authenticated first. You can run `heroku` with the `login` option:
 
@@ -58,15 +54,15 @@ $ heroku create anime-figure-store
 Creating ⬢ anime-figure-store... done
 https://anime-figure-store-d294970a1217.herokuapp.com/ | https://git.heroku.com/anime-figure-store.git
 ```
-This process is the same with creating a project with Heroku Dashboard. From now on we will use Heroku CLI as our main deployment tool.
+This process is the same with creating a project with Heroku Dashboard and from now on we will use Heroku CLI as our main deployment tool.
 
-### Deploy Generated Application
+### Deploying Generated Application
 
 Currently there are three different deployment methods to Heroku:
 
 - **Git repository**: Deploy git repositories using Heroku CLI.
-- **GitHub**
-- **Container Registry**
+- **GitHub**: Deploy automatically using GitHub.
+- **Container Registry**: Deploy Docker-based application.
 
 #### Git Repository
 
