@@ -4,26 +4,28 @@ import { Tab, Tabs, Callout, Steps } from 'nextra-theme-docs';
 
 ROQ's generated application can be deployed to many platform such as Vercel, Amazon AWS, or Google Cloud Platform, etc. and this guide will explain how to deploy the generated application on Heroku.
 
-
 ## Heroku
 
 [Heroku](https://www.heroku.com/) is a Platform-as-a-Service (PaaS) that enables developers to build, run, and operate applications entirely in the cloud. It was one of the first cloud platforms and has become popular for its ease of use, simplicity, and developer-friendly features as well as programming languages support.
+
+<Callout type="info">
+You need to add a verified payment method if you intend to try Heroku because it doesn't provide free tiers.
+</Callout>
 
 There are a few steps that should be done before deploying our generated application into Heroku.
 
 <Steps>
 ### Create Heroku Account
 
-If you don't have an existing account, please create a Heroku account by signup [here](https://signup.heroku.com/). 
-
+If you don't have an existing account, create a Heroku account by signup [here](https://signup.heroku.com/). 
 
 ### Create New Projects
 
 <Callout type="info">
-You need to add a verified payment method if you intend to try Heroku because it doesn't provide free tiers.
+To create a new application with the help of the ROQ AI assistant, simply head over to [app.roq.ai](https://app.roq.ai/).
 </Callout>
 
-To host our generated application on Heroku, you can create a new project in two ways:
+We will use the generated application in this [GitHub repository](https://github.com/roq-ai/anime-scaled-fig-2d3f) as an example. To host our generated application on Heroku, you can create a new project in two ways:
 
 #### Heroku Dashboard 
  
@@ -58,15 +60,25 @@ This process is the same with creating a project with Heroku Dashboard and from 
 
 ### Deploying Generated Application
 
-Currently there are three different deployment methods to Heroku:
+Currently there are three different deployment methods to Heroku
 
-- **Git repository**: Deploy git repositories using Heroku CLI.
-- **GitHub**: Deploy automatically using GitHub.
-- **Container Registry**: Deploy Docker-based application.
+| Deployment Method  | Description                     |
+|--------------------|---------------------------------|
+| Git repository     | Deploy git repositories using Heroku CLI.   |
+| GitHub             | Deploy automatically using GitHub.          |
+| Container Registry | Deploy Docker-based application.            |
+
+For simplicity, we will use the **Git repository** method for deployment the generated application to Heroku.
 
 #### Git Repository
 
-To generate a new application using ROQ AI assistant, please go to [app.roq.ai](https://app.roq.ai/). If you already have it then clone your generated application from GitHub repository and because we want to deploy an existing repositories, we should add Heroku as the remote repository target.
+If you already have an application, you can clone it from the GitHub repository. For our example, we will clone it to the local machine.
+
+```
+git clone git@github.com:roq-ai/anime-scaled-fig-2d3f.git
+```
+
+In order to deploy existing repositories, we need to add Heroku as the target remote repository.
 
 <Callout type="info">
 To use your own GitHub repository and run a local development, please read this [documentation](/development-guides/generated-applications/app-development) and [this](/development-guides/generated-applications/run-local-development).
@@ -84,7 +96,11 @@ If everything set it right, you will see that our local git repository will have
 set git remote heroku to https://git.heroku.com/anime-figure-store.git
 ```
 
+The next step is to push our code into the Heroku repository
 
+```shell
+$ git push heroku main
+```
 
 
 </Steps>
