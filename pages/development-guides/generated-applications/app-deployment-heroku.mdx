@@ -134,8 +134,82 @@ You need to configure these two main settings:
 
 Click **Copy Env File** button to copy new environment variables for Heroku deployment. Paste them into the `.env` file in the app's root directory.
 
-#### 
+
+#### Heroku PostgreSQL
+
+ROQ's generated application need PostgreSQL by default and Heroku already provides an add-on. Go to the **Resources** tab in the Heroku Dashboard and find "PostgreSQL" from Heroku.
+
+![PostgreSQL addon](/heroku-add-postgresql.png)
+
+Click the **Submit Order Form** button and Heroku will automatically setup the `DATABASE_URL` environment variable in the dashboard settings.
+
+![PostgreSQL Heroku env](/heroku-add-postgresql-env.png)
+
+#### Heroku Environments
+
+Heroku's **Config Vars** are equivalent to environment variables. However, setting environment variables on Heroku can be tedious since it must be done one at a time. 
+
+We can set the environment variables manually or create an automated scripts for that. For example, to automate it using Node.js:
+
+```js
+// set-heroku-env.js
+const { exec } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+// Read the .env file
+const envFile = path.join(__dirname, '.env');
+const envVariables = fs.readFileSync(envFile, 'utf8').split('\n');
+
+let command = 'heroku config:set';
+
+envVariables.forEach((line) => {
+  // Filter out comments and empty lines
+  if (line && !line.startsWith('#')) {
+    command += ` ${line}`;
+  }
+});
+
+// Set the Heroku config variables in one command
+exec(command, (error, stdout, stderr) => {
+  if (error) {
+    console.error(`Error setting variables: ${error}`);
+    return;
+  }
+  console.log('Set variables:');
+  console.log(`STDOUT: ${stdout}`);
+  console.log(`STDERR: ${stderr}`);
+});  
+```
+The we can run in the root project folder (where the `.env` reside).
+
+```shell
+$ node set-heroku-env.js
+```
+
+#### Push the code
+
+The last step is push the generated application code into Heroku repository. This command will automatically build the generated application on Heroku:
+
+```shell
+$ git push heroku main
+```
+
+### ROQ on Heroku
+
+If everything is set up correctly, we can run the installation test for our application on Heroku.
+
+![ROQ and Heroku](/heroku-appp-deployed.png)
 
 </Steps>
 
+## Troubleshooting
 
+If the generated application database schema not deployed correctly on PostgreSQL, we can re-run `prisma migrate` using Heroku CLI. For example: 
+
+```shell
+$ heroku run "prisma migrate deploy" --app anime-figure-store
+```
+
+
+For other troubleshooting, please look into our [Troubleshooting](/faq) documentation section.
