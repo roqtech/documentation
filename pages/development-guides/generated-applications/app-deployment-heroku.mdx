@@ -1,4 +1,5 @@
 import { Tab, Tabs, Callout, Steps } from 'nextra-theme-docs';
+import ROQEnv from '/snippets/setup-new-env.mdx';
 
 # Application Deployment on Heroku
 
@@ -96,11 +97,17 @@ If everything set it right, you will see that our local git repository will have
 set git remote heroku to https://git.heroku.com/anime-figure-store.git
 ```
 
-The next step is to push our code into the Heroku repository
+before we push our application code into Heroku, we need to setup environment configuration on ROQ Console.
 
-```shell
-$ git push heroku main
-```
+
+#### ROQ Console Environments 
+
+For a better management, we need to create a new environment in ROQ Console for the Heroku deployment. 
+
+<ROQEnv/>
+
+![heroku new env](/heroku-new-env.png)
+
 
 
 </Steps>
