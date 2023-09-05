@@ -7,15 +7,21 @@ import ROQEnv from '/snippets/setup-new-env.mdx';
 
 [Google Cloud Platform](https://cloud.google.com/) (GCP) is a suite of cloud computing services that runs on the same infrastructure that Google uses internally for its end-user products, such as Google Search, YouTube, and Google Drive.
 
-Deploying the generated application with a PostgreSQL database on Google Cloud Platform (GCP) involves multiple steps, including setting up a PostgreSQL database on Cloud SQL and deploying the Next.js app on a service like Google App Engine or Google Cloud Run. TheBelow is a guide on how to do this.
+Deploying the generated application with a PostgreSQL database on Google Cloud Platform (GCP) involves multiple steps, including setting up a PostgreSQL database on Cloud SQL and deploying the Next.js app on a service like Google App Engine or Google Cloud Run. 
+
+There are so many ways to deploy application on Google Cloud Platform. In this tutorial we will use **Google App Engine** and **Google Cloud SQL**. Below is a guide on how to do this.
 
 {/**/}
+
+<Callout type="info">
+The **Billing** features need to be enabled to use the Google Cloud Platform. Basically you need a valid payment method even for [free trial period](https://cloud.google.com/free/docs/gcp-free-tier#free-trial). Go [here](https://cloud.google.com/billing/docs) for further explanation.
+</Callout>
 
 ## `gcloud`
 
 The [Google Cloud CLI](https://cloud.google.com/cli) or `gcloud` is a set of tools to create and manage Google Cloud resources. You can use these tools to perform many common platform tasks from the command line or through scripts and other automation.
 
-We will use `gcloud` on Windows OS. For another operating system please download from this [link](https://cloud.google.com/sdk/docs/install).
+We will use `gcloud` on Windows OS. For another operating system please download Google Cloud CLI from this [link](https://cloud.google.com/sdk/docs/install).
 
 ![Google cloud cli windows](/google-cloud-cli-windows.png)
 
@@ -23,13 +29,50 @@ The installation in Windows is straightforward and in the end of installation it
 
 {/*TODO*/}
 
-## Cloud SQL
+## Google Cloud SQL
 
 [Google Cloud SQL](https://console.cloud.google.com/sql/) offers a fully-managed database service for MySQL, PostgreSQL, and SQL Server.
 
+### How to Create a PostgreSQL Database?
+
+<Steps>
+### Go to Google Cloud SQL
+
+Sign-in to [Google Cloud Console](https://console.cloud.google.com) and navigate to **SQL** menu in the left sidebar or directly go [here]((https://console.cloud.google.com/sql/)).
+
+![google cloud sql](/google-cloud-sql.png)
+
+
+### Create PostgreSQL Instance
+
+Click Create instance, then select the **PostgreSQL** database engine.
+
+![PostgreSQL instance](/google-cloud-sql-postgre.png)
+
+<Callout type="info">
+In order to create an instance, you have to enable the Compute Engine API first. Google Cloud Console will provide you with the **Enable API** button.
+</Callout>
+
+### Database Configuration 
+
+Configure the database settings, such as version, region, and password based on the needs.
+
+![PostgreSQL instance configuration](/google-cloud-sql-postgre-config.png)
+
+
+
+### 
+
+After creating, take note of the connection credentials and IP address, as you'll need them to connect to the database.
+</Steps>
 {/*TODO*/}
 
-## App Engine
+## Google App Engine
+
+Create a new Google App Engine
+
+![google app engine](/google-app-engine-create.png)
+
 
 {/*TODO*/}
 
