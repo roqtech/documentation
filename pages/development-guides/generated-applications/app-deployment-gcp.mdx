@@ -117,9 +117,11 @@ The Cloud SQL edition preset, region, and availability are configurable. Choose 
 
 ### Create Database
 
-After the database instance is created, we can create a new database with the name `animefiguredb`. Go to the SQL **Databases** menu then add a new database with  clicking the **Create Database** button.
+After the database instance is created, we can create a new database for the generated application. Go to the SQL **Databases** menu then add a new database with  clicking the **Create Database** button.
 
 ![postgresql create a new database](/google-cloud-sql-postgre-database.png)
+
+We will use `animefiguredb` as the generated application database name.
 
 ### Create Users
 
@@ -135,13 +137,26 @@ Another option is create new users. We can do this using the **Users** menu and 
 
 ![postgresql users](/google-cloud-sql-postgre-users.png)
 
+We will use `owner` as  the database username.
+
 ### `DATABASE_URL`
 
-After creating, take note of the connection credentials and IP address, as you'll need them to connect to the database.
+After creating the database, we can get the database connection credentials such as the IP address, username, password, and the database name from the **Connections** section.
 
-![](/google-cloud-sql-postgre-uri.png)
+![cloud sql information](/google-cloud-sql-postgre-uri.png)
 
-From the **Connections** information we can form the PostgreSQL database URL:
+We can configure the Cloud SQL instance to have a public IPv4 address, and to accept connections from specific IP addresses or a range of addresses by adding authorized addresses to your instance. 
+
+For the deployment purpose we will allow database access from the public internet. Set the allowed IP address to `0.0.0.0/0` 
+
+![postgre network config](/google-cloud-sql-postgre-config-network.png)
+
+We can form the PostgreSQL URI from the earlier steps to connect our generated application.
+
+
+```shell
+DATABASE_URL=psql "postgresql://owner:crypt1ck!m0sab3@34.28.181.197:5432/animefiguredb"
+```
 
 </Steps>
 
