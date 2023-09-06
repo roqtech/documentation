@@ -151,25 +151,53 @@ For the deployment purpose we will allow database access from the public interne
 
 ![postgre network config](/google-cloud-sql-postgre-config-network.png)
 
-We can form the PostgreSQL URI from the earlier steps to connect our generated application.
+<Callout type="info">
+In order to configure IP on PostgreSQL on Google Cloud SQL, please visit the following [link](https://cloud.google.com/sql/docs/postgres/configure-ip).
+</Callout>
 
+From all the settings, we can form the PostgreSQL URI to connect our generated application.
 
 ```shell
-DATABASE_URL=psql "postgresql://owner:crypt1ck!m0sab3@34.28.181.197:5432/animefiguredb"
+DATABASE_URL=postgresql://owner:password@34.28.181.197:5432/animefiguredb
 ```
-
 </Steps>
-
-{/*TODO*/}
 
 ## Google App Engine
 
-Create a new Google App Engine for the container of our generated application.
+[Google App Engine](https://cloud.google.com/appengine/) (GAE) allows developers to build, deploy, and run applications on Google's highly scalable and reliable infrastructure without worrying about the underlying hardware and software layers.
+
+To create an App Engine just click the **Create Application** button and then we can leave **Region** and other settings to it's default. 
 
 ![google app engine](/google-app-engine-create.png)
 
-{/*TODO*/}
+When we first create an App Engine application, the platform automatically uses default settings for many configuration aspects like runtime, scaling, and so on. This allows us to get started quickly without having to specify a lot of details. However, we can customize the settings with configure `app.yaml` in the generated application. 
+
+## Prepare the Project
+
+<Steps>
+
+### `app.yaml`
+
+Before uploading the application to Google App Engine, it is important to configure the project using `app.yaml`. This file specifies that the project uses Node.js version 18 and the standard environment for Google App Engine. It also specifies the entry point or script to run after uploading the files.
+
+```yaml
+runtime: nodejs18 # specify the Node.js runtime
+env: standard
+manual_scaling:
+  instances: 1
+entrypoint: npm run start
+```
+
+### ROQ Environment
+
+[TODO]
+
+{/* Copy configuration from another environment */}
+
+### 
 
 ## Deploy Application
+
+Deploying to Google App Engine using `gcloud` is incredibly easy and straightforward. 
 
 {/*TODO*/}
