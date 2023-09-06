@@ -79,46 +79,72 @@ If we don't have a Google Cloud project or we don't want to use the existing one
 
 ## Google Cloud SQL
 
-[Google Cloud SQL](https://console.cloud.google.com/sql/) offers a fully-managed database service for MySQL, PostgreSQL, and SQL Server.
+[Google Cloud SQL](https://console.cloud.google.com/sql/) is Google service that offers a fully-managed database service for MySQL, PostgreSQL, and SQL Server. We will use PostgreSQL because it's the default ROQ's generated application database. 
 
-### How to Create a PostgreSQL Database?
+### PostgreSQL
+
+To set up a PostgreSQL database in Google Cloud SQL, a few steps are necessary.
 
 <Steps>
-### Go to Google Cloud SQL
+### Create Instance
 
 Sign-in to [Google Cloud Console](https://console.cloud.google.com) and navigate to **SQL** menu in the left sidebar or directly go [here]((https://console.cloud.google.com/sql/)).
 
-![google cloud sql](/google-cloud-sql.png)
 
+![google cloud sql](/google-app-engine-create.png)
 
-### Create PostgreSQL Instance
-
-Click Create instance, then select the **PostgreSQL** database engine.
+To create PostgreSQL, click **Create instance**, then select the **PostgreSQL** database engine.
 
 ![PostgreSQL instance](/google-cloud-sql-postgre.png)
 
 <Callout type="info">
-In order to create an instance, you have to enable the Compute Engine API first. Google Cloud Console will provide you with the **Enable API** button.
+In order to create an instance, you have to enable the Compute Engine API first. Google Cloud SQL Console will provide with the **Enable API** button.
 </Callout>
 
-### PostgreSQL Configuration 
+### Settings & Configuration  
 
-Configure the database settings, such as version, region, and password based on the needs.
+The next step is to configure the database instance settings such as username, password, PostgreSQL version, region, etc. 
 
 ![PostgreSQL instance configuration](/google-cloud-sql-postgre-config.png)
 
-There are some mandatory fields that need to be filled. For example, the generated application is about **Anime Figure Store** we can fill the fields:
+There are some mandatory settings and configuration that need to be set. For example, the generated application we have is about **Anime Figure Store**. We can set the fields:
 
 - **Instance ID**: `animefigurestore`
 - **Password**: We can fill anything or generate the password.
-- **Database Version**: Default is the latest.
+- **Database Version**: The default version is the latest version of PostgreSQL. We will use version 15.
 
-The Cloud SQL edition, preset, region, and availability are configurable. Choose as per your needs.
+The Cloud SQL edition preset, region, and availability are configurable. Choose as per your needs. Be aware that this settings and configuration will affect the database pricing estimation.
+
+### Create Database
+
+After the database instance is created, we can create a new database with the name `animefiguredb`. Go to the SQL **Databases** menu then add a new database with  clicking the **Create Database** button.
+
+![postgresql create a new database](/google-cloud-sql-postgre-database.png)
+
+### Create Users
+
+Google Cloud SQL provide the default admin user `postgres` without  any password. You need to set a password for this user before you can log in. You can do this either in the Google Cloud console or by using `gcloud` command. The database instance for this example is `animefigurestore`.
+
+```
+gcloud sql users set-password postgres \
+--instance=animefigurestore \
+--password=SECRETP4ST$
+```
+
+Another option is create new users. We can do this using the **Users** menu and then clicking **ADD USER ACCOUNT**.
+
+![postgresql users](/google-cloud-sql-postgre-users.png)
 
 ### `DATABASE_URL`
 
 After creating, take note of the connection credentials and IP address, as you'll need them to connect to the database.
+
+![](/google-cloud-sql-postgre-uri.png)
+
+From the **Connections** information we can form the PostgreSQL database URL:
+
 </Steps>
+
 {/*TODO*/}
 
 ## Google App Engine
