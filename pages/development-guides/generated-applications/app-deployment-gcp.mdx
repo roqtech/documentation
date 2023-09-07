@@ -280,12 +280,45 @@ DATABASE_URL=postgresql://owner:password@34.28.181.197:5432/animefiguredb
 
 ### Build & Configure
 
+Before uploading the code to the Google App Engine, first we must **build** the project locally:
 
+```shell
+npm run build
+```
+
+It is necessary to run the Prisma migrate on the PostgreSQL database for the generated application to function properly. While other platforms, such as Vercel and Heroku, perform this step automatically along with the build process, there is no such automation available on Google App Engine.
+
+To use the PostgreSQL database we set up earlier, we need to manually run the migration:
+
+```shell
+npx prisma migrate deploy
+```
 
 </Steps>
 
-## Deploy Application
+## Deploying Application
 
-Deploying to Google App Engine using `gcloud` is incredibly easy and straightforward. 
+Deploying to Google App Engine using `gcloud` is a simple process. After building and configuring the project, uploading is done with a single command.
 
-{/*TODO*/}
+```shell
+gcloud app deploy
+```
+
+We can check the Google App Engine logs to confirm successful upload:
+
+```shell
+gcloud app logs tail -s default
+```
+
+To verify if the application has been successfully deployed in Google App Engine (GAE), we can utilize the `gcloud` command.
+
+
+```shell
+gcloud app browse
+```
+
+![google app preview](/google-app-engine-app-deploy.png)
+
+The simplicity of Google App Engine is one of its benefits. Each time, we make changes to the generated application, build it, and then upload it. GAE will keep a version of it.
+
+![google app engine version](/google-app-engine-app-version.png)
