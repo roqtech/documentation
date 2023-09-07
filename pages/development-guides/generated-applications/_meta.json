@@ -8,5 +8,6 @@
   "edit-data-models": "Edit Data Models",
   "app-deployment": "Application Deployment Vercel",
   "app-deployment-heroku": "Application Deployment Heroku",
-  "app-deployment-gcp": "Application Deployment GCP"
+  "app-deployment-gcp": "Application Deployment GCP",
+  "app-deployment-aws": "Application Deployment AWS"
 }
