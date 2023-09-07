@@ -264,9 +264,11 @@ We need to setup the **Base URL** and all the **Authentication URLs**.
 | Allowed Logout URLs    | https://anime-figure-store.uc.r.appspot.com/api/auth/logout        |
 | Allowed Callback URLs  | https://anime-figure-store.uc.r.appspot.com/api/auth/callback      |
 
-### Project `.env`
+### `.env`
 
-Create environment `.env` file if don't exist in the generated application then copy all the environment variables from the ROQ Console and add the `DATABASE_URL` for our PostgreSQL database:
+Create environment `.env` file if don't exist in the generated application root folder then copy all the environment variables from the ROQ Console and add the `DATABASE_URL` from our previous PostgreSQL database setup:
+
+{/*add link to setup database*/}
 
 ```ini
 # get all the environment variables from the ROQ Console 
@@ -276,7 +278,7 @@ Create environment `.env` file if don't exist in the generated application then 
 DATABASE_URL=postgresql://owner:password@34.28.181.197:5432/animefiguredb
 ```
 
-### Build & Configure Project
+### Build & Configure
 
 
 
