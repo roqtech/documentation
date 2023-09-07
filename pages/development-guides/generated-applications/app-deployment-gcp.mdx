@@ -25,9 +25,12 @@ We will use `gcloud` on Windows OS. For another operating system please download
 
 ![Google cloud cli windows](/google-cloud-cli-windows.png)
 
-The installation in Windows is straightforward and in the end of installation it will help us to use an existing or creating a new Google Cloud project. 
+The installation in Windows is straightforward and in the end of installation it will help us to use an existing or creating a new Google Cloud project.
 
-For example, if we want to connect the generated application with a Google Cloud project. For this scenario, we can use the `gcloud init` command on the root application:
+
+### Connect the Project
+
+To connect the generated application with a Google Cloud project. For this scenario, we can use the `gcloud init` command on the root application:
 
 ```shell
 PS E:\_workspaces\ROQ\anime-scaled-fig-2d3f-v3> gcloud init
@@ -178,7 +181,7 @@ When we first create an App Engine application, the platform automatically uses 
 
 ### `app.yaml`
 
-Before uploading the application to Google App Engine, it is important to configure the project using `app.yaml`. This file specifies that the project uses Node.js version 18 and the standard environment for Google App Engine. It also specifies the entry point or script to run after uploading the files.
+Before uploading the application to Google App Engine, it is important to configure the project. Create `app.yaml` file in the generated application root folder and fill with these contents:
 
 ```yaml
 runtime: nodejs18 # specify the Node.js runtime
@@ -187,14 +190,97 @@ manual_scaling:
   instances: 1
 entrypoint: npm run start
 ```
+This file specifies that the project uses runtime Node.js version 18 and the standard environment for Google App Engine. It also specifies the entry point or script to run after uploading the files.
 
 ### ROQ Environment
 
-[TODO]
+ROQ's generated application need environment variables from the ROQ Console. We can create a new environment for the Google App Engine.
 
-{/* Copy configuration from another environment */}
+<ROQEnv/>
 
-### 
+![roq console for google app engine](/google-app-engine-roq-env.png)
+
+We can also copy the environment variables from other environment. For example to copy environment variables from **Preview** environment. Go to **Environment Sync** menu and then click the **Copy Configuration** button.
+
+![copy env configuration](/google-app-engine-roq-env-copy.png)
+
+
+#### Google App Engine URL
+
+Google App Engine have this following format URL for the default service:
+
+```shell
+https://PROJECT_ID.REGION_ID.r.appspot.com:
+```
+- **PROJECT_ID**: is the ID of your Google Cloud Project.
+- **REGION_ID**: is the region where you deploy your App Engine application.
+
+This URL is required as the base URL for the ROQ Platform configuration. Therefore, configure the environment variables in the generated application.
+
+There are no exact ways to know this URL. The easiest way (and tricky) to know this URL at initially created GAE is by connecting the project first and then running the `gcloud app deploy` command:
+
+```shell
+gcloud app deploy
+```
+
+This command will return the information about the GAE application:
+
+```shell
+Services to deploy:
+
+descriptor:                  [E:\_workspaces\ROQ\anime-scaled-fig-2d3f-v3\app.yaml]
+source:                      [E:\_workspaces\ROQ\anime-scaled-fig-2d3f-v3]
+target project:              [anime-figure-store]
+target service:              [default]
+target version:              [20230907t115249]
+target url:                  [https://anime-figure-store.uc.r.appspot.com]
+target service account:      [anime-figure-store@appspot.gserviceaccount.com]
+
+
+Do you want to continue (Y/n)?
+```
+<Callout type="warning">
+Do not continue because the deployment will be failed.
+</Callout>
+
+From the command response above, we have the Google App Engine deployment URL for our application:
+
+```shell
+https://anime-figure-store.uc.r.appspot.com
+```
+
+#### Setup the Base URL
+
+The base URL need to be setup in the ROQ Console. Go to the **Application Details** → **Settings**.
+
+![base url setup](/google-app-engine-roq-env-base.png)
+
+We need to setup the **Base URL** and all the **Authentication URLs**.
+
+| Description            | URL                     |
+| ---------------------- | ----------------------- |
+| Base URL               | https://anime-figure-store.uc.r.appspot.com              |
+| Sign-in URL            | https://anime-figure-store.uc.r.appspot.com/api/auth/login         |
+| Allowed Logout URLs    | https://anime-figure-store.uc.r.appspot.com/api/auth/logout        |
+| Allowed Callback URLs  | https://anime-figure-store.uc.r.appspot.com/api/auth/callback      |
+
+### Project `.env`
+
+Create environment `.env` file if don't exist in the generated application then copy all the environment variables from the ROQ Console and add the `DATABASE_URL` for our PostgreSQL database:
+
+```ini
+# get all the environment variables from the ROQ Console 
+# ...
+
+# PostgreSQL on Google Cloud SQL
+DATABASE_URL=postgresql://owner:password@34.28.181.197:5432/animefiguredb
+```
+
+### Build & Configure Project
+
+
+
+</Steps>
 
 ## Deploy Application
 
