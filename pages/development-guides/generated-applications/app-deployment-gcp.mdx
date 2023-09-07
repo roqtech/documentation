@@ -9,23 +9,23 @@ import ROQEnv from '/snippets/setup-new-env.mdx';
 
 Deploying the generated application with a PostgreSQL database on Google Cloud Platform (GCP) involves multiple steps, including setting up a PostgreSQL database on Cloud SQL and deploying the Next.js app on a service like Google App Engine or Google Cloud Run. 
 
-There are so many ways to deploy application on Google Cloud Platform. In this tutorial we will use **Google App Engine** and **Google Cloud SQL**. Below is a guide on how to do this.
+There are so many ways to deploy applications on Google Cloud Platform. In this tutorial, we will use **Google App Engine** and **Google Cloud SQL**. Below is a guide on how to do this.
 
 {/**/}
 
 <Callout type="info">
-The **Billing** features need to be enabled to use the Google Cloud Platform. Basically you need a valid payment method even for [free trial period](https://cloud.google.com/free/docs/gcp-free-tier#free-trial). Go [here](https://cloud.google.com/billing/docs) for further explanation.
+The **Billing** features must be enabled to use the Google Cloud Platform. You need a valid payment method even for [free trial period](https://cloud.google.com/free/docs/gcp-free-tier#free-trial). Go [here](https://cloud.google.com/billing/docs) for further explanation.
 </Callout>
 
 ## `gcloud`
 
 The [Google Cloud CLI](https://cloud.google.com/cli) or `gcloud` is a set of tools to create and manage Google Cloud resources. You can use these tools to perform many common platform tasks from the command line or through scripts and other automation.
 
-We will use `gcloud` on Windows OS. For another operating system please download Google Cloud CLI from this [link](https://cloud.google.com/sdk/docs/install).
+We will use `gcloud` on Windows OS. For another operating system, please download Google Cloud CLI from this [link](https://cloud.google.com/sdk/docs/install).
 
 ![Google cloud cli windows](/google-cloud-cli-windows.png)
 
-The installation in Windows is straightforward and in the end of installation it will help us to use an existing or creating a new Google Cloud project.
+The installation in Windows is straightforward, and at the end of the installation, it will help us to use an existing or create a new Google Cloud project.
 
 
 ### Connect the Project
@@ -82,16 +82,16 @@ If we don't have a Google Cloud project or we don't want to use the existing one
 
 ## Google Cloud SQL
 
-[Google Cloud SQL](https://console.cloud.google.com/sql/) is Google service that offers a fully-managed database service for MySQL, PostgreSQL, and SQL Server. We will use PostgreSQL because it's the default ROQ's generated application database. 
+[Google Cloud SQL](https://console.cloud.google.com/sql/) is a Google service that offers a fully managed database service for MySQL, PostgreSQL, and SQL Server. We will use PostgreSQL because it's the default ROQ's generated application database. 
 
 ### PostgreSQL
 
-To set up a PostgreSQL database in Google Cloud SQL, a few steps are necessary.
+Follow these steps to set up a PostgreSQL database in Google Cloud SQL.
 
 <Steps>
 ### Create Instance
 
-Sign-in to [Google Cloud Console](https://console.cloud.google.com) and navigate to **SQL** menu in the left sidebar or directly go [here]((https://console.cloud.google.com/sql/)).
+Sign in to [Google Cloud Console](https://console.cloud.google.com) and navigate to **SQL** menu in the left sidebar or directly go [here]((https://console.cloud.google.com/sql/)).
 
 
 ![google cloud sql](/google-app-engine-create.png)
@@ -101,7 +101,7 @@ To create PostgreSQL, click **Create instance**, then select the **PostgreSQL** 
 ![PostgreSQL instance](/google-cloud-sql-postgre.png)
 
 <Callout type="info">
-In order to create an instance, you have to enable the Compute Engine API first. Google Cloud SQL Console will provide with the **Enable API** button.
+In order to create an instance, you have to enable the Compute Engine API first. Google Cloud SQL Console will provide the **Enable API** button.
 </Callout>
 
 ### Settings & Configuration  
@@ -110,17 +110,17 @@ The next step is to configure the database instance settings such as username, p
 
 ![PostgreSQL instance configuration](/google-cloud-sql-postgre-config.png)
 
-There are some mandatory settings and configuration that need to be set. For example, the generated application we have is about **Anime Figure Store**. We can set the fields:
+There are some mandatory settings and configurations that need to be set. For example, our generated application is about **Anime Figure Store**. We can set the fields:
 
 - **Instance ID**: `animefigurestore`
-- **Password**: We can fill anything or generate the password.
+- **Password**: We can fill in anything or generate the password.
 - **Database Version**: The default version is the latest version of PostgreSQL. We will use version 15.
 
-The Cloud SQL edition preset, region, and availability are configurable. Choose as per your needs. Be aware that this settings and configuration will affect the database pricing estimation.
+The Cloud SQL edition preset, region, and availability are configurable. Choose as per your needs. Be aware that these settings and configurations will affect the database pricing estimation.
 
 ### Create Database
 
-After the database instance is created, we can create a new database for the generated application. Go to the SQL **Databases** menu then add a new database with  clicking the **Create Database** button.
+After creating the database instance, we can create a new one for the generated application. Go to the SQL **Databases** menu, then add a new database by clicking the **Create Database** button.
 
 ![postgresql create a new database](/google-cloud-sql-postgre-database.png)
 
@@ -128,7 +128,7 @@ We will use `animefiguredb` as the generated application database name.
 
 ### Create Users
 
-Google Cloud SQL provide the default admin user `postgres` without  any password. You need to set a password for this user before you can log in. You can do this either in the Google Cloud console or by using `gcloud` command. The database instance for this example is `animefigurestore`.
+Google Cloud SQL provides the default admin user `postgres` without any password. You need to set a password for this user before you can log in. You can do this in the Google Cloud console or using the `gcloud` command. The database instance for this example is `animefigurestore`.
 
 ```
 gcloud sql users set-password postgres \
@@ -136,21 +136,21 @@ gcloud sql users set-password postgres \
 --password=SECRETP4ST$
 ```
 
-Another option is create new users. We can do this using the **Users** menu and then clicking **ADD USER ACCOUNT**.
+Another option is to create new users. We can do this using the **Users** menu and then clicking **ADD USER ACCOUNT**.
 
 ![postgresql users](/google-cloud-sql-postgre-users.png)
 
-We will use `owner` as  the database username.
+We will use `owner` as the database username.
 
 ### `DATABASE_URL`
 
-After creating the database, we can get the database connection credentials such as the IP address, username, password, and the database name from the **Connections** section.
+After creating the database, we can get the connection credentials, such as the IP address, username, password, and database name, from the **Connections** section.
 
 ![cloud sql information](/google-cloud-sql-postgre-uri.png)
 
-We can configure the Cloud SQL instance to have a public IPv4 address, and to accept connections from specific IP addresses or a range of addresses by adding authorized addresses to your instance. 
+We can configure the Cloud SQL instance to have a public IPv4 address and to accept connections from specific IP addresses or a range of addresses by adding authorized addresses to your instance.
 
-For the deployment purpose we will allow database access from the public internet. Set the allowed IP address to `0.0.0.0/0` 
+For the deployment purpose, we will allow database access from the public internet. Set the allowed IP address to `0.0.0.0/0` 
 
 ![postgre network config](/google-cloud-sql-postgre-config-network.png)
 
@@ -169,7 +169,7 @@ DATABASE_URL=postgresql://owner:password@34.28.181.197:5432/animefiguredb
 
 [Google App Engine](https://cloud.google.com/appengine/) (GAE) allows developers to build, deploy, and run applications on Google's highly scalable and reliable infrastructure without worrying about the underlying hardware and software layers.
 
-To create an App Engine just click the **Create Application** button and then we can leave **Region** and other settings to it's default. 
+To create an App Engine, click the **Create Application** button, and then we can leave other settings to its default. 
 
 ![google app engine](/google-app-engine-create.png)
 
@@ -181,7 +181,7 @@ When we first create an App Engine application, the platform automatically uses 
 
 ### `app.yaml`
 
-Before uploading the application to Google App Engine, it is important to configure the project. Create `app.yaml` file in the generated application root folder and fill with these contents:
+Before uploading the application to Google App Engine, it is important to configure the project. Create `app.yaml` file in the generated application root folder and fill it with these contents:
 
 ```yaml
 runtime: nodejs18 # specify the Node.js runtime
@@ -190,24 +190,24 @@ manual_scaling:
   instances: 1
 entrypoint: npm run start
 ```
-This file specifies that the project uses runtime Node.js version 18 and the standard environment for Google App Engine. It also specifies the entry point or script to run after uploading the files.
+This file specifies that the project uses runtime Node.js version 18 and the standard environment for Google App Engine. It also specifies the entry point or script to run after file uploading.
 
 ### ROQ Environment
 
-ROQ's generated application need environment variables from the ROQ Console. We can create a new environment for the Google App Engine.
+ROQ's generated application needs environment variables from the ROQ Console. We can create a new environment for the Google App Engine.
 
 <ROQEnv/>
 
 ![roq console for google app engine](/google-app-engine-roq-env.png)
 
-We can also copy the environment variables from other environment. For example to copy environment variables from **Preview** environment. Go to **Environment Sync** menu and then click the **Copy Configuration** button.
+We can also copy the environment variables from another environment. For example, to copy environment variables from the **Preview** environment. Go to the **Environment Sync** menu and then click the **Copy Configuration** button.
 
 ![copy env configuration](/google-app-engine-roq-env-copy.png)
 
 
 #### Google App Engine URL
 
-Google App Engine have this following format URL for the default service:
+Google App Engine has the following format URL for the default service:
 
 ```shell
 https://PROJECT_ID.REGION_ID.r.appspot.com:
@@ -251,7 +251,7 @@ https://anime-figure-store.uc.r.appspot.com
 
 #### Setup the Base URL
 
-The base URL need to be setup in the ROQ Console. Go to the **Application Details** → **Settings**.
+The base URL needs to be setup in the ROQ Console. Go to the **Application Details** → **Settings**.
 
 ![base url setup](/google-app-engine-roq-env-base.png)
 
@@ -266,7 +266,7 @@ We need to setup the **Base URL** and all the **Authentication URLs**.
 
 ### `.env`
 
-Create environment `.env` file if don't exist in the generated application root folder then copy all the environment variables from the ROQ Console and add the `DATABASE_URL` from our previous PostgreSQL database setup:
+Create an environment `.env` file if it doesn't exist in the generated application root folder, then copy all the environment variables from the ROQ Console and add the `DATABASE_URL` from our previous PostgreSQL database setup:
 
 {/*add link to setup database*/}
 
@@ -280,15 +280,15 @@ DATABASE_URL=postgresql://owner:password@34.28.181.197:5432/animefiguredb
 
 ### Build & Configure
 
-Before uploading the code to the Google App Engine, first we must **build** the project locally:
+Before uploading the code to the Google App Engine, we must **build** the project locally:
 
 ```shell
 npm run build
 ```
 
-It is necessary to run the Prisma migrate on the PostgreSQL database for the generated application to function properly. While other platforms, such as Vercel and Heroku, perform this step automatically along with the build process, there is no such automation available on Google App Engine.
+It is necessary to run the Prisma migration on the PostgreSQL database for the generated application to function correctly. While other platforms, such as Vercel and Heroku, perform this step automatically along with the build process, no such automation is available on Google App Engine.
 
-To use the PostgreSQL database we set up earlier, we need to manually run the migration:
+To use the PostgreSQL database we set up earlier, we need to run the migration manually:
 
 ```shell
 npx prisma migrate deploy
@@ -304,7 +304,7 @@ Deploying to Google App Engine using `gcloud` is a simple process. After buildin
 gcloud app deploy
 ```
 
-We can check the Google App Engine logs to confirm successful upload:
+We can check the Google App Engine logs to confirm the successful upload:
 
 ```shell
 gcloud app logs tail -s default
