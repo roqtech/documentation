@@ -5,11 +5,22 @@ import ROQEnv from '/snippets/setup-new-env.mdx';
 
 [Amazon Web Services](https://aws.amazon.com/) or (AWS) is a subsidiary of Amazon providing on-demand cloud computing platforms and APIs to individuals, companies, and governments, on a metered pay-as-you-go basis. AWS was launched in 2006, and over the years, it has grown to become the leading cloud service provider in the world.
 
-For deploying the ROQ-generated application in AWS, there are several options available due to the vast range of cloud computing products offered by AWS. The application can be deployed using Amazon EC2, Amazon Elastic Beanstalk, or AWS Amplify. Each AWS product has a different workflow for deployment. To ensure simplicity and faster deployment, we will use AWS Amplify. 
+For deploying the ROQ-generated application in AWS, there are several options available due to the vast range of cloud computing products offered by AWS. We need two type services for our generated application:
+
+* **Hosting**: The application can be deployed using Amazon EC2, Amazon Elastic Beanstalk, or AWS Amplify. Each AWS product has a different workflow for deployment. To ensure simplicity and faster deployment, we will use **AWS Amplify**. 
+
+* **Database**: ROQ's generated application default database is PostgreSQL. In AWS we can use **Amazon RDS** to create the PostgreSQL database.
 
 <Callout type="info">
 You should have an [AWS account](https://portal.aws.amazon.com/billing/signup) to follow this tutorial. AWS also provide [free tier](https://aws.amazon.com/free) for a new user.
 </Callout>
+
+We will create the database first on Amazon RDS and then deploying the generated application in AWS Amplify.
+
+
+## Amazon RDS
+
+[Amazon Relational Database Service](https://aws.amazon.com/rds/) (Amazon RDS) is a cloud-based database service provided by Amazon Web Services (AWS). It is designed to make it easier for developers to set up, operate, and scale relational databases in the cloud. Amazon RDS offers support for several popular relational database engines: MySQL, PostgreSQL, MariaDB, Oracle, Microsoft SQL Server, and Amazon Aurora.
 
 ## AWS Amplify
 
