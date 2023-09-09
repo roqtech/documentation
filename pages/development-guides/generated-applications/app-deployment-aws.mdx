@@ -17,11 +17,42 @@ You should have an [AWS account](https://portal.aws.amazon.com/billing/signup) t
 
 We will create the database first on Amazon RDS and then deploying the generated application in AWS Amplify.
 
-
 ## Amazon RDS
 
 [Amazon Relational Database Service](https://aws.amazon.com/rds/) (Amazon RDS) is a cloud-based database service provided by Amazon Web Services (AWS). It is designed to make it easier for developers to set up, operate, and scale relational databases in the cloud. Amazon RDS offers support for several popular relational database engines: MySQL, PostgreSQL, MariaDB, Oracle, Microsoft SQL Server, and Amazon Aurora.
 
+There are a few steps to create a PostgreSQL database in Amazon RDS:
+
+<Steps>
+### Create PostgreSQL
+
+Go to [AWS Console](https://console.aws.amazon.com/rds) for RDS then click the **Create database** button. This will bring you to the database page:
+
+![create aws postgresql](/aws-rds-postgresql-create.png)
+
+ <Callout type="info">
+This is a one-long page settings page, so we will only display what has changed while leaving the rest as its default.
+</Callout>
+
+These are the settings that we modified for the purpose of this tutorial:
+
+- **Engine options**: Choose the **PostgreSQL** database
+- **Templates**: Free tier
+- **Settings → Db instance identifier**: `animefiguredb`
+- **Settings → Master Password**: Manual password entry
+- **Connectivity → Public access**: Yes
+
+After creating a database, it will appear in the list of databases in the region where it was created. For example, if the database was created in **us-east-1c** (**N. Virginia**), it will be listed under that region.
+
+![Amazon database list](/aws-rds-database-list.png)
+
+### Test Connection
+
+To connect PostgreSQL database from the local computer or outside the Amazon Web Services network, we need to configure security group rules.
+
+
+
+</Steps>
 ## AWS Amplify
 
 [AWS Amplify](https://console.aws.amazon.com/amplify) is a services from Amazon Web Services (AWS) that enables developers to build and deploy scalable and secure cloud-powered web and mobile applications. Amplify aims to simplify the process of building apps by providing a managed backend for handling authentication, storage, APIs, and other cloud functionalities. Amplify provides two services: **Amplify Hosting** and **Amplify Studio**. For more information about AWS Amplify, please read their [documentation](https://docs.aws.amazon.com/amplify/).
@@ -29,3 +60,9 @@ We will create the database first on Amazon RDS and then deploying the generated
 ### Amplify Hosting
 
 ![AWS Amplify GitHub](/aws-ampliy-github.png)
+
+
+### ROQ Environment
+
+
+### 
