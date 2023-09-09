@@ -46,23 +46,98 @@ After creating a database, it will appear in the list of databases in the region
 
 ![Amazon database list](/aws-rds-database-list.png)
 
-### Test Connection
+To access the information database, simply click on the name of the database as it is listed.
 
-To connect PostgreSQL database from the local computer or outside the Amazon Web Services network, we need to configure security group rules.
+### Database Information
 
+The necessary details for establishing a database connection can be found under the **Connectivity & Security** and **Configuration** tabs. Specifically, we require the database URL or endpoint and the port number (the username and password have already been set up).
 
+![Database information](/aws-rds-database-information-con.png)
+
+The security group rules also need to be configured to connect the PostgreSQL database from outside the Amazon Web Services network. 
+
+![rds security rules](/aws-rds-database-information-sec.png)
+
+The **CIDR/IP - Inbound** type with the rule **0.0.0.0/0** allows any traffic from outside the AWS network.  Turning off this rule or limiting it to specific IPs is recommended.
+
+### Connect to Database
+
+The recommended way to connect to Amazon RDS is by using SSL/TLS connections. By default, our database uses a Certificate Authority (CA) which can be found in the **Connectivity & security** tab.
+
+In order to connect to the PostgreSQL with Certificate Authority, hence we must download a certificate bundle. You can download [certificate bundles for all AWS regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.CertificatesAllRegions) or [certificate bundles for specific AWS regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.RegionCertificates).
+
+From our PostgreSQL setup earlier we have our connection data:
+
+| Parameter           | Value                                                                                                      |
+|---------------------|------------------------------------------------------------------------------------------------------------|
+| **user**        | `postgres`                                                                                                 |
+| **password**        | _get your saved password or modify the existing password_                                                   |
+| **host**             | `animefiguredb.carjebedzjdp.us-east-1.rds.amazonaws.com`                                                   |
+| **port**            | `5432`                                                                                                     |
+| **dbname**          | `postgres` (the default dbname if its not set)                                                                            |
+| **certificate bundle** | [`us-east-1-bundle.pem`](https://truststore.pki.rds.amazonaws.com/us-east-1/us-east-1-bundle.pem)    |
+
+We can use `psql` CLI tool to test the database connection:
+
+```shell
+psql "postgresql://postgres:password@animefiguredb.carjebedzjdp.us-east-1.rds.amazonaws.com:5432/postgres?sslmode=require&sslrootcert=us-east-1-bundle.pem"
+```
+<Callout type="info">
+To develop a generated application locally and want to use a local database, you can read this [database installation](/development-guides/generated-applications/databases-installation) documentation.
+</Callout>
+
+### `DATABASE_URL`
+
+ROQ's generated application need the `DATABASE_URL` environment variable to works. Since we already know the connection information we will set the environment variable:
+
+```ini
+DATABASE_URL=postgresql://postgres:password@animefiguredb.carjebedzjdp.us-east-1.rds.amazonaws.com:5432/postgres
+```
 
 </Steps>
+
+## ROQ Environment
+
+Before deploying an ROQ-generated application on a PaaS, it is necessary to configure specific environment settings for that PaaS. You need to create a new environment on [ROQ Console](https://console.roq.tech/).
+
+<ROQEnv/>
+
+![AWS amplify roq env](/aws-ampliy-roq-env.png)
+
+We can call the new environment anything, for example  **Amazon AWS**. Later we need to configure the base URL for the deployed application.
+
 ## AWS Amplify
 
 [AWS Amplify](https://console.aws.amazon.com/amplify) is a services from Amazon Web Services (AWS) that enables developers to build and deploy scalable and secure cloud-powered web and mobile applications. Amplify aims to simplify the process of building apps by providing a managed backend for handling authentication, storage, APIs, and other cloud functionalities. Amplify provides two services: **Amplify Hosting** and **Amplify Studio**. For more information about AWS Amplify, please read their [documentation](https://docs.aws.amazon.com/amplify/).
 
-### Amplify Hosting
+## Amplify Hosting
+
+Amplify Hosting is a fully managed hosting service for web apps. Connect a repository to build, deploy, and host the web application.
+
+<Callout type="info">
+To include the generated application code in your own GitHub repository, please follow our [tutorial](/development-guides/generated-applications/app-development) on application development.
+</Callout>
+
+To get started with Amplify Hosting, we need to connect it with a repository. In this tutorial, we will use the GitHub repository. There are a few steps that need to be taken care of:
+
+<Steps>
+### Connect to GitHub 
+
+Amplify Hosting provice clear steps to get started web hosting using GitHub. Choose **GitHub** as the source for the generated application. 
 
 ![AWS Amplify GitHub](/aws-ampliy-github.png)
 
+### Select Repository
 
-### ROQ Environment
+To be able to use GitHub repository with Amplify Hosting, we should install and  authorize the AWS Amplify for all repositories or select a specific repository.
+
+![AWS GitHub authorize](/aws-ampliy-github-authorize.png)
 
 
-### 
+</Steps>
+
+
+
+## Troubleshooting
+
+[TODO]
