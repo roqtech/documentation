@@ -73,13 +73,11 @@ From our PostgreSQL setup earlier, we have our connection data:
 | **dbname**          | `postgres` (the default dbname if it's not set)                                                                            |
 | **certificate bundle** | [`us-east-1-bundle.pem`](https://truststore.pki.rds.amazonaws.com/us-east-1/us-east-1-bundle.pem)    |
 
-We can use the `psql` CLI tool to test the database connection:
+Store the certificate bundle `us-east-1-bundle.pem` in an accessible directory. This is only required if connecting to the database outside the AWS network. We can use the `psql` CLI tool to test the database connection:
 
 ```shell
 psql "postgresql://postgres:password@animefiguredb.carjebedzjdp.us-east-1.rds.amazonaws.com:5432/postgres?sslmode=require&sslrootcert=us-east-1-bundle.pem"
 ```
-
-Store the certificate bundle `us-east-1-bundle.pem` in an accessible directory. This is only required if connecting to the database outside the AWS network.
 
 <Callout type="info">
 To develop a generated application locally and want to use a local database, you can read this [database installation](/development-guides/generated-applications/databases-installation) documentation.
