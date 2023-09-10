@@ -145,6 +145,87 @@ From the build information, we can get the **Domain** or the **Base URL** for ou
 https://main.d335zd9ekqhkcd.amplifyapp.com
 ```
 
+#### Set Environment Variables
+
+<Callout type="info">
+Read this section first, on how to [get the environment variables](/development-guides/generated-applications/app-deployment-aws#roq-environment) from ROQ Console.
+</Callout>
+
+In AWS Amplify, navigate to **App settings**, select **Environment variables**, and manually enter variables from ROQ Console or `.env` file.
+
+![aws amplify build env](/aws-amplify-build-env.png)
+
+And also add the `DATABASE_URL` from our previous setup:
+
+```ini
+DATABASE_URL=postgresql://postgres:password@animefiguredb.carjebedzjdp.us-east-1.rds.amazonaws.com:5432/postgres
+```
+
+#### `amplify.yaml`
+
+AWS Amplify have an application build specification that can be edit trough **App settings** or overridden by `amplify.yaml` file. The build specification YML file controls how an app build will run and is stored on the servers.
+
+To edit buld specification in the AWS Amplify, go to **App settings**, select **Build settings** and edit **App build specification**. 
+
+![build spec](/aws-amplify-build-spec.png)
+
+We can overidde the AWS Amplify setting above with create a `amplify.yaml` file on the application project root directory:
+
+```yaml
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm install
+    build:
+      commands:
+        - env | grep -e NEXT_PUBLIC_ROQ_CLIENT_ID -e NEXT_PUBLIC_ROQ_PLATFORM_URL -e NEXT_PUBLIC_BASE_URL >> .env
+        - env | grep -e ROQ_BASE_URL -e ROQ_PLATFORM_URL -e ROQ_ENVIRONMENT_ID -e ROQ_API_KEY >> .env
+        - env | grep -e ROQ_SECRET -e ROQ_CLIENT_ID -e ROQ_CLIENT_SECRET -e ROQ_AUTH_CALLBACK_URL -e ROQ_AUTH_LOGIN_URL -e ROQ_AUTH_LOGOUT_URL -e ROQ_AUTH_URL -e DATABASE_URL >> .env
+        - npm run build
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+```
+
+Please note that environment variable that previously entered manually are available only in build time. To make the environment variables also available in runtime, we need to save the environment variables into `.env` file.
+
+```bash
+env | grep -e NEXT_PUBLIC_ROQ_CLIENT_ID -e NEXT_PUBLIC_ROQ_PLATFORM_URL -e NEXT_PUBLIC_BASE_URL >> .env
+```
+
+<Callout type="info">
+Amplify Hosting supports adding environment variables to your application's builds by setting them in the project's configuration in the Amplify console. However, a Next.js server component doesn't have access to those environment variables by default. For more information, please read it [here](https://docs.aws.amazon.com/amplify/latest/userguide/ssr-environment-variables.html).
+</Callout>
+
+### Re-deploy Application
+
+After the environment variables setup, we can re-deploy the application in Amplify Hosting. Click the application name. For example, `anime-figure-store`:
+
+![aws amplify main branch](/aws-amplify-build-main.png)
+
+Click the branch `main` that will bring us into the branch build details.
+
+![aws amplify main branch deploy](/aws-amplify-build-deploy.png)
+
+To force build and redeploy, click the **Redeploy this version** button.
+
+### Test Application
+
+To test the application, open the browser and go to the URL:
+
+```shell
+https://main.d335zd9ekqhkcd.amplifyapp.com/
+```
+
+![aws amplify deploy URL](/aws-amplify-deployed-url.png)
+
+Signup to the deployed application and every time we make a changes to the source code and then push it to the GitHub repository. AWS Amplify Hosting will pick up the changes and build the new version of the application. 
 
 </Steps>
 
@@ -172,9 +253,11 @@ We need to setup the **Base URL** and all the **Authentication URLs**.
 | Allowed Callback URLs  | `https://main.d335zd9ekqhkcd.amplifyapp.com/api/auth/callback` |
 
 
-Click the **Copy Env File** button to copy environment variables and save them in a `.env` file in the application project root.
-
+Click the **Copy Env File** button to copy the environment variables and save them in a `.env` file in the application project root.
 
 ## Troubleshooting
 
-[TODO]
+If the deployed application is not running as expected, such as an `Internal Server Error`, please check the compute logs. On AWS Amplify, go to the **App settings**, then select **Monitoring** and finally select **Hosting compute logs**.
+
+![](/aws-amplify-monitoring.png)
+
