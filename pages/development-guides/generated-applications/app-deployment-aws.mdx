@@ -3,30 +3,30 @@ import ROQEnv from '/snippets/setup-new-env.mdx';
 
 # Application Deployment on AWS
 
-[Amazon Web Services](https://aws.amazon.com/) or (AWS) is a subsidiary of Amazon providing on-demand cloud computing platforms and APIs to individuals, companies, and governments, on a metered pay-as-you-go basis. AWS was launched in 2006, and over the years, it has grown to become the leading cloud service provider in the world.
+[Amazon Web Services](https://aws.amazon.com/) or (AWS) is a subsidiary of Amazon providing on-demand cloud computing platforms and APIs to individuals, companies, and governments on a metered pay-as-you-go basis. AWS was launched in 2006, and over the years, it has grown to become the leading cloud service provider in the world.
 
-For deploying the ROQ-generated application in AWS, there are several options available due to the vast range of cloud computing products offered by AWS. We need two type services for our generated application:
+For deploying the ROQ-generated application in AWS, several options are available due to the vast range of cloud computing products offered by AWS. We need two types of services for our generated application:
 
-* **Hosting**: The application can be deployed using Amazon EC2, Amazon Elastic Beanstalk, or AWS Amplify. Each AWS product has a different workflow for deployment. To ensure simplicity and faster deployment, we will use **AWS Amplify**. 
+* **Hosting**: The application can be deployed using Amazon EC2, Amazon Elastic Beanstalk, or AWS Amplify. Each AWS product has a different workflow for deployment. We will use **AWS Amplify**to ensure simplicity and faster deployment. 
 
-* **Database**: ROQ's generated application default database is PostgreSQL. In AWS we can use **Amazon RDS** to create the PostgreSQL database.
+* **Database**: ROQ's generated application default database is PostgreSQL. In AWS, we can use **Amazon RDS** to create the PostgreSQL database.
 
 <Callout type="info">
-You should have an [AWS account](https://portal.aws.amazon.com/billing/signup) to follow this tutorial. AWS also provide [free tier](https://aws.amazon.com/free) for a new user.
+To follow this tutorial, you should have an [AWS account](https://portal.aws.amazon.com/billing/signup). AWS also provides [free tier](https://aws.amazon.com/free) for a new user.
 </Callout>
 
-We will create the database first on Amazon RDS and then deploying the generated application in AWS Amplify.
+We will create the database on Amazon RDS and then deploy the generated application in AWS Amplify.
 
 ## Amazon RDS
 
-[Amazon Relational Database Service](https://aws.amazon.com/rds/) (Amazon RDS) is a cloud-based database service provided by Amazon Web Services (AWS). It is designed to make it easier for developers to set up, operate, and scale relational databases in the cloud. Amazon RDS offers support for several popular relational database engines: MySQL, PostgreSQL, MariaDB, Oracle, Microsoft SQL Server, and Amazon Aurora.
+[Amazon Relational Database Service](https://aws.amazon.com/rds/) (Amazon RDS) is a cloud-based database service provided by Amazon Web Services (AWS). It is designed to make it easier for developers to set up, operate, and scale relational databases in the cloud. Amazon RDS supports several popular relational database engines: MySQL, PostgreSQL, MariaDB, Oracle, Microsoft SQL Server, and Amazon Aurora.
 
-There are a few steps to create a PostgreSQL database in Amazon RDS:
+ROQ-generated applications, by default, are using PostgreSQL as the database. We will create this in Amazon RDS. There are a few steps to create and set up a PostgreSQL database:
 
 <Steps>
 ### Create PostgreSQL
 
-Go to [AWS Console](https://console.aws.amazon.com/rds) for RDS then click the **Create database** button. This will bring you to the database page:
+Go to [AWS Console](https://console.aws.amazon.com/rds) for RDS, then click the **Create database** button. This will bring you to the database page:
 
 ![create aws postgresql](/aws-rds-postgresql-create.png)
 
@@ -50,7 +50,7 @@ To access the information database, simply click on the name of the database as 
 
 ### Database Information
 
-The necessary details for establishing a database connection can be found under the **Connectivity & Security** and **Configuration** tabs. Specifically, we require the database URL or endpoint and the port number (the username and password have already been set up).
+The necessary details for establishing a database connection can be found under the **Connectivity & Security** and **Configuration** tabs. Specifically, we require the database URL, endpoint, and port number (the username and password have already been set up).
 
 ![Database information](/aws-rds-database-information-con.png)
 
@@ -62,22 +62,22 @@ The **CIDR/IP - Inbound** type with the rule **0.0.0.0/0** allows any traffic fr
 
 ### Connect to Database
 
-The recommended way to connect to Amazon RDS is by using SSL/TLS connections. By default, our database uses a Certificate Authority (CA) which can be found in the **Connectivity & security** tab.
+The recommended way to connect to Amazon RDS is by using SSL/TLS connections. By default, our database uses a Certificate Authority (CA), which can be found in the **Connectivity & security** tab.
 
-In order to connect to the PostgreSQL with Certificate Authority, hence we must download a certificate bundle. You can download [certificate bundles for all AWS regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.CertificatesAllRegions) or [certificate bundles for specific AWS regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.RegionCertificates).
+We must download a certificate bundle to connect to PostgreSQL with Certificate Authority. You can download [certificate bundles for all AWS regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.CertificatesAllRegions) or [certificate bundles for specific AWS regions](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.RegionCertificates).
 
-From our PostgreSQL setup earlier we have our connection data:
+From our PostgreSQL setup earlier, we have our connection data:
 
 | Parameter           | Value                                                                                                      |
 |---------------------|------------------------------------------------------------------------------------------------------------|
 | **user**        | `postgres`                                                                                                 |
-| **password**        | _get your saved password or modify the existing password_                                                   |
+| **password**        | _Get your saved password or modify the existing password_                                                   |
 | **host**             | `animefiguredb.carjebedzjdp.us-east-1.rds.amazonaws.com`                                                   |
 | **port**            | `5432`                                                                                                     |
-| **dbname**          | `postgres` (the default dbname if its not set)                                                                            |
+| **dbname**          | `postgres` (the default dbname if it's not set)                                                                            |
 | **certificate bundle** | [`us-east-1-bundle.pem`](https://truststore.pki.rds.amazonaws.com/us-east-1/us-east-1-bundle.pem)    |
 
-We can use `psql` CLI tool to test the database connection:
+We can use the `psql` CLI tool to test the database connection:
 
 ```shell
 psql "postgresql://postgres:password@animefiguredb.carjebedzjdp.us-east-1.rds.amazonaws.com:5432/postgres?sslmode=require&sslrootcert=us-east-1-bundle.pem"
@@ -88,7 +88,7 @@ To develop a generated application locally and want to use a local database, you
 
 ### `DATABASE_URL`
 
-ROQ's generated application need the `DATABASE_URL` environment variable to works. Since we already know the connection information we will set the environment variable:
+ROQ's generated application needs the `DATABASE_URL` environment variable to work. Since we already know the connection information, we will set the environment variable:
 
 ```ini
 DATABASE_URL=postgresql://postgres:password@animefiguredb.carjebedzjdp.us-east-1.rds.amazonaws.com:5432/postgres
@@ -98,7 +98,7 @@ DATABASE_URL=postgresql://postgres:password@animefiguredb.carjebedzjdp.us-east-1
 
 ## AWS Amplify
 
-[AWS Amplify](https://console.aws.amazon.com/amplify) is a services from Amazon Web Services (AWS) that enables developers to build and deploy scalable and secure cloud-powered web and mobile applications. Amplify aims to simplify the process of building apps by providing a managed backend for handling authentication, storage, APIs, and other cloud functionalities. Amplify provides two services: **Amplify Hosting** and **Amplify Studio**. For more information about AWS Amplify, please read their [documentation](https://docs.aws.amazon.com/amplify/).
+[AWS Amplify](https://console.aws.amazon.com/amplify) is a service from Amazon Web Services (AWS) that enables developers to build and deploy scalable and secure cloud-powered web and mobile applications. Amplify aims to simplify the process of building apps by providing a managed backend for handling authentication, storage, APIs, and other cloud functionalities. Amplify provides two services: **Amplify Hosting** and **Amplify Studio**. For more information about AWS Amplify, please read their [documentation](https://docs.aws.amazon.com/amplify/).
 
 ## Amplify Hosting
 
@@ -108,12 +108,12 @@ Amplify Hosting is a fully managed hosting service for web apps. Connect a repos
 To include the generated application code in your own GitHub repository, please follow our [tutorial](/development-guides/generated-applications/app-development) on application development.
 </Callout>
 
-To get started with Amplify Hosting, we need to connect it with a repository. In this tutorial, we will use the GitHub repository. There are a few steps that need to be taken care of:
+We need to connect it with a repository to get started with Amplify Hosting. In this tutorial, we will use the GitHub repository. There are a few steps that need to be taken care of:
 
 <Steps>
 ### Connect to GitHub 
 
-Amplify Hosting provice clear steps to get started web hosting using GitHub. Choose **GitHub** as the source for the generated application. 
+Amplify Hosting provides clear steps to get started on web hosting using GitHub. Choose **GitHub** as the source for the generated application. 
 
 ![AWS Amplify GitHub](/aws-ampliy-github.png)
 
@@ -131,10 +131,10 @@ To add a repository branch, select the repository and the branch.
 
 ### Build Settings
 
-For our ROQ generated application, we need the Base URL. Unfortunately, we are unable to determine the URL until the application has been deployed or moved to the build state.
+For our ROQ-generated application, we need the Base URL. Unfortunately, we are unable to determine the URL until the application has been deployed or moved to the build state.
 
 <Callout type="warning">
-First time build will be failed because we haven't setup the environment variables.
+First time build will fail because we still need to setup the environment variables.
 </Callout>
 
 ![build failed](/aws-amplify-build-failed.png)
@@ -148,14 +148,14 @@ https://main.d335zd9ekqhkcd.amplifyapp.com
 #### Set Environment Variables
 
 <Callout type="info">
-Read this section first, on how to [get the environment variables](/development-guides/generated-applications/app-deployment-aws#roq-environment) from ROQ Console.
+Read this section first on how to [get the environment variables](/development-guides/generated-applications/app-deployment-aws#roq-environment) from ROQ Console.
 </Callout>
 
-In AWS Amplify, navigate to **App settings**, select **Environment variables**, and manually enter variables from ROQ Console or `.env` file.
+In AWS Amplify, navigate to **App settings**, select **Environment variables**, and manually enter variables from ROQ Console or the `.env` file.
 
 ![aws amplify build env](/aws-amplify-build-env.png)
 
-And also add the `DATABASE_URL` from our previous setup:
+And also, add the `DATABASE_URL` from our previous setup:
 
 ```ini
 DATABASE_URL=postgresql://postgres:password@animefiguredb.carjebedzjdp.us-east-1.rds.amazonaws.com:5432/postgres
@@ -163,13 +163,13 @@ DATABASE_URL=postgresql://postgres:password@animefiguredb.carjebedzjdp.us-east-1
 
 #### `amplify.yaml`
 
-AWS Amplify have an application build specification that can be edit trough **App settings** or overridden by `amplify.yaml` file. The build specification YML file controls how an app build will run and is stored on the servers.
+AWS Amplify has an application build specification that can be edited through **App settings** or overridden by the `amplify.yaml` file. The build specification YML file controls how an app build will run and is stored on the servers.
 
-To edit buld specification in the AWS Amplify, go to **App settings**, select **Build settings** and edit **App build specification**. 
+To edit the build specification in the AWS Amplify, go to **App settings**, select **Build settings**, and edit **App build specification**. 
 
 ![build spec](/aws-amplify-build-spec.png)
 
-We can overidde the AWS Amplify setting above with create a `amplify.yaml` file on the application project root directory:
+We can override the AWS Amplify setting above by creating a `amplify.yaml` file on the application project root directory:
 
 ```yaml
 version: 1
@@ -193,27 +193,27 @@ frontend:
       - node_modules/**/*
 ```
 
-Please note that environment variable that previously entered manually are available only in build time. To make the environment variables also available in runtime, we need to save the environment variables into `.env` file.
+Please note that environment variables that were previously entered manually are available only in build time. To make the environment variables available in runtime, we need to save the environment variables into a `.env` file.
 
 ```bash
 env | grep -e NEXT_PUBLIC_ROQ_CLIENT_ID -e NEXT_PUBLIC_ROQ_PLATFORM_URL -e NEXT_PUBLIC_BASE_URL >> .env
 ```
 
 <Callout type="info">
-Amplify Hosting supports adding environment variables to your application's builds by setting them in the project's configuration in the Amplify console. However, a Next.js server component doesn't have access to those environment variables by default. For more information, please read it [here](https://docs.aws.amazon.com/amplify/latest/userguide/ssr-environment-variables.html).
+Amplify Hosting supports adding environment variables to your application's builds by setting them in the project's configuration in the Amplify console. However, a Next.js server component cannot access those environment variables by default. For more information, please read it [here](https://docs.aws.amazon.com/amplify/latest/userguide/ssr-environment-variables.html).
 </Callout>
 
-### Re-deploy Application
+### Redeploy Application
 
-After the environment variables setup, we can re-deploy the application in Amplify Hosting. Click the application name. For example, `anime-figure-store`:
+After the environment variables are setup, we can redeploy the application in Amplify Hosting. Click the application name. For example, `anime-figure-store`:
 
 ![aws amplify main branch](/aws-amplify-build-main.png)
 
-Click the branch `main` that will bring us into the branch build details.
+Click the branch `main` that will bring us to the branch build details.
 
 ![aws amplify main branch deploy](/aws-amplify-build-deploy.png)
 
-To force build and redeploy, click the **Redeploy this version** button.
+Click the **Redeploy this version** button to build and redeploy.
 
 ### Test Application
 
@@ -225,21 +225,21 @@ https://main.d335zd9ekqhkcd.amplifyapp.com/
 
 ![aws amplify deploy URL](/aws-amplify-deployed-url.png)
 
-Signup to the deployed application and every time we make a changes to the source code and then push it to the GitHub repository. AWS Amplify Hosting will pick up the changes and build the new version of the application. 
+Sign up to the deployed application, and every time, we make a changes to the source code and then push it to the GitHub repository. AWS Amplify Hosting will pick up the changes and build the new version of the application. 
 
 </Steps>
 
 ## ROQ Environment
 
-To make ROQ-generated application working on a PaaS, it is necessary to configure specific environment settings for that PaaS. You need to create a new environment on [ROQ Console](https://console.roq.tech/).
+The ROQ-generated application will work as expected if we configure the right environment settings. You must create a new environment on [ROQ Console](https://console.roq.tech/).
 
 <ROQEnv/>
 
 ![AWS amplify roq env](/aws-ampliy-roq-env.png)
 
-We can call the new environment anything, for example  **Amazon AWS**. Later we need to configure the base URL for the deployed application.
+We can call the new environment anything, for example, **Amazon AWS**. Later, we need to configure the base URL for the deployed application.
 
-From our Amplify Hosting build, we already have information for the Base URL. In the ROQ Console, go to the **Application Details** → **Settings** to configure the environment variables.
+We already have information for the Base URL from our Amplify Hosting build. In the ROQ Console, go to the **Application Details** → **Settings** to configure the environment variables.
 
 ![ROQ ](/aws-amplify-roq-env.png)
 
@@ -257,7 +257,8 @@ Click the **Copy Env File** button to copy the environment variables and save th
 
 ## Troubleshooting
 
-If the deployed application is not running as expected, such as an `Internal Server Error`, please check the compute logs. On AWS Amplify, go to the **App settings**, then select **Monitoring** and finally select **Hosting compute logs**.
+Please check the compute logs if the deployed application is not running as expected, such as an `Internal Server Error`. On AWS Amplify, go to the **App settings**, then select **Monitoring**, and finally select **Hosting compute logs**.
 
 ![](/aws-amplify-monitoring.png)
 
+Please look into our [FAQ](/faq) documentation section for other troubleshooting.
