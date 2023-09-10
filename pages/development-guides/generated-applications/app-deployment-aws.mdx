@@ -73,7 +73,7 @@ From our PostgreSQL setup earlier, we have our connection data:
 | **dbname**          | `postgres` (the default dbname if it's not set)                                                                            |
 | **certificate bundle** | [`us-east-1-bundle.pem`](https://truststore.pki.rds.amazonaws.com/us-east-1/us-east-1-bundle.pem)    |
 
-Store the certificate bundle `us-east-1-bundle.pem` in an accessible directory. This is only required if connecting to the database outside the AWS network. We can use the `psql` CLI tool to test the database connection:
+Store the certificate bundle `us-east-1-bundle.pem` in the application project root directory. This is only required if connecting to the database outside the AWS network. We can use the `psql` CLI tool to test the database connection:
 
 ```shell
 psql "postgresql://postgres:password@animefiguredb.carjebedzjdp.us-east-1.rds.amazonaws.com:5432/postgres?sslmode=require&sslrootcert=us-east-1-bundle.pem"
@@ -122,7 +122,7 @@ We have the option to grant authorization for all repositories or to select a sp
 
 ![add repository](/aws-ampliy-github-add-repo.png)
 
-To add a repository branch, select the repository and the branch.
+To add a repository branch, select the repository and the default branch.
 
 ### Build Settings
 
@@ -198,7 +198,7 @@ env | grep -e NEXT_PUBLIC_ROQ_CLIENT_ID -e NEXT_PUBLIC_ROQ_PLATFORM_URL -e NEXT_
 Amplify Hosting supports adding environment variables to your application's builds by setting them in the project's configuration in the Amplify console. However, a Next.js server component cannot access those environment variables by default. For more information, please read it [here](https://docs.aws.amazon.com/amplify/latest/userguide/ssr-environment-variables.html).
 </Callout>
 
-### Redeploy Application
+### Rebuild After Deployment
 
 After the environment variables are setup, we can redeploy the application in Amplify Hosting. Click the application name. For example, `anime-figure-store`:
 
@@ -217,10 +217,11 @@ To test the application, open the browser and go to the URL:
 ```shell
 https://main.d335zd9ekqhkcd.amplifyapp.com/
 ```
+Initially, no users are registered. You can create an account in the application and manage it through the ROQ Console.
 
 ![aws amplify deploy URL](/aws-amplify-deployed-url.png)
 
-Sign up to the deployed application, and every time, we make a changes to the source code and then push it to the GitHub repository. AWS Amplify Hosting will pick up the changes and build the new version of the application. 
+Whenever we make changes to the source code and push it to the GitHub repository, AWS Amplify Hosting will automatically build the latest version of the application. This way, you'll always have access to the most up-to-date version of the application.
 
 </Steps>
 
