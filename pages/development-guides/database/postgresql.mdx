@@ -8,11 +8,11 @@ This documentation explains how to integrate ROQ's generated application with Po
 
 [PostgreSQL](https://www.postgresql.org/) is a powerful, open-source object-relational database system with over 35 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance. To install PostgreSQL in your operating system, please follow the documentation below:
 
-### Windows
+## Windows
 
 You can easily install PostgreSQL manually through the Windows installer. These are general steps to install it:
 
-#### Installation
+### Installation
 
 Download the PostgreSQL installer for Windows from a certified [EDB](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads) website. The Windows installer only supports 64-bit systems, and we will use PostgreSQL 15 version in this documentation. The installation for Windows is pretty straightforward, just click the installer and follow the next installation process.
 
@@ -30,7 +30,7 @@ For example, with the default username is `postgres`, the database name is `libr
 postgresql://postgres:mypassword@localhost:5432/library
 ```
 
-#### Create Database
+### Create Database
 
 PostgreSQL on Windows also provides the CLI tool `psql` and the GUI tool **pgAdmin**. Both tools can be used to create a database.
 
@@ -55,7 +55,7 @@ postgres=# CREATE DATABASE library;
 
 You can check with the command `\l` to check the `library` database creation.
 
-#### `DATABASE_URL`
+### `DATABASE_URL`
 
 The last step is to replace the `DATABASE_URL` environment variable in the `.env` file with the PostgreSQL local URL:
 
@@ -71,11 +71,11 @@ To run the generated application for local development please read this [documen
 </Callout>
 
 
-### Ubuntu Linux
+## Ubuntu Linux
 
 When installing PostgreSQL on Linux, if you need a version not included in the distribution, you must add the PostgreSQL repository. Let's take the Ubuntu distribution. For other Linux distribution installations, please go to the PostgreSQL official [website](https://www.postgresql.org/download/).
 
-#### Installation
+### Installation
 
 We will use Ubuntu 20.04, and you need to run the scripts below to install PostgreSQL 15:
 
@@ -98,7 +98,7 @@ If it's not running yet, you can start it with this command:
 sudo systemctl start postgresql
 ```
 
-#### Create Database
+### Create Database
 
 The installation procedure created a user account called `postgres` that is associated with the default Postgres role. There are a few ways to utilize this account to access Postgres. One way is to switch over to the postgres account:
 
@@ -139,7 +139,7 @@ Then with all these pieces of information, we can form the URL database for our 
 postgresql://postgres:mypassword@localhost:5432/library
 ```
 
-#### `DATABASE_URL`
+### `DATABASE_URL`
 
 The last step is to replace `DATABASE_URL` environment variable in the `.env` with the PostgreSQL local URL:
 
