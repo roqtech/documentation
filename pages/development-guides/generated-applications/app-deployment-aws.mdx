@@ -96,16 +96,6 @@ DATABASE_URL=postgresql://postgres:password@animefiguredb.carjebedzjdp.us-east-1
 
 </Steps>
 
-## ROQ Environment
-
-Before deploying an ROQ-generated application on a PaaS, it is necessary to configure specific environment settings for that PaaS. You need to create a new environment on [ROQ Console](https://console.roq.tech/).
-
-<ROQEnv/>
-
-![AWS amplify roq env](/aws-ampliy-roq-env.png)
-
-We can call the new environment anything, for example  **Amazon AWS**. Later we need to configure the base URL for the deployed application.
-
 ## AWS Amplify
 
 [AWS Amplify](https://console.aws.amazon.com/amplify) is a services from Amazon Web Services (AWS) that enables developers to build and deploy scalable and secure cloud-powered web and mobile applications. Amplify aims to simplify the process of building apps by providing a managed backend for handling authentication, storage, APIs, and other cloud functionalities. Amplify provides two services: **Amplify Hosting** and **Amplify Studio**. For more information about AWS Amplify, please read their [documentation](https://docs.aws.amazon.com/amplify/).
@@ -129,13 +119,60 @@ Amplify Hosting provice clear steps to get started web hosting using GitHub. Cho
 
 ### Select Repository
 
-To be able to use GitHub repository with Amplify Hosting, we should install and  authorize the AWS Amplify for all repositories or select a specific repository.
+To use a GitHub repository with Amplify Hosting, first install and authorize AWS Amplify.
 
 ![AWS GitHub authorize](/aws-ampliy-github-authorize.png)
+
+We have the option to grant authorization for all repositories or to select a specific repository for better control.
+
+![add repository](/aws-ampliy-github-add-repo.png)
+
+To add a repository branch, select the repository and the branch.
+
+### Build Settings
+
+For our ROQ generated application, we need the Base URL. Unfortunately, we are unable to determine the URL until the application has been deployed or moved to the build state.
+
+<Callout type="warning">
+First time build will be failed because we haven't setup the environment variables.
+</Callout>
+
+![build failed](/aws-amplify-build-failed.png)
+
+From the build information, we can get the **Domain** or the **Base URL** for our deployed application:
+
+```shell
+https://main.d335zd9ekqhkcd.amplifyapp.com
+```
 
 
 </Steps>
 
+## ROQ Environment
+
+To make ROQ-generated application working on a PaaS, it is necessary to configure specific environment settings for that PaaS. You need to create a new environment on [ROQ Console](https://console.roq.tech/).
+
+<ROQEnv/>
+
+![AWS amplify roq env](/aws-ampliy-roq-env.png)
+
+We can call the new environment anything, for example  **Amazon AWS**. Later we need to configure the base URL for the deployed application.
+
+From our Amplify Hosting build, we already have information for the Base URL. In the ROQ Console, go to the **Application Details** → **Settings** to configure the environment variables.
+
+![ROQ ](/aws-amplify-roq-env.png)
+
+We need to setup the **Base URL** and all the **Authentication URLs**. 
+
+| Description            | URL                     |
+| ---------------------- | ----------------------- |
+| Base URL               | `https://main.d335zd9ekqhkcd.amplifyapp.com`         |
+| Sign-in URL            | `https://main.d335zd9ekqhkcd.amplifyapp.com/api/auth/login` |
+| Allowed Logout URLs    | `https://main.d335zd9ekqhkcd.amplifyapp.com/api/auth/logout` |
+| Allowed Callback URLs  | `https://main.d335zd9ekqhkcd.amplifyapp.com/api/auth/callback` |
+
+
+Click the **Copy Env File** button to copy environment variables and save them in a `.env` file in the application project root.
 
 
 ## Troubleshooting
