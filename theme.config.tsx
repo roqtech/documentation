@@ -28,7 +28,7 @@ const config: DocsThemeConfig = {
         link: 'https://github.com/roqtech',
     },
     chat: {
-        link: 'https://join.slack.com/t/roq-community/shared_invite/zt-1ly20yqpg-K03kNGxN1C7G1C0rr3TlSQ',
+        link: 'http://roqstars.com/',
         icon: <svg
             xmlns="http://www.w3.org/2000/svg"
             width="64"
