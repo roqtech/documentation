@@ -2,7 +2,6 @@
 	"index": "Overview",
 	"postgresql": "PostgreSQL",
 	"mongodb": {
-		"title": "MongoDB",
-		"display": "hidden"
+		"title": "MongoDB"
 	}
 }
