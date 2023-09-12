@@ -74,15 +74,13 @@ MongoDB's document-based structure and flexible schemas means that using Prisma 
 
 We cannot reuse the existing Prisma schema without any changes especially in defining ID. Prisma does not support fields starting with `_`, so this needs to be mapped to a Prisma field using the `@map` attribute.
 
-
-
-For example, in PostgreSQL Prisma schema: 
+Lets take an example a piece of PostgreSQL Prisma schema from a typical ROQ generated application: 
 
 ```js
 id       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 user_id  String?  @db.Uuid
 ```
-To change the schema with MongoDB database we need to maps the Prisma `id` field to the `_id` column in the database `@map("_id")` and specifies that this field uses the `ObjectId` type in the database `@db.ObjectId`:
+To change the schema for MongoDB database we need to maps the Prisma `id` field to the `_id` column in the database, `@map("_id")` and specifies that this field uses the `ObjectId` type in the database `@db.ObjectId`. The Prisma schema after conversion is like this:
 
 ```js
 id       String   @id @default(auto()) @map("_id") @db.ObjectId
@@ -93,7 +91,7 @@ user_id  String?  @db.ObjectId
 For more information about Prisma schema data model, please read their official documentation [here](https://www.prisma.io/docs/concepts/components/prisma-schema/data-model) and the native type mapping from Prisma to MongoDB [here](https://www.prisma.io/docs/concepts/database-connectors/mongodb).
 </Callout>
 
-The Prisma schema for MongoDB version in a typical ROQ AI application after conversion from PostgreSQL is described below:
+Here are examples of Prisma schemas for MongoDB and PostgreSQL databases. The MongoDB schema has been converted from the PostgreSQL schema:
 
 <Tabs items={['Prisma Schema MongoDB', 'Prisma Schema PostgreSQL']}>
 <Tab>
@@ -190,6 +188,7 @@ model user {
 ```
 </Tab>
 <Tab>
+
 ```js
 generator client {
   provider = "prisma-client-js"
@@ -284,6 +283,27 @@ model user {
 ```
 </Tab>
 </Tabs>
+
+Because of the Prisma changes, we should regenerate it to updates the Prisma Client based on the Prisma schema (`schema.prisma`). The Prisma Client will provides update to a set of CRUD (Create, Read, Update, Delete) operations for the models defined in the schema.
+
+```shell
+npx prisma regenerate
+```
+
+## Prisma `db push`
+
+The Prisma CLI has a dedicated command for prototyping schemas: `db push`. This command uses the same engine as [Prisma Migrate](
+https://www.prisma.io/docs/concepts/components/prisma-migrate) to synchronize the Prisma schema with MongoDB database. For more information about `db push`. Please read [here](https://www.prisma.io/docs/concepts/components/prisma-migrate/db-push).
+
+So instead of using the `prisma migrate` command, for MongoDB database we will use:
+
+```shell
+npx prisma db push
+```
+
+The above command will synchronize MongoDB with our Prisma schema. Also remember to set the `DATABASE_URL` in the `.env` file.
+
+
 
 
 {/* Local database needs a replica set feature because ROQ needs transaction support.
