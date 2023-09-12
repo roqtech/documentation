@@ -10,12 +10,16 @@ This guide will provide instructions on how to integrate an application generate
 
 MongoDB is a database that stores data in collections without requiring a schema to be defined beforehand, unlike in a relational database where you need to define tables. The structure of each collection can also be modified over time, making it easy to iterate your data model.
 
-
 ## Transaction
 
-The transaction feature from relational databases, such as PostgreSQL, is natively supported and used by ROQ's generated application. However, the transaction feature is not supported in NoSQL databases like MongoDB.
+The transaction feature from relational databases, such as PostgreSQL, is natively supported and used by ROQ's generated application. However, the transaction feature is not supported in NoSQL databases like MongoDB. MongoDB only allows to start a transaction on a [replica set](https://www.mongodb.com/docs/manual/replication/). 
 
-MongoDB only allows to start a transaction on a [replica set](https://www.mongodb.com/docs/manual/replication/). It means the MongoDB installation require a replica set configuration. If you have a standalone MongoDB installation the ROQ's generated application will not work.
+ROQ using Prisma to connect the database and Prisma uses transactions internally to avoid partial writes on nested queries. This means Prisma inherit the requirement of [needing](https://www.prisma.io/docs/concepts/database-connectors/mongodb#replica-set-configuration) a replica set configured. 
+
+<Callout type="warning">
+If you have a standalone MongoDB installation, you need to configure and run a replica set for the ROQ's generated application to work properly.
+</Callout>
+
 
 
 
