@@ -1,0 +1,213 @@
+import { Tab, Tabs, Callout } from 'nextra-theme-docs';
+
+# Using ROQ with PostgreSQL
+
+This documentation explains how to integrate ROQ's generated application with PostgreSQL and install PostgreSQL on different operating systems and container-based solutions such as Docker.
+
+## What is PostgreSQL?
+
+[PostgreSQL](https://www.postgresql.org/) is a powerful, open-source object-relational database system with over 35 years of active development that has earned it a strong reputation for reliability, feature robustness, and performance. To install PostgreSQL in your operating system, please follow the documentation below:
+
+## Windows
+
+You can easily install PostgreSQL manually through the Windows installer. These are general steps to install it:
+
+### Installation
+
+Download the PostgreSQL installer for Windows from a certified [EDB](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads) website. The Windows installer only supports 64-bit systems, and we will use PostgreSQL 15 version in this documentation. The installation for Windows is pretty straightforward, just click the installer and follow the next installation process.
+
+![postgres install start](/postgresql-install-1.png)
+
+Leave every option as default. What you need to be aware of is you have to set the database password because you will need it later.
+
+![set postgres password](/postgresql-install-password.png)
+
+The default PostgreSQL port installation is at **5432**, with the username and password will be used to form the database URL set in the `DATABASE_URL` environment variable. 
+
+For example, with the default username is `postgres`, the database name is `library`, running on the `localhost`, and the password is `mypassword`, we can form the database URL as:
+
+```shell
+postgresql://postgres:mypassword@localhost:5432/library
+```
+
+### Create Database
+
+PostgreSQL on Windows also provides the CLI tool `psql` and the GUI tool **pgAdmin**. Both tools can be used to create a database.
+
+<Callout type="info">
+[**pgAdmin**](https://www.pgadmin.org/) is designed to meet the needs of both novice and experienced Postgres users alike, providing a powerful graphical interface that simplifies the creation, maintenance, and use of database objects.
+</Callout>
+
+With pgAdmin, we can easily create a database for our generated application.
+
+![create a database on pgadmin](/pgadmin-create-db.png)
+
+To create database using `psql` you need to connect first:
+
+```shell
+psql -U postgres
+```
+Create the database `library`:
+
+```shell
+postgres=# CREATE DATABASE library;
+```
+
+You can check with the command `\l` to check the `library` database creation.
+
+### `DATABASE_URL`
+
+The last step is to replace the `DATABASE_URL` environment variable in the `.env` file with the PostgreSQL local URL:
+
+```ini
+#.env
+DATABASE_URL=postgresql://postgres:mypassword@localhost:5432/library
+```
+
+And we should restart the application to pick up any changes on the `.env` file.
+
+<Callout type="info">
+To run the generated application for local development please read this [documentation](/development-guides/generated-applications/run-local-development).
+</Callout>
+
+
+## Ubuntu Linux
+
+When installing PostgreSQL on Linux, if you need a version not included in the distribution, you must add the PostgreSQL repository. Let's take the Ubuntu distribution. For other Linux distribution installations, please go to the PostgreSQL official [website](https://www.postgresql.org/download/).
+
+### Installation
+
+We will use Ubuntu 20.04, and you need to run the scripts below to install PostgreSQL 15:
+
+```shell
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get -y install postgresql-15
+```
+
+To check if PostgreSQL is already running or not, use the `systemd` service:
+
+```shell
+sudo systemctl status postgresql
+```
+
+If it's not running yet, you can start it with this command:
+
+```shell
+sudo systemctl start postgresql
+```
+
+### Create Database
+
+The installation procedure created a user account called `postgres` that is associated with the default Postgres role. There are a few ways to utilize this account to access Postgres. One way is to switch over to the postgres account:
+
+```shell
+sudo -i -u postgres
+```
+Basically, the command above changed the Linux user to a `postgres` user. With this user, we can create a new database. Let's name it `library`, other than sql query we can use the `createdb` command:
+
+```shell
+postgres@GenAI:~$ createdb library
+```
+To connect to the `library` database, you can use the `-d` option:
+
+```shell
+postgres@GenAI:~$ psql -d library
+psql (15.4 (Ubuntu 15.4-1.pgdg20.04+1))
+Type "help" for help.
+
+library=#
+```
+
+To get the connection information, you can use the `\conninfo` command:
+
+```shell
+library=# \conninfo
+You are connected to database "library" as user "postgres" via socket in "/var/run/postgresql" at port "5432". 
+```
+
+To set the password for the `library` database, you can use this query:
+
+```shell
+ALTER USER postgres WITH PASSWORD 'mypassword';
+```
+
+Then with all these pieces of information, we can form the URL database for our generated application:
+
+```shell
+postgresql://postgres:mypassword@localhost:5432/library
+```
+
+### `DATABASE_URL`
+
+The last step is to replace `DATABASE_URL` environment variable in the `.env` with the PostgreSQL local URL:
+
+```ini
+DATABASE_URL=postgresql://postgres:mypassword@localhost:5432/library
+```
+
+And we should restart the application to pickup any changes on the `.env` file.
+
+<Callout type="info">
+Please read this [documentation](/development-guides/generated-applications/run-local-development) to run the generated application for local development.
+</Callout>
+
+
+## Docker
+
+Another option to use PostgreSQL without installation manually is by using Docker. Docker is an open platform for developing, shipping and running applications. To install Docker in your operating system, go to [get Docker](https://docs.docker.com/get-docker/). 
+
+The Docker's base commands are designed to be consistent across platforms. This consistency allows developers to develop and test in environments that closely replicate production, regardless of their development machine.
+
+### Installation
+
+To install the PostgreSQL docker version, you need to pull the image and run this command in the terminal:
+
+```shell
+docker pull postgres:15
+```
+To check the PostgreSQL image is on the system, run the `docker` command in the terminal:
+
+```shell
+E:\_workspaces>docker images
+REPOSITORY                         TAG       IMAGE ID       CREATED       SIZE
+postgres                           15        3a1d35a2fb77   2 hours ago   586MB
+```
+
+### Create Database 
+
+To run the PostgreSQL docker version, you need to set the database user password, initialize the database, and set the port. We can set these configurations at once in the terminal with this command:
+
+```shell
+docker run --name postgres-15 -e POSTGRES_PASSWORD=mypassword -e POSTGRES_DB=library -v D:/data:/var/lib/postgresql/data -d postgres:15 -p 4000:5432
+```
+The command above will also create a `library` database and mount persistent storage on the Windows directory `D:\data`. The command parameters information:
+
+- **Instance Name**: `postgres-15`
+- **Username**: `postgres`
+- **Password**: `mypassword`
+- **Database Name**: `library`
+- **Port**: `4000`
+- **Database Data**: `D:\data` (for another operating system, you can adjust this value.)
+
+With the information above, we can use `psql` to connect to this database:
+
+```shell
+psql -h localhost -U postgres -p 4000
+```
+
+Or, if you prefer pgAdmin to connect to this database:
+
+![pgadmin docker](/pgadmin-docker.png)
+
+### `DATABASE_URL`
+
+After we know the PostgreSQL database URL now, we can easily connect it with our generated application:
+
+
+```ini
+DATABASE_URL=postgresql://postgres:mypassword@localhost:4000/library
+```
+
+And we should restart the application to pickup any changes on `.env` file.

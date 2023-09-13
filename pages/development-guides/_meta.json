@@ -8,5 +8,6 @@
   "sdk-api": "SDK API",
   "ui-components": "UI Components",
   "webhooks": "Webhooks",
-  "generated-applications": "Generated Applications"
+  "generated-applications": "Generated Applications",
+  "database": "Database Integration"
 }
