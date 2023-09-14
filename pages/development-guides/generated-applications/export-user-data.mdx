@@ -8,4 +8,68 @@ The ability to export user data is essential for businesses to adapt to operatio
 
 In order to collect user data, we can make use of ROQ's API, with the help of the User Management API as well as other APIs, such as the File and Chat API. Additionally, within the application, we can also collect user data that is related to the project entities.
 
+For example for the user with ID `c095e436-6904-49d0-8b7e-c0ba916ecdad`. To get the user data we can use the [`user()`](/user-management/api#users) API.
 
+```ts
+const userID = "c095e436-6904-49d0-8b7e-c0ba916ecdad"
+
+const userByID = await roqClient.asSuperAdmin().user({
+	id: userID,
+	withTenant: true,
+	withUserGroups: true,
+	withRoles: true
+})
+
+console.log(JSON.stringify(userByID))
+```
+The above code will gave user profile data, tenant, user groups, and user roles: 
+
+```json
+{
+	"user": {
+		"id": "c095e436-6904-49d0-8b7e-c0ba916ecdad",
+		"reference": "c095e436-6904-49d0-8b7e-c0ba916ecdad",
+		"firstName": "Anna",
+		"lastName": "W.",
+		"active": true,
+		"email": "anna.w@gmail.com",
+		"phone": null,
+		"locale": "en-US",
+		"isOptedIn": true,
+		"synced": false,
+		"tenantId": "a750fb55-2b94-4b94-8c87-ddc4deb941ed",
+		"customData": {},
+		"timezone": "Asia/Jakarta",
+		"avatarUrl": "https://s3.fr-par.scw.cloud/a35df408-ee00-4703-9c81-80b5d44a0208-environment-bucket/Fs-CC4maAAEf5xU.jpg",
+		"createdAt": "2023-09-11T13:37:59.076Z",
+		"updatedAt": "2023-09-14T09:56:02.470Z",
+		"tenant": {
+			"id": "a750fb55-2b94-4b94-8c87-ddc4deb941ed",
+			"reference": null,
+			"isDefault": false,
+			"name": "Otaku HQ",
+			"createdAt": "2023-09-11T13:37:58.807Z",
+			"updatedAt": "2023-09-11T13:37:58.807Z"
+		},
+		"userGroups": {
+			"data": [],
+			"totalCount": 0
+		},
+		"roles": {
+			"data": [
+				{
+					"id": "e5a65365-3f88-4f47-90d7-15e581004a65",
+					"reference": null,
+					"description": "",
+					"isSystemManaged": false,
+					"key": "store-owner",
+					"name": "Store Owner"
+				}
+ 			],
+			"totalCount": 1
+		}
+	}
+}
+```
+
+To get the chat data 
