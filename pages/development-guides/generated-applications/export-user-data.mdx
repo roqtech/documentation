@@ -2,13 +2,13 @@ import { Callout, Tab, Tabs, Steps } from 'nextra-theme-docs';
 
 # Export User Data From ROQ
 
-The ability to export user data is essential for businesses to adapt to operational needs. Export data provides flexibility and control over data. To export data from the generated application we need to gather all the user related data by their IDs.
+The ability to export user data is essential for businesses to adapt to operational needs. Export data provides flexibility and control over data. To export data from the generated application, we need to gather all the user related data by their IDs.
 
 ## User Data
 
-In order to collect user data, we can make use of ROQ's API, with the help of the User Management API as well as other APIs, such as the File and Chat API. Additionally, within the application, we can also collect user data that is related to the project entities.
+In order to collect user data, we can make use of ROQ's API, with the help of the User Management API as well as other APIs, such as the File and Chat API. Additionally, we can also collect user data that is related to the project entities.
 
-For example for the user with ID `c095e436-6904-49d0-8b7e-c0ba916ecdad`. To get the user data we can use the [`user()`](/user-management/api#users) API.
+For example for the user with ID `c095e436-6904-49d0-8b7e-c0ba916ecdad`. To get the user data we can use the [Users API](/user-management/api).
 
 ```ts
 const userID = "c095e436-6904-49d0-8b7e-c0ba916ecdad"
@@ -22,7 +22,7 @@ const userByID = await roqClient.asSuperAdmin().user({
 
 console.log(JSON.stringify(userByID))
 ```
-The above code will gave user profile data, tenant, user groups, and user roles: 
+The above code will gave user profile data, tenant, user groups, and user roles:
 
 ```json
 {
@@ -72,4 +72,121 @@ The above code will gave user profile data, tenant, user groups, and user roles:
 }
 ```
 
-To get the chat data 
+To add additional data such as files, we can use the [Files API](/files/api) to get all user files. 
+
+```ts
+const userID = "c095e436-6904-49d0-8b7e-c0ba916ecdad"
+const myFiles = await roqClient.asUser(userID).files()
+
+console.log(JSON.stringify(myFiles))
+```
+
+The result is all files data for user specific ID:
+
+```json
+	"files": {
+		"data": [
+			{
+				"id": "302726f3-621e-4c7a-afa5-76ba92c32b94",
+				"createdAt": "2023-09-14T09:56:55.980Z",
+				"updatedAt": "2023-09-14T09:56:57.696Z",
+				"contentType": "text/plain",
+				"createdByUserId": "c095e436-6904-49d0-8b7e-c0ba916ecdad",
+				"fileCategoryId": "a26ab5e0-2554-46da-822c-8ac2b77f0bc3",
+				"isPublic": true,
+				"name": "CPD-3080.txt",
+				"status": "ready",
+				"url": "https://s3.fr-par.scw.cloud/a35df408-ee00-4703-9c81-80b5d44a0208-environment-bucket/CPD-3080.txt"
+			},
+			{
+				"id": "799c8355-6e76-48c6-b3e3-3412fc00de90",
+				"createdAt": "2023-09-14T09:56:00.018Z",
+				"updatedAt": "2023-09-14T09:56:02.031Z",
+				"contentType": "image/jpeg",
+				"createdByUserId": "c095e436-6904-49d0-8b7e-c0ba916ecdad",
+				"fileCategoryId": "9591e33d-725b-48b8-a2d3-e5c826bd5b45",
+				"isPublic": true,
+				"name": "Fs-CC4maAAEf5xU.jpg",
+				"status": "ready",
+				"url": "https://s3.fr-par.scw.cloud/a35df408-ee00-4703-9c81-80b5d44a0208-environment-bucket/Fs-CC4maAAEf5xU.jpg"
+			}
+		],
+		"totalCount": 2
+	}
+```
+
+We can merge the user data using JavaScript object spread syntax to add additional user data:
+
+```ts
+const userData = {
+	...userByID,
+	...myFiles
+}
+```
+
+### User Project Data
+
+We also should retrieve user data from the generated ROQ application, which is linked to the project entities. 
+
+```ts
+const entitiesQuery = `
+query projectEntities($limit: Int = 10) {
+	projectEntities(limit: $limit) {
+	  totalCount
+	  data {
+		id
+		name
+	  }
+	}
+  }  
+`
+
+const entitiesList = await roqClient.asSuperAdmin().graphqlRequest(entitiesQuery)
+console.log(JSON.stringify(entitiesList))
+```
+
+<Callout type="info">
+We can run GraphQL query in ROQ using `graphqlRequest()` method. Please read this [documentation](/development-guides/graphql-query).
+</Callout>
+
+After identifying the project entities, we can retrieve all user data associated with them using the `hasAccess()` method.
+
+```ts
+import 'dotenv/config'
+import { Platform } from '@roq/nodejs'
+import { ResourceOperationEnum, RoqAuthorizationClient } from '@roq/prismajs';
+
+const authorizationClient = new RoqAuthorizationClient(roqClient)
+
+const userID = "c095e436-6904-49d0-8b7e-c0ba916ecdad"
+
+const userByID = await roqClient.asSuperAdmin().user({
+	id: userID,
+	withTenant: true,
+	withUserGroups: true,
+	withRoles: true
+})
+
+function extractAndCountKeys(userRolesArray) {
+	const dataArray = userRolesArray.user.roles.data
+	return dataArray.map(item => item.key);
+}
+
+const userRoles = extractAndCountKeys(userByID)
+
+const userAccessData = {
+	roqUserId: userID,
+	roles: userRoles,
+	tenantId: userByID?.user?.tenant?.id
+}
+
+/**
+ * discussion_board is entity from the data response projectEntities()
+ */
+const userAccess = await authorizationClient.hasAccess('discussion_board', userAccessData, ResourceOperationEnum.Read)
+console.log(userAccess)
+```
+
+<Callout type="info">
+For more information about `hasAccess()` usage on API access, you can read this [documentation](/access-management/tutorials/protect-application-page).
+</Callout>
