@@ -2,13 +2,17 @@ import { Callout, Tab, Tabs, Steps } from 'nextra-theme-docs';
 
 # Export User Data From ROQ
 
-Exporting user data is essential for businesses to adapt to operational needs. Export data provides flexibility and control over data. To export data from the generated application, we need to gather all the user-related data by their IDs.
+Exporting user data is essential for businesses to adapt to operational needs. Export data provides flexibility and control over data.
 
 ## User Data
 
-In order to collect user data, we can use ROQ's API with the help of the User Management API and other APIs, such as the File and Chat API. Additionally, we can also collect user data that is related to the project entities.
+The user data is divided into two categories: platform data in the ROQ platform and project data in the generated application. The platform data is configurable through the ROQ Console and can be configured and accessed via ROQ API. On the other hand, the project data is specific to the generated application and cannot be accessed from the ROQ Console.
 
-For example, for the user with ID `c095e436-6904-49d0-8b7e-c0ba916ecdad`. We can use the [Users API](/user-management/api) to get the user data.
+In order to collect user data, we can use ROQ's API with the help of the User Management API and other APIs, such as the File and Chat API. Additionally, we can also collect user data that is related to the project entities. To export data from ROQ platform and the generated application, we need to gather all the user-related data by their IDs.
+
+### Platform Data
+
+ We can use the [Users API](/user-management/api) to get the user data. For example, for the user with ID `c095e436-6904-49d0-8b7e-c0ba916ecdad`. We can get the user basic information, roles, user groups and tenant. 
 
 ```ts
 const userID = "c095e436-6904-49d0-8b7e-c0ba916ecdad"
@@ -22,7 +26,8 @@ const userByID = await roqClient.asSuperAdmin().user({
 
 console.log(JSON.stringify(userByID))
 ```
-The above code will give user profile data, tenant, user groups, and user roles:
+
+The response from the ROQ API is an object that can be processed easily or converted to JSON format:
 
 ```json
 {
@@ -72,7 +77,7 @@ The above code will give user profile data, tenant, user groups, and user roles:
 }
 ```
 
-To add additional data, such as files, we can use the [Files API](/files/api) to get all user files. 
+We can add additional data, such as files. We will use the [Files API](/files/api) to get all users the files uploaded into the ROQ platform. 
 
 ```ts
 const userID = "c095e436-6904-49d0-8b7e-c0ba916ecdad"
@@ -80,8 +85,7 @@ const myFiles = await roqClient.asUser(userID).files()
 
 console.log(JSON.stringify(myFiles))
 ```
-
-The result is all file data for user-specific ID:
+Running `files()` as a user will make the output is automatically filtered. The output represents all the file data related to the user-specific ID:
 
 ```json
 	"files": {
@@ -115,8 +119,7 @@ The result is all file data for user-specific ID:
 	}
 ```
 
-To add chat messages data, we can use the `conversations()` and `messages()` method 
-from the [Chat API](/chat/api). 
+We can also add chat messages data using the `conversations()` and `messages()` method from the [Chat API](/chat/api). 
 
 ```ts
 const chats = await roqClient.asUser(userID).conversations({
@@ -124,7 +127,7 @@ const chats = await roqClient.asUser(userID).conversations({
 	withTags: true
 }
 ```
-The previous code retrieves all conversation data for the current user ID and permissions. Then, it obtains the conversation messages from the conversation ID.
+The previous code retrieves all conversation data for the current user ID and permissions. Then from each conversation ID, we can get the conversation messages.
 
 ```ts
 const chatMessages = await roqClient.asUser(userID).messages({
@@ -139,7 +142,7 @@ const chatMessages = await roqClient.asUser(userID).messages({
 console.log(JSON.stringify(chatMessages))
 ```
 
-For example, the result of the chat messages from  the code above:
+After calling this ROQ API, chat messages can be easily processed as JSON:
 
 ```json
 {
@@ -183,7 +186,7 @@ For example, the result of the chat messages from  the code above:
 	}
 }
 ```
-We can merge all the user data using the JavaScript object spread syntax:
+We can use the JavaScript object spread syntax to merge user data, files, and chat messages:
 
 ```ts
 const userData = {
@@ -193,11 +196,15 @@ const userData = {
 }
 ```
 
-Other than the user data stored on the ROQ platform, all other data is located within the generated application project.
+Determining the data that requires retrieval from the ROQ platform is heavily dependent on the relevant business needs. However, the ROQ API provides a range of APIs to address the specific requirements of your application.
 
-### User Project Data
+### Project Data
 
-We also should retrieve user data from the generated ROQ application, which is linked to the project entities. 
+To retrieve user data from the generated ROQ application, which is linked to the project entities, we will use GraphQL query using `graphqlRequest()` API.
+
+<Callout type="info">
+We can run GraphQL query in ROQ using the `graphqlRequest()` method. Please read this [documentation](/development-guides/graphql-query).
+</Callout>
 
 ```ts
 const entitiesQuery = `
@@ -216,25 +223,21 @@ const entitiesList = await roqClient.asSuperAdmin().graphqlRequest(entitiesQuery
 console.log(JSON.stringify(entitiesList))
 ```
 
-<Callout type="info">
-We can run GraphQL query in ROQ using the `graphqlRequest()` method. Please read this [documentation](/development-guides/graphql-query).
-</Callout>
+Upon identification of the project entities, it becomes feasible to retrieve any pertinent user data that is required to meet the application specifications.
 
-After identifying the project entities, we can query any user data.
+### Export Route
 
-### Create Export API Route
-
-We will add a new endpoint for our export functionality to get user data from project entities.
-
-<Callout type="info">
-For more information, you can read this documentation about [how to add API endpoint](/development-guides/generated-applications/api-endpoints) in the ROQ's generated application.
-</Callout>
+To simplify the export process, we will create a new endpoint in the application that retrieves user data from project entities.
 
 Depending on which environment the generated application is running, for example, for a local development environment with the base URL `localhost` and the export endpoint is `/api/export`, the URL will be:
 
 ```shell
 http://localhost:3000/api/export
 ```
+
+<Callout type="info">
+For more information, you can read this documentation about [how to add API endpoint](/development-guides/generated-applications/api-endpoints) in the ROQ's generated application.
+</Callout>
 
 Create a file in the `pages/api` directory to add a new API route. Let us name it `export.ts`. This code will retrieve all project entities' user data, roles, and files.
 
@@ -290,8 +293,6 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
 		}).findManyPaginated(convertQueryToPrismaUtil(query, entity));
 	}
 
-
-
 	const userData = {
 		userdata: userByID,
 		...myFiles,
@@ -306,5 +307,7 @@ export default function helloHandler(req: NextApiRequest, res: NextApiResponse) 
 }
 ```
 
-This export data solution depends on the application's needs. ROQ provides easy APIs to query user data in the platform and its generated applications.
+The code above filters data according to the user's ID, roles, and permissions. For additional information about filtering data by user ID please read this [documentation](/access-management/tutorials/filtering-data-by-users). 
+
+This export data solution depends on the application's needs and ROQ provides easy APIs to query user data in the platform and its generated applications.
 
