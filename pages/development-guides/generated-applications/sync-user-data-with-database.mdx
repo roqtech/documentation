@@ -2,6 +2,15 @@ import { Callout, Tab, Tabs, Steps } from 'nextra-theme-docs';
 
 # Sync User Data with Database
 
+## Introduction
+
+Synchronizing user data ensures users have a consistent view of their information, preferences, and progress across all platforms. ROQ provides APIs for easy data query and management and a webhook to notify the application when an event happens in the account. We can use this feature to sync the user data with third-party applications.
+
+## Objectives
+
+For this tutorial, we will sync user file data from the ROQ platform to a third-party web application using ROQ's [Webhook](/development-guides/webhooks) feature.
+
+
 {/*
 
 Sync files between local database (or app) and files in the ROQ platform
@@ -15,6 +24,12 @@ Database Interaction: Sync user collection data across these platforms to ensure
 Applications:
 
 - ROQ's generated application connect to Zapier via ROQ Webhook. Sync files between ROQ and third party tools.
+
+Webhooks:
+
+Method: Use webhooks to notify third-party applications of events within your SaaS. For instance, when a user adds a new item to their collection, the webhook can notify the third-party app.
+
+Consideration: Webhooks are more real-time than periodic API polling, but they also require third-party apps to have an endpoint to receive the data.
 
 */}
 
