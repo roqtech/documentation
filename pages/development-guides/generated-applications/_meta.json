@@ -6,6 +6,7 @@
   "databases-installation": "Databases Installation",
   "database-schema": "Database Schema",
   "edit-data-models": "Edit Data Models",
+  "export-user-data": "Export User Data",
   "app-deployment": "Application Deployment Vercel",
   "app-deployment-heroku": "Application Deployment Heroku",
   "app-deployment-gcp": "Application Deployment GCP",
