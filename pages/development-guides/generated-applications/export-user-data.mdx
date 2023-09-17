@@ -2,13 +2,13 @@ import { Callout, Tab, Tabs, Steps } from 'nextra-theme-docs';
 
 # Export User Data From ROQ
 
-The ability to export user data is essential for businesses to adapt to operational needs. Export data provides flexibility and control over data. To export data from the generated application, we need to gather all the user related data by their IDs.
+Exporting user data is essential for businesses to adapt to operational needs. Export data provides flexibility and control over data. To export data from the generated application, we need to gather all the user-related data by their IDs.
 
 ## User Data
 
-In order to collect user data, we can make use of ROQ's API, with the help of the User Management API as well as other APIs, such as the File and Chat API. Additionally, we can also collect user data that is related to the project entities.
+In order to collect user data, we can use ROQ's API with the help of the User Management API and other APIs, such as the File and Chat API. Additionally, we can also collect user data that is related to the project entities.
 
-For example for the user with ID `c095e436-6904-49d0-8b7e-c0ba916ecdad`. To get the user data we can use the [Users API](/user-management/api).
+For example, for the user with ID `c095e436-6904-49d0-8b7e-c0ba916ecdad`. We can use the [Users API](/user-management/api) to get the user data.
 
 ```ts
 const userID = "c095e436-6904-49d0-8b7e-c0ba916ecdad"
@@ -22,7 +22,7 @@ const userByID = await roqClient.asSuperAdmin().user({
 
 console.log(JSON.stringify(userByID))
 ```
-The above code will gave user profile data, tenant, user groups, and user roles:
+The above code will give user profile data, tenant, user groups, and user roles:
 
 ```json
 {
@@ -72,7 +72,7 @@ The above code will gave user profile data, tenant, user groups, and user roles:
 }
 ```
 
-To add additional data such as files, we can use the [Files API](/files/api) to get all user files. 
+To add additional data, such as files, we can use the [Files API](/files/api) to get all user files. 
 
 ```ts
 const userID = "c095e436-6904-49d0-8b7e-c0ba916ecdad"
@@ -81,7 +81,7 @@ const myFiles = await roqClient.asUser(userID).files()
 console.log(JSON.stringify(myFiles))
 ```
 
-The result is all files data for user specific ID:
+The result is all file data for user-specific ID:
 
 ```json
 	"files": {
@@ -124,7 +124,7 @@ const chats = await roqClient.asUser(userID).conversations({
 	withTags: true
 }
 ```
-The code above will get all the conversations data based on the current user ID and permissions. From the conversation id, we can get the conversations messages.
+The previous code retrieves all conversation data for the current user ID and permissions. Then, it obtains the conversation messages from the conversation ID.
 
 ```ts
 const chatMessages = await roqClient.asUser(userID).messages({
@@ -139,7 +139,7 @@ const chatMessages = await roqClient.asUser(userID).messages({
 console.log(JSON.stringify(chatMessages))
 ```
 
-For example the result of the chat messages from  the code above:
+For example, the result of the chat messages from  the code above:
 
 ```json
 {
@@ -193,7 +193,7 @@ const userData = {
 }
 ```
 
-Other than user data that ROQ platform saved, the other data is in the generated application project.
+Other than the user data stored on the ROQ platform, all other data is located within the generated application project.
 
 ### User Project Data
 
@@ -217,25 +217,26 @@ console.log(JSON.stringify(entitiesList))
 ```
 
 <Callout type="info">
-We can run GraphQL query in ROQ using `graphqlRequest()` method. Please read this [documentation](/development-guides/graphql-query).
+We can run GraphQL query in ROQ using the `graphqlRequest()` method. Please read this [documentation](/development-guides/graphql-query).
 </Callout>
 
-After identifying the project entities, we can query any user data in the project.
+After identifying the project entities, we can query any user data.
 
 ### Create Export API Route
 
-To get user data from project entities, we will add a new endpoint for our export functionality. 
+We will add a new endpoint for our export functionality to get user data from project entities.
 
 <Callout type="info">
-You can read this documentation about [how to add API endpoint](/development-guides/generated-applications/api-endpoints) in the ROQ's generated application for more information.
+For more information, you can read this documentation about [how to add API endpoint](/development-guides/generated-applications/api-endpoints) in the ROQ's generated application.
 </Callout>
 
-Depends on which environment the generated application is running, for example for a local development environment with the base URL `localhost` and the export endpoint is `/api/export`, the URL will be:
+Depending on which environment the generated application is running, for example, for a local development environment with the base URL `localhost` and the export endpoint is `/api/export`, the URL will be:
 
 ```shell
 http://localhost:3000/api/export
 ```
-To add a new API route, create a file in the `pages/api` directory, lets name it `export.ts`. This code will retrieve all user data, roles, and files from the project entities.
+
+Create a file in the `pages/api` directory to add a new API route. Let us name it `export.ts`. This code will retrieve all project entities' user data, roles, and files.
 
 ```ts
 import type { NextApiRequest, NextApiResponse } from 'next';
