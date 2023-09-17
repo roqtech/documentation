@@ -115,7 +115,9 @@ The result is all files data for user specific ID:
 	}
 ```
 
-We can merge the user data using JavaScript object spread syntax to add additional user data:
+{/*Add Chat*/}
+
+We can merge the user data using JavaScript object spread syntax to add an additional user data:
 
 ```ts
 const userData = {
@@ -149,44 +151,86 @@ console.log(JSON.stringify(entitiesList))
 We can run GraphQL query in ROQ using `graphqlRequest()` method. Please read this [documentation](/development-guides/graphql-query).
 </Callout>
 
-After identifying the project entities, we can retrieve all user data associated with them using the `hasAccess()` method.
+After identifying the project entities, we can query any user data in the project.
+
+### Create Export API Route
+
+To get user data from project entities, we will add a new endpoint for our export functionality. Depends on which environment the generated application is running, for example for a local development environment with the base URL `localhost` and the export endpoint is `/api/export`, the URL will be:
+
+```shell
+http://localhost:3000/api/export
+```
+To add a new API route, create a file in the `pages/api` directory, lets name it `export.ts` with the content:
 
 ```ts
-import 'dotenv/config'
-import { Platform } from '@roq/nodejs'
-import { ResourceOperationEnum, RoqAuthorizationClient } from '@roq/prismajs';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import { withAuth, getServerSession } from '@roq/nextjs';
+import { convertQueryToPrismaUtil, parseQueryParams } from 'server/utils';
+import { roqClient } from 'server/roq';
 
-const authorizationClient = new RoqAuthorizationClient(roqClient)
+export async function handler(req: NextApiRequest, res: NextApiResponse) {
+	const session = getServerSession(req, res);
+	const { roqUserId, user } = session;
 
-const userID = "c095e436-6904-49d0-8b7e-c0ba916ecdad"
+	if (req.method !== 'GET') {
+		return res.status(405).json({ message: `Method ${req.method} not allowed` });
+	}
 
-const userByID = await roqClient.asSuperAdmin().user({
-	id: userID,
-	withTenant: true,
-	withUserGroups: true,
-	withRoles: true
-})
+	const userByID = await roqClient.asSuperAdmin().user({
+		id: roqUserId,
+		withTenant: true,
+		withUserGroups: true,
+		withRoles: true
+	});
 
-function extractAndCountKeys(userRolesArray) {
-	const dataArray = userRolesArray.user.roles.data
-	return dataArray.map(item => item.key);
+	const myFiles = await roqClient.asUser(roqUserId).files();
+
+	const entitiesQuery = `
+		query projectEntities($limit: Int = 10) {
+			projectEntities(limit: $limit) {
+				totalCount
+				data {
+					id
+					name
+				}
+			}
+		}
+	`;
+
+	const entitiesList = await roqClient.asUser(roqUserId).graphqlRequest(entitiesQuery);
+	const entitiesArray = entitiesList?.data?.projectEntities?.data.map(item => item.name) || [];
+
+	const query = parseQueryParams(req.query);
+	const allData = {};
+
+	for (let entity of entitiesArray) {
+		if (!prisma[entity]) {
+			throw new Error(`Entity "${entity}" does not exist in Prisma client.`);
+		}
+		allData[entity] = await prisma[entity].withAuthorization({
+			roqUserId,
+			tenantId: user.tenantId,
+			roles: user.roles,
+		}).findManyPaginated(convertQueryToPrismaUtil(query, entity));
+	}
+
+	const userData = {
+		userdata: userByID,
+		...myFiles,
+		...allData
+	};
+
+	return res.status(200).json({ data: userData });
 }
 
-const userRoles = extractAndCountKeys(userByID)
-
-const userAccessData = {
-	roqUserId: userID,
-	roles: userRoles,
-	tenantId: userByID?.user?.tenant?.id
+export default function helloHandler(req: NextApiRequest, res: NextApiResponse) {
+	return withAuth(req, res)(handler);
 }
-
-/**
- * discussion_board is entity from the data response projectEntities()
- */
-const userAccess = await authorizationClient.hasAccess('discussion_board', userAccessData, ResourceOperationEnum.Read)
-console.log(userAccess)
 ```
 
+The code above will query all user data, user roles, user files and any user data from the project entities.
+
+
 <Callout type="info">
-For more information about `hasAccess()` usage on API access, you can read this [documentation](/access-management/tutorials/protect-application-page).
+You can read this documentation about [how to add API endpoint](/development-guides/generated-applications/api-endpoints) in the ROQ's generated application for more information.
 </Callout>
