@@ -40,7 +40,7 @@ The above code will gave user profile data, tenant, user groups, and user roles:
 		"tenantId": "a750fb55-2b94-4b94-8c87-ddc4deb941ed",
 		"customData": {},
 		"timezone": "Asia/Jakarta",
-		"avatarUrl": "https://s3.fr-par.scw.cloud/a35df408-ee00-4703-9c81-80b5d44a0208-environment-bucket/Fs-CC4maAAEf5xU.jpg",
+		"avatarUrl": "https://s3.fr-par.scw.cloud/a35df408-ee00-4703-environment-bucket/Fs-CC4maAAEf5xU.jpg",
 		"createdAt": "2023-09-11T13:37:59.076Z",
 		"updatedAt": "2023-09-14T09:56:02.470Z",
 		"tenant": {
@@ -96,7 +96,7 @@ The result is all files data for user specific ID:
 				"isPublic": true,
 				"name": "CPD-3080.txt",
 				"status": "ready",
-				"url": "https://s3.fr-par.scw.cloud/a35df408-ee00-4703-9c81-80b5d44a0208-environment-bucket/CPD-3080.txt"
+				"url": "https://s3.fr-par.scw.cloud/a35df408-ee00-4703-environment-bucket/CPD-3080.txt"
 			},
 			{
 				"id": "799c8355-6e76-48c6-b3e3-3412fc00de90",
@@ -108,23 +108,92 @@ The result is all files data for user specific ID:
 				"isPublic": true,
 				"name": "Fs-CC4maAAEf5xU.jpg",
 				"status": "ready",
-				"url": "https://s3.fr-par.scw.cloud/a35df408-ee00-4703-9c81-80b5d44a0208-environment-bucket/Fs-CC4maAAEf5xU.jpg"
+				"url": "https://s3.fr-par.scw.cloud/a35df408-ee00-4703-environment-bucket/Fs-CC4maAAEf5xU.jpg"
 			}
 		],
 		"totalCount": 2
 	}
 ```
 
-{/*Add Chat*/}
+To add chat messages data, we can use the `conversations()` and `messages()` method 
+from the [Chat API](/chat/api). 
 
-We can merge the user data using JavaScript object spread syntax to add an additional user data:
+```ts
+const chats = await roqClient.asUser(userID).conversations({
+	withUsers: true,
+	withTags: true
+}
+```
+The code above will get all the conversations data based on the current user ID and permissions. From the conversation id, we can get the conversations messages.
+
+```ts
+const chatMessages = await roqClient.asUser(userID).messages({
+	withFile: true,
+	filter: {
+		conversationId: {
+			equalTo: userConversationId
+		}
+	}
+})
+
+console.log(JSON.stringify(chatMessages))
+```
+
+For example the result of the chat messages from  the code above:
+
+```json
+{
+	"messages": {
+		"data": [
+			{
+				"id": "af3d3394-8200-460c-9a9e-2bff9ed2dc40",
+				"body": "heroku-add-payment.png",
+				"conversationId": "7540d60f-d4a4-4724-927d-792078909455",
+				"fileId": "aea705d9-4071-4b55-b699-d982935f909c",
+				"messageStatusId": null,
+				"authorId": "b555663c-1917-48b7-8513-ddf0ab4d1df9",
+				"createdAt": "2023-09-17T02:52:35.190Z",
+				"updatedAt": "2023-09-17T02:52:35.190Z",
+				"file": {
+					"id": "aea705d9-4071-4b55-b699-d982935f909c",
+					"createdAt": "2023-09-17T02:52:31.867Z",
+					"updatedAt": "2023-09-17T02:52:34.857Z",
+					"contentType": "image/png",
+					"createdByUserId": "b555663c-1917-48b7-8513-ddf0ab4d1df9",
+					"fileCategoryId": "a26ab5e0-2554-46da-822c-8ac2b77f0bc3",
+					"isPublic": true,
+					"name": "heroku-add-payment.png",
+					"status": "ready",
+					"url": "https://s3.fr-par.scw.cloud/a35df408-ee00-environment-bucket/heroku-add-payment.png"
+				}
+			},
+			{
+				"id": "659bba7e-cafd-4727-8fd9-a668350a4c4a",
+				"body": "Screenshot for Heroku setup",
+				"conversationId": "7540d60f-d4a4-4724-927d-792078909455",
+				"fileId": null,
+				"messageStatusId": null,
+				"authorId": "b555663c-1917-48b7-8513-ddf0ab4d1df9",
+				"createdAt": "2023-09-17T02:52:31.706Z",
+				"updatedAt": "2023-09-17T02:52:31.706Z",
+				"file": null
+			}
+		],
+		"totalCount": 2
+	}
+}
+```
+We can merge all the user data using the JavaScript object spread syntax:
 
 ```ts
 const userData = {
 	...userByID,
-	...myFiles
+	...myFiles,
+	...chatMessages
 }
 ```
+
+Other than user data that ROQ platform saved, the other data is in the generated application project.
 
 ### User Project Data
 
@@ -155,12 +224,18 @@ After identifying the project entities, we can query any user data in the projec
 
 ### Create Export API Route
 
-To get user data from project entities, we will add a new endpoint for our export functionality. Depends on which environment the generated application is running, for example for a local development environment with the base URL `localhost` and the export endpoint is `/api/export`, the URL will be:
+To get user data from project entities, we will add a new endpoint for our export functionality. 
+
+<Callout type="info">
+You can read this documentation about [how to add API endpoint](/development-guides/generated-applications/api-endpoints) in the ROQ's generated application for more information.
+</Callout>
+
+Depends on which environment the generated application is running, for example for a local development environment with the base URL `localhost` and the export endpoint is `/api/export`, the URL will be:
 
 ```shell
 http://localhost:3000/api/export
 ```
-To add a new API route, create a file in the `pages/api` directory, lets name it `export.ts` with the content:
+To add a new API route, create a file in the `pages/api` directory, lets name it `export.ts`. This code will retrieve all user data, roles, and files from the project entities.
 
 ```ts
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -214,6 +289,8 @@ export async function handler(req: NextApiRequest, res: NextApiResponse) {
 		}).findManyPaginated(convertQueryToPrismaUtil(query, entity));
 	}
 
+
+
 	const userData = {
 		userdata: userByID,
 		...myFiles,
@@ -228,9 +305,5 @@ export default function helloHandler(req: NextApiRequest, res: NextApiResponse) 
 }
 ```
 
-The code above will query all user data, user roles, user files and any user data from the project entities.
+This export data solution depends on the application's needs. ROQ provides easy APIs to query user data in the platform and its generated applications.
 
-
-<Callout type="info">
-You can read this documentation about [how to add API endpoint](/development-guides/generated-applications/api-endpoints) in the ROQ's generated application for more information.
-</Callout>
