@@ -14,9 +14,15 @@ We will use ROQ's webhook to notify third-party applications of events. For inst
 
 ### ROQ Webhook
 
-For this tutorial, we will only be using the webhook for file updates and creations. If you wish to configure it for user and chat activity, you can do so on the ROQ Console. Any user activity related to files will trigger the system to send a message to the specified webhook.
+To use ROQ Webhook. we should enable the webhook feature. Go to the ROQ Console and **Application Details**, select **Settings** and find **Webhook** section. Tick mark both **Create** and **Update** for **Files**.
 
-{/* Add setup webhook on ROQ console*/}
+<Callout type="info">
+Make sure to provide a valid webhook URL that can receive and process these messages. Note that the URL should be publicly accessible and secure, as sensitive information may be included in the notifications.
+</Callout>
+
+![ROQ webhok setting](/sync-data-webhook-database.png)
+
+For this tutorial, we will only be using the webhook for file updates and creations. If you wish to configure it for user and chat activity, you can do so. Any user activity related to files will trigger the system to send a message to the specified webhook.
 
 For example, the webhook payload for file updates in JSON:
 
