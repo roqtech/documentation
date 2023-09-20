@@ -174,6 +174,12 @@ app.listen(process.env.PORT, () => {
 })
 ```
 
+This webhook server provide the webhook URL:
+
+```shell
+https://[based_url]/roq-webhook
+```
+
 To optimize the handling of file creation and update activity. It is imperative to filter data using `event.name` parameter with a value of `ROQ_FILE_UPDATE`. This approach ensures that the webhook server processes only the relevant data.
 
 The payload data from the ROQ system then can be used to update the existing record on the database or create a new record. Hence, creating a synchronization process.
@@ -196,7 +202,7 @@ const query = `
 			updatedAt = excluded.updatedAt;`
 ```
 
-Based on the payload, we can query another data from ROQ platform. Such as query the URL for the updated file.
+Based on the payload, we can query another data from ROQ platform, such as query the URL for the updated file based onf the file ID.
 
 ```graphql
 query files(
@@ -215,10 +221,7 @@ query files(
 }
 ```
 
-
-
-
-
+From this query we can get the file and also synchronize the file in the third party application. For more information about our File API please look into our documentation [here](/files/api).
 
 {/**Add exposing the server to public so it can pickup the payload */}
 
