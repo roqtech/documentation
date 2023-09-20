@@ -16,15 +16,15 @@ We will use ROQ's webhook to notify third-party applications of events. For inst
 
 To use ROQ Webhook. we should enable the webhook feature. Go to the ROQ Console and **Application Details**, select **Settings** and find **Webhook** section. Tick mark both **Create** and **Update** for **Files**.
 
+![ROQ webhok setting](/sync-data-webhook-database.png)
+
 <Callout type="info">
 Make sure to provide a valid webhook URL that can receive and process these messages. Note that the URL should be publicly accessible and secure, as sensitive information may be included in the notifications.
 </Callout>
 
-![ROQ webhok setting](/sync-data-webhook-database.png)
-
 For this tutorial, we will only be using the webhook for file updates and creations. If you wish to configure it for user and chat activity, you can do so. Any user activity related to files will trigger the system to send a message to the specified webhook.
 
-For example, the webhook payload for file updates in JSON:
+ROQ Webhook will send post data to the webhook URL. For example, the webhook payload data for file updates in JSON:
 
 ```json
 {
@@ -59,14 +59,11 @@ For example, the webhook payload for file updates in JSON:
 }
 ```
 
-We then can process the data payload and update the necessart data in the third party database.
+This JSON payload gives us a lot of information about which user updates the file and the changing file information. With this information, we can query necessary data from ROQ and update data in the third-party application database.
 
 ### Webhook Server
 
-{/* Explain about the real solution options and why need the webhook server below*/}
-
-In order to process the payload data, a web server is required. It's important to note that numerous solutions are available for webhook automation, including building your own or utilizing automation services. However, we will create a basic webhook server using Node.js for this tutorial. 
-
+It's important to note that numerous solutions are available for webhook automation, including building your own or utilizing automation services. However, we will create a basic webhook server using Node.js for this tutorial.
 
 ```js
 import express from 'express'
@@ -120,6 +117,8 @@ app.listen(port, () => {
 ```
 
 To optimize the handling of file creation and update activity. It is imperative to filter data using `event.name` parameter with a value of `ROQ_FILE_UPDATE`. This approach ensures that the webhook server processes only the relevant data.
+
+Please keep in mind that the webhook endpoint on this server needs to be publicly accessible and have a secure connection in order for the payload data to be delivered successfully. To make the URL publicly available for development purposes, you can use a tunneling service like [Ngrok](https://ngrok.com/download).
 
 
 
