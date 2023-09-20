@@ -4,7 +4,9 @@ import { Callout, Tab, Tabs, Steps } from 'nextra-theme-docs';
 
 ## Introduction
 
-Synchronizing user data ensures users have a consistent view of their information, preferences, and progress across all platforms. ROQ provides APIs for easy data query and management and a [Webhook](/development-guides/webhooks) to notify the application when an event happens in the account. We can use this feature to sync the user data with third-party applications. Webhooks are more real-time than periodic API polling, but they also require third-party apps to have an endpoint to receive the data.
+Synchronizing user data ensures users have a consistent view of their information, preferences, and progress across all platforms. There are many ways to to synchronize data from ROQ to another application which essentially synchronize necessary data in the third party application database with ROQ application.
+
+ROQ provides APIs for easy data query and management and a [Webhook](/development-guides/webhooks) to notify the application when an event happens in the account. We can use this feature to sync the user data with third-party applications. Webhooks are more real-time than periodic API polling, but they also require third-party apps to have an endpoint to receive the data.
 
 ## Sync Case
 
@@ -66,6 +68,7 @@ This JSON payload gives us a lot of information about which user updates the fil
 It's important to note that numerous solutions are available for webhook automation, including building your own or utilizing automation services. However, we will create a basic webhook server using Node.js for this tutorial.
 
 ```js
+import 'dotenv/config'
 import express from 'express'
 import sqlite3 from 'sqlite3'
 import { fileURLToPath } from 'url'
@@ -74,10 +77,32 @@ import { dirname } from 'path'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 const app = express()
-const port = 3000
 
 // Initialize SQLite database
-const db = new sqlite3.Database(`${__dirname}/myfigurine.db`)
+const db = new sqlite3.Database(`${__dirname}/myfigurine.sqlite`)
+
+db.serialize(() => {
+	const createTableQuery = `
+	  CREATE TABLE IF NOT EXISTS figurine (
+		id TEXT PRIMARY KEY,
+		name TEXT,
+		status TEXT,
+		createdByUserId TEXT,
+		isPublic INTEGER,
+		contentType TEXT,
+		fileCategoryId TEXT,
+		createdAt TEXT,
+		updatedAt TEXT
+	  );`
+
+	db.run(createTableQuery, (err) => {
+		if (err) {
+			console.log('Table creation failed:', err)
+		} else {
+			console.log('Table created successfully')
+		}
+	})
+})
 
 app.use(express.json())
 
@@ -89,36 +114,66 @@ const handleRoqWebhook = (req, res) => {
 		const fileData = payload.data.current
 		const previousFileData = payload.data.previous
 		// Update the database
-		updateDatabase(fileData, previousFileData)
+		upsertDatabase(fileData, previousFileData)
 	}
 
 	console.log('Received ROQ payload:', payload)
 	res.status(200).send('OK')
 }
 
-const updateDatabase = (currentData, previousData) => {
-	const query = `UPDATE your_table SET name = ?, status = ? WHERE id = ?`
-	const values = [currentData.name, currentData.status, currentData.id]
+const upsertDatabase = (currentData) => {
+	const query = `
+		INSERT INTO figurine (
+			id, name, status, createdByUserId, isPublic, 
+			contentType, fileCategoryId, createdAt, updatedAt
+		)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+		ON CONFLICT(id) DO UPDATE SET
+			name = excluded.name,
+			status = excluded.status,
+			createdByUserId = excluded.createdByUserId,
+			isPublic = excluded.isPublic,
+			contentType = excluded.contentType,
+			fileCategoryId = excluded.fileCategoryId,
+			createdAt = excluded.createdAt,
+			updatedAt = excluded.updatedAt;`
+
+	const values = [
+		currentData.id,
+		currentData.name,
+		currentData.status,
+		currentData.createdByUserId,
+		currentData.isPublic ? 1 : 0,
+		currentData.contentType,
+		currentData.fileCategoryId,
+		currentData.createdAt,
+		currentData.updatedAt
+	]
 
 	db.run(query, values, function (err) {
 		if (err) {
-			console.log('Database update failed:', err)
+			console.log('Database upsert failed:', err)
 			return
 		}
-		console.log(`Database updated, row(s) affected: ${this.changes}`)
+		console.log(`Database upserted, row(s) affected: ${this.changes}`)
 	})
 }
 
+app.get('/', (req, res) => {
+	res.status(200).send({ server: "webhook" })
+})
 app.post('/roq-webhook', handleRoqWebhook)
 
-app.listen(port, () => {
-	console.log(`Server listening at http://localhost:${port}`)
+app.listen(process.env.PORT, () => {
+	console.log(`Server listening at http://localhost:${process.env.PORT}`)
 })
 ```
 
+The webhook server using **sqlite** database to synchronize the updated files from ROQ's generated application. Of course in the prodiuction you can use another database to suit your business needs. 
+
 To optimize the handling of file creation and update activity. It is imperative to filter data using `event.name` parameter with a value of `ROQ_FILE_UPDATE`. This approach ensures that the webhook server processes only the relevant data.
 
-Please keep in mind that the webhook endpoint on this server needs to be publicly accessible and have a secure connection in order for the payload data to be delivered successfully. To make the URL publicly available for development purposes, you can use a tunneling service like [Ngrok](https://ngrok.com/download).
+Please keep in mind that the webhook endpoint on this server needs to be publicly accessible and have a secure connection in order for the payload data to be delivered successfully. To make the URL publicly available for development purposes, you can use a tunneling service like [Ngrok](https://ngrok.com/download) and then set the webhook URL in the ROQ Console.  
 
 
 
