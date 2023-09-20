@@ -18,7 +18,7 @@ We will use ROQ's webhook to notify third-party applications of events. For inst
 
 To use ROQ Webhook. we should enable the webhook feature. Go to the ROQ Console and **Application Details**, select **Settings** and find **Webhook** section. Tick mark both **Create** and **Update** for **Files**.
 
-![ROQ webhok setting](/sync-data-webhook-database.png)
+![ROQ webhook setting](/sync-data-webhook-database.png)
 
 <Callout type="info">
 Make sure to provide a valid webhook URL that can receive and process these messages. Note that the URL should be publicly accessible and secure, as sensitive information may be included in the notifications.
@@ -66,6 +66,11 @@ This JSON payload gives us a lot of information about which user updates the fil
 ### Webhook Server
 
 It's important to note that numerous solutions are available for webhook automation, including building your own or utilizing automation services. However, we will create a basic webhook server using Node.js for this tutorial.
+
+Please keep in mind that the webhook endpoint on this server needs to be publicly accessible and have a secure connection in order for the payload data to be delivered successfully. To make the URL publicly available for development purposes, you can use a tunneling service like [Ngrok](https://ngrok.com/download) and then set the webhook URL in the ROQ Console.  
+
+The webhook server using **sqlite** database to synchronize the updated files from ROQ's generated application. Of course in the production you can use another database to suit your business needs. 
+
 
 ```js
 import 'dotenv/config'
@@ -169,11 +174,49 @@ app.listen(process.env.PORT, () => {
 })
 ```
 
-The webhook server using **sqlite** database to synchronize the updated files from ROQ's generated application. Of course in the prodiuction you can use another database to suit your business needs. 
-
 To optimize the handling of file creation and update activity. It is imperative to filter data using `event.name` parameter with a value of `ROQ_FILE_UPDATE`. This approach ensures that the webhook server processes only the relevant data.
 
-Please keep in mind that the webhook endpoint on this server needs to be publicly accessible and have a secure connection in order for the payload data to be delivered successfully. To make the URL publicly available for development purposes, you can use a tunneling service like [Ngrok](https://ngrok.com/download) and then set the webhook URL in the ROQ Console.  
+The payload data from the ROQ system then can be used to update the existing record on the database or create a new record. Hence, creating a synchronization process.
+
+```js
+const query = `
+		INSERT INTO figurine (
+			id, name, status, createdByUserId, isPublic, 
+			contentType, fileCategoryId, createdAt, updatedAt
+		)
+		VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+		ON CONFLICT(id) DO UPDATE SET
+			name = excluded.name,
+			status = excluded.status,
+			createdByUserId = excluded.createdByUserId,
+			isPublic = excluded.isPublic,
+			contentType = excluded.contentType,
+			fileCategoryId = excluded.fileCategoryId,
+			createdAt = excluded.createdAt,
+			updatedAt = excluded.updatedAt;`
+```
+
+Based on the payload, we can query another data from ROQ platform. Such as query the URL for the updated file.
+
+```graphql
+query files(
+  $filter: FileFilterArgType = {
+    id: { equalTo: "6c64b15f-30f4-4340-8269-6e01038cb610" }
+  }
+) {
+  files(filter: $filter) {
+    totalCount
+    data {
+      id
+      name
+      url
+    }
+  }
+}
+```
+
+
+
 
 
 
