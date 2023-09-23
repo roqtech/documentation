@@ -1,6 +1,7 @@
 import React from 'react'
-import {DocsThemeConfig} from 'nextra-theme-docs'
-import { Search } from './components/search/Search'
+import { DocsThemeConfig } from 'nextra-theme-docs'
+import { Code} from './components/code'
+//import { Search } from './components/search/Search'
 
 const config: DocsThemeConfig = {
 
@@ -49,7 +50,11 @@ const config: DocsThemeConfig = {
     sidebar: {
         defaultMenuCollapseLevel: 0
     },
-    
+
+    components: {
+        code: Code
+    }
+
     /**
     search: {
         component: <Search/>
