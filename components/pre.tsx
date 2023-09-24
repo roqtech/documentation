@@ -39,10 +39,9 @@ export const Pre = ({
 	<>
 	<style jsx global>
       {`
-          code {
-              font-family: ${sourceCodePro.style.fontFamily};
-			  font-size: 100% !important;
-			  background-color: initial;
+          code {  
+			  font-family: ${sourceCodePro.style.fontFamily};
+			  font-size: 90% !important;
           }
       `}
 	</style>
