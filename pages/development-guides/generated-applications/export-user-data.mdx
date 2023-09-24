@@ -29,7 +29,7 @@ console.log(JSON.stringify(userByID))
 
 The response from the ROQ API is an object that can be processed easily or converted to JSON format:
 
-```json
+```json filename="user.json"
 {
 	"user": {
 		"id": "c095e436-6904-49d0-8b7e-c0ba916ecdad",
@@ -79,7 +79,7 @@ The response from the ROQ API is an object that can be processed easily or conve
 
 We can add additional data, such as files. We will use the [Files API](/files/api) to get all users the files uploaded into the ROQ platform. 
 
-```ts
+```ts 
 const userID = "c095e436-6904-49d0-8b7e-c0ba916ecdad"
 const myFiles = await roqClient.asUser(userID).files()
 
@@ -87,7 +87,7 @@ console.log(JSON.stringify(myFiles))
 ```
 Running `files()` as a user will make the output is automatically filtered. The output represents all the file data related to the user-specific ID:
 
-```json
+```json filename="user-files.json"
 	"files": {
 		"data": [
 			{
@@ -121,7 +121,8 @@ Running `files()` as a user will make the output is automatically filtered. The 
 
 We can also add chat messages data using the `conversations()` and `messages()` method from the [Chat API](/chat/api). 
 
-```ts
+```js 
+const userID = "c095e436-6904-49d0-8b7e-c0ba916ecdad"
 const chats = await roqClient.asUser(userID).conversations({
 	withUsers: true,
 	withTags: true
@@ -129,7 +130,8 @@ const chats = await roqClient.asUser(userID).conversations({
 ```
 The previous code retrieves all conversation data for the current user ID and permissions. Then from each conversation ID, we can get the conversation messages.
 
-```ts
+```js 
+const userID = "c095e436-6904-49d0-8b7e-c0ba916ecdad"
 const chatMessages = await roqClient.asUser(userID).messages({
 	withFile: true,
 	filter: {
@@ -144,7 +146,7 @@ console.log(JSON.stringify(chatMessages))
 
 After calling this ROQ API, chat messages can be easily processed as JSON:
 
-```json
+```json filename="chat-messages.json"
 {
 	"messages": {
 		"data": [
@@ -241,7 +243,7 @@ For more information, you can read this documentation about [how to add API endp
 
 Create a file in the `pages/api` directory to add a new API route. Let us name it `export.ts`. This code will retrieve all project entities' user data, roles, and files.
 
-```ts
+```ts filename="pages/api/export.ts"
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { withAuth, getServerSession } from '@roq/nextjs';
 import { convertQueryToPrismaUtil, parseQueryParams } from 'server/utils';
