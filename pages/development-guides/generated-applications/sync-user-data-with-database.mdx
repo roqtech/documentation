@@ -30,9 +30,9 @@ Ensure that the webhook URL provided is both publicly accessible and secure sinc
 
 For this tutorial, we will only be using the webhook for file updates and creations. If you wish to configure it for user and chat activity, you can do so. With this setting, any user activity related to files will trigger the system to send a message to the specified webhook.
 
-ROQ Webhook will send post data to the webhook endpoint we havve set earlier. The webhook payload data for file updates in JSON is shown below:
+ROQ Webhook will send post data to the webhook endpoint we have set earlier. The webhook payload data for file updates in JSON is shown below:
 
-```json
+```json 
 {
 	"name": "ROQ_FILE_UPDATE",
 	"id": "6c64b15f-30f4-4340-8269-6e01038cb610",
@@ -84,7 +84,7 @@ To make the URL publicly available for development purposes, you can use a tunne
 The webhook server uses the **SQLite** database to synchronize the updated files information from ROQ's generated application. Of course, you can use another database in production to suit the business needs. 
 
 
-```js
+```js filename="webhook-server.js"
 import 'dotenv/config'
 import express from 'express'
 import sqlite3 from 'sqlite3'

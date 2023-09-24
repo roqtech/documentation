@@ -67,7 +67,15 @@ const queryResult = await roqClient.asSuperAdmin().graphqlRequest(graphqlQuery)
 
 or for dynamic variables you can use `variables` option in the `graphqlRequest()` method:
 
-```js
+```js filename="get-user-graphql.js"
+import { Platform } from '@roq/nodejs'
+
+const roqClient = new Platform({
+	apiKey: process.env.ROQ_API_KEY,
+	environmentId: process.env.ROQ_ENVIRONMENT_ID,
+	host: process.env.ROQ_PLATFORM_URL
+})
+
 const queryUsers = `
 query users( $filter: UserFilterArgType ) {
 	users( filter: $filter ) {
@@ -90,6 +98,7 @@ const graphqlRequestVars = {
 }
 
 const queryUsersByGraphQL = await roqClient.asSuperAdmin().graphqlRequest(queryUsers, graphqlRequestVars);
+console.log(queryUsersByGraphQL);
 ```
 
 {
