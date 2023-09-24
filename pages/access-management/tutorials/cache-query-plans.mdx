@@ -15,12 +15,12 @@ Internally, in the generated application the [`queryPlans()`](https://jupiter-pp
 Initially, the generated application will check if the query plans are already cached locally. If not the `initQueryPlanCache()` will get the query plans from the ROQ Platform.
 
 <Callout type="info">
-The `initQueryPlanCache()` method is in the `@roq\prismajs` package.
+The `initQueryPlanCache()` method is in the `@roq/prismajs` package.
 </Callout>
 
-The query plans are cached in the `node_modules\@roq\prismajs\dist` directory, in the `query-plans.json` file.
+The query plans are cached in the `node_modules/@roq/prismajs/dist` directory, in the `query-plans.json` file.
 
-```json
+```json filename="node_modules/@roq/prismajs/dist/query-plans.json"
 {
 	{...},
 	"moderator.read.video": {

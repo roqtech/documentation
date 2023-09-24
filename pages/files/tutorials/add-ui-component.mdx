@@ -22,8 +22,7 @@ For this example, please check out the generated application code in this [GitHu
 
 Add the `<FileUpload>` UI component into the existing application code:
 
-```tsx
-// src\pages\videos\create\index.tsx
+```tsx filename="src/pages/videos/create/index.tsx"
 import { 
 	AccessOperationEnum, 
 	AccessServiceEnum, 
@@ -35,8 +34,7 @@ import {
 
 Add the `<FileUpload/>` to the existing video form:
 
-```tsx
-// src\pages\videos\create\index.tsx
+```tsx filename="src/pages/videos/create/index.tsx" 
 <FormControl id="file" mb="4">
 	<FormLabel>Upload File</FormLabel>
     <FileUpload 
@@ -91,8 +89,7 @@ There are still a few changes to the code so the upload file data will be record
 
 You need to change the `VideoInterface` and added these two fields: `fileUrl` and `fileId`, both of these fields have a `string` type.
 
-```tsx
-// src\interfaces\video\index.ts
+```tsx filename="src/interfaces/video/index.ts"
 export interface VideoInterface {
   id?: string;
   title: string;
@@ -127,7 +124,7 @@ export interface VideoGetQueryInterface extends GetQueryInterface {
 
 To save the `fileUrl` and `fileId` to the database, the Prisma schema should be changed too.
 
-```js
+```js filename="prisma/schema.prisma"
 model video {
   id              String        @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   title           String        @db.VarChar(255)

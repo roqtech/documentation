@@ -2,23 +2,21 @@ import { Callout, Tab, Tabs} from "nextra-theme-docs"
 
 # How to Protect API Routes
 
-In a ROQ-generated application, it is crucial to ensure the security of API routes by verifying the user's authorization or role access and permissions. The API is located at `src\pages\api`.
+In a ROQ-generated application, it is crucial to ensure the security of API routes by verifying the user's authorization or role access and permissions. The API is located at `src/pages/api`.
 
 <Callout type="info">
 If you need to add or make changes to an API endpoint and check if the user is authenticated, that is, if the user has logged in and the session is valid, please refer to this [documentation](/development-guides/generated-applications/api-endpoints).
 </Callout>
 
-The `authorizationValidationMiddleware()` method is responsible for providing this protection in the generated application. It is a wrapper method around `hasAccess()` API from the `@roq\prismajs` package and in the generated application you will find this method in the file:
+The `authorizationValidationMiddleware()` method is responsible for providing this protection in the generated application. It is a wrapper method around `hasAccess()` API from the `@roq/prismajs` package and in the generated application you will find this method in the file:
 
 ```shell
-src\server\middlewares\authorization-validation.middleware.ts
+src/server/middlewares/authorization-validation.middleware.ts
 ```
 
 For example, this code is protected with user authorization:
 
-```ts
-// src\pages\api\comments\index.ts
-
+```ts filename="src/pages/api/comments/index.ts"
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { prisma } from 'server/db';
 import { authorizationValidationMiddleware, errorHandlerMiddleware } from 'server/middlewares';

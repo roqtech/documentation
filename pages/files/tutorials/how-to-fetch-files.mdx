@@ -16,7 +16,7 @@ For example, how to get all the files as a **Super Admin** user:
 Make sure you create `.env` file for ROQ credentials and use `dotenv` package to load them into the Node.js project.  You can get `apiKey`, `environmentId`, and `host` from ROQ Console.
 </Callout>
 
-```ts
+```ts filename="file-category-example.js"
 import 'dotenv/config'
 import { Platform } from '@roq/nodejs'
 
@@ -69,7 +69,7 @@ The result `filesArray` is an array contain the list of files (maximum 20) with 
 
 To fetch files as user is very easy. We use function `asUser(userId)` instead of `asSuperAdmin()`:
 
-```ts
+```ts filename="get-user-file-example.js"
 import 'dotenv/config'
 import { Platform } from '@roq/nodejs'
 

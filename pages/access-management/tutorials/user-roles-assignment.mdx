@@ -3,7 +3,6 @@ import InstallROQNodeSDK from "/snippets/do-roq-node-setup.mdx"
 
 # User Roles Assignment 
 
-
 ## Using Node.js SDK API
 
 <InstallROQNodeSDK/>
@@ -18,11 +17,21 @@ You can query the user id using [`users()`](https://jupiter-pp.roq-platform.com/
 
 For example, to get all available roles as a **Super Admin**:
 
-```js
+```js filename="user-roles-example.js"
+import { Platform } from '@roq/nodejs'
+
+const roqClient = new Platform({
+	apiKey: process.env.ROQ_API_KEY,
+	environmentId: process.env.ROQ_ENVIRONMENT_ID,
+	host: process.env.ROQ_PLATFORM_URL
+})
+
 const rolesAvailable = await roqClient.asSuperAdmin().roles({
 	limit: 10,
 	withUserCount: true
 })
+
+console.log(rolesAvailable)
 ```
 
 You will get all available roles on the ROQ platform:

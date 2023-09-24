@@ -51,11 +51,10 @@ In addition to calling the endpoint directly, you can also utilize the refetch s
 To force an update or refresh session using code, you can use `refetchSessionHandler()` API method from the `@roq/nextjs` package.
 
 <Callout type="warning">
-For `@roq\nextjs`  up to version 1.0.17, you must directly import `refetchSessionHandler()` as it is not exported by default.
+For `@roq/nextjs`  up to version 1.0.17, you must directly import `refetchSessionHandler()` as it is not exported by default.
 </Callout>
 
-```ts
-// pages/api/refresh.ts
+```ts filename="src/pages/api/refresh.ts"
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { withAuth, getServerSession } from '@roq/nextjs';
 

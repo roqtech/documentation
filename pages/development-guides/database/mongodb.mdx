@@ -144,7 +144,7 @@ Here are the full examples of Prisma schemas for MongoDB and PostgreSQL database
 <Tabs items={['Prisma Schema MongoDB', 'Prisma Schema PostgreSQL']}>
 <Tab>
 
-```js
+```js filename="schema.prisma"
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["clientExtensions"]
@@ -238,7 +238,7 @@ model user {
 </Tab>
 <Tab>
 
-```js
+```js filename="schema.prisma"
 generator client {
   provider = "prisma-client-js"
   previewFeatures = ["clientExtensions", "postgresqlExtensions"]
