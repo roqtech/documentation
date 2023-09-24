@@ -14,9 +14,9 @@ To continue development, you should fork or clone the source code of the generat
 
 ## How To Add API Endpoint
 
-The generated application uses API endpoints in `pages/api` directory. These APIs are the bridges between the UI components, ROQ platform and other third party services.
+The generated application uses API endpoints in `pages/api` source directory. These APIs are the bridges between the UI components, ROQ platform and other third party services.
 
-To add API endpoint is easy, you can do so by creating a function inside `pages/api` directory that has the following format:
+To add API endpoint is easy, you can do so by creating a function inside `pages/api` source directory that has the following format:
 
 ```ts
 import type { NextApiRequest, NextApiResponse } from 'next';
@@ -47,7 +47,7 @@ export default function filesHandler(req: NextApiRequest, res: NextApiResponse) 
 
 For example, if we want to add `hello` API endpoint to the generated application, this is what you will do: create `hello.ts` file in `pages/api` directory then write this code
 
-```ts filename="pages/api/hello.ts"
+```ts filename="src/pages/api/hello.ts"
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { withAuth, getServerSession } from '@roq/nextjs';
 
@@ -105,7 +105,7 @@ After make an API endpoint to the generated application then you can make a cust
 
 Create a page in the `pages` directory and give a name, for example `hello.tsx`. In this file write this code
 
-```js filename="pages/hello.tsx"
+```js filename="src/pages/hello.tsx"
 import { requireNextAuth } from '@roq/nextjs';
 import { useRouter } from 'next/router';
 import AppLayout from 'layout/app-layout';
@@ -148,7 +148,7 @@ And for the better application management, you can create a React `Hello` compon
 The ROQ's generated B2B SaaS application use [Chakra UI](https://chakra-ui.com/). It is a simple, modular and accessible component library that gives you the building blocks you need to build your React applications.
 </Callout>
 
-```ts filename="components/hello/index.tsx"
+```ts filename="src/components/hello/index.tsx"
 import useSWR from 'swr';
 import { Flex, Card, CardBody, Text, Stack, StackDivider, Heading, CardHeader, Box } from '@chakra-ui/react';
 
@@ -200,7 +200,7 @@ export default function Hello() {
 
 After that you need to change the previous `hello.jsx` page and import React `Hello` component:
 
-```ts filename="pages/hello.tsx"
+```ts filename="src/pages/hello.tsx"
 import { requireNextAuth } from '@roq/nextjs';
 import { useRouter } from 'next/router';
 import AppLayout from 'layout/app-layout';
