@@ -1,5 +1,8 @@
-.alldark {
-	font-size: 90% !important;
+.code {
 	line-height: 1.45;
-	background-color: rgba(48, 52, 80, .5) !important;
+	/**
+	--tw-bg-opacity: 1;
+    #background-color: rgb(48 52 80/var(--tw-bg-opacity));
+	*/
+	padding: 1rem;
 }
