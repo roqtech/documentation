@@ -95,11 +95,32 @@ Before we send any custom notification make sure to create a template for the no
 
 Assume the notification `key` is `onboardingInvitee` and there are two variables which are `email` and `message`:
 
-```js
+```js filename="user-notify-example.js"
+import { Platform } from '@roq/nodejs'
+ 
+/**
+ * Connect to the ROQ Platform
+ */
+const roqClient = new Platform({
+    apiKey: process.env.ROQ_API_KEY,
+    environmentId: process.env.ROQ_ENVIRONMENT_ID,
+    host: process.env.ROQ_PLATFORM_URL
+})
+
+const search = await roqClient.asSuperAdmin().userInvites({
+		filter: {
+			email: {
+				equalTo: "some@email.com"
+			}
+		}
+	}
+)
+
 // Extract the necessary information from the response data
 let userId = search.data.userInvites.data[0].acceptedByUserId;
 let tenantId = search.data.userInvites.data[0].tenantId;
 let email = search.data.userInvites.data[0].email;
+let status = search.data.userInvites.data[0].status;
 
 const link = "https://docs.roq.tech/getting-started"
 if (status === "accepted") {

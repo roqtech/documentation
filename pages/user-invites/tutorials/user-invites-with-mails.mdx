@@ -27,7 +27,7 @@ To create an email template on the ROQ Console. Please look into this [tutorial]
 
 To provide support for emails sent to numerous invitees, we can retrieve the list of invitees and then sort it according to their `status` property. Emails will be sent only to those with an `accepted` status value.
 
-```js
+```js filename="user-invite-with-mail-example.js"
 import 'dotenv/config';
 import { Platform } from '@roq/nodejs';
 
