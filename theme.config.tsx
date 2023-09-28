@@ -2,6 +2,9 @@ import React from 'react'
 import {DocsThemeConfig} from 'nextra-theme-docs'
 import { Search } from './components/search/Search'
 import { AskAiButton } from './components/ask-ai-btn/AskAiButton'
+import { Pre} from './components/pre'
+import { DocsThemeConfig } from 'nextra-theme-docs'
+
 
 const config: DocsThemeConfig = {
 
@@ -49,6 +52,10 @@ const config: DocsThemeConfig = {
     },
     sidebar: {
         defaultMenuCollapseLevel: 0
+    },
+
+    components: {
+        pre: Pre
     },
     
     search: {

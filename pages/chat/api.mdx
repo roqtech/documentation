@@ -214,6 +214,37 @@ mutation {
 
 ## Queries
 
+### `conversations()`
+
+To get all the conversations, we can use the `conversations()` method API. The documentation for this API is [here](https://jupiter-pp.roq-platform.com/docs/#query-conversations).
+
+<Tabs items={['Node.js SDK', 'GraphQL']}>
+<Tab>
+```ts
+const chats = await roqClient.asSuperAdmin().conversations({
+	limit: 10,
+	withUsers: true,
+	withTags: true
+})
+```
+</Tab>
+<Tab>
+```graphql
+query conversations($limit: Int = 10) {
+  conversations(limit: $limit) {
+    totalCount
+    data {
+      id
+      title
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
+
+The `conversations()` parameters support [GraphQL Basics API](/development-guides/graphql-basics-api) such as `order`, `limit`, `offset`, and `filter`.
+
 ### `messages()`
 
 Returns a list of chat messages for a given conversation. The API documentation for the `messages()` method is [here](https://jupiter-pp.roq-platform.com/docs/#query-messages).

@@ -39,8 +39,7 @@ The creds are the environment variables from ROG Console. Go to **Project Detail
 
 <Tabs items={["JavaScript", "TS"]}>
 <Tab>
-```js
-// csvupload.js
+```js filename="csv-upload.js"
 import 'dotenv/config';
 import fs from "fs";
 import path from "path";
@@ -141,7 +140,7 @@ const importTranslations = async () => {
 ```
 </Tab>
 <Tab>
-```ts
+```ts filename="csv-upload.ts"
 import * as fs from "fs";
 import * as path from "path";
 import * as csv from "csv-parser";
@@ -247,7 +246,7 @@ const importTranslations = async (): Promise<void> => {
 Make sure to install all node.js dependencies, file `translation.csv` is in the same directory, and then run: 
 
 ```shell
-node csvupload.js
+node csv-upload.js
 ```
 
 If you check in the ROQ Console, you will see translation data are already saved.
@@ -307,7 +306,7 @@ and then we can change our previous code, and use `readJson()` function to parse
 
 <Tabs items={["JavaScript", "TS"]}>
 <Tab>
-```js
+```js filename="json-upload.js"
 // Import necessary modules
 import 'dotenv/config';
 import fs from "node:fs";
@@ -400,7 +399,7 @@ const importTranslations = async () => {
 ```
 </Tab>
 <Tab>
-```ts
+```ts filename="json-upload.ts"
 import * as fs from "fs";
 import * as path from "path";
 import 'dotenv/config';

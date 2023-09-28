@@ -34,9 +34,9 @@ Supposed that we want to add another field for book description, let's called th
 
 There are a few steps to add a field to the `Create Book` form:
 
-1. Add the `description` property to the `BookInterface` interface in the `interface/book`module. The updated code would look like this:
+1. Add the `description` property to the `BookInterface` interface in the `interfaces/book` module. The updated code would look like this:
 
-```ts
+```ts filename="/src/interfaces/book/index.ts"
 import { BookmarkInterface } from 'interfaces/bookmark';
 import { HighlightInterface } from 'interfaces/highlight';
 import { OrganizationInterface } from 'interfaces/organization';
@@ -73,7 +73,7 @@ export interface BookGetQueryInterface extends GetQueryInterface {
 
 2. Update the `bookValidationSchema` in the `validationSchema/books` module to include the validation rule for the `description` field. The updated code would look like this:
 
-```ts
+```ts filename="/src/validationSchema/books/index.ts"
 import * as yup from 'yup';
 
 export const bookValidationSchema = yup.object().shape({
@@ -86,9 +86,9 @@ export const bookValidationSchema = yup.object().shape({
 ```
 Here, the `description` field is added with the `yup.string().required()` validation rule, indicating that it is a required fields.
 
-3. Update the JSX code in the `BookCreatePage` component in `pages\book\create` directory to include the new `description` field. Add the following code inside the `<form>`
+3. Update the JSX code in the `BookCreatePage` component in `pages/book/create` directory to include the new `description` field. **Add** the following code inside the `<form>`
 
-```jsx
+```jsx filename="src/pages/book/create/index.tsx"
 <FormControl id="description" mb="4" isInvalid={!!formik.errors?.description}>
     <FormLabel>Description</FormLabel>
     <Input type="text" name="description" value={formik.values?.description} onChange={formik.handleChange} />
@@ -107,9 +107,9 @@ You cannot currently save book data with the new `description` field. There are 
 
 Previously the `description` field has added into the `Create Book` form. To edit the saved data you need to add this field into our `Editing Book` form too.
 
-To do this you need to update the JSX code in the `BookEditPage` component in `pages\books\edit` directory. Add the following code inside the `<form>`:
+To do this you need to update the JSX code in the `BookEditPage` component in `pages/books/edit/[id]` directory. **Add** the following code inside the `<form>`:
 
-```jsx
+```jsx filename="src/pages/books/edit/[id]/index.tsx"
 <FormControl id="description" mb="4" isInvalid={!!formik.errors?.description}>
     <FormLabel>Description</FormLabel>
     <Input type="text" name="description" value={formik.values?.description} onChange={formik.handleChange} />
@@ -122,11 +122,11 @@ This code addition is the same with `FormControl` in `Create Book` form.
 
 ### Add `description` Read Field
 
-The book data is displaying in the Book list. To show book `description` on the list, you need to change `BookViewPage` component in `pages\books\view` directory.
+The book data is displaying in the Book list. To show book `description` on the list, you need to change `BookViewPage` component in `pages/books/view/[id]` directory.
 
-Update JSX in the `BookViewPage`and add this code inside the `<Stack>` component:
+Update JSX in the `BookViewPage`and **add** this code inside the `<Stack>` component:
 
-```jsx
+```jsx filename="src/pages/books/view/[id]/index.tsx"
  <Flex alignItems="center">
     <Text fontSize="lg" fontWeight="bold" as="span">
 		Description

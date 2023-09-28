@@ -28,8 +28,7 @@ Prisma's data model is a declarative representation of your database schema and 
 
 For example, if you want to add `description` data to the `book` table database, you can modify the `book` data model in `schema.prisma` file as follows:
 
-```tsx
-// schema.prisma
+```tsx filename="schema.prisma"
 // book data model
 model book {
   id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid

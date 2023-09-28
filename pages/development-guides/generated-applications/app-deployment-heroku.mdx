@@ -151,8 +151,7 @@ Heroku's **Config Vars** are equivalent to environment variables. However, setti
 
 We can set the environment variables manually or create automated scripts for that. For example, to automate it using Node.js:
 
-```js
-// set-heroku-env.js
+```js filename="set-heroku-env.js"
 const { exec } = require('child_process');
 const fs = require('fs');
 const path = require('path');

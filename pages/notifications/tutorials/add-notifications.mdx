@@ -73,7 +73,18 @@ and GraphQL:
 <Tabs items={['Node.js SDK', 'GraphQL']}>
 <Tab>
 
-```ts
+```ts filename="add-notification-example.js"
+import { Platform } from '@roq/nodejs'
+ 
+/**
+ * Connect to the ROQ Platform
+ */
+const client = new Platform({
+	apiKey: process.env.ROQ_API_KEY,
+	environmentId: process.env.ROQ_ENVIRONMENT_ID,
+	host: process.env.ROQ_PLATFORM_URL
+})
+
 await client.asSuperAdmin().notify({
     notification: {
         key: 'notification_key_template_here',

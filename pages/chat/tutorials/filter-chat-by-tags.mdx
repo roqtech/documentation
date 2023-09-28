@@ -10,9 +10,9 @@ ROQ Chat provides filtering chat by tags. This feature is available only in the 
 
 To illustrate, in a ROQ Next.js generated application, we can create an API that enables us to add a system bot for a new conversation and then assign tags of `greeting` and `onboarding`.
 
-Let's create a file `src\pages\api\chat\assign-tags.ts`:
+Let's create a file `assign-tags.ts`
 
-```ts
+```ts filename="src/pages/api/chat/assign-tags.ts"
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { getServerSession, withAuth } from '@roq/nextjs';
 import { roqClient } from 'server/roq';
@@ -145,8 +145,7 @@ await roqClient.asSuperAdmin().createMessage({
 
 The `<Chat/>` UI Component can be easily used to consume data from the API with React hooks. For example, to use tags in the `chat.tsx` page in the generated application:
 
-```jsx
-// src\pages\chat.tsx
+```jsx filename="src/pages/chat.tsx"
 import { Chat, requireNextAuth } from '@roq/nextjs';
 import { useCallback, useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
@@ -231,7 +230,7 @@ On further development, you can `setTags` to other values.
 
 ### Route Mapping
 
-To consume the assign API we need to mapping it. Open or create a file `src\routes.ts` and add `/api/chat/assign-tags` as `createConversationWithTags`. For example:
+To consume the assign API we need to mapping it. Open or create a file `src/routes.ts` and add `/api/chat/assign-tags` as `createConversationWithTags`. For example:
 
 ```js
 export const routes = Object.freeze({
