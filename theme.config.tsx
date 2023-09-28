@@ -3,7 +3,6 @@ import {DocsThemeConfig} from 'nextra-theme-docs'
 import { Search } from './components/search/Search'
 import { AskAiButton } from './components/ask-ai-btn/AskAiButton'
 import { Pre} from './components/pre'
-import { DocsThemeConfig } from 'nextra-theme-docs'
 
 
 const config: DocsThemeConfig = {
