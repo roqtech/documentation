@@ -1,6 +1,5 @@
 import React from 'react'
-import {DocsThemeConfig} from 'nextra-theme-docs'
-import { Search } from './components/search/Search'
+import { DocsThemeConfig  } from 'nextra-theme-docs'
 import { AskAiButton } from './components/ask-ai-btn/AskAiButton'
 import { Pre} from './components/pre'
 
@@ -57,8 +56,8 @@ const config: DocsThemeConfig = {
         pre: Pre
     },
     
-    search: {
-        component:<><AskAiButton/><Search/></> 
+    navbar: {
+        extraContent: <AskAiButton/> 
     }
 }
 
