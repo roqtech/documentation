@@ -1,141 +1,15 @@
-import Image from 'next/image'
 import { Callout } from 'nextra-theme-docs'
 
 ## Introduction
 
-ROQ enables you to generate the first version of your B2B SaaS application in minutes. All you need to do is to
-use the [AI Assistant](https://app.roq.ai/) and answer a few basic questions. After 15–30 minutes, you will get an email
-with links to your deployed application and the source code on GitHub. You'll also get an invitation to ROQ's management
-UI called ROQ Console.
+ROQ is a backend service that manages multi-tenant SaaS applications. It addresses common challenges, allowing you to concentrate on UI and specific logic.
 
-The generated application should be seen as a beta version of your final offering. It will be based on your custom user
-roles and data schema. You'll get the full source code (MIT license) and can continue your journey from there or 
-iterate on the results until you are satisfied with the result.
+### Main Features
 
-[//]: # (TODO show pictures)
-
-The following features will work out of the box:
-
-| Feature               | Description                                                           |
-|-----------------------|-----------------------------------------------------------------------|
-| **Authentication**    | Login, email validation, social sign-ins, password reset              | 
-| **Access Management** | Adopt UI and filter data according to the user's permissions           |
-| **Notifications**     | Real-time notification in the app or via SMS                          |
-| **E-Mails**           | Integrate any email provider like SendGrid                            | 
-| **Chat**              | Customizable Chat component with private and multi-user conversations | 
-| **File handling**     | Upload of public or private files to S3                               | 
-| **Translations**      | All textual content can be managed and translated in ROQ Console      | 
-
-## What to read next
-
-* [Checklist](/getting-started) - Checklist of all steps that you can perform to get from generation to launch
-* [Application Guide](/getting-started/app-guide) - This page describes how to evaluate the new application that you generated
-* [Local installation](/getting-started/installation) - Learn how to install your new SaaS application locally 
-* [Technology stack](/getting-started/technology-stack) - See a list of the main technologies that are used in the 
-  application.
-
-[//]: # ()
-
-[//]: # (ROQ provides fundamental features that every web application needs, like user & access management, file handling, and)
-
-[//]: # (notifications. It enables teams to focus on their unique features instead of building the basic functionalities)
-
-[//]: # (repeatedly.)
-
-[//]: # ()
-
-[//]: # (Usually a feature consits of different elements:)
-
-[//]: # ()
-
-[//]: # (- When using a ROQ feature, you can use our **React UI Components** and drag these into your app. You can adjust the)
-
-[//]: # (  styling)
-
-[//]: # (  and options to your needs, so it looks like a seamless experience to your users.)
-
-[//]: # (- Behind the scenes, the UI components use out **GraphQL APIs** &#40;or socket connection for Chat&#41;. With the APIs you can)
-
-[//]: # (  trigger commands)
-
-[//]: # (  &#40;e.g. sending a notification&#41;, seamlessly integrate data into your own app &#40;e.g. for user management&#41;, or even build)
-
-[//]: # (  your own UI)
-
-[//]: # (  components.)
-
-[//]: # (- You can configure the behavior and business logic, as well as connect external tools and integrations, by using **ROQ)
-
-[//]: # (  Console**)
-
-[//]: # (- Behind the scenes, **ROQ Platform** is our own application contains all business logic, persistance layer etc.)
-
-[//]: # ()
-
-[//]: # (For security reasons, only our authentication feature ROQ Auth works differently: You can completely style it in ROQ)
-
-[//]: # (Console and it)
-
-[//]: # (is operated by us.)
-
-[//]: # ()
-
-[//]: # (Ready to go? The best way to start is to check out the [Installation Guides]&#40;/getting-started&#41;.)
-
-[//]: # ()
-
-[//]: # (<Callout type="warning" emoji="🦸">)
-
-[//]: # (Once you're ready to go and want to move forward, but feel like it does not move forward as quickly as you wish, something is wrong.)
-
-[//]: # (Then please head over to our [Community Slack]&#40;http://roqstars.com/&#41; and get)
-
-[//]: # (instant responses from our engineers. )
-
-[//]: # (</Callout>)
-
-[//]: # ()
-
-[//]: # ({/* ROQ is based on the observation that most modern SaaS applications have the same main features. Although these)
-
-[//]: # (commodities alone won't make you unique, users still expect them, so you should offer them early. The challenge is that)
-
-[//]: # (these commodities are hard to implement and could easily waste your time and engineering capacity. */})
-
-[//]: # ()
-
-[//]: # ({/*)
-
-[//]: # ()
-
-[//]: # (## How does ROQ work?)
-
-[//]: # ()
-
-[//]: # (ROQ consists of two main parts: **Functional UI Components** and a **Headless ROQ Platform**)
-
-[//]: # ()
-
-[//]: # (### Functional UI Components)
-
-[//]: # ()
-
-[//]: # (ROQ provides a set of **fully-functional and highly customizable UI components** that you can easily integrate into your)
-
-[//]: # (application.)
-
-[//]: # ()
-
-[//]: # (### Headless ROQ Platform)
-
-[//]: # ()
-
-[//]: # (ROQ Platform represents the backend for the UI components. In addition, ROQ Platform provides)
-
-[//]: # (GraphQL APIs that you can leverage to build your custom logic.)
-
-[//]: # ()
-
-[//]: # (*/})
-
-[//]: # ()
+- Managed Postgres database with instant Rest API
+- Visual schema editor
+- Organizations (multi-tenancy)
+- User roles & permissions
+- Authentication with 2FA and social logins
+- File handling
+- Emails
