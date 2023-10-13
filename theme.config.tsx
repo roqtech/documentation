@@ -30,7 +30,7 @@ const config: DocsThemeConfig = {
         link: 'https://github.com/roqtech',
     },
     chat: {
-        link: 'http://roqstars.com/',
+        link: 'https://roqstars.com/',
         icon: <svg
             xmlns="http://www.w3.org/2000/svg"
             width="53"
@@ -49,7 +49,7 @@ const config: DocsThemeConfig = {
         text: 'Platform 360 GmbH',
     },
     sidebar: {
-        defaultMenuCollapseLevel: 0
+        defaultMenuCollapseLevel: 1
     },
 
     components: {
