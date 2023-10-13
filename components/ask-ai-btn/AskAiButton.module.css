@@ -20,7 +20,7 @@
         padding: 0px 10px;
         align-items: center;
 		display: flex;
-		white-space: nowrap; 
+		white-space: nowrap;
     }
 
 	.text {    
@@ -45,6 +45,17 @@
     .text {
         display: none;
     }
+}
 
+@media (max-width: 512px) {
+    
+    .button {
+        width: 24px;  
+        height: 24px; 
+        border-radius: 50%;  
+    }
 
+    .text {
+        display: none;  
+    }
 }
