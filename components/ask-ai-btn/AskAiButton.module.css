@@ -1,0 +1,61 @@
+/* AskAiButton.module.css */
+.button {
+    background: linear-gradient(to right, #39f508, #dab204);
+    color: #191919;
+    font-weight: 600;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 25px; 
+}
+
+/* Handle styling for screen sizes between 768px and 937px */
+@media (min-width: 769px) and (max-width: 937px) {
+    .button {
+		height: 34px; 
+		width: auto;
+        padding: 0px 10px;
+        align-items: center;
+		display: flex;
+		white-space: nowrap;
+    }
+
+	.text {    
+		font-size: smaller;
+		padding-right: 2px;
+	}
+}
+
+@media (max-width: 768px) {
+    .button {
+		padding: 0px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%; 
+    }
+
+	.button img {
+        width: 22px !important;
+		height: 22px !important;
+	}
+
+    .text {
+        display: none;
+    }
+}
+
+@media (max-width: 512px) {
+    
+    .button {
+        width: 24px;  
+        height: 24px; 
+        border-radius: 50%;  
+    }
+
+    .text {
+        display: none;  
+    }
+}

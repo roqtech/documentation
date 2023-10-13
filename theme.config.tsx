@@ -33,8 +33,8 @@ const config: DocsThemeConfig = {
         link: 'http://roqstars.com/',
         icon: <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="64"
-            height="64"
+            width="53"
+            height="53"
             viewBox="0 0 64 64"
             fill="currentcolor"
         >
