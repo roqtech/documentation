@@ -26,7 +26,16 @@
     "href": "https://www.roq.tech/imprint",
     "newWindow": false
   },
-  "separator-three": {
+  "separator-third": {
     "type": "separator"
-  }
+  },
+  "schema-designer": "Schema Designer",
+  "roles-and-permissions": "Roles & Permissions",
+  "multi-tenancy": "Multi-Tenancy",
+  "user-registration": "User Registration",
+  "login-session-handling": "Login & Session Handling",
+  "user-profile": "User Profile",
+  "user-invites": "User Invites",
+  "files": "Files",
+  "mails": "Mails"
 }
