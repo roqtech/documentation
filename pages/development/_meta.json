@@ -1,0 +1,8 @@
+{
+	"sdk": "SDK",
+	"rest-api": "REST API",
+	"postgres": "Postgres",
+	"webhooks": "Webhooks",
+	"tutorials": "Tutorials",
+	"example-app": "Example App"
+}
