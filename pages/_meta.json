@@ -1,23 +1,5 @@
 {
-  "index": "Introduction",
-  "getting-started": "Getting Started",
-  "development-guides": "Development Guides",
-  "release-notes": "Release Notes",
-  "faq": "FAQ",
-  "----": {
-    "type": "separator"
-  },
-  "user-management": "User Management",
-  "authentication": "Authentication",
-  "access-management": "Access Management",
-  "chat": "Chat System",
-  "files": "File Management",
-  "multi-tenancy": "Multi-tenancy",
-  "notifications": "Notifications",
-  "mails": "Transactional Mails",
-  "translations": "Translations",
-  "user-groups": "User Groups",
-  "user-invites": "User Invites",
+  "index": "Overview",
   "about": {
     "title": "ROQ home",
     "type": "page",
