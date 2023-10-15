@@ -1,7 +1,19 @@
 {
   "index": "Overview",
-  "getting-started": "Getting Started",
+  "separator-one": {
+    "type": "separator"
+  },
+  "express-js": "Express.js",
+  "next-js": "Next.js",
+  "nuxt-js": "Nuxt.js",
+  "redwood-js": "RedwoodJS",
+  "svelte-kit": "SvelteKit",
+  "separator-two": {
+    "type": "separator"
+  },
   "development": "Development  Guides",
+  "tutorials": "Tutorials",
+  "example-app": "Example App",
   "about": {
     "title": "ROQ home",
     "type": "page",
@@ -13,5 +25,8 @@
     "type": "page",
     "href": "https://www.roq.tech/imprint",
     "newWindow": false
+  },
+  "separator-three": {
+    "type": "separator"
   }
 }
