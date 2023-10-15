@@ -1,0 +1,7 @@
+{
+	"express-js": "Express.js",
+	"next-js": "Next.js",
+	"nuxt-js": "Nuxt.js",
+	"redwood-js": "RedwoodJS",
+	"svelte-kit": "SvelteKit"
+}
