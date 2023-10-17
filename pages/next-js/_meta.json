@@ -1,4 +1,9 @@
 {
 	"index": "Overview",
-	"quickstart": "Quickstart"
+	"quickstart": "Quickstart",
+	"add-authentication": "Add Authentication",
+	"accessing-the-data": "Accessing the Data",
+	"add-the-user-profile": "Add the User Profile",
+	"add-user-invites": "Add User Invites",
+	"add-file-uploads": "Add File Uploads"
 }
