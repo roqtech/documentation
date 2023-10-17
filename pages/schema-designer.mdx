@@ -1,1 +1,58 @@
 # Schema Editor
+
+## What is Schema Editor?
+
+The Schema Editor is an integral component of the console, designed to empower you in shaping the structure of your backend database. With this tool, you can define tables (entities), establish relationships between them, visually inspect their configurations, and ultimately deploy them. Once you publish your schema, the API you utilize to access ROQs BaaS will seamlessly adopt the newly defined data model.
+
+## How Does it Work?
+
+On this page, users can create new entities and fine-tune various options within these entities:
+
+- Create a new field
+- Update an existing field
+- Remove a field
+
+Entities can be deleted, but it's important to note that there are two entities that cannot be removed:
+
+- The first is the user entity, which contains user-related data, and the second is the tenant entity.
+- These two entities are fundamental to the functionality of the backend and cannot be removed.
+
+Entities can be marked as either public or protected, with the default setting being protected. When an entity is marked as public, there is no protection at all. Anyone can fetch the API without providing an access token (~ being logged in).
+
+## Entity fields
+
+Each field within an entity must include the following attributes:
+
+- Field name
+- Type
+- Default value
+- Nullable (yes/no)
+- Unique (yes/no)
+
+### What Does "Nullable" Mean?
+
+The "nullable" attribute defines whether a field can contain null (empty) values or not.
+
+## Relations
+
+When selecting the field type, users can choose "relation" as the type. When creating a relation, users should specify which entity the current entity is related to. A corresponding relation must also be established from the related entity back to the current entity.
+
+## AI Assistance
+
+Users have the option to add a field with the assistance of AI. In this case, the console generates a new field based on the context of the entity.
+
+Another method to add entities to the list is through the "AI Recommend" feature. AI pre-generates a selection of relevant entities, and they can be added to the list with a single click, allowing for further editing.
+
+All changes made to the entities are displayed on the left side in the visualization window.
+
+## Publishing Schema
+
+It's important to emphasize that while the schema is automatically saved, it must be published to be reflected in the API. Publishing may take a few minutes, and a progress bar at the top of the page will indicate the status. During the publishing process, you can continue to edit the schema, but you cannot initiate another publish until the current one is completed. In the event of errors during publishing, such as migration failures, the recommended action is to attempt publishing again.
+
+Even if a user leaves this page, publishing continues in the background. Once completed, a notification will be displayed within the console.
+
+AI Autofill is another notable feature on this page. Clicking it will populate the entities, relationships, and schema with AI-recommended values. However, be cautious, as the autofilled data can be edited but might not entirely align with your specific needs.
+
+For a fresh start, there's a "Reset Data Model" option. Clicking this will remove all changes made in the current session (anything created on this page before publishing) and restore the page to its state before the last publish.
+
+On the right side of the page, you'll find the schema visualization. Here, you can view the entire schema in fullscreen mode, align items vertically or horizontally, center the content, zoom in or out, and lock the visualization.

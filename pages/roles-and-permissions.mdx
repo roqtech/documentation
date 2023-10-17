@@ -1,1 +1,39 @@
 # Roles & Permissions
+
+User Role Page
+
+On this page, you can:
+
+Change the tenant name (the way your tenants will be named in your system, not the actual name).
+
+View all user roles that belong to the tenant.
+
+Edit user role settings.
+
+Assign a specific signup form to the user role.
+
+Change invite rules (Assign a different role that can be invited by the user role).
+
+Configure role permissions.
+
+View all user roles that don't belong to the tenant (End customer user roles).
+
+Edit their settings.
+
+Delete roles.
+
+Add new user roles.
+
+All these changes are applied in real-time.
+
+Permissions
+
+How do user roles and permissions work in ROQ? With ROQ, you have three essential parts of the application handled: users, data, and access to data. Access to data is managed via Access Management - Roles and permissions. After defining user roles and multi-tenancy configuration and adding the relevant backend data schema, you can define the access of particular user roles to the data schema. Each role can have Create, Read, Update, and Delete access to the data schema entities. Each access level can also have a scope: none, tenant, own, or all.
+
+To understand this easily, imagine an example.
+
+Let's say you're building a restaurant management software. Your tenants are restaurants. You have user roles for chefs, waiters, and customers (customers are end consumers and don't belong to a tenant). On the other hand, you have a data schema with an entity called Menu. You can define rules like "As a chef, I want to be able to edit my restaurant's menu" or "As an end consumer, I want to be able to view all restaurant menus." This can be done easily via the console's Access Management page, where all entities, user roles, access rules, and scopes are defined in one table. You can also filter these rules.
+
+If this becomes overwhelming, you can use a feature called AI Autofill. With AI Autofill, we will automatically populate the table with permissions for you, and you can later fine-tune individual access for entities.
+
+Access Management rules apply in real-time and don't require publishing or deploying the app.

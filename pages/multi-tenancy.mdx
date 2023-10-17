@@ -1,1 +1,25 @@
 # Multi-Tenancy
+
+Introduction
+
+In B2B SaaS applications, all users are usually grouped into tenants. Each of your business customers is represented as a tenant. The related users and all the data are fully isolated.
+
+You may use another term, like organization, workspace, or team. For instance, if you are using Slack, then you know that your team members are grouped into a so-called workspace. A tenant is usually created when the first user signs up.
+
+How to Use Multi-Tenancy
+
+ROQ is a multi-tenancy first BaaS platform. Every backend that you build has multi-tenancy enabled by default, and you don't have to put in extra effort or worry about data leakage between your tenants. By default, all users are grouped into tenants, but you might also have a configuration where some of your users might be defined as End-customers. They will be outside the tenant scope. This use case makes sense when your business model is B2B2C. For instance, if you are building a marketplace like Amazon or Alibaba, your tenants might be manufacturers or wholesale, but your C (End-Customer) would be the end consumer who purchases goods from businesses.
+
+Tenants can be created automatically when users are signing up OR manually created or assigned via API.
+
+How to Define Tenant Name
+
+You might call your tenant Company, Organization, Team, Business, Client, etc. If you need to change the name, you can do it from the Console page User Roles.
+
+How Can a User Become a Member of the Tenant
+
+When a new user is registered, a new tenant is created.
+
+Other users can invite new users to the tenant they belong to.
+
+Tenants can be assigned to the user manually via API.
