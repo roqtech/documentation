@@ -1,39 +1,31 @@
 # Roles & Permissions
 
-User Role Page
+Authorization in ROQ employs a robust roles and permissions system designed to provide secure control over access to data entities within a backend. This system enables you to precisely manage what users (assigned roles) can access and who is authorized (given permission) to perform specific actions.
 
-On this page, you can:
+## Managing Roles
 
-Change the tenant name (the way your tenants will be named in your system, not the actual name).
+In ROQ, roles serve as unique identifiers for collections of permissions. Each user can be associated with one or more roles, each of which may grant them access to a set of actions. Upon user creation in ROQ, a role is automatically assigned. Roles can be associated with either a tenant or an end user. For example, a user might be assigned the role of "Manager" and have managerial responsibilities within a tenant, such as a restaurant. An end user refers to a typical consumer, like someone making purchases on a platform like Amazon. At present, a user can hold only one role.
 
-View all user roles that belong to the tenant.
+## User Role Management & Features
+Within the Console, the User Roles page provides a platform for managing roles. Generally, this page displays two categories of roles:
+* Roles linked to tenants
+* End User roles.
 
-Edit user role settings.
+On this page, users can delete existing user roles or create new ones. Some special cases may prevent the deletion of user roles, such as when only one user role exists.
 
-Assign a specific signup form to the user role.
+Users also have the option to edit the name of an existing role. On this page, various actions are available, including:
+- Assigning a sign-up form to a user role
+- Configuring which user roles are permitted to invite other user roles (e.g., a recruiter user role inviting a freelancer user role to the application)
+- Linking to the configuration of permissions (access management rules).
 
-Change invite rules (Assign a different role that can be invited by the user role).
+All changes made on this page take effect in real-time.
 
-Configure role permissions.
+## Permissions (Access Management)
 
-View all user roles that don't belong to the tenant (End customer user roles).
+In ROQ, the interaction of user roles and permissions is essential to control access to data entities. This comprises three core aspects: users, data, and access to data. Data access is managed through the Access Management system, which encompasses roles and permissions. After defining user roles, configuring multi-tenancy, and establishing the backend data schema, users can specify the access permissions for particular user roles within the data schema. Each role can have Create, Read, Update, and Delete permissions for data schema entities. Furthermore, each level of access can be defined with a specific scope: none, tenant, own, or all.
 
-Edit their settings.
+To simplify this, consider the example of building a restaurant management software. The tenants are restaurants, and user roles include chefs, waiters, and customers (end consumers, not associated with a tenant). Meanwhile, the data schema includes entities such as "Menu." With the Access Management page in the Console, you can easily set rules like "Chefs can edit their restaurant's menu" or "End consumers can view menus from all restaurants." All these configurations occur in real-time without the need for app publishing or deployment.
 
-Delete roles.
+### AI Autofill
 
-Add new user roles.
-
-All these changes are applied in real-time.
-
-Permissions
-
-How do user roles and permissions work in ROQ? With ROQ, you have three essential parts of the application handled: users, data, and access to data. Access to data is managed via Access Management - Roles and permissions. After defining user roles and multi-tenancy configuration and adding the relevant backend data schema, you can define the access of particular user roles to the data schema. Each role can have Create, Read, Update, and Delete access to the data schema entities. Each access level can also have a scope: none, tenant, own, or all.
-
-To understand this easily, imagine an example.
-
-Let's say you're building a restaurant management software. Your tenants are restaurants. You have user roles for chefs, waiters, and customers (customers are end consumers and don't belong to a tenant). On the other hand, you have a data schema with an entity called Menu. You can define rules like "As a chef, I want to be able to edit my restaurant's menu" or "As an end consumer, I want to be able to view all restaurant menus." This can be done easily via the console's Access Management page, where all entities, user roles, access rules, and scopes are defined in one table. You can also filter these rules.
-
-If this becomes overwhelming, you can use a feature called AI Autofill. With AI Autofill, we will automatically populate the table with permissions for you, and you can later fine-tune individual access for entities.
-
-Access Management rules apply in real-time and don't require publishing or deploying the app.
+For users who find these configurations complex, there is the AI Autofill feature. With AI Autofill, the system automatically populates the permissions table, which can then be fine-tuned for individual entity access at a later time.
