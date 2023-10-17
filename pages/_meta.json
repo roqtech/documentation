@@ -29,7 +29,7 @@
   "separator-third": {
     "type": "separator"
   },
-  "schema-designer": "Schema Designer",
+  "schema-editor": "Schema Editor",
   "roles-and-permissions": "Roles & Permissions",
   "multi-tenancy": "Multi-Tenancy",
   "user-registration": "User Registration",
