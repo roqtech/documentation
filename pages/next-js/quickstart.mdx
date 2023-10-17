@@ -1,19 +1,63 @@
-import { Steps } from "nextra/components"
+import { Steps, Callout } from "nextra/components"
 
 # Quickstart
 
-Learn how to create Next.js project using ROQ BaaS, install ROQ SDK, and query data from the ROQ BaaS.
+Learn how to create a Next.js project using ROQ BaaS, install ROQ SDK, and query data from the ROQ BaaS.
 
 <Steps>
 ### Configure user schema and roles
 
 ### Create a Next.js app
 
+To create a new Next.js project. Run this command:
+
+```shell
+npx create-next-app@latest
+```
+
+And the follow along the installation questions:
+
+```shell
+What is your project named? roq-baas-nextjs
+Would you like to use TypeScript? No / Yes
+Would you like to use ESLint? No / Yes
+Would you like to use Tailwind CSS? No / Yes
+Would you like to use `src/` directory? No / Yes
+Would you like to use App Router? (recommended) No / Yes
+Would you like to customize the default import alias (@/*)? No / Yes
+What import alias would you like configured? @/*
+```
+
 ### Install ROQ BaaS SDK
+
+Install the necessary ROQ BaaS SDK for our project, which is `@roq/nextjs` and `@roq/cli` packages. 
+
+```shell
+npm install @roq/nextjs --save
+npm install @roq/cli --save-dev
+```
 
 ### Setup `.env`
 
+Besides SDK, we need to copy the environment file from the Console. Make sure to choose the appropriate environment for our project, copy the environment values, and save it to the `.env` file in our root Next.js project directory. 
+
+{/*
+<Callout type="info">
+It's recommended to create a new environment whenever we develop new projects.
+</Callout>
+*/}
+
+### Configure Next.js with ROQ Auth
+
+To make our Next.js project seamlessly work with ROQ Authentication, we need to configure the project first. Add file `pages/api/auth/[...roqAuth].ts` and fill with this code:
+
+```ts
+import { RoqAuth } from '@roq/nextjs';
+export default RoqAuth({});
+```
+
 ### Query data from the ROQ BaaS
 
-### Start Next.js app and see the result
+
+### Start the Next.js app and see the result
 </Steps>
