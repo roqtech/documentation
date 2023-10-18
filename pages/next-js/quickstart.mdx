@@ -55,6 +55,15 @@ To make our Next.js project seamlessly work with ROQ Authentication, we need to 
 import { RoqAuth } from '@roq/nextjs';
 export default RoqAuth({});
 ```
+### Generate SDK
+
+Other than the ROQ BaaS SDK, Next.js also need generated customized SDK. To generate this SDK, run the command below:
+
+```shell
+npx @roq/cli generate
+```
+
+The default location for the generated SDK is `src/lib/roq`.
 
 ### Query data from the ROQ BaaS
 
