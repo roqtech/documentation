@@ -68,7 +68,14 @@ This command generates a customizable SDK based on the Prisma BaaS schema and ch
 
 ### Query data from the ROQ BaaS
 
-For example, this is a snippet from the generated code:
+Before doing any data related query, we need to wrap the Next.js application with the `<RoqClientProvider>` context provider component. This provider enable the components in the application tree to access the customize generated SDK from our command earlier. You can put this code in `_app.tsx` file.
+
+```jsx
+<RoqClientProvider endpoint="">{children}</RoqClientProvider>
+```
+
+
+For example, this is a snippet from the generated code for hook to find books with count data:
 
 ```ts filename="src/lib/roq/roq-hooks.ts"
 export function useBookFindManyWithCount<
@@ -109,6 +116,24 @@ const { data, error, isLoading, mutate } = useBookFindManyWithCount({
     ...queryParams,
 });
 ```
+
+Another simpler example is to use the `useRoqClient` method directly in the Next.js page:
+
+```ts
+const roqClient = useRoqClient();
+
+const handleDelete = async (id: string) => {
+    setDeleteError(null);
+    try {
+      await roqClient.book.delete({ where: { id } });
+      await mutate();
+    } catch (error) {
+      setDeleteError(error);
+    }
+};
+```
+
+
 
 
 ### Start the Next.js app and see the result
