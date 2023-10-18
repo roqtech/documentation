@@ -45,9 +45,9 @@ More examples:
 ## 3. Schema
 
 A well-thought-out database schema represents your application's basement and requires careful engineering. With ROQ, you can visually design your database schema using the entity relationship diagram technique and optional AI support.
-Every schema has an entity called `user` that represents any user, regardless of the role. In addition, a table represents the tenant. For example, A company is represents the tenant and the table is called **Company**.
+Every schema has an entity called `user` that represents any user, regardless of the role. In addition, a table represents the tenant. For example, A restaurant is represents the tenant and the table is called **restaurant**.
 
-![schema editor example](/screenshots/schema-editor-console.png)
+![schema editor example](/screenshots/schema-editor.png)
 
 
 ## 4. Permissions
@@ -57,7 +57,7 @@ It's time to combine your user roles and schema by defining access rules (~permi
 Let's say you have a user story like this: "_As a Waiter, I can manage my orders_". You can easily translate this user story into permissions, which means the user role chef has read and write access to the `order` entity within the scope of its tenant ("restaurant", in this case). Our AI assistant can support you if you need help with the correct permissions.
 
 [//]: # (TODO show screenshot from AI Assistant)
-![permission table](/screenshots/roles-editor-ai-assistant.png)
+![permission table](/screenshots/permissions-editor-ai-assistant.png)
 
 ## 5. Technology selection
 
