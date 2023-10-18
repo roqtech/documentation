@@ -4,9 +4,11 @@ import { Steps, Callout } from "nextra/components"
 
 Learn how to create a Next.js project using ROQ BaaS, install ROQ SDK, and query data from the ROQ BaaS.
 
-<Steps>
+{/*
 ### Configure user schema and roles
 
+*/}
+<Steps>
 ### Create a Next.js app
 
 To create a new Next.js project. Run this command:
@@ -57,15 +59,56 @@ export default RoqAuth({});
 ```
 ### Generate SDK
 
-Other than the ROQ BaaS SDK, Next.js also need generated customized SDK. To generate this SDK, run the command below:
+Our Next.js project will work with ROQ BaaS specifically by using the customize generated SDK. To generate it, run the command below:
 
 ```shell
 npx @roq/cli generate
 ```
-
-The default location for the generated SDK is `src/lib/roq`.
+This command generates a customizable SDK based on the Prisma BaaS schema and chosen environment. The default location for the code generated is `src/lib/roq`.
 
 ### Query data from the ROQ BaaS
+
+For example, this is a snippet from the generated code:
+
+```ts filename="src/lib/roq/roq-hooks.ts"
+export function useBookFindManyWithCount<
+  T extends Prisma.bookFindManyArgs,
+  R extends { data: GetFindResult<Prisma.$bookPayload<DefaultArgs>, T>[]; count: number },
+>(args?: Prisma.SelectSubset<T, Prisma.bookFindManyArgs>, options?: RequestOptions, swrOptions?: SWRRequestOptions<R>) {
+  const roq = useRoqClient();
+  const key = JSON.stringify(['useBookFindManyWithCount', args || {}]);
+  return useSWR<R, Error>(
+    key,
+    async () => {
+      const result = await roq.book.findManyWithCount(args, options);
+      return result as R;
+    },
+    {
+      ...swrOptions,
+      fallbackData: swrOptions?.initialData ?? swrOptions?.fallbackData,
+    },
+  );
+}
+```
+
+To use the `useBookFindManyWithCount` method in a Next.js page, we need to import this code:
+
+```ts
+import { useRoqClient, useBookFindManyWithCount } from 'lib/roq';
+```
+
+and then use it, for example:
+
+```ts 
+const { data, error, isLoading, mutate } = useBookFindManyWithCount({
+	skip: params.pageNumber * params.pageSize,
+    take: params.pageSize,
+    orderBy: {
+      created_at: 'desc',
+    },
+    ...queryParams,
+});
+```
 
 
 ### Start the Next.js app and see the result
