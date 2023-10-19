@@ -81,15 +81,13 @@ Our Next.js project will work with ROQ BaaS by using a customize generated SDK. 
 ```shell
 npx @roq/cli generate
 ```
-This command generates a customizable SDK based on the Prisma BaaS schema and chosen environment. The default location for the code generated is `src/lib/roq`.
+The command generates a customizable SDK based on the Prisma BaaS schema and chosen environment. The default location for the code generated is `src/lib/roq`.
 
 ![generate roq sdk](/screenshots/generate-sdk.png)
 
-{/*≈
 <Callout type="info">
-You can modify the project schema in the ROQ Console and the re-run the CLI.
+Add `"baseUrl": "src"` to the `compilerOptions` in the TypeScript config file so that the new SDK can be recognized.
 </Callout>
-*/}
 
 ### Configure Next.js with ROQ authentication
 
