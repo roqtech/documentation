@@ -85,9 +85,20 @@ The command generates a customizable SDK based on the Prisma BaaS schema and cho
 
 ![generate roq sdk](/screenshots/generate-sdk.png)
 
-<Callout type="info">
-Add `"baseUrl": "src"` to the `compilerOptions` in the TypeScript config file so that the new SDK can be recognized.
-</Callout>
+Add `lib` folder to the `compilerOptions` in the TypeScript config file so that the new SDK can be recognized.
+
+```tsx
+"compilerOptions": {
+  "paths": {
+      "@/*": [
+          "./src/*"
+      ],
+        "lib/*": [
+          "./src/lib/*"
+      ]
+  },
+}
+```
 
 ### Configure Next.js with ROQ authentication
 
