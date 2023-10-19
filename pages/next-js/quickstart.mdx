@@ -49,14 +49,6 @@ It's recommended to create a new environment whenever we develop new projects.
 </Callout>
 */}
 
-### Configure Next.js with ROQ authentication
-
-To make our Next.js project seamlessly work with ROQ Authentication, we need to configure the project first. Add file `pages/api/auth/[...roqAuth].ts` and fill with this code:
-
-```ts
-import { RoqAuth } from '@roq/nextjs';
-export default RoqAuth({});
-```
 ### Generate SDK
 
 Our Next.js project will work with ROQ BaaS specifically by using the customize generated SDK. To generate it, run the command below:
@@ -65,6 +57,17 @@ Our Next.js project will work with ROQ BaaS specifically by using the customize 
 npx @roq/cli generate
 ```
 This command generates a customizable SDK based on the Prisma BaaS schema and chosen environment. The default location for the code generated is `src/lib/roq`.
+
+![generate roq sdk](/screenshots/generate-sdk.png)
+
+### Configure Next.js with ROQ authentication
+
+To make our Next.js project seamlessly work with ROQ Authentication, we need to configure the project first. Add file `pages/api/auth/[...roqAuth].ts` and fill with this code:
+
+```ts
+import { RoqAuth } from '@roq/nextjs';
+export default RoqAuth({});
+```
 
 ### Query data
 
