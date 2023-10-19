@@ -9,7 +9,7 @@ Learn how to create a Next.js project using ROQ BaaS, install ROQ SDK, and query
 
 */}
 <Steps>
-### Create a Next.js app
+### Create a Next.js application
 
 To create a new Next.js project. Run this command:
 
@@ -49,7 +49,7 @@ It's recommended to create a new environment whenever we develop new projects.
 </Callout>
 */}
 
-### Configure Next.js with ROQ Auth
+### Configure Next.js with ROQ authentication
 
 To make our Next.js project seamlessly work with ROQ Authentication, we need to configure the project first. Add file `pages/api/auth/[...roqAuth].ts` and fill with this code:
 
@@ -66,7 +66,7 @@ npx @roq/cli generate
 ```
 This command generates a customizable SDK based on the Prisma BaaS schema and chosen environment. The default location for the code generated is `src/lib/roq`.
 
-### Query data from the ROQ BaaS
+### Query data
 
 Before doing any data related query, we need to wrap the Next.js application with the `<RoqClientProvider>` context provider component. This provider enable the components in the application tree to access the customize generated SDK from our command earlier. You can put this code in `_app.tsx` file.
 
@@ -136,7 +136,7 @@ const handleDelete = async (id: string) => {
 
 
 
-### Start the Next.js app and see the result
+### Start the Next.js application
 
 To start the development server run this command:
 
