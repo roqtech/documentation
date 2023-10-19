@@ -41,17 +41,42 @@ npm install @roq/cli --save-dev
 
 ### Setup `.env`
 
-Besides SDK, we need to copy the environment file from the Console. Make sure to choose the appropriate environment for our project, copy the environment values, and save it to the `.env` file in our root Next.js project directory. 
+Besides SDK, we need to copy the environment file from the ROQ Console. Make sure to choose the appropriate environment for our project, copy the environment values, and save it to the `.env` file in our root Next.js project directory. 
 
-{/*
-<Callout type="info">
-It's recommended to create a new environment whenever we develop new projects.
-</Callout>
-*/}
+The environment `.env` file example:
+
+```env
+# Public variables, used on client - Delete these if you are not using Next.js
+NEXT_PUBLIC_ROQ_CLIENT_ID=e3408733-0ac2-4596-8264-0a7da2481801
+NEXT_PUBLIC_ROQ_PLATFORM_URL=https://qa01.roq-platform.com
+
+# If you change the host or port on your local installation from https://book-story-v1-ca2b.vercel.app to another value,
+# then you need to update the settings in the console as well. ROQ Console: https://console.roq.tech/
+# Modify this to your application URL
+NEXT_PUBLIC_BASE_URL=https://book-story-v1-ca2b.vercel.app
+
+# Server variables used for ROQ connection
+ROQ_BASE_URL=https://book-story-v1-ca2b.vercel.app
+ROQ_PLATFORM_URL=https://qa01.roq-platform.com
+ROQ_ENVIRONMENT_ID=e3408733-0ac2-4596-8264-0a7da2481801
+ROQ_API_KEY=s3cr3t
+
+# Server variables for ROQ auth
+ROQ_SECRET=CHANGE_THIS_SECRET
+ROQ_CLIENT_ID=e3408733-0ac2-4596-8264-0a7da2481801
+ROQ_CLIENT_SECRET=4354520b-8264-0a7da2481801
+ROQ_AUTH_CALLBACK_URL=https://book-story-v1-ca2b.vercel.app/api/auth/callback
+ROQ_AUTH_LOGIN_URL=https://book-story-v1-ca2b.vercel.app/api/auth/login
+ROQ_AUTH_LOGOUT_URL=https://book-story-v1-ca2b.vercel.app/api/auth/logout
+ROQ_AUTH_URL=https://dgc7uw23yacn9f7vz6xm772m9.auth.qa01.roq-platform.com
+DATABASE_URL=postgresql://username:password@somehost:5432/bookstory
+ROQ_API_URL=https://book-story-v1-ca2b-baas.vercel.app
+NEXT_PUBLIC_ROQ_API_URL=https://book-story-v1-ca2b-baas.vercel.app
+```
 
 ### Generate SDK
 
-Our Next.js project will work with ROQ BaaS specifically by using the customize generated SDK. To generate it, run the command below:
+Our Next.js project will work with ROQ BaaS by using a customize generated SDK. This process is necessary to generate Prisma types for SDK. To generate it, run the command below:
 
 ```shell
 npx @roq/cli generate
@@ -59,6 +84,12 @@ npx @roq/cli generate
 This command generates a customizable SDK based on the Prisma BaaS schema and chosen environment. The default location for the code generated is `src/lib/roq`.
 
 ![generate roq sdk](/screenshots/generate-sdk.png)
+
+{/*≈
+<Callout type="info">
+You can modify the project schema in the ROQ Console and the re-run the CLI.
+</Callout>
+*/}
 
 ### Configure Next.js with ROQ authentication
 
