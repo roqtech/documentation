@@ -87,7 +87,7 @@ The command generates a customizable SDK based on the Prisma BaaS schema and cho
 
 Add `lib` folder to the `compilerOptions` in the TypeScript config file so that the new SDK can be recognized.
 
-```tsx
+```json
 "compilerOptions": {
   "paths": {
       "@/*": [
@@ -102,21 +102,33 @@ Add `lib` folder to the `compilerOptions` in the TypeScript config file so that 
 
 ### Configure Next.js with ROQ authentication
 
+Before doing any data related query, we need to wrap the Next.js application with the `<RoqClientProvider>` context provider component. This provider enable the components in the application tree to access the customize generated SDK from our command earlier. You can put this code in `_app.tsx` file.
+
+```jsx filename="_app.tsx"
+import '@/styles/globals.css'
+import type { AppProps } from 'next/app'
+import { RoqClientProvider } from 'lib/roq'
+
+export default function App({ Component, pageProps }: AppProps) {
+  const backendHost = process.env.NEXT_PUBLIC_ROQ_API_URL as string
+  const platformHost = process.env.NEXT_PUBLIC_ROQ_PLATFORM_URL as string
+
+  return (
+      <RoqClientProvider backendHost={backendHost} platformHost={platformHost}>
+        <Component {...pageProps} />
+      </RoqClientProvider>
+  )
+}
+```
+
 To make our Next.js project seamlessly work with ROQ Authentication, we need to configure the project first. Add file `pages/api/auth/[...roqAuth].ts` and fill with this code:
 
-```ts
+```ts filename="[...roqAuth].ts"
 import { RoqAuth } from '@roq/nextjs';
 export default RoqAuth({});
 ```
 
 ### Query data
-
-Before doing any data related query, we need to wrap the Next.js application with the `<RoqClientProvider>` context provider component. This provider enable the components in the application tree to access the customize generated SDK from our command earlier. You can put this code in `_app.tsx` file.
-
-```jsx
-<RoqClientProvider endpoint="">{children}</RoqClientProvider>
-```
-
 
 For example, this is a snippet from the generated code for hook to find books with count data:
 
@@ -151,33 +163,35 @@ and then use it, for example:
 
 ```ts 
 const { data, error, isLoading, mutate } = useBookFindManyWithCount({
-	skip: params.pageNumber * params.pageSize,
-    take: params.pageSize,
-    orderBy: {
+	  orderBy: {
       created_at: 'desc',
-    },
-    ...queryParams,
+    }
 });
 ```
+We can display the `data` in the `index.tsx` page:
 
-Another simpler example is to use the `useRoqClient` method directly in the Next.js page:
-
-```ts
-const roqClient = useRoqClient();
-
-const handleDelete = async (id: string) => {
-    setDeleteError(null);
-    try {
-      await roqClient.book.delete({ where: { id } });
-      await mutate();
-    } catch (error) {
-      setDeleteError(error);
+```ts 
+<div>
+    { isLoading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>Error: {error.message}</p>
+      ) : (
+        <>
+         <h1>Book Titles</h1>
+         <br/>
+         <ul>
+             {data.data.map((book, index) => (
+                 <li key={book.id}>
+                    {index + 1}. {book.title} by {book.author} ({book.genre})
+                 </li>
+              ))}
+          </ul>
+        </>
+      )
     }
-};
+</div>
 ```
-
-
-
 
 ### Start the Next.js application
 
@@ -189,7 +203,10 @@ npm run dev
 
 And in the browser, go to `http://localhost:3000`. 
 
-{/*
-Check the result
-*/}
+![Next.js Quickstart](/screenshots/nextjs-quickstart-demo.png)
 </Steps>
+
+
+{/*
+You need a roq-session-cookie in the browser. You can copy paste the cookie from the existing generated app.
+*/}
