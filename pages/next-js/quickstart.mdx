@@ -172,24 +172,23 @@ We can display the `data` in the `index.tsx` page:
 
 ```ts 
 <div>
-    { isLoading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p>Error: {error.message}</p>
-      ) : (
-        <>
-         <h1>Book Titles</h1>
-         <br/>
-         <ul>
-             {data.data.map((book, index) => (
-                 <li key={book.id}>
-                    {index + 1}. {book.title} by {book.author} ({book.genre})
-                 </li>
-              ))}
-          </ul>
-        </>
-      )
-    }
+  {isLoading ? (
+    <p>Loading...</p>
+  ) : error ? (
+    <p>Error: {error.message}</p>
+  ) : (
+    <>
+      <h1>Book Titles</h1>
+      <br />
+      <ul>
+        {data.data.map((book, index) => (
+          <li key={book.id}>
+            {index + 1}. {book.title} by {book.author} ({book.genre})
+          </li>
+        ))}
+      </ul>
+    </>
+  )}
 </div>
 ```
 
