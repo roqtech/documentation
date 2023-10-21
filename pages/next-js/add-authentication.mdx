@@ -1,8 +1,10 @@
+import { Callout } from 'nextra/components' 
+
 # Add Authentication
 
 Any web application needs user authentication. ROQ BaaS offers easy authentication through its SDK. For Next.js projects, you can utilize the `signIn`, `signOut`, and `signUp` methods from the `useRoqClient()` package.
 
-## Installation
+## Preparation
 
 To set up a new Next.js project, it's recommended that you start by reading the [Quickstart](/next-js/quickstart) guide. Additionally you can wrap the main component on the Next.js page with `RoqProvider` to enable page authentication.
 
@@ -81,6 +83,10 @@ export default function Home() {
 
 You can customize the `postLoginRedirect` option value to redirect the route to any page after the successfull login.
 
+<Callout type="info">
+Please note that the login process will take the user to the ROQ login form. You can customize the login from through ROQ Console.
+</Callout>
+
 ## Add logout button
 
 In the book page, we can check if the user validate or not with the helper of `useSession()` method from `@roq/nextjs` package. To add logout button is pretty simple. We can add link or HTML button tag to call the `signOut` method from the `useRoqClient()`.
@@ -126,7 +132,55 @@ The `requireNextAuth` function is necessary to protect the book page in case the
 
 ## Add signup button
 
+Similar to the login process, signup process is handled by `signUp` method from `useRoqClient()`. Add this addition code to our `index.tsx` page:
+
+```tsx filename="index.tsx" {14}
+import { Inter } from 'next/font/google'
+import { useRoqClient } from 'lib/roq'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export default function Home() {
+  const roqClient = useRoqClient()
+
+  const handleSignIn = async () => {
+      await roqClient.signIn('owner', { postLoginRedirect: '/book' })
+  }
+
+  const handleSignUp = async () => {
+      await roqClient.signUp('owner', { postLoginRedirect: '/book' })
+  }
+
+  return (
+    <main className={`text-center flex flex-col items-center justify-between p-24 ${inter.className}`}>
+        <h1 className='m-10'>Add Authentication</h1>
+	     <button 
+          onClick={handleSignIn}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Login
+        </button>
+        <br/>
+        <button 
+          onClick={handleSignUp}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Signup
+        </button>
+
+    </main>
+  )
+}
+```
+After successfully signup, the user will be redirected to `book` page.
+
+<Callout type="info">
+Please note that the signup process will take the user to the ROQ signup form. You can customize the signup form through ROQ Console.
+</Callout>
+
 ## Handling session 
+
+
 
 {/*
 (explain the token, access to the session data)
