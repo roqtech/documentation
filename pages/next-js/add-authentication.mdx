@@ -1,14 +1,132 @@
 # Add Authentication
 
-Any web application needs user authentication. ROQ BaaS offers easy authentication through its SDK. For Next.js projects, you can utilize the `signIn`, `signOut`, and `signUp` methods from the `useRoqClient()` API.
+Any web application needs user authentication. ROQ BaaS offers easy authentication through its SDK. For Next.js projects, you can utilize the `signIn`, `signOut`, and `signUp` methods from the `useRoqClient()` package.
 
 ## Installation
 
-If you're looking to set up a new Next.js project, it's recommended that you start by reading the [Quickstart](/next-js/quickstart) guide. This guide will provide you with step-by-step instructions to help you get started quickly and easily.  In this section, we will cover the process of adding a login button, a logout button, and a signup button.
+To set up a new Next.js project, it's recommended that you start by reading the [Quickstart](/next-js/quickstart) guide. Additionally you can wrap the main component on the Next.js page with `RoqProvider` to enable page authentication.
 
-## Adding login, logout and signup buttons
+```tsx filename="_app.tsx"
+import '@/styles/globals.css'
+import type { AppProps } from 'next/app'
+import { RoqClientProvider } from 'lib/roq'
+import { RoqProvider } from '@roq/nextjs'
 
-## Handling the session 
+export default function App({ Component, pageProps }: AppProps) {
+  const backendHost = process.env.NEXT_PUBLIC_ROQ_API_URL as string
+  const platformHost = process.env.NEXT_PUBLIC_ROQ_PLATFORM_URL as string
+
+  console.log(backendHost)
+  console.log(platformHost)
+  
+  return (
+    <RoqProvider config={{
+      host: platformHost,
+      auth: {
+        useRoqAuth: true
+      }
+    }}>
+      <RoqClientProvider backendHost={backendHost} platformHost={platformHost}>
+        <Component {...pageProps} />
+      </RoqClientProvider>
+    </RoqProvider>
+  )
+ 
+}
+```
+
+Later, you can secure the Next.js page with this snippet of code:
+
+```tsx 
+export default requireNextAuth({
+	redirectIfAuthenticated: false,
+	redirectTo: "/"
+})(ComponentPage)
+```
+
+In this section, we will cover the process of adding a login button, a logout button, and a signup button.
+
+## Add login button
+
+To add login button into a Next.js page we can use `signIn` method from the `useRoqClient()`. 
+
+For example, suppose we want to login with the type `owner` and redirect the page to `book` page when it's authenticated:
+
+```tsx filename="index.tsx" {10}
+import { Inter } from 'next/font/google'
+import { useRoqClient } from 'lib/roq'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export default function Home() {
+  const roqClient = useRoqClient()
+
+  const handleSignIn = async () => {
+	await roqClient.signIn('owner', { postLoginRedirect: '/book' })
+  }
+
+  return (
+    <main className={`text-center flex flex-col items-center justify-between p-24 ${inter.className}`}>
+        <h1 className='m-10'>Add Authentication</h1>
+	    <button 
+          onClick={handleSignIn}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Login
+        </button>
+    </main>
+  )
+}
+```
+
+You can customize the `postLoginRedirect` option value to redirect the route to any page after the successfull login.
+
+## Add logout button
+
+In the book page, we can check if the user validate or not with the helper of `useSession()` method from `@roq/nextjs` package. To add logout button is pretty simple. We can add link or HTML button tag to call the `signOut` method from the `useRoqClient()`.
+
+```tsx filename="book.tsx" {13}
+import { useRoqClient } from 'lib/roq'
+import { requireNextAuth, useSession } from '@roq/nextjs'
+
+function Book() {
+	return <AuthenticatedSection />
+}
+
+const AuthenticatedSection = () => {
+	const { session, status } = useSession()
+	const roqClient = useRoqClient()
+	
+	function logoutHandler() {
+		roqClient.signOut()
+	}
+
+	return (
+		<div className='m-5'>
+			{session ? (<>
+				<p className='my-10'>Logged in as: <strong>{session?.user.email}</strong></p>
+				<br />
+				<button
+					onClick={logoutHandler}
+					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+				>
+					Logout
+				</button>
+			</>) : 'Not logged in'}
+		</div>
+	)
+}
+
+export default requireNextAuth({
+	redirectIfAuthenticated: false,
+	redirectTo: "/"
+})(Book)
+```
+The `requireNextAuth` function is necessary to protect the book page in case the user accesses the `/book` route directly. 
+
+## Add signup button
+
+## Handling session 
 
 {/*
 (explain the token, access to the session data)
