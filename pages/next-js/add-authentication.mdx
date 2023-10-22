@@ -180,6 +180,35 @@ Please note that the signup process will take the user to the ROQ signup form. Y
 
 ## Handling session 
 
+ROQ's login and session management are based on the [OAuth protocol](https://oauth.net/2/). Here is how it works:
+
+1. The user clicks the Login button or is redirected to a login page provided by ROQ.
+2. ROQ prompts the user to log in using username and password or social sign-ins (e.g. Google) and then sends a special token back indicating that the user has granted permission to access your web application.
+3. Using the `requireNextAuth` wrapper, you can easily define which pages are only accessible to authenticated users.
+
+The `roq-session-token` is created whenever user is authenticated. This is a session ID, allowing you to maintain a continuous interaction with the ROQ BaaS. The token is stored in a cookie and later it will be used in the `Authorization` header in every HTTP requests via `RoqClient` (generated SDK).
+
+
+![roq session token](/screenshots/roq-session-token.png)
+
+To use session data in Next.js application, we can use `useSession()` method and then use the `session` data.
+
+```tsx
+import { requireNextAuth, useSession } from '@roq/nextjs'
+
+function Book() {
+	const { session, status } = useSession()
+
+	return (
+		<div className='m-5'>
+			{session ? (<>
+				<p className='my-10'>Logged in as: <strong>{session?.user.email}</strong></p>
+			</>) : 'Not logged in'}
+		</div>
+	)
+}
+```
+
 
 
 {/*
