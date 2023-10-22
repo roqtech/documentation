@@ -1,5 +1,7 @@
 # REST API
 
+## Overview
+
 ROQ use JSON:API specification to minimizes the number of requests and the amount of data transmitted between clients and servers. Its design allows for fetching, creating, and updating multiple resources in a single request, making operations more efficient.
 
 ## JSON:API
@@ -15,4 +17,26 @@ JSON:API is a specification for how a client should request that resources be fe
 
 For more information, visit the [JSON API Official Website](https://jsonapi.org/).
 
+## Interacting with the REST API
 
+Let's take a look at this code:
+
+```tsx
+const count = await roqClient.book.count({ orderBy: { created_at: 'desc' }})
+```
+
+The code tell us to query the book count data and this code will translated to REST API call, such as:
+
+```shell
+https://book-story-v1-ca2b-baas.vercel.app/api/model/book/count?q=%7B%22orderBy%22%3A%7B%22created_at%22%3A%22desc%22%7D%7D
+```
+
+The endpoint `/api/model/book/count` indicates an action (`count`) on a model (`book`). The `q` query parameter appears is a JSON object, URL-encoded, which specifies how the counting should be performed. In this case, it's instructing the server to order the books by their `created_at` timestamp in descending order (`desc`) before performing the count.
+
+We can use tools such as [Postman](https://www.postman.com/) to call the REST-API URL. To access ROQ BaaS REST API, we need a token for request authorization using **Bearer Token**.
+
+
+![postman](/screenshots/postman-roq-baas-query.png)
+
+
+{/* Add example how to get user token*/}
