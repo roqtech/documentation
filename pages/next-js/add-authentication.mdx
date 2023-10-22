@@ -194,7 +194,7 @@ The `roq-session-token` is created whenever user is authenticated. This is a ses
 To use session data in Next.js application, we can use `useSession()` method and then use the `session` data.
 
 ```tsx
-import { requireNextAuth, useSession } from '@roq/nextjs'
+import { useSession } from '@roq/nextjs'
 
 function Book() {
 	const { session, status } = useSession()
