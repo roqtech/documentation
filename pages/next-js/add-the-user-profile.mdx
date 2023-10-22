@@ -1,3 +1,5 @@
+import {Callout} from "nextra/components"
+
 # Add user profile
 
 Wrapper functions provided by the generated SDK can be used instead of calling `useRoqClient()` directly. For example, we can use these functions to access user profile data for the specific user id:
@@ -36,3 +38,7 @@ export function useRoqPlatformUserProfile(
 ```
 
 Depending on your application needs, you can choose between using the hook or the `useRoqClient()` method.
+
+<Callout type="info">
+Please note that the 'userProfile()' method is part of the ROQ platform API and cannot be generated. However, you can still update user profile data in the ROQ Console.
+</Callout>
