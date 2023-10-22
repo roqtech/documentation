@@ -26,7 +26,7 @@ useEffect(() => {
 
 ```
 
-Important thing to note that the code syntax for data operation follows a Prisma-like pattern.
+The important thing to note that the code syntax for the data operation follows a Prisma-like pattern.
 
 ```tsx
 await roqClient.review.findManyWithCount()
@@ -39,6 +39,22 @@ JSON:API is utilized to create REST APIs in ROQ BaaS, resulting in JSON-format r
 
 ## Write data using SDK
 
+To write or update data, we can use `update` method. For instance, to update review data with the review id `f61176b6-ba89-4ec6-8840-1efffb7f51e6`:
 
+```tsx
+const updateReviewbyID = async () => {
+    const updateResult = await roqClient.review.update({
+	    data: { comment: "Highly recommended book" },
+		    where: {
+			    id: "f61176b6-ba89-4ec6-8840-1efffb7f51e6"
+		}
+	},)
+}
+   
+updateReviewbyID()
+```
+The provided review id will be used to update the comment data.
+
+![update review data](/screenshots/nextjs-write-data-baas.png)
 
 
