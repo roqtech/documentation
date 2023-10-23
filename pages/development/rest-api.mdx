@@ -4,11 +4,11 @@
 
 ROQ use JSON:API specification to minimizes the number of requests and the amount of data transmitted between clients and servers. Its design allows for fetching, creating, and updating multiple resources in a single request, making operations more efficient.
 
-## JSON:API
+## What is JSON:API?
 
 JSON:API is a specification for how a client should request that resources be fetched or modified, and how a server should respond to those requests. It provides guidelines for structuring requests, responses, and the HTTP methods and status codes to employ. It embraces RESTful conventions, however, it also defines conventions for building and modifying resources via HTTP.
 
-### Features
+**Features**
 
 - Standardizes how APIs are designed and how requests and responses are handled, promoting interoperability.
 - Specifies the use of JSON in request and response bodies, with conventions for how resources and their relationships should be represented.
@@ -38,10 +38,87 @@ We can use tools such as [Postman](https://www.postman.com/) to call the REST-AP
 ![postman](/screenshots/postman-roq-baas-query.png)
 
 
-### Get user token
+## Get the user token
 
 To access the ROQ BaaS REST API, you need an authorization token known as `roq-access-token`. In a Next.js application, you can programmatically retrieve the user token for authorization. This token is stored in a browser cookie with the `HttpOnly` flag, which means it cannot be directly accessed using JavaScript on the client side.
 
+There a few ways to get the user token. You can get it manually for fast testing and development or you can get the token programmatically.
+
+### Manually
+
+The easiest way to test the REST API from BaaS using a token is to copy the token directly from the browser cookie and then paste it into the authorization header.  
+
+{/*Add screenshots*/}
 
 
+### Programmatically
+
+Since the cookie have `HttpOnly` flag enabled, we can only get the user token from the server side.
+
+
+```tsx filename="book.tsx"
+import { useRoqClient } from 'lib/roq'
+import { requireNextAuth, useSession } from '@roq/nextjs'
+import { useEffect, useState} from 'react'
+
+export default function Book({token}) {
+	return <AuthenticatedSection token={token}/>
+}
+
+const AuthenticatedSection = ({ token }) => {
+	const { session, status } = useSession()
+	const [bookCount, setBookCount] = useState(0)
+	const roqClient = useRoqClient()
+
+	useEffect(() => {
+		//fetch book count
+		const fetchBookCount = async () => {
+			const count = await roqClient.book.count({
+				orderBy: { created_at: 'desc' }
+			},{
+				headers: {
+					Authorization: `Bearer ${token}`
+				}
+			})
+			setBookCount(count)
+		}
+		fetchBookCount()
+
+	}, [])
+
+	function logoutHandler() {
+		roqClient.signOut()
+	}
+
+	return (
+		<div className='m-5'>
+			{session ? (<>
+				<p className='my-10'>Logged in as: <strong>{session?.user.email}</strong></p>
+				<p>Book Count: {bookCount}</p>
+				<br />
+				<button
+					onClick={logoutHandler}
+					className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+				>
+					Logout
+				</button>
+               
+			   <br/>
+			</>) : 'Not logged in'}
+		</div>
+	)
+}
+
+export async function getServerSideProps(context) {
+	const { req } = context;
+	const cookies = req.headers.cookie?.split(';');
+	console.log(cookies)
+	const tokenCookie = cookies?.find(cookie => cookie.trim().startsWith('roq-session-token='));
+	const token = tokenCookie?.split('=')[1];
+  
+	return {
+	  props: { token }
+	};
+}
+```
 
