@@ -35,8 +35,13 @@ The endpoint `/api/model/book/count` indicates an action (`count`) on a model (`
 
 We can use tools such as [Postman](https://www.postman.com/) to call the REST-API's book count endpoint with the necessary request authorization using **Bearer Token**.
 
-
 ![postman](/screenshots/postman-roq-baas-query.png)
 
 
-{/* Add example how to get user token*/}
+### Get user token
+
+To access the ROQ BaaS REST API, you need an authorization token known as `roq-access-token`. In a Next.js application, you can programmatically retrieve the user token for authorization. This token is stored in a browser cookie with the `HttpOnly` flag, which means it cannot be directly accessed using JavaScript on the client side.
+
+
+
+
