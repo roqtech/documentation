@@ -76,7 +76,7 @@ NEXT_PUBLIC_ROQ_API_URL=https://book-story-v1-ca2b-baas.vercel.app
 
 ### Generate SDK
 
-Our Next.js project will work with ROQ BaaS by using a customize generated SDK. This process is necessary to generate Prisma types for SDK. To generate it, run the command below:
+Our Next.js project will work with ROQ BaaS by using a customized generated SDK. This process is necessary to generate Prisma types for SDK. To generate it, run the command below:
 
 ```shell
 npx @roq/cli generate
@@ -102,7 +102,7 @@ Add `lib` folder to the `compilerOptions` in the TypeScript config file so that 
 
 ### Configure Next.js with ROQ authentication
 
-Before doing any data related query, we need to wrap the Next.js application with the `<RoqClientProvider>` context provider component. This provider enable the components in the application tree to access the customize generated SDK from our command earlier. You can put this code in `_app.tsx` file.
+Before doing any data-related query, we need to wrap the Next.js application with the `<RoqClientProvider>` context provider component. This provider enables the components in the application tree to access the customized generated SDK from our earlier command. You can put this code in the `_app.tsx` file.
 
 ```jsx filename="_app.tsx"
 import '@/styles/globals.css'
@@ -127,6 +127,39 @@ To make our Next.js project seamlessly work with ROQ Authentication, we need to 
 import { RoqAuth } from '@roq/nextjs';
 export default RoqAuth({});
 ```
+
+After adding a login button, users will be redirected to the other page if authentication is valid.
+
+```tsx filename="index.js"
+import { Inter } from 'next/font/google'
+import { useRoqClient } from 'lib/roq'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export default function Home() {
+  const roqClient = useRoqClient()
+
+  const handleSignIn = async () => {
+     await roqClient.signIn('owner', { postLoginRedirect: '/dashboard' })
+  }
+
+  return (
+    <main className={`text-center flex flex-col items-center justify-between p-24 ${inter.className}`}>
+        <h1 className='m-10'>Add Authentication</h1>
+       <button onClick={handleSignIn}
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Login
+        </button>
+    </main>
+  )
+}
+```
+
+After successful login, Next.js will get a token that will be used for any further request to the REST API from ROQ Baas. 
+
+<Callout type="info">
+To add logout and signup button, visit [**Add Authentication**](/next-js/add-authentication).
+</Callout>
 
 ### Query data
 
@@ -163,7 +196,7 @@ and then use it, for example:
 
 ```ts 
 const { data, error, isLoading, mutate } = useBookFindManyWithCount({
-	  orderBy: {
+    orderBy: {
       created_at: 'desc',
     }
 });
@@ -194,7 +227,7 @@ We can display the `data` in the `index.tsx` page:
 
 ### Start the Next.js application
 
-To start the development server run this command:
+To start the development server, run this command:
 
 ```shell
 npm run dev
