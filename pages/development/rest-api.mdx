@@ -1,3 +1,5 @@
+import { Callout } from "nextra/components"
+
 # REST API
 
 ## Overview
@@ -19,13 +21,15 @@ For more information, visit the [JSON API Official Website](https://jsonapi.org/
 
 ## Interacting with the REST API
 
+You need a token to access the REST API in the ROQ BaaS. 
+
 Let's take a look at this code:
 
 ```tsx
 const count = await roqClient.book.count({ orderBy: { created_at: 'desc' }})
 ```
 
-The code tell us to query the book count data and this code will translated to REST API call, such as:
+The code tell us to query the book count data with descending order. This code will translated to the REST API call:
 
 ```shell
 https://book-story-v1-ca2b-baas.vercel.app/api/model/book/count?q=%7B%22orderBy%22%3A%7B%22created_at%22%3A%22desc%22%7D%7D
@@ -33,20 +37,23 @@ https://book-story-v1-ca2b-baas.vercel.app/api/model/book/count?q=%7B%22orderBy%
 
 The endpoint `/api/model/book/count` indicates an action (`count`) on a model (`book`). The `q` query parameter appears is a JSON object, URL-encoded, which specifies how the counting should be performed. In this case, it's instructing the server to order the books by their `created_at` timestamp in descending order (`desc`) before performing the count.
 
-We can use tools such as [Postman](https://www.postman.com/) to call the REST-API's book count endpoint with the necessary request authorization using **Bearer Token**.
+We can use tools such as [Postman](https://www.postman.com/) to call the REST-API's book count endpoint with the necessary request authorization using **Bearer Token**. 
 
 ![postman](/screenshots/postman-roq-baas-query.png)
 
+## Token
 
-## Get the user token
+Whenever a user successfully logs in, a user token is generated. This token is used to identify the user for subsequent requests made to the ROQ BaaS.
 
-To access the ROQ BaaS REST API, you need an authorization token known as `roq-access-token`. In a Next.js application, you can programmatically retrieve the user token for authorization. This token is stored in a browser cookie with the `HttpOnly` flag, which means it cannot be directly accessed using JavaScript on the client side.
+### Get the user token
+
+To access the ROQ BaaS REST API, you need an authorization token known as `roq-session-token`. In a Next.js application, you can programmatically retrieve the user token for authorization. This token is stored in a browser cookie with the `HttpOnly` flag, which means it cannot be directly accessed using JavaScript on the client side.
 
 There a few ways to get the user token. You can get it manually for fast testing and development or you can get the token programmatically.
 
-### Programmatically
+#### Programmatically
 
-Since the cookie has the `HttpOnly` flag enabled, we can only retrieve the user token from the server-side. In the Next.js application, we can use `getServerSideProps()` method.
+In the Next.js application, we can use the `getServerSideProps()` method to get the token.
 
 ```tsx
 export async function getServerSideProps(context) {
@@ -61,10 +68,10 @@ export async function getServerSideProps(context) {
 }
 ```
 
-This the full example code on how to get the `roq-sesson-token` and use it to query book count data.
+The `getServerSideProps()` function allows you to fetch data server-side per request and use it as props in components. This is the full example code on how to get the `roq-session-token` and use the token to query book count data.
 
 
-```tsx filename="book.tsx"
+```tsx filename="book.tsx" {21, 53-63}
 import { useRoqClient } from 'lib/roq'
 import { requireNextAuth, useSession } from '@roq/nextjs'
 import { useEffect, useState} from 'react'
@@ -129,7 +136,8 @@ export async function getServerSideProps(context) {
 }
 ```
 
-### Manually
+#### Manually
 
-The less common way to test the REST API from BaaS is to copy the token directly from the browser cookie and then paste it into the authorization header.
+The token can also be obtained by copying it directly from the browser cookie and pasting it into the authorization header.
 
+![roq session token browser](/screenshots/roq-session-token.png)
