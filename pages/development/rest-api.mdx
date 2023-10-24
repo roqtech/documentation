@@ -44,16 +44,24 @@ To access the ROQ BaaS REST API, you need an authorization token known as `roq-a
 
 There a few ways to get the user token. You can get it manually for fast testing and development or you can get the token programmatically.
 
-### Manually
-
-The easiest way to test the REST API from BaaS using a token is to copy the token directly from the browser cookie and then paste it into the authorization header.  
-
-{/*Add screenshots*/}
-
-
 ### Programmatically
 
-Since the cookie have `HttpOnly` flag enabled, we can only get the user token from the server side.
+Since the cookie has the `HttpOnly` flag enabled, we can only retrieve the user token from the server-side. In the Next.js application, we can use `getServerSideProps()` method.
+
+```tsx
+export async function getServerSideProps(context) {
+	const { req } = context;
+	const cookies = req.headers.cookie?.split(';');
+	const tokenCookie = cookies?.find(cookie => cookie.trim().startsWith('roq-session-token='));
+	const token = tokenCookie?.split('=')[1];
+  
+	return {
+	  props: { token }
+	};
+}
+```
+
+This the full example code on how to get the `roq-sesson-token` and use it to query book count data.
 
 
 ```tsx filename="book.tsx"
@@ -112,7 +120,6 @@ const AuthenticatedSection = ({ token }) => {
 export async function getServerSideProps(context) {
 	const { req } = context;
 	const cookies = req.headers.cookie?.split(';');
-	console.log(cookies)
 	const tokenCookie = cookies?.find(cookie => cookie.trim().startsWith('roq-session-token='));
 	const token = tokenCookie?.split('=')[1];
   
@@ -121,4 +128,8 @@ export async function getServerSideProps(context) {
 	};
 }
 ```
+
+### Manually
+
+The less common way to test the REST API from BaaS is to copy the token directly from the browser cookie and then paste it into the authorization header.
 
