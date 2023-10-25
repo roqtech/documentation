@@ -15,17 +15,8 @@ For the client side, the SDK serves two primary purposes:
 - **Access to the BaaS database** (via Rest API)
 - **Interaction with ROQ Platform** (via GraphQL)
 
-For example, the `@roq/nextjs` package is the SDK for the Next.js framework. If you want to use it with your Next.js application, please refer to the [**Quickstart**](/next-js/quickstart) documentation.
 
-### Server side
-
-The server-side SDK includes the following:
-
-- **Auth-handlers** (specific per framework)
-- **ROQ Node.js SDK** (for interaction with ROQ Platform)
-- **BaaS SDK** (with and without access management)
-
-### Generated SDK for Front-end
+#### Generated SDK for Front-end
 
 The `@roq/cli` tool offers functionality to generate an SDK specifically tailored for front-end development. This generated SDK provides a convenient and efficient way for front-end developers to integrate and communicate with the ROQ BaaS seamlessly.
 
@@ -35,10 +26,18 @@ The benefits of the generated front-end SDK include:
 - **Easy Integration**: The API generated in the SDK is designed to be easily integrated with modern front-end frameworks and libraries.
 - **Consistency**: Ensures consistent interaction patterns with the backend, reducing potential integration issues.
 
-To generate the front-end SDK for your project, use the `@roq/cli` tool and follow the instructions provided.
+### Server side
+
+The server-side SDK includes the following:
+
+- **Auth-handlers** (specific per framework)
+- **ROQ Node.js SDK** (for interaction with ROQ Platform)
+- **BaaS SDK** (with and without access management)
+
 
 ### Data Access
 
+The generated SDK simplifies BaaS database access and leverages the ROQ platform. 
 
 
 ### Authentication
@@ -46,3 +45,6 @@ To generate the front-end SDK for your project, use the `@roq/cli` tool and foll
 ### Additional features
 
 
+## Quickstart
+
+If you want to use the SDK with your Next.js application, please refer to the [**Quickstart**](/next-js/quickstart) documentation. It covers the SDK generation using `@roq/cli`, authentication using @roq/next.js, and simple data access to BaaS. 
