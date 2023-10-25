@@ -130,7 +130,7 @@ Whenever a user successfully logs in, a user token is generated. This token is u
 
 ### Get the user token
 
-To access the ROQ BaaS REST API, you need an authorization token known as `roq-session-token`. In a Next.js application, you can programmatically retrieve the user token for authorization. This token is stored in a browser cookie with the `HttpOnly` flag, which means it cannot be directly accessed using JavaScript on the client side.
+To access the ROQ BaaS REST API, you need an authorization token known as `roq-session-token`. In a Next.js application, you can programmatically retrieve the user token for authorization. This token by default is stored in a browser cookie with the `HttpOnly` flag, which means it cannot be directly accessed using JavaScript on the client side.
 
 There are a few ways to get the user token. You can get it manually for fast testing and development, or you can get the token programmatically.
 
@@ -224,3 +224,25 @@ export async function getServerSideProps(context) {
 The token can also be obtained by copying it directly from the browser cookie and pasting it into the authorization header.
 
 ![roq session token browser](/screenshots/roq-session-token.png)
+
+### Disabling the `HttpOnly` Flag
+
+To disable the `HttpOnly` flag, you can modify the environment variable. This action will allow you to access the cookie directly using JavaScript.
+
+Step-by-step guide:
+
+1. **Set the Environment Variable** 
+    
+    To make the necessary changes to the environment configuration file, simply add or modify the specified line in the `env` file.
+    
+    ```js
+    ROQ_SESSION_COOKIE_HTTP_ONLY=false
+    ```
+
+2. **Access the Token** 
+    
+    Once the `HttpOnly` flag is disabled, you can retrieve the token directly using JavaScript.
+
+<Callout type="info">
+Disabling the `HttpOnly` flag can expose your application to security vulnerabilities such as Cross-Site Scripting (XSS) attacks. Always weigh the benefits against the risks before making changes. 
+</Callout>
