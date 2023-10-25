@@ -1,3 +1,26 @@
 # Query syntax
 
-To access, update, or delete data from the ROQ database, we need to be familiar with the query syntax.  borrows its syntax from the Prisma ORM. 
+To access, update, or delete data from the BaaS database, we need to be familiar with the query syntax. The query syntax borrows its syntax from the Prisma ORM.  If we compare, for example, to create or inserting data into BaaS database vs Prisma:
+
+**ROQ**
+
+```tsx filename="ROQ Query"
+roqClient.book.create(data, options);
+roqClient.book.createMany(data, options);
+```
+**Prisma**
+
+```tsx
+prisma.book.create({ data });
+prisma.book.createMany({ data });
+```
+
+From the comparison we know that both offer single and bulk creation methods and have the same pattern query syntax:
+
+```shell
+roqClient.[entity].[operation](condition)
+```
+
+- **entity**: Project entity, representing a specific data model or table. For example: `book`, `review`, `chapter`, etc.
+- **operation**: Data operation, such as `create`, `createMany`, `update`, `updateMany`, `upsert`, `delete`, `deleteMany`, `findMany`, `count`, `findManyWithCount`, and `findFirst`.
+
