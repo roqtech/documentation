@@ -1,14 +1,12 @@
 # Overview
 
-
 ## SDK
 
 ROQ BaaS SDK is a software development kit that allows for creating SaaS applications supporting various web frameworks such as Express, Next.js, Nuxt.js, RedwoodJS, or SvelteKit.
 
 With this SDK, you can streamline the fetching, manipulation, and storage of data in the BaaS database. The SDK also handles user authentication and authorization, ensuring secure app interactions and additional features such as file handling, user profiles, and user invites, enhancing the application's capability.
 
-The SDK offers two variations: **client-side** and **server-side**. 
-
+The SDK offers mainly two variations: **client-side** and **server-side**. 
 
 ### Client side
 
@@ -17,7 +15,7 @@ For the client side, the SDK serves two primary purposes:
 - **Access to the BaaS database** (via Rest API)
 - **Interaction with ROQ Platform** (via GraphQL)
 
-If you want to use the client-side SDK with your Next.js application, please refer to the [**Quickstart**](/next-js/quickstart) documentation.
+For example, the `@roq/nextjs` package is the SDK for the Next.js framewoork. If you want to use it with your Next.js application, please refer to the [**Quickstart**](/next-js/quickstart) documentation.
 
 ### Server side
 
@@ -26,3 +24,23 @@ The server-side SDK includes the following:
 - **Auth-handlers** (specific per framework)
 - **ROQ Node.js SDK** (for interaction with ROQ Platform)
 - **BaaS SDK** (with and without access management)
+
+### Generated SDK for Front-end
+
+Beyond the standard SDKs provided by ROQ, the `@roq/cli` tool offers functionality to generate an SDK specifically tailored for front-end development. This generated SDK provides a convenient and efficient way for front-end developers to integrate and communicate with the ROQ platform seamlessly.
+
+The benefits of the generated front-end SDK include:
+
+- **Customization**: Tailored to fit the specific requirements and configurations of your front-end project. If you need to make changes to the project schema, you can do so using the ROQ Console and then regenerate the SDK.
+- **Easy Integration**: The API generated in the SDK is designed to be easily integrated with modern front-end frameworks and libraries.
+- **Consistency**: Ensures consistent interaction patterns with the backend, reducing potential integration issues.
+
+To generate the front-end SDK for your project, use the `@roq/cli` tool and follow the instructions provided.
+
+## Data Access
+
+## authentication
+
+## Aditional features
+
+
