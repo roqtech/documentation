@@ -1,5 +1,16 @@
 {
 	"overview": "Overview",
 	"query-syntax": "Query Syntax",
-	"authentication": "Authentication"
+	"authentication": "Authentication",
+	"handling-user-data": {
+		"title": "Handling User Data",
+		"display": "hidden"
+	},
+	"handling-tenant-data": {
+		"title": "Handling Tenant Data",
+		"display": "hidden"
+	},
+	"file-handling": "File Handling",
+	"user-invites": "User Invites",
+	"emails": "E-Mails"
 }
