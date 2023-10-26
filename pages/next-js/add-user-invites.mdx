@@ -23,7 +23,39 @@ The invitation process flow is outlined as a series of steps below:
 <Steps>
 ### User Initiates Invite 
 
-The process starts with a user's decision to send an invitation.
+The process starts with a user's decision to send an invitation. To send any invitation later, we should know about which user sending the invitation and the tenant information. We can query these data using the `findMany()` on `user` entity.
+
+For example, we can find a user based on the email:
+
+```tsx
+const getUserData = async () => {
+	const userData = await roqClient.user.findMany({
+		where: {
+			email: {
+				equals: "t.justin@roq.tech"
+			}
+		}
+	})
+}
+```
+
+From the code we can get the response as an object:
+
+```tsx
+[
+    {
+        "id": "2aef5b13-b647-4ff4-b76f-a58d62cdb0ef",
+        "email": "Francis43@roq.tech",
+        "firstName": null,
+        "lastName": null,
+        "roq_user_id": "06077069-4193-4f2d-98e1-2c1354df9ba6",
+        "tenant_id": "dc92f95d-42bd-45af-84a7-da227d694cbb",
+        "created_at": "2023-10-19T09:46:27.664Z",
+        "updated_at": "2023-10-19T09:46:27.664Z"
+    }
+]
+```
+We will use the `roq_user_id` and `tenant_id` data for the next step, which is sent invitation.
 
 ### Invite Sent
 
