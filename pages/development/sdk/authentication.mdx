@@ -1,21 +1,24 @@
 # Authentication
 
-ROQ provides a complete and secure authentication solution SDK for SaaS application development.
+ROQ provides a complete and secure authentication solution for SaaS application development.
 
 Key Features:
 
-- Customizable user login and registration
+- Customizable user login and registration (customisation on ROQ Console)
 - Full multi-tenancy support (e.g., creation of new organizations during signup)
 - Secure session handling for your application
-- Social sign-in with Google, Github, or Facebook
-- Multi-factor Authentication (MFA)
+- Social sign-in with Google, Github, or Facebook (setup on ROQ Console)
+- Multi-factor Authentication or MFA (setup on ROQ Console) 
 - User invites
 - 360-degree view of all user data
 
 ## How It Works
 
-ROQ's login and session management are based on the [OAuth protocol](https://oauth.net/2/). Here is how it works:
+ROQ's authentication and session management are based on the [OAuth protocol](https://oauth.net/2/). Here is how it works:
 
 1. The user clicks the Login button or is redirected to a login page provided by ROQ.
 2. ROQ prompts the user to log in using username and password or social sign-ins (e.g. Google) and then sends a special token back indicating that the user has granted permission to access your web application.
-3. Using the `requireAuth` wrapper, you can easily define which pages are only accessible to authenticated users.
+3. Using the authentication wrapper such as `requireNextAuth` for Next.js, you can easily define which pages are only accessible to authenticated users.
+
+## SDK
+
