@@ -178,7 +178,7 @@ const dataBook = async() => {
 
 ### Get user profiles
 
-To retrieve user profiles, we can use the `userProfiles()` API that specifically query data from the ROQ Platform.
+To retrieve all user profiles, we can use the `userProfiles()` API that specifically query data from the ROQ Platform.
 
 ```tsx
 const users = async () => {
@@ -190,5 +190,39 @@ const users = async () => {
 The data response example:
 
 ![user profiles data response](/screenshots/user-profiles-response.png)
+
+
+### Get user files
+
+To get all files from the users we can use `files()` API. 
+
+```tsx
+const userFiles = async() => {
+    const allFiles = await roqClient.roqPlatform.files()
+	return allFiles
+}
+```
+
+### Get user roles
+
+Suppose we have a user id `8b249b07-bdd9-43f7-a10e-ace10f27ff66` and want to know what the user's roles. We can use the `roles()` API:
+
+```tsx
+const userRoles = async() => {
+    const roles = await roqClient.roqPlatform.roles({
+		filter: {
+			userId: {
+				equalTo: "8b249b07-bdd9-43f7-a10e-ace10f27ff66"
+			}
+		}
+	})
+    return roles
+}
+```
+
+The example response from the code above is:
+
+![user roles filter response](/screenshots/user-roles-filter.png)
+
 
 {/* roqPlatform examples*/}
