@@ -1,6 +1,11 @@
 # Query syntax
 
-To access, update, or delete data from the BaaS database, we need to be familiar with the query syntax. The query syntax borrows its syntax from the Prisma ORM.  If we compare, for example, to create or inserting data into BaaS database vs Prisma:
+In order to interact with the BaaS database by accessing, updating, or deleting data, it's essential to have a good understanding of the query syntax. 
+
+
+## Syntax comparison 
+
+The query syntax used in BaaS is quite similar to the syntax used in the Prisma ORM. For instance, creating or inserting data into the BaaS database is quite similar to the process in Prisma:
 
 **ROQ**
 
@@ -23,4 +28,28 @@ roqClient.[entity].[operation](condition)
 
 - **entity**: Project entity, representing a specific data model or table. For example: `book`, `review`, `chapter`, etc.
 - **operation**: Data operation, such as `create`, `createMany`, `update`, `updateMany`, `upsert`, `delete`, `deleteMany`, `findMany`, `count`, `findManyWithCount`, and `findFirst`.
+- **condition**: filter, order by, or args.
 
+## Code examples
+
+```tsx
+const bookData = await roqClient.book.findManyWithCount({
+		orderBy: { created_at: 'desc' },
+		include: {
+			review: {
+				orderBy: { created_at: 'desc'},
+				include: {
+					user: {
+						include: {
+							company: true
+						}
+					}
+				}
+			}
+		}
+	},{
+		headers: {
+			Authorization: `Bearer ${token}`
+		}
+	})	
+```
