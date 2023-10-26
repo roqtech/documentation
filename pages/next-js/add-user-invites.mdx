@@ -3,23 +3,25 @@ import { Callout } from 'nextra/components'
 # Add user invites
 
 
-## Invites flow 
+## Invitation process overview
 
 ```mermaid
 graph TD
-A[User Initiates Invite] --> B[Invite Sent]
+A[1. User Initiates Invite] --> B[2. Invite Sent]
 B -->|Resend Option| B
-B --> C[Recipient Receives Invite]
-C --> D[Invite Accepted/Rejected]
-D -->|Rejected| F[End of Flow]
-D -->|Accepted| E[Invite Confirmed]
+B --> C[3. Recipient Receives Invite]
+B --> G[7. Cancel Invitation]
+C --> D[4. Invite Accepted or Rejected]
+D -->|Rejected| F[6. End of Flow]
+D -->|Accepted| E[5. Invite Confirmed]
 E --> F
+G --> F
 ```
 
 {/*Description is here*/}
 
 
-## Invites query
+## Querying the user invitation list
 
 You can get all the user invites list using this `userInvites()` method API. You can limit the results and search the invitee by email, name, or keywords, etc.
 
