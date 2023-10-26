@@ -32,10 +32,9 @@ roqClient.[entity].[operation](condition)
 
 ## Code examples
 
-
 ### `create`
 
-Suppose we want to create a chapter for a specific book title and for the return data, we want to also include all the book data:
+Suppose we want to create a chapter for a specific book title and for the return data, we want to also include all the book data. We can use `create()` API to create a new chapter.
 
 ```tsx
 import {useRoqClient} from '/lib/roq'
@@ -59,11 +58,11 @@ const createChapter = async() => {
 }
 ```
 
-By using the keyword `include` for the enttity `book`, the data response will also include the book data.
+By using the keyword `include` for the entity `book`, the data response will also include the book data.
 
 ### `update`
 
-We can also update the existing data. For example, suppose we want to update a chapter content from a book:
+We can also update the existing data. For example, suppose we want to update a chapter content, we can use `update()` API.
 
 ```tsx
 
@@ -86,6 +85,42 @@ const updateChapter = async() => {
 }
 ```
 
+The above code response also will include the book data.
+
+### `delete`
+
+The `delete()` API can be used to delete a specific data on any entities. For example, to delete a user review with the id `78e99df7-30d1-4205-b88f-6e804d1ec0fc`:
+
+```tsx
+const delReview = async() => {
+	const status = await roqClient.review.delete({
+		where:{
+			id: "78e99df7-30d1-4205-b88f-6e804d1ec0fc"
+		}
+	})
+}
+```
+
+### `findMany`
+
+Suppose we want to find a book with the genre contain the "Science" word. We can use the `findMany()` on the book entity to search the book.
+
+
+```tsx
+const findBook = async() =>{
+	const compData = await roqClient.book.findMany({
+	 where: {
+		 genre: {
+			 contains: "Science"
+		 }
+	 },
+	 orderBy: {
+		 created_at: "asc"
+	 }
+	})
+}
+```
+
 ### `findManyWithCount`
 
 The `findManyWithCount()` will fetch multiple records and their count data. 
@@ -97,7 +132,7 @@ import { useRoqClient } from 'lib/roq'
 
 const roqClient = useRoqClient()
 
-const bookData = await roqClient.book.findManyWithCount({
+const dataBook = await roqClient.book.findManyWithCount({
 	orderBy: { created_at: 'desc' },
 	include: {
 		review: {
@@ -114,3 +149,4 @@ const bookData = await roqClient.book.findManyWithCount({
 })	
 ```
 
+{/* roqPlatform examples*/}
