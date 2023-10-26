@@ -1,11 +1,13 @@
+import { Callout } from 'nextra/components'
+
 # Authentication
 
 ROQ provides a complete and secure authentication solution for SaaS application development.
 
 Key Features:
 
-- Customizable user login and registration (customisation on ROQ Console)
-- Full multi-tenancy support (e.g., creation of new organizations during signup)
+- Customizable user login and registration (customization on ROQ Console)
+- Full multi-tenancy support (e.g., creation of new organizations during sign-up)
 - Secure session handling for your application
 - Social sign-in with Google, Github, or Facebook (setup on ROQ Console)
 - Multi-factor Authentication or MFA (setup on ROQ Console) 
@@ -20,5 +22,20 @@ ROQ's authentication and session management are based on the [OAuth protocol](ht
 2. ROQ prompts the user to log in using username and password or social sign-ins (e.g. Google) and then sends a special token back indicating that the user has granted permission to access your web application.
 3. Using the authentication wrapper such as `requireNextAuth` for Next.js, you can easily define which pages are only accessible to authenticated users.
 
-## SDK
+## Front-end SDK
 
+The front-end SDK provides authentication helper functions for redirecting users to the sign-in and sign-up pages and a function to clean the session upon logout.
+
+Here is the summary of the most important API for authentication:
+
+| Function | Description                              | Code                  |
+|----------|------------------------------------------|-----------------------|
+| signIn   | Redirect users to the sign-in page.      | `roqClient.signIn()`  |
+| signUp   | Redirect users to the sign-up page.      | `roqClient.signUp()`  |
+| logout   | Clean the session upon logout.           | `roqClient.logout()`  |
+
+As mentioned earlier, every successful sign-in or sign-up generates a special token. In frameworks like Next.js, this token is saved in the browser's cookie as `roq-session-token`.
+
+<Callout type="info">
+For practical examples, check out [Add Authentication](/next-js/add-authentication). This detailed documentation explains how to sign-in, logout, and sign-up for a Next.js project.
+</Callout>
