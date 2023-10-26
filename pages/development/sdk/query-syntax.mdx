@@ -39,7 +39,7 @@ The query syntax for API:
 ```tsx
 roqClient.roqPlatform.[operation](args)
 ```
-The operation could be: `userInvite`, `userInvites`, `role`, `roles`, `file`, `files`, `tenant`, etc.
+The operation could be: `userInvite`, `userInvites`, `role`, `roles`, `file`, `files`, `tenant`, and many others.
 
 
 ## Code examples
@@ -48,7 +48,7 @@ For this example and to provide context, we will use Book Creators. An imaginary
 
 ### Add a new book
 
-Suppose we want to create a chapter for a specific book title, and for the return data, we want also to include all the book data. We can use the `create()` API to create a new chapter.
+Suppose we want to create a chapter for a specific book title, and for the return data, we also want to include all the book data. We can create a new chapter using the `create()` API.
 
 ```tsx
 import {useRoqClient} from '/lib/roq'
@@ -70,7 +70,7 @@ const createChapter = async() => {
         }
     })
 
-	return chapter
+    return chapter
 }
 ```
 
@@ -78,7 +78,7 @@ By using the keyword `include` for the entity `book`, the data response will als
 
 ### Update a book chapter
 
-We can also update the existing data. For example, suppose we want to update a chapter's content. We can use `update()` API.
+We can also update the existing data. For example, suppose we want to update a chapter's content. We can use the `update()` API.
 
 ```tsx
 
@@ -99,7 +99,7 @@ const updateChapter = async() => {
         }
     })
 
-	return updateChap
+    return updateChap
 }
 ```
 
@@ -117,7 +117,23 @@ const delReview = async() => {
         }
     })
 
-	return status
+    return status
+}
+```
+
+### Get user count
+
+To get how many users are already registered or currently active on the project, we can use the `count()` API.
+
+```tsx
+const userCount = async() => {
+    const count = await roqClient.user.count({
+        orderBy: {
+            created_at: 'desc'
+        }
+    })
+
+    return count
 }
 ```
 
@@ -139,7 +155,7 @@ const findBook = async() =>{
      }
     })
 
-	return bookData
+    return bookData
 }
 ```
 
@@ -147,7 +163,7 @@ const findBook = async() =>{
 
 The `findManyWithCount()` will fetch multiple records and their count data. 
 
-Let's say we want to retrieve books along with their review and user data. We can use `include` and `user` keys to also include the user data.
+Let's say we want to retrieve books along with their review and user data. We can use the `include` and `user` keys to also include the user data.
 
 ```tsx
 import { useRoqClient } from 'lib/roq'
@@ -170,15 +186,15 @@ const dataBook = async() => {
             }
         }
     }) 
-	
-	return allBook
+    
+    return allBook
 }
 ```
 
 
 ### Get user profiles
 
-To retrieve all user profiles, we can use the `userProfiles()` API that specifically query data from the ROQ Platform.
+To retrieve all user profiles, we can use the `userProfiles()` API that specifically queries data from the ROQ Platform.
 
 ```tsx
 const users = async () => {
@@ -194,28 +210,28 @@ The data response example:
 
 ### Get user files
 
-To get all files from the users we can use `files()` API. 
+To get all files from the users, we can use the `files()` API. 
 
 ```tsx
 const userFiles = async() => {
     const allFiles = await roqClient.roqPlatform.files()
-	return allFiles
+    return allFiles
 }
 ```
 
 ### Get user roles
 
-Suppose we have a user id `8b249b07-bdd9-43f7-a10e-ace10f27ff66` and want to know what the user's roles. We can use the `roles()` API:
+Suppose we have a user ID `8b249b07-bdd9-43f7-a10e-ace10f27ff66` and want to know what the user's roles are. We can use the `roles()` API:
 
 ```tsx
 const userRoles = async() => {
     const roles = await roqClient.roqPlatform.roles({
-		filter: {
-			userId: {
-				equalTo: "8b249b07-bdd9-43f7-a10e-ace10f27ff66"
-			}
-		}
-	})
+        filter: {
+            userId: {
+                equalTo: "8b249b07-bdd9-43f7-a10e-ace10f27ff66"
+            }
+        }
+    })
     return roles
 }
 ```
