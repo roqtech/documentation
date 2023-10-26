@@ -2,6 +2,25 @@ import { Callout } from 'nextra/components'
 
 # Add user invites
 
+
+## Invites flow 
+
+```mermaid
+graph TD
+A[User Initiates Invite] --> B[Invite Sent]
+B -->|Resend Option| B
+B --> C[Recipient Receives Invite]
+C --> D[Invite Accepted/Rejected]
+D -->|Rejected| F[End of Flow]
+D -->|Accepted| E[Invite Confirmed]
+E --> F
+```
+
+{/*Description is here*/}
+
+
+## Invites query
+
 You can get all the user invites list using this `userInvites()` method API. You can limit the results and search the invitee by email, name, or keywords, etc.
 
 For example, in the Next.js page, to get the the invitee list with the limit 10:
