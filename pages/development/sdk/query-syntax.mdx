@@ -32,24 +32,85 @@ roqClient.[entity].[operation](condition)
 
 ## Code examples
 
+
+### `create`
+
+Suppose we want to create a chapter for a specific book title and for the return data, we want to also include all the book data:
+
 ```tsx
-const bookData = await roqClient.book.findManyWithCount({
-		orderBy: { created_at: 'desc' },
+import {useRoqClient} from '/lib/roq'
+import { v4 as uuidv4 } from 'uuid';
+
+const roqClient = useRoqClient()
+const uuid = uuidv4()
+
+const createChapter = async() => {
+	const chapter = await roqClient.chapter.create({
+		data: {
+			id: `${uuid}`,
+			title: "Take All Your Pride",
+			content: "This is a draft content fot this chapter",
+			book_id: "d8617785-7b30-47fd-9933-a93cf17f70cc",
+		},
 		include: {
-			review: {
-				orderBy: { created_at: 'desc'},
-				include: {
-					user: {
-						include: {
-							company: true
-						}
+			book: {}
+		}
+	})
+}
+```
+
+By using the keyword `include` for the enttity `book`, the data response will also include the book data.
+
+### `update`
+
+We can also update the existing data. For example, suppose we want to update a chapter content from a book:
+
+```tsx
+
+import {useRoqClient} from '/lib/roq'
+
+const roqClient = useRoqClient()
+
+const updateChapter = async() => {
+	const updateChap = await roqClient.chapter.update({
+		data: {
+			content: "Another update draft content is here",
+		},
+		where: {
+			id: "70b29861-bdce-4c6e-a119-b038a025d0b2"
+		},
+		include: {
+			book: {}
+		}
+	})
+}
+```
+
+### `findManyWithCount`
+
+The `findManyWithCount()` will fetch multiple records and their count data. 
+
+Let's take an example, we want to get books with the count data and also the user reviews and the user data. 
+
+```tsx
+import { useRoqClient } from 'lib/roq'
+
+const roqClient = useRoqClient()
+
+const bookData = await roqClient.book.findManyWithCount({
+	orderBy: { created_at: 'desc' },
+	include: {
+		review: {
+			orderBy: { created_at: 'desc'},
+			include: {
+				user: {
+					include: {
+						company: true
 					}
 				}
 			}
 		}
-	},{
-		headers: {
-			Authorization: `Bearer ${token}`
-		}
-	})	
+	}
+})	
 ```
+
