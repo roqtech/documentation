@@ -3,7 +3,7 @@
 In order to interact with the BaaS database by accessing, updating, or deleting data, it's essential to have a good understanding of the query syntax. 
 
 
-## Syntax comparison 
+## BaaS
 
 The query syntax used in BaaS is quite similar to the syntax used in the Prisma ORM. For instance, creating or inserting data into the BaaS database is quite similar to the process in Prisma:
 
@@ -20,21 +20,35 @@ prisma.book.create({ data });
 prisma.book.createMany({ data });
 ```
 
-From the comparison we know that both offer single and bulk creation methods and have the same pattern query syntax:
+From the comparison, we know that both offer single and bulk creation methods and have the same pattern query syntax:
 
 ```shell
 roqClient.[entity].[operation](condition)
 ```
 
-- **entity**: Project entity, representing a specific data model or table. For example: `book`, `review`, `chapter`, etc.
+- **entity**: Project entity representing a specific data model or table. For example: `book`, `review`, `chapter`, etc.
 - **operation**: Data operation, such as `create`, `createMany`, `update`, `updateMany`, `upsert`, `delete`, `deleteMany`, `findMany`, `count`, `findManyWithCount`, and `findFirst`.
 - **condition**: filter, order by, or args.
 
+## ROQ Platform
+
+The front-end SDK also provides API for accessing ROQ Platform features such as user roles, user invites, tenants, profiles, and files. 
+
+The query syntax for API:
+
+```tsx
+roqClient.roqPlatform.[operation](args)
+```
+The operation could be: `userInvite`, `userInvites`, `role`, `roles`, `file`, `files`, `tenant`, etc.
+
+
 ## Code examples
 
-### `create`
+For this example and to provide context, we will use Book Creators. An imaginary SaaS application for authoring books. 
 
-Suppose we want to create a chapter for a specific book title and for the return data, we want to also include all the book data. We can use `create()` API to create a new chapter.
+### Add a new book
+
+Suppose we want to create a chapter for a specific book title, and for the return data, we want also to include all the book data. We can use the `create()` API to create a new chapter.
 
 ```tsx
 import {useRoqClient} from '/lib/roq'
@@ -44,25 +58,27 @@ const roqClient = useRoqClient()
 const uuid = uuidv4()
 
 const createChapter = async() => {
-	const chapter = await roqClient.chapter.create({
-		data: {
-			id: `${uuid}`,
-			title: "Take All Your Pride",
-			content: "This is a draft content fot this chapter",
-			book_id: "d8617785-7b30-47fd-9933-a93cf17f70cc",
-		},
-		include: {
-			book: {}
-		}
-	})
+    const chapter = await roqClient.chapter.create({
+        data: {
+            id: `${uuid}`,
+            title: "Take All Your Pride",
+            content: "This is a draft content fot this chapter",
+            book_id: "d8617785-7b30-47fd-9933-a93cf17f70cc",
+        },
+        include: {
+            book: {}
+        }
+    })
+
+	return chapter
 }
 ```
 
 By using the keyword `include` for the entity `book`, the data response will also include the book data.
 
-### `update`
+### Update a book chapter
 
-We can also update the existing data. For example, suppose we want to update a chapter content, we can use `update()` API.
+We can also update the existing data. For example, suppose we want to update a chapter's content. We can use `update()` API.
 
 ```tsx
 
@@ -71,82 +87,108 @@ import {useRoqClient} from '/lib/roq'
 const roqClient = useRoqClient()
 
 const updateChapter = async() => {
-	const updateChap = await roqClient.chapter.update({
-		data: {
-			content: "Another update draft content is here",
-		},
-		where: {
-			id: "70b29861-bdce-4c6e-a119-b038a025d0b2"
-		},
-		include: {
-			book: {}
-		}
-	})
+    const updateChap = await roqClient.chapter.update({
+        data: {
+            content: "Another update draft content is here",
+        },
+        where: {
+            id: "70b29861-bdce-4c6e-a119-b038a025d0b2"
+        },
+        include: {
+            book: {}
+        }
+    })
+
+	return updateChap
 }
 ```
 
-The above code response also will include the book data.
+The above code response will also include the book data.
 
-### `delete`
+### Delete a user review
 
-The `delete()` API can be used to delete a specific data on any entities. For example, to delete a user review with the id `78e99df7-30d1-4205-b88f-6e804d1ec0fc`:
+The `delete()` API can be used to delete specific data on any entity. For example, to delete a user review with the id `78e99df7-30d1-4205-b88f-6e804d1ec0fc`:
 
 ```tsx
 const delReview = async() => {
-	const status = await roqClient.review.delete({
-		where:{
-			id: "78e99df7-30d1-4205-b88f-6e804d1ec0fc"
-		}
-	})
+    const status = await roqClient.review.delete({
+        where:{
+            id: "78e99df7-30d1-4205-b88f-6e804d1ec0fc"
+        }
+    })
+
+	return status
 }
 ```
 
-### `findMany`
+### Find books
 
-Suppose we want to find a book with the genre contain the "Science" word. We can use the `findMany()` on the book entity to search the book.
+Suppose we want to find a book with the genre containing the "Science" word. We can use the `findMany()` on the book entity to search the book.
 
 
 ```tsx
 const findBook = async() =>{
-	const compData = await roqClient.book.findMany({
-	 where: {
-		 genre: {
-			 contains: "Science"
-		 }
-	 },
-	 orderBy: {
-		 created_at: "asc"
-	 }
-	})
+    const bookData = await roqClient.book.findMany({
+     where: {
+         genre: {
+             contains: "Science"
+         }
+     },
+     orderBy: {
+         created_at: "asc"
+     }
+    })
+
+	return bookData
 }
 ```
 
-### `findManyWithCount`
+### Find all books
 
 The `findManyWithCount()` will fetch multiple records and their count data. 
 
-Let's take an example, we want to get books with the count data and also the user reviews and the user data. 
+Let's say we want to retrieve books along with their review and user data. We can use `include` and `user` keys to also include the user data.
 
 ```tsx
 import { useRoqClient } from 'lib/roq'
 
 const roqClient = useRoqClient()
 
-const dataBook = await roqClient.book.findManyWithCount({
-	orderBy: { created_at: 'desc' },
-	include: {
-		review: {
-			orderBy: { created_at: 'desc'},
-			include: {
-				user: {
-					include: {
-						company: true
-					}
-				}
-			}
-		}
-	}
-})	
+const dataBook = async() => {
+    const allBook = await roqClient.book.findManyWithCount({
+    orderBy: { created_at: 'desc' },
+    include: {
+        review: {
+            orderBy: { created_at: 'desc'},
+            include: {
+                user: {
+                    include: {
+                        company: true
+                        }
+                    }
+                }
+            }
+        }
+    }) 
+	
+	return allBook
+}
 ```
+
+
+### Get user profiles
+
+To retrieve user profiles, we can use the `userProfiles()` API that specifically query data from the ROQ Platform.
+
+```tsx
+const users = async () => {
+   const profiles = await roqClient.roqPlatform.userProfiles();
+   return profiles; 
+}
+```
+
+The data response example:
+
+![user profiles data response](/screenshots/user-profiles-response.png)
 
 {/* roqPlatform examples*/}
