@@ -151,6 +151,54 @@ const resendUserInvitationStatus = async() => {
 ```
 */}
 
+In Next.js, it is easy to implement a form that allows users to invite others via email.
+
+```tsx
+import { useState } from 'react'
+import { useRoqClient } from 'lib/roq'
+import { useSession } from '@roq/nextjs'
+
+export default function InvitePage() {
+  const { session } = useSession();
+  const [email, setEmail] = useState('')
+  const [statusMessage, setStatusMessage] = useState('')
+
+  const roqClient = useRoqClient()
+
+  const handleInvite = async () => {
+    if (session?.roqUserId && session?.user?.tenantId) {
+      await roqClient.roqPlatform.sendUserInvites({
+        userInvites: {
+          tenantId: session.user.tenantId,
+          userInvites: [{
+            createdByUserId: session.roqUserId,
+            email: email,
+            locale: "en-US"
+          }]
+        }
+      });
+      setStatusMessage(`Invite sent to ${email}`)
+    } else {
+      setStatusMessage(`Unable to fetch session details.`)
+    }
+  };
+
+  return (
+    <div>
+      <h1>Send an Invitation</h1>
+      <input 
+        type="email" 
+        placeholder="Enter email to invite" 
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <button onClick={handleInvite}>Send Invite</button>
+      {statusMessage && <p>{statusMessage}</p>}
+    </div>
+  );
+}
+```
+
 ### Recipient Receives Invite
 
 The invitee gets a notification by email.
