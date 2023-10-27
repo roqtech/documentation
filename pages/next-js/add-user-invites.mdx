@@ -23,9 +23,20 @@ The invitation process flow is outlined as a series of steps below:
 <Steps>
 ### User Initiates Invite 
 
-The process starts with a user's decision to send an invitation. To send any invitation later, we should know about which user sending the invitation and the tenant. We can query these data using the `findMany()` on `user` entity.
+The process starts with a user's decision to send an invitation. To send any invitation later, we should know about which user sending the invitation and the tenant. 
 
-For example, we can find a user based on the email:
+In Next.js, we can get the user data from session:
+
+```tsx
+import { useSession } from "@roq/next.js"
+
+const { session } = useSession()
+
+const roq_user_id = session.roqUserId
+const tenant_id = session.user.tenantId
+```
+
+Another way, we can query these data using the `findMany()` on `user` entity. For example, we can find a user based on the email:
 
 ```tsx
 const getUserData = async () => {
@@ -55,6 +66,7 @@ From the code we can get the response as an object:
     }
 ]
 ```
+
 We will use the `roq_user_id` and `tenant_id` data for the next step, which is sent invitation. By default the roles for invitee is the same with user who's sent the invitation.
 
 ### Invite Sent
@@ -221,5 +233,10 @@ The process wraps up, either with the invitee successfully onboarded, the invita
 
 
 <Callout type="info">
-Please note that the `userInvites()` method is part of the ROQ platform API and cannot be generated. However, you can also cancel the invitation in the ROQ Console. You can read the documentation of the `userInvites()` API [here](https://jupiter-pp.roq-platform.com/docs/#query-userInvites).
+Please note that the `userInvites()` method is part of the ROQ platform API and cannot be generated. You can read the documentation of the `userInvites()` API [here](https://jupiter-pp.roq-platform.com/docs/#query-userInvites).
 </Callout>
+
+
+
+
+
