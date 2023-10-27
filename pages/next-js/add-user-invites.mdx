@@ -23,7 +23,7 @@ The invitation process flow is outlined as a series of steps below:
 <Steps>
 ### User Initiates Invite 
 
-The process starts with a user's decision to send an invitation. To send any invitation later, we should know about which user sending the invitation and the tenant information. We can query these data using the `findMany()` on `user` entity.
+The process starts with a user's decision to send an invitation. To send any invitation later, we should know about which user sending the invitation and the tenant. We can query these data using the `findMany()` on `user` entity.
 
 For example, we can find a user based on the email:
 
@@ -55,11 +55,88 @@ From the code we can get the response as an object:
     }
 ]
 ```
-We will use the `roq_user_id` and `tenant_id` data for the next step, which is sent invitation.
+We will use the `roq_user_id` and `tenant_id` data for the next step, which is sent invitation. By default the roles for invitee is the same with user who's sent the invitation.
 
 ### Invite Sent
 
-The system activates this method, managing the dispatch of the invitation.
+The `sendUserInvites()` API is used to invite users and automatically also create a user invite.
+
+```tsx
+const status = async() => {
+  await roqClient.roqPlatform.sendUserInvites({
+    userInvites: {
+      tenantId: 'dc92f95d-42bd-45af-84a7-da227d694cbb',
+      userInvites: [{
+        createdByUserId: '8b249b07-bdd9-43f7-a10e-ace10f27ff66',
+        email: "wick.john@roq.tech",
+        locale: "en-US"
+      }]
+    }
+  })
+} 
+```
+If the user invitation is success, we will get the response data:
+
+```json
+{
+    "sendUserInvites": {
+        "success": [
+            {
+                "acceptedByUserId": null,
+                "createdAt": "2023-10-27T00:14:36.900Z",
+                "createdByUserId": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+                "data": null,
+                "email": "wick.john@roq.tech",
+                "firstName": "",
+                "id": "db7a682d-6dca-4259-b15b-83aef12d1f5c",
+                "locale": "en-US",
+                "lastName": "",
+                "roleKeys": null,
+                "status": "pending",
+                "statusUpdatedAt": "2022-08-10T09:02:18.579Z",
+                "tenantId": "dc92f95d-42bd-45af-84a7-da227d694cbb",
+                "updatedAt": "2023-10-27T00:14:36.900Z",
+                "userTokenId": "e9ff1946-6060-4917-911b-c571cd98466a"
+            }
+        ],
+        "errors": []
+    }
+}
+```
+
+In case we want to resend the invitation, we can use the ID from the `sendUserInvites()` response and then resend the user invitation using `resendUserInvite()` API.
+
+```tsx
+const resendUserInvitationStatus = async() => {
+    const userInviteModel = await roqClient.roqPlatform.resendUserInvite({
+				userInviteId: "db7a682d-6dca-4259-b15b-83aef12d1f5c"
+		})
+}
+```
+{/*
+
+```json
+{
+    "resendUserInvite": {
+        "acceptedByUserId": null,
+        "createdAt": "2023-10-27T00:14:36.900Z",
+        "createdByUserId": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+        "data": null,
+        "email": "wick.john@roq.tech",
+        "firstName": "",
+        "id": "db7a682d-6dca-4259-b15b-83aef12d1f5c",
+        "locale": "en-US",
+        "lastName": "",
+        "roleKeys": [],
+        "status": "pending",
+        "statusUpdatedAt": "2022-08-10T09:02:18.579Z",
+        "tenantId": "dc92f95d-42bd-45af-84a7-da227d694cbb",
+        "updatedAt": "2023-10-27T00:14:36.900Z",
+        "userTokenId": "e9ff1946-6060-4917-911b-c571cd98466a"
+    }
+}
+```
+*/}
 
 ### Recipient Receives Invite
 
