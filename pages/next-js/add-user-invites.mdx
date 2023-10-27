@@ -151,9 +151,9 @@ const resendUserInvitationStatus = async() => {
 ```
 */}
 
-In Next.js, it is easy to implement a form that allows users to invite others via email.
+In Next.js, it is easy to implement a form that allows users to invite others via email:
 
-```tsx
+```tsx filename="invite.tsx"
 import { useState } from 'react'
 import { useRoqClient } from 'lib/roq'
 import { useSession } from '@roq/nextjs'
