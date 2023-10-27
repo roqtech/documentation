@@ -255,6 +255,77 @@ If the invitee accept the invitation, the response `status` will have `accepted`
 }
 ```
 
+In this Next.js page, we will use it for a single email use case. To support more emails, we need a better solution for auto status checking rather than polling.
+
+```tsx filename="invite.tsx"
+import { useState, useEffect } from 'react'
+import { useRoqClient } from 'lib/roq'
+import { useSession } from '@roq/nextjs'
+
+export default function InvitePage() {
+  const { session } = useSession()
+  const [email, setEmail] = useState('')
+  const [statusMessage, setStatusMessage] = useState('')
+  const [inviteStatus, setInviteStatus] = useState('pending')
+  const POLL_INTERVAL = 5000 // Polling every 5 seconds
+
+  const roqClient = useRoqClient()
+
+  useEffect(() => {
+    const pollInviteStatus = setInterval(async () => {
+      if (email) {
+        const inviteeData = await roqClient.roqPlatform.userInvites({
+          filter: {
+            email: {
+              equalTo: email
+            }
+          }
+        });
+  
+        if (inviteeData && inviteeData.data && inviteeData.data.length) {
+          setInviteStatus(inviteeData.data[0].status);
+        }
+      }
+    }, POLL_INTERVAL);
+
+    return () => clearInterval(pollInviteStatus);
+  }, [email]);
+
+  const handleInvite = async () => {
+    if (session?.roqUserId && session?.user?.tenantId) {
+      await roqClient.roqPlatform.sendUserInvites({
+        userInvites: {
+          tenantId: session.user.tenantId,
+          userInvites: [{
+            createdByUserId: session.roqUserId,
+            email: email,
+            locale: "en-US"
+          }]
+        }
+      });
+      setStatusMessage(`Invite sent to ${email}`);
+    } else {
+      setStatusMessage(`Unable to fetch session details.`);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Send an Invitation</h1>
+      <input 
+        type="email" 
+        placeholder="Enter email to invite" 
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <button onClick={handleInvite}>Send Invite</button>
+      {statusMessage && <p>{statusMessage}</p>}
+      <p>Invitation Status: {inviteStatus}</p>
+    </div>
+  )
+}
+```
+
 ### Invite Confirmed
 
 If accepted, the system verifies the invitation, potentially involving further setup for the invitee.
