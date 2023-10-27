@@ -147,7 +147,53 @@ The invitee gets a notification by email.
 
 ### Invite Accepted or Rejected
 
-The recipient can choose to either accept or decline the invitation.
+The recipient can choose to either accept or decline the invitation and then we can check the invitation status using the `userInvites()` API.
+
+```tsx
+import { useRoqClient } from '@roq/nextjs'
+
+const roqClient = useRoqClient()
+
+const findUserInvitebyEmail = async() => {
+    const inviteeData = await roqClient.roqPlatform.userInvites({
+		    filter: {
+				    email: {
+						    equalTo: "sinau.online.terus@gmail.com"
+				    }
+				}
+		})
+    return inviteeData
+}
+```
+
+If the invitee accept the invitation, the response `status` will have `accepted` value:
+
+```json
+{
+    "userInvites": {
+        "data": [
+            {
+                "acceptedByUserId": "9a2f96fa-6313-4b97-9de8-d735a0365d2e",
+                "createdAt": "2023-10-27T00:14:36.900Z",
+                "createdByUserId": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+                "data": null,
+                "email": "wick.john@roq.tech",
+                "firstName": "",
+                "id": "db7a682d-6dca-4259-b15b-83aef12d1f5c",
+                "locale": "en-US",
+                "lastName": "",
+                "roleKeys": [],
+                "status": "accepted",
+                "statusUpdatedAt": "2023-10-27T03:27:02.343Z",
+                "tenantId": "dc92f95d-42bd-45af-84a7-da227d694cbb",
+                "updatedAt": "2023-10-27T03:27:03.202Z",
+                "userTokenId": "e9ff1946-6060-4917-911b-c571cd98466a"
+            }
+        ],
+        "totalCount": 1
+    }
+}
+```
 
 ### Invite Confirmed
 
@@ -156,6 +202,16 @@ If accepted, the system verifies the invitation, potentially involving further s
 ### Cancel Invitation
 
 At any point after sending the invite and before its acceptance, the inviter can opt to cancel the invitation.
+We can use `cancelUserInvite()` to cancel a user invitation.
+
+```tsx
+const cancleInvitation = async() => {
+    const cancelStatus = await roqClient.roqPlatform.cancelUserInvite({
+		    userInviteId: "db7a682d-6dca-4259-b15b-83aef12d1f5c"
+		})
+		return cancelStatus
+}
+```
 
 ### End of Flow
 
@@ -163,23 +219,6 @@ The process wraps up, either with the invitee successfully onboarded, the invita
 
 </Steps>
 
-{/*Description is here*/}
-
-## Querying the user invitation list
-
-You can get all the user invites list using this `userInvites()` method API. You can limit the results and search the invitee by email, name, or keywords, etc.
-
-For example, in the Next.js page, to get the the invitee list with the limit 10:
-
-```tsx
-import { useRoqClient } from '@roq/nextjs'
-
-const roqClient = useRoqClient()
-
-const userInvitesData = await roqClient.roqPlatform.userInvites({
-  limit: 10
-})
-```
 
 <Callout type="info">
 Please note that the `userInvites()` method is part of the ROQ platform API and cannot be generated. However, you can also cancel the invitation in the ROQ Console. You can read the documentation of the `userInvites()` API [here](https://jupiter-pp.roq-platform.com/docs/#query-userInvites).
