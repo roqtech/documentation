@@ -28,11 +28,29 @@ The front-end SDK provides authentication helper functions for redirecting users
 
 Here is the summary of the most important API for authentication:
 
-| Function | Description                              | Code                  |
-|----------|------------------------------------------|-----------------------|
-| signIn   | Redirect users to the sign-in page.      | `roqClient.signIn()`  |
-| signUp   | Redirect users to the sign-up page.      | `roqClient.signUp()`  |
-| logout   | Clean the session upon logout.           | `roqClient.logout()`  |
+### `signIn`
+
+Redirect users to the sign-in page.
+
+```tsx
+roqClient.signIn()
+```
+
+### `signUp`
+
+Redirect users to the sign-up page.
+
+```tsx
+roqClient.signUp()
+```
+
+### `logout`
+
+Clean the session.
+
+```tsx
+roqClient.logout()
+```
 
 As mentioned earlier, every successful sign-in or sign-up generates a special token. In frameworks like Next.js, this token is saved in the browser's cookie as `roq-session-token`.
 
