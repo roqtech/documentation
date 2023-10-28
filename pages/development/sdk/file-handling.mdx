@@ -1,1 +1,56 @@
+import { Callout } from "nextra/components"
+
 # File handling
+
+ROQ SDK for BaaS provides a complete solution for file management, including these features:
+
+- File upload.
+- File categories.
+- Files visibility (public or private).
+
+## Basic concepts
+
+<Callout type="info">
+  Files uploaded to the ROQ Platform are stored on [Scaleway Object Storage](https://www.scaleway.com/en/object-storage/). The data center is located in Paris. 
+</Callout>
+
+The upload is realized using **signed URLs**, which means the files are uploaded directly from the user's browser to the object storage without sending it through your backend.
+
+## File categories
+
+File categories can be managed via API or ROQ Console.
+
+## File visibility
+
+A file can be either public or private. Public means that there is a permanent URL that anyone can use, while private files can only be accessed by users who are allowed to do so. The visibility of a file can be changed in ROQ Console or API.
+
+## File management
+
+File management from a Backend-as-a-Service (BaaS) perspective involves providing client applications with APIs and services to handle, store, retrieve, and manipulate files on remote servers without the need for developers to build and maintain their backend infrastructure. ROQ SDK for BaaS provides all these functionality whether through API or ROQ Console.
+
+
+
+{/*
+### Upload files
+
+
+
+### Get files
+
+
+
+
+## API
+
+### `file`
+
+### `files`
+
+### `fileCategoryContentGroup`
+
+### `fileCategoryContentGroups`
+
+### `fileCategory`
+
+### `fileCategories`
+*/}
