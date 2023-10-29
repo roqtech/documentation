@@ -2,24 +2,76 @@ import { Callout, Tab, Tabs } from "nextra/components"
 
 # File handling
 
-## Overview
+## Introduction
 
-ROQ SDK for BaaS provides a complete solution for file management, including these features:
+The ROQ SDK for Backend-as-a-Service (BaaS) for file handling providing client applications with APIs and services to handle, store, retrieve, and manipulate files on remote servers without the need for developers to build and maintain their backend infrastructure. Hence, make easier developers to build without too much thinking about file handling. 
+
+The ROQ SDK for BaaS provides a complete solution for file management, including these features:
 
 - File upload.
 - File management (create ,read, update, and delete file).
 - Files visibility (public or private).
 - File categories.
 
-File management from a Backend-as-a-Service (BaaS) perspective involves providing client applications with APIs and services to handle, store, retrieve, and manipulate files on remote servers without the need for developers to build and maintain their backend infrastructure. 
-
-ROQ SDK for BaaS provides all these functionality whether through API or ROQ Console. There are two SDKs: the front-end SDK and back-end SDK. 
+You can utilize all of these features through an API and you can also configure files using the ROQ Console.
 
 ## Front-end SDK
 
-The front-end SDK provides us with the neccessary API for file handling from the client side. These APIs are ROQ platform features and it's consumable for any supporting JavaScript frameworks.
+The front-end SDK provides the necessary API for file handling on the client-side such as uploading file, change file visibility, get file categories, delete files or update existing files. The API can be used with any supporting JavaScript framework.
 
+All file handling APIs on the client-side are live by default in the `/lib/roq` folder and all file handling APIs are accessible through ROQ client `useRoqClient()`. 
 
+To use these APIs, you need import it first.
+
+```tsx
+import { useRoqClient } from "lib/roq"
+
+const roqClient = useRoqClient()
+```
+
+And because file handling APIs are ROQ platform features, they live not in specific entity but in the ROQ platform. 
+
+Let's take an example, how to list all uploaded files:
+
+```tsx
+import { useRoqClient } from "lib/roq"
+
+const roqClient = useRoqClient()
+
+const getFiles = async () => {
+  return await roqClient.roqPlatform.files({})
+}
+```
+
+The response is JSON formatted data and can be parsed easily on the client side with JavaScript.
+
+```json
+{
+    "files": {
+        "data": [
+            {
+                "id": "e54b7785-f7c0-41cc-bfbe-06dbd1645ed9",
+                "createdAt": "2023-10-22T20:30:20.727Z",
+                "updatedAt": "2023-10-22T20:30:25.059Z",
+                "contentType": "image/png",
+                "createdByUserId": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+                "fileCategoryId": "ff8143f2-cd89-41e9-af16-999c9b9da9b8",
+                "isPublic": true,
+                "name": "Screenshot 2023-10-21 at 19.23.39.png",
+                "status": "ready",
+                "url": "https://s3.fr-par.scw.cloud/e3408733-0ac2-4596-8264-0a7da2481801-environment-bucket/Screenshot 2023-10-21 at 19.23.39.png"
+            }
+        ],
+        "totalCount": 1
+    }
+}
+```
+
+For more about File API please refer to [Files](/files) documentation section. It covers file upload process as well as how to use API.
+
+## Framework integration
+
+For practical example of file upload using Next.js, please read this [Add File Uploads](/next-js/add-file-uploads). 
 
 
 

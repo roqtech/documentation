@@ -10,19 +10,18 @@ The SDK offers mainly two variations: client-side or **front-end SDK** and serve
 
 ### Front-end SDK
 
-The front-end SDK is: `generated SDK`
+The front-end SDK is: `@roq/client` and `generated SDK`
+
+<Callout type="info">
+This `@roq/client` package is installed automatically when using the `@roq/cli` tool to generate a front-end SDK. Typically, developers would not use it directly during development because `@roq/cli` generates code that is easier to use and ready for interaction with BaaS.
+</Callout>
+
 
 Our CLI tool `@roq/cli` will generates the front-end SDK. Furthermore, the benefits of the generated front-end SDK include:
 
 - **Customization**: Tailored to fit the specific requirements and configurations of your front-end project. For example, if you need to make changes to the project schema, you can do so using the ROQ Console and then regenerate the SDK.
 - **Easy Integration**: The API generated in the SDK is designed to be easily integrated with modern front-end frameworks and libraries.
 - **Consistency**: Ensures consistent interaction patterns with the back-end, reducing potential integration issues.
-
-{/*
-<Callout type="info">
-This package is installed automatically when using the `@roq/cli` tool to generate a front-end SDK. Typically, developers would not use it directly during development because `@roq/cli` generates code that is easier to use and ready for interaction with BaaS.
-</Callout>
-*/}
 
 The front-end SDK serves primary purposes:
 
@@ -41,8 +40,6 @@ The server-side SDK includes the following:
 - **Auth-handlers** (specific per framework)
 - **ROQ Node.js SDK** (for interaction with ROQ Platform)
 - **BaaS SDK** (with and without access management)
-
-
 
 ### CLI
 
@@ -65,9 +62,23 @@ For practical examples, check out [Add Authentication](/next-js/add-authenticati
 
 ## Additional features
 
-ROQ also provides authentication, user invites, file upload, and user profiles via the ROQ platform. Developers can access them easily using the front-end SDK.
+### File handling
 
-For a more practical example, visit quickstart on [Add User Profile](/next-js/add-the-user-profile), [Add User Invite](/next-js/add-user-invites), and [Add File Uploads](/next-js/add-file-uploads) to a Next.js project.
+Thes API handling everything to do with file (upload, get files, delete files, and updating file). Please look into the [File handling](/development/sdk/file-handling) section for more information.
+
+
+For more practical example, please read [Add File Uploads](/next-js/add-file-uploads) in a Next.js project.
+
+### User invites
+
+The API handle user invitation to the project tenant or organization. You can read more in this [User invites](/development/sdk/user-invites) for more information.
+
+For a more practical example, visit quickstart on [Add User Invite](/next-js/add-user-invites).
+
+### E-Mails
+
+The API handle sending E-mails. Visit the [E-mails](/development/sdk/emails) for more information.
+
 
 ## Quickstart
 
