@@ -4,24 +4,24 @@ import { Callout, Tab, Tabs } from "nextra/components"
 
 ## Introduction
 
-The ROQ SDK for Backend-as-a-Service (BaaS) for file handling providing client applications with APIs and services to handle, store, retrieve, and manipulate files on remote servers without the need for developers to build and maintain their backend infrastructure. Hence, make easier developers to build without too much thinking about file handling. 
+The ROQ SDK for Backend-as-a-Service (BaaS) for file handling provides client applications with APIs and services to handle, store, retrieve, and manipulate files on remote servers without developers needing to build and maintain their backend infrastructure. Hence, makes it easier for developers to build without too much thinking about file handling. 
 
 The ROQ SDK for BaaS provides a complete solution for file management, including these features:
 
 - File upload.
-- File management (create ,read, update, and delete file).
+- File management (create, read, update, and delete files).
 - Files visibility (public or private).
 - File categories.
 
-You can utilize all of these features through an API and you can also configure files using the ROQ Console.
+You can utilize all of these features through an API, and you can also configure files using the ROQ Console.
 
-## Front-end SDK
+## Code examples
 
-The front-end SDK provides the necessary API for file handling on the client-side such as uploading file, change file visibility, get file categories, delete files or update existing files. The API can be used with any supporting JavaScript framework.
+The front-end SDK provides the necessary API for file handling on the client side, such as uploading files, changing file visibility, getting file categories, deleting files, or updating existing files. The API can be used with any supporting JavaScript framework.
 
-All file handling APIs on the client-side are live by default in the `/lib/roq` folder and all file handling APIs are accessible through ROQ client `useRoqClient()`. 
+All file-handling APIs on the client side are live by default in the `/lib/roq` folder, and all file-handling APIs are accessible through the ROQ client `useRoqClient()`. 
 
-To use these APIs, you need import it first.
+To use these APIs, you need to import it first.
 
 ```tsx
 import { useRoqClient } from "lib/roq"
@@ -29,9 +29,9 @@ import { useRoqClient } from "lib/roq"
 const roqClient = useRoqClient()
 ```
 
-And because file handling APIs are ROQ platform features, they live not in specific entity but in the ROQ platform. 
+And because file handling APIs are ROQ platform features, they live not in specific entities but in the ROQ platform. 
 
-Let's take an example, how to list all uploaded files:
+Let's take an example of how to list all uploaded files:
 
 ```tsx
 import { useRoqClient } from "lib/roq"
@@ -67,12 +67,8 @@ The response is JSON formatted data and can be parsed easily on the client side 
 }
 ```
 
-For more about File API please refer to [Files](/files) documentation section. It covers file upload process as well as how to use API.
+For more about File API, please refer to the [Files](/files) documentation section. It covers the file upload process as well as how to use API.
 
 ## Framework integration
 
-For practical example of file upload using Next.js, please read this [Add File Uploads](/next-js/add-file-uploads). 
-
-
-
-
+ROQ SDK, for the client side, can be integrated into various web frameworks like Next.js, Nuxt.js, RedwoodJS, and SvelteKit. For a practical example of file upload using Next.js, please read the documentation on [Add File Uploads](/next-js/add-file-uploads).
