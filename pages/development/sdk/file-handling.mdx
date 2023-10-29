@@ -4,18 +4,50 @@ import { Callout, Tab, Tabs } from "nextra/components"
 
 ROQ SDK for BaaS provides a complete solution for file management, including these features:
 
-- File management (create , read, update, and delete file).
+- File upload.
+- File management (create ,read, update, and delete file).
 - Files visibility (public or private).
 - File categories.
-- File upload.
+
 
 ## Basic concepts
+
+File management from a Backend-as-a-Service (BaaS) perspective involves providing client applications with APIs and services to handle, store, retrieve, and manipulate files on remote servers without the need for developers to build and maintain their backend infrastructure. ROQ SDK for BaaS provides all these functionality whether through API or ROQ Console.
+
+
+
+## File upload
+
+```mermaid
+graph TD
+    A[Select File]
+    B[Generate a signed URL]
+    C[Upload File Using Signed URL]
+    D[Set The File Status<br>]
+    E[File Upload Completed]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+```
+
+For file upload, the upload is realized using **signed URLs**, which means the files are uploaded directly from the user's browser to the object storage without sending it through your backend.
 
 <Callout type="info">
   Files uploaded to the ROQ Platform are stored on [Scaleway Object Storage](https://www.scaleway.com/en/object-storage/). The data center is located in Paris. 
 </Callout>
 
-The upload is realized using **signed URLs**, which means the files are uploaded directly from the user's browser to the object storage without sending it through your backend.
+
+{/*Another description,steps and code*/}
+
+## File creation
+
+## File reading
+
+## File updating
+
+## File deletion
 
 ## File categories
 
@@ -199,32 +231,3 @@ A file can be either public or private. Public means that there is a permanent U
 
 {/* Code examples */}
 
-## File management
-
-File management from a Backend-as-a-Service (BaaS) perspective involves providing client applications with APIs and services to handle, store, retrieve, and manipulate files on remote servers without the need for developers to build and maintain their backend infrastructure. ROQ SDK for BaaS provides all these functionality whether through API or ROQ Console.
-
-
-### File creation
-
-### File reading
-
-### File updating
-
-### File deletion
-
-
-## Upload files
-
-```mermaid
-graph TD
-    A[Select File]
-    B[Generate a signed URL]
-    C[Upload File Using Signed URL]
-    D[Set The File Status<br>]
-    E[File Upload Completed]
-
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-```
