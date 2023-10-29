@@ -48,6 +48,16 @@ The `files()` data response:
 </Tab>
 </Tabs>
 
+
+| Parameter           | Type   | Description    |
+| ------------------- | ------ |--------------- |
+| `filter:entityName` | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_. Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter |
+| `filter:entityReferences` | object | References (or IDs) of the related objects from your database.  Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter  |
+| `filter:fileCategory`  |  object   | Filter file by categories. Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter  |
+| `withFileCategory` | boolean | Include file categories |
+| `withCreatedByUser` | boolean | Include user data that created the file |
+| `withFileAssociations` | boolean | Include file associations |
+
 ### `file()`
 
 Get file with specific file ID.
@@ -123,9 +133,119 @@ The `file()` data response:
 </Tabs>
 
 
+| Parameter              | Type    | Description                  |
+| ---------------------- | ------- |------------------------------|
+| `id`                   | UUID    | The file ID                  |
+| `withFileCategory`     | boolean | Include file category        |
+| `withCreatedByUser`    | boolean | The user that create the file|
+| `withFileAssociations` | boolean | Include file associations    |
+
 ## File updating
 
+### `updateFile()`
+
+You can use the `updateFile()` API to rename the uploaded files.
+
+<Tabs items={["TypeScript"]}>
+<Tab>
+```tsx
+import { useRoqClient } from "lib/roq"
+
+const roqClient = useRoqClient()
+
+const updateResult =async () => {
+    return await roqClient.roqPlatform.updateFile({
+	    id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
+    	updateFileDto: {
+		    name: "screenshot.png"
+	    }
+    })
+}  
+```
+</Tab>
+</Tabs>
+
+
+| Parameter                 | Type     | Description                  |
+| --------------------------| -------- |------------------------------|
+| `id`                      | UUID     | The file ID to be updated    |
+| `updateFileDto`:`name`    | string   | New filename                 |
+
+
+### `updateFileStatus()`
+
+The `updateFileStatus()` API is a method to set the upload file status. The use case of this API is, for example, you upload a file without using UI Component, and after the file upload is completed, you need to set the upload file status manually.
+
+Five status files are currently available: `cancelled`, `error`, `processing`, `ready`, and `upload_pending`.
+
+<Tabs items={["TypeScript"]}>
+<Tab>
+```tsx
+import { useRoqClient } from "lib/roq"
+
+const roqClient = useRoqClient()
+
+const upfileStatus =async () => {
+    return await roqClient.roqPlatform.updateFileStatus({
+	    id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
+	    status: FileStatusEnum.Cancelled
+    })   
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter                 | Type     | Description                  |
+| --------------------------| -------- |------------------------------|
+| `id`                      | UUID     | The file ID to be updated    |
+| `status`                  | string   | The file status. Look for [FileStatusEnum](https://jupiter-pp.roq-platform.com/docs/#definition-FileStatusEnum) for the details             |
+
+
+
 ## File deletion
+
+### `deleteFiles()`
+
+To delete one or multiple files, use the `deleteFiles()` API. See this [link](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteFiles) for the API documentation.
+
+<Tabs items={["TypeScript"]}>
+<Tab>
+```ts
+import { useRoqClient } from "lib/roq"
+
+const roqClient = useRoqClient()
+
+const delFiles =async () => {
+    return await roqClient.asSuperAdmin().deleteFiles({
+	    filter: {
+		    id: {
+			    equalTo: "76dada4e-4f07-456b-90e7-a43099f07052"
+		    }
+	    }
+    })
+}
+```
+
+To delete multiple files, utilize the `valueIn` filter option.
+
+```ts
+{
+  filter: {
+    id: {
+      valueIn: ["file_id_1", "file_id_2"]
+    }
+  }
+}
+```
+</Tab>
+</Tabs>
+
+
+| Parameter      | Type   | Description               |
+| -------------- | ------ | --------------------------|
+| `filter:id`    | object | The IDs of files to delete can be filtered using `equalTo` for a single file or `valueIn` for multiple file IDs.|
+
+
 
 ## File categories
 
@@ -309,6 +429,42 @@ The category details response:
 
 A file can be either public or private. Public means that there is a permanent URL that anyone can use, while private files can only be accessed by users who are allowed to do so. The visibility of a file can be changed in ROQ Console or API using the `makeFilePrivate()` and `makeFilePublic()`. These APIs also can be easily used on the client-side via front-end SDK.
 
+### `makeFilePublic()`
 
-{/* Code examples */}
+Enable public access to a file.
+
+<Tabs items={['TypeScript']}><Tab>
+```ts
+import { useRoqClient } from "lib/roq"
+
+const roqClient = useRoqClient()
+
+const filePublic =async () => {
+    return await roqClient.roqPlatform.makeFilePublic({
+        id: 'fileId'
+    });
+}
+```
+</Tab>
+</Tabs>
+
+### `makeFilePrivate()`
+
+Hide a file from public access.
+
+<Tabs items={['TypeScript']}><Tab>
+```ts
+import { useRoqClient } from "lib/roq"
+
+const roqClient = useRoqClient()
+
+cons private =async () => {
+    return await roqClient.roqPlatform.makeFilePrivate({
+        id: 'fileId'
+    })
+}
+```
+</Tab>
+</Tabs>
+
 
