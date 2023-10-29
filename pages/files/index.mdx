@@ -2,30 +2,14 @@ import { Callout } from 'nextra/components'
 
 # Overview
 
-### Uploading and storing files
+## Uploading and storing files
 
-```mermaid
-graph TD
-    A[Select File]
-    B[Generate a signed URL]
-    C[Upload File Using Signed URL]
-    D[Set The File Status<br>]
-    E[File Upload Completed]
+ROQ SDK simplifies file uploading and storage for SaaS applications. Developers can directly implement file upload features based on the front-end SDK using any web frameworks. 
 
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-```
-
-For file upload, the upload is realized using **signed URLs**, which means the files are uploaded directly from the user's browser to the object storage without sending it through your backend.
+For more information on uploading files, please see the documentation section on [Uploading Files](/files/uploading-files). For a practical example of uploading a file in Next.js, check out the [Add File Uploads](/next-js/add-file-uploads) tutorial.
 
 <Callout type="info">
-  Files uploaded to the ROQ Platform are stored on [Scaleway Object Storage](https://www.scaleway.com/en/object-storage/). The data center is located in Paris. 
+Files uploaded to the ROQ Platform are stored on [Scaleway Object Storage](https://www.scaleway.com/en/object-storage/). The data center is located in Paris. 
 </Callout>
 
-
-{/*Another description,steps and code*/}
-
-
-### File management and access control
+## File management and access control
