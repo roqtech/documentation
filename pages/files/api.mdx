@@ -1,0 +1,314 @@
+import {Tab, Tabs, Callout} from 'nextra/components'
+
+# API
+
+## File reading
+
+This pertains to accessing and retrieving data from the uploaded files.
+
+### `files()`
+
+Get all files.
+
+<Tabs items={["TypeScript", "Response"]}>
+<Tab>
+```tsx
+import { useRoqClient } from "/lib/roq"
+
+const allFiles = async () => {
+	const allFiles = await roqClient.roqPlatform.files()
+	return allFiles
+}
+```
+</Tab>
+<Tab>
+The `files()` data response:
+
+```json
+{
+    "files": {
+        "data": [
+            {
+                "id": "e54b7785-f7c0-41cc-bfbe-06dbd1645ed9",
+                "createdAt": "2023-10-22T20:30:20.727Z",
+                "updatedAt": "2023-10-22T20:30:25.059Z",
+                "contentType": "image/png",
+                "createdByUserId": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+                "fileCategoryId": "ff8143f2-cd89-41e9-af16-999c9b9da9b8",
+                "isPublic": true,
+                "name": "Screenshot 2023-10-21 at 19.23.39.png",
+                "status": "ready",
+                "url": "https://s3.fr-par.scw.cloud/e3408733-0ac2-4596-8264-0a7da2481801-environment-bucket/Screenshot 2023-10-21 at 19.23.39.png"
+            }
+        ],
+        "totalCount": 1
+    }
+}
+```
+</Tab>
+</Tabs>
+
+### `file()`
+
+Get file with specific file ID.
+
+The `file()` API also provides information on the file category, its creator, and associations.
+
+<Tabs items={["TypeScript", "Response"]}>
+<Tab>
+```tsx
+import { useRoqClient } from "/lib/roq"
+
+const myfile = async () => {
+	const myfile = await roqClient.roqPlatform.file({
+		id: "e54b7785-f7c0-41cc-bfbe-06dbd1645ed9",
+		withFileCategory: true,
+		withCreatedByUser: true,
+		withFileAssociations: true
+	})
+}
+```
+</Tab>
+<Tab>
+The `file()` data response:
+
+```json
+{
+    "file": {
+        "id": "e54b7785-f7c0-41cc-bfbe-06dbd1645ed9",
+        "createdAt": "2023-10-22T20:30:20.727Z",
+        "updatedAt": "2023-10-22T20:30:25.059Z",
+        "contentType": "image/png",
+        "createdByUserId": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+        "fileCategoryId": "ff8143f2-cd89-41e9-af16-999c9b9da9b8",
+        "isPublic": true,
+        "name": "Screenshot 2023-10-21 at 19.23.39.png",
+        "status": "ready",
+        "url": "https://s3.fr-par.scw.cloud/e3408733-0ac2-4596-8264-0a7da2481801-environment-bucket/Screenshot 2023-10-21 at 19.23.39.png",
+        "fileCategory": {
+            "id": "ff8143f2-cd89-41e9-af16-999c9b9da9b8",
+            "createdAt": "2023-10-19T07:23:12.812Z",
+            "updatedAt": "2023-10-19T07:23:12.812Z",
+            "key": "USER_FILES",
+            "name": "Files for user",
+            "maxSize": 20000000,
+            "isPublicByDefault": true
+        },
+        "createdByUser": {
+            "id": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+            "reference": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+            "firstName": "",
+            "lastName": "",
+            "active": true,
+            "email": "francis67@roq.tech",
+            "phone": null,
+            "locale": "en-US",
+            "isOptedIn": true,
+            "synced": false,
+            "tenantId": "dc92f95d-42bd-45af-84a7-da227d694cbb",
+            "customData": {},
+            "timezone": "Asia/Jakarta",
+            "avatarUrl": "",
+            "createdAt": "2023-10-19T09:46:17.157Z",
+            "updatedAt": "2023-10-19T09:46:17.368Z"
+        },
+        "fileAssociations": {
+            "data": [],
+            "totalCount": 0
+        }
+    }
+}
+```
+</Tab>
+</Tabs>
+
+
+## File updating
+
+## File deletion
+
+## File categories
+
+File categories can be managed via API or ROQ Console. 
+
+Using the `fileCategories()` and `fileCategory()` APIs from the ROQ Platform, we can retrieve a list of all registered file categories and their details, respectively. These APIs can be easily used on the client-side via front-end SDK.
+
+### `fileCategories()`
+
+Get all file categories.
+
+<Tabs items={["TypeScript", "Response"]}>
+<Tab>
+```tsx
+import { useRoqClient } from "/lib/roq"
+
+const doReadCategories = async () => {
+	const allCategories = await roqClient.roqPlatform.fileCategories({})
+	return allCategories
+}
+```
+</Tab>
+
+<Tab>
+The categories response: 
+
+```json
+{
+    "fileCategories": {
+        "data": [
+            {
+                "id": "ff8143f2-cd89-41e9-af16-999c9b9da9b8",
+                "createdAt": "2023-10-19T07:23:12.812Z",
+                "updatedAt": "2023-10-19T07:23:12.812Z",
+                "key": "USER_FILES",
+                "name": "Files for user",
+                "maxSize": 20000000,
+                "isPublicByDefault": true
+            },
+            {
+                "id": "10b7a0fa-c7fa-41ba-b94c-1eda4daadb09",
+                "createdAt": "2023-10-19T07:23:12.812Z",
+                "updatedAt": "2023-10-19T07:23:12.812Z",
+                "key": "CHAT_FILES",
+                "name": "Chat Files",
+                "maxSize": 50000000,
+                "isPublicByDefault": true
+            },
+            {
+                "id": "de7194de-9857-4645-9e7b-56f95542340a",
+                "createdAt": "2023-10-19T07:23:12.812Z",
+                "updatedAt": "2023-10-19T07:23:12.812Z",
+                "key": "USER_AVATAR_FILES",
+                "name": "Avatar of user",
+                "maxSize": 10000000,
+                "isPublicByDefault": true
+            }
+        ],
+        "totalCount": 3
+    }
+}
+```
+</Tab>
+</Tabs>
+
+### `fileCategory()`
+
+Get file category details.
+
+<Tabs items={["TypeScript", "Response"]}>
+<Tab>
+```tsx
+import { useRoqClient } from "/lib/roq"
+
+const categoryDetails = async () => {
+	const categoryDetail = await roqClient.roqPlatform.fileCategory({
+		id: "ff8143f2-cd89-41e9-af16-999c9b9da9b8",
+		withFileCategoryContentGroups: true
+	})
+	return categoryDetail
+}
+```
+</Tab>
+<Tab>
+The category details response:
+
+```json
+{
+    "fileCategory": {
+        "id": "ff8143f2-cd89-41e9-af16-999c9b9da9b8",
+        "createdAt": "2023-10-19T07:23:12.812Z",
+        "updatedAt": "2023-10-19T07:23:12.812Z",
+        "key": "USER_FILES",
+        "name": "Files for user",
+        "maxSize": 20000000,
+        "isPublicByDefault": true,
+        "fileCategoryContentGroups": {
+            "data": [
+                {
+                    "id": "555e422d-63b0-4f16-bdbe-8b5a41423444",
+                    "createdAt": "2023-03-30T09:47:06.957Z",
+                    "updatedAt": "2023-03-30T09:47:06.957Z",
+                    "key": "image",
+                    "name": "Image"
+                },
+                {
+                    "id": "83939f1f-057e-424b-ad16-748d4bc5e006",
+                    "createdAt": "2023-03-30T09:47:06.957Z",
+                    "updatedAt": "2023-03-30T09:47:06.957Z",
+                    "key": "application",
+                    "name": "Application"
+                },
+                {
+                    "id": "1150e947-a2d3-4702-ba3c-73d3b173bc33",
+                    "createdAt": "2023-03-30T09:47:06.957Z",
+                    "updatedAt": "2023-03-30T09:47:06.957Z",
+                    "key": "text",
+                    "name": "Text"
+                },
+                {
+                    "id": "db505acd-0112-4378-92db-7694e17c4bdb",
+                    "createdAt": "2023-03-30T09:47:06.957Z",
+                    "updatedAt": "2023-03-30T09:47:06.957Z",
+                    "key": "video",
+                    "name": "Video"
+                },
+                {
+                    "id": "aa70bc75-d6a7-4f76-8e91-8cccc38d570c",
+                    "createdAt": "2023-03-30T09:47:06.957Z",
+                    "updatedAt": "2023-03-30T09:47:06.957Z",
+                    "key": "message",
+                    "name": "Message"
+                },
+                {
+                    "id": "df711f31-1c7e-4204-b7fc-759307f64ec3",
+                    "createdAt": "2023-03-30T09:47:06.957Z",
+                    "updatedAt": "2023-03-30T09:47:06.957Z",
+                    "key": "audio",
+                    "name": "Audio"
+                },
+                {
+                    "id": "3327d8d3-2d7e-40f9-b507-2bcf160df480",
+                    "createdAt": "2023-03-30T09:47:06.957Z",
+                    "updatedAt": "2023-03-30T09:47:06.957Z",
+                    "key": "font",
+                    "name": "Font"
+                },
+                {
+                    "id": "6d6b2413-309e-4ee8-9a14-8138f95b0816",
+                    "createdAt": "2023-03-30T09:47:06.957Z",
+                    "updatedAt": "2023-03-30T09:47:06.957Z",
+                    "key": "multipart",
+                    "name": "Multipart"
+                },
+                {
+                    "id": "085d98ac-cc9a-4092-9c91-f2d1a0eb6978",
+                    "createdAt": "2023-03-30T09:47:06.957Z",
+                    "updatedAt": "2023-03-30T09:47:06.957Z",
+                    "key": "model",
+                    "name": "Model"
+                },
+                {
+                    "id": "7ae85adf-f2fb-47b1-9f5f-2d8fb1900faf",
+                    "createdAt": "2023-03-30T09:47:06.957Z",
+                    "updatedAt": "2023-03-30T09:47:06.957Z",
+                    "key": "other",
+                    "name": "Other"
+                }
+            ],
+            "totalCount": 10
+        }
+    }
+}
+```
+</Tab>
+
+</Tabs>
+
+
+## File visibility
+
+A file can be either public or private. Public means that there is a permanent URL that anyone can use, while private files can only be accessed by users who are allowed to do so. The visibility of a file can be changed in ROQ Console or API using the `makeFilePrivate()` and `makeFilePublic()`. These APIs also can be easily used on the client-side via front-end SDK.
+
+
+{/* Code examples */}
+
