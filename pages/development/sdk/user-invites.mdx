@@ -1,2 +1,62 @@
 # User invites
 
+## Introduction
+
+In SaaS applications, it is common for users to invite others from their organization, also known as "**tenants**", especially when there is a charge for each user. 
+
+ROQ SDK for BaaS provides a comprehensive user invite solution to be used alongside authentication. The front-end SDK offers an API for user invitation that developers can use directly in their client-side applications.
+
+
+## How it works
+
+The invitation process is outlined in a series of steps below:
+
+1. **User Initiates Invite:** The process starts with a user's decision to send an invitation.
+2. **Invite Sent:** The system activates this method, managing the dispatch of the invitation.
+3. **Recipient Receives Invite:** The invitee gets a notification, typically via email or another communication channel.
+4. **Invite Accepted or Rejected:** The recipient can choose to either accept or decline the invitation.
+5. **Invite Confirmed:** If accepted, the system verifies the invitation, potentially involving further setup for the invitee.
+6. **Cancel Invitation:** At any point after sending the invite and before its acceptance, the inviter can opt to cancel the invitation.
+7. **End of Flow:** The process wraps up either with the invitee successfully onboarded, the invitation declined, or the invitation canceled.
+
+## Code examples
+
+All user invitation APIs on the client side are live by default in the `/lib/roq` folder and accessible through the ROQ client `useRoqClient()`.
+
+```tsx
+import { useRoqClient } from "@roq/nextjs"
+
+const roqClient = useRoqClient()
+```
+
+And because user invitation APIs are ROQ platform features, they live not in specific entities but in the ROQ platform. 
+
+For example, if we want to invite a user, then we should use the `sendUserInvites()`:
+
+```tsx
+import { useRoqClient } from "@roq/nextjs"
+
+const roqClient = useRoqClient()
+
+const tenantId = "tenant_id_here"
+const roqUserId = "roq_user_id"
+
+const sendInvitation = async () => {
+    const status = await roqClient.roqPlatform.sendUserInvites({
+        userInvites: {
+            tenantId: tenantId,
+            userInvites: [{
+                createdByUserId: roqUserId,
+                email: email,
+                locale: "en-US"
+            }]
+        }
+    })
+}
+```
+
+For more about User Invites API, please refer to the [Files](/user-invites) documentation section. It covers how to use the API.
+
+## Framework integration
+
+Visit this [User Invites](/next-js/add-user-invites) documentation. It shows us how to invite users based on the above steps on a Next.js application.
