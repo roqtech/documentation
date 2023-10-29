@@ -1,3 +1,5 @@
+import { Steps }  from "nextra/components"
+
 # Uploading files
 
 ```mermaid
@@ -16,9 +18,22 @@ graph TD
 
 The file upload process flow is outlined as a series of steps below:
 
-1. The user selects a file (HTML5 Form, React Component, etc).
-2. The system generates a **signed URL** using the `createFileUpload()` method.
-3. The file is uploaded directly using the provided **signed URL** which means the files are uploaded directly from the user's browser to the object storage without sending it through your backend.
-4. After the upload completes, the file status is set using the `updateFileStatus()` method.
-5. The file upload process is then marked as completed.
+<Steps>
+### Select file
+	
+	User initiate file upload with selecting a file. The file selection can be done using HTML5 Form, React Component, etc. It depends on the developer implementation for file uploading.
 
+### Generates a signed URL
+
+    The `createFileUpload()` method will return a signed URL. This URL is needed for uploading the file later. 
+
+### Upload file usinf signed URL 
+
+    File will be uploading using the provided **signed URL** which means the files are uploaded directly from the user's browser to the object storage without sending it through your backend.
+
+### Set the file status 
+
+    Set the status of the file using the `updateFileStatus()` API. When the upload is finished, you need to set the upload status. This is required because the file is uploaded directly to the object storage, bypassing the ROQ Platform.
+
+### File upload completed
+</Steps>
