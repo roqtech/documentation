@@ -13,3 +13,12 @@ Files uploaded to the ROQ Platform are stored on [Scaleway Object Storage](https
 ## File management and access control
 
 You can define permissions of files using ROQ's access management feature. Files are always owned by the user who uploaded them. You can restrict access to this user or enable users of the same tenant to download the file.
+
+## File visibility
+
+A file can be either **public** or **private**:
+
+- Public means that there is a permanent URL that anyone can use. 
+- Private files can only be accessed by users who are allowed to do so. 
+
+The visibility of a file can be changed in ROQ Console or via `makeFilePublic()` or `makeFilePrivate()` APIs.
