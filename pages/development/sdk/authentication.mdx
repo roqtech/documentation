@@ -21,7 +21,7 @@ Key Features:
 ROQ's authentication and session management are based on the [OAuth protocol](https://oauth.net/2/). Here is how it works:
 
 1. The user clicks the Login button or is redirected to a login page provided by ROQ.
-2. ROQ prompts the user to log in using username and password or social sign-ins (e.g. Google) and then sends a special token back indicating that the user has granted permission to access your web application.
+2. ROQ prompts the user to log in using username and password or social sign-ins (e.g., Google) and then sends a special token back indicating that the user has granted permission to access your web application.
 3. Using the authentication wrapper such as `requireNextAuth` for Next.js, you can easily define which pages are only accessible to authenticated users.
 
 ## API
@@ -70,6 +70,6 @@ roqClient.logout()
 
 ## Framework integration
 
-As mentioned earlier, every successful sign-in or sign-up generates a special token. This token is saved in the browser's cookie as `roq-session-token`. This token can be utilized by any JavaScript framework.
+As mentioned earlier, every successful sign-in or sign-up generates a special token. This token is saved in the browser's cookie as `roq-session-token`. Any JavaScript framework can utilize this token.
 
-For practical examples, check out [Add Authentication](/next-js/add-authentication). This detailed documentation explains how to sign-in, logout, and sign-up for a Next.js project.
+For practical examples, check out [Add Authentication](/next-js/add-authentication). This detailed documentation explains how to sign in, log out, and sign up for a Next.js project.
