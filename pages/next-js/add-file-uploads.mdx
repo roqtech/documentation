@@ -1,6 +1,8 @@
+import { Callout } from "nextra/components"
+
 # Add File Uploads
 
-In ROQ, the upload is realized using signed URLs, which means the files are uploaded directly from the user's browser to the object storage without sending it through your backend.
+In ROQ, the upload is realized using signed URLs, which means the files are uploaded directly from the user's browser to the object storage without sending it through your backend. 
 
 ROQ SDK for Next.js also provides a `FileUpload` component to make the file upload easy to code. 
 Let's take an example of how to upload an image file using ROQ BaaS.
@@ -152,3 +154,8 @@ export default requireNextAuth({
 In the ROQ Console, we can check the uploaded files in the **Manage Data** section.
 
 ![uploaded files](/screenshots/uploaded-files.png)
+
+
+<Callout type="info">
+For information on downloading, categorizing, and using the file API, visit the [Files](/files) documentation section.
+</Callout>
