@@ -4,7 +4,9 @@ import { Callout } from "nextra/components"
 
 ## SDK
 
-ROQ BaaS SDK is a collection of packages and tools that allows for creating SaaS applications supporting various web frameworks such as Express, Next.js, Nuxt.js, RedwoodJS, or SvelteKit. With this SDK, you can streamline the fetching, manipulation, and storage of data in the BaaS database. The SDK also handles user authentication and authorization, ensuring secure app interactions and additional features such as file handling, user profiles, and user invites, enhancing the application's capability.
+ROQ BaaS SDKs are a collection of packages and tools that allow for creating SaaS applications supporting various web frameworks such as Express, Next.js, Nuxt.js, RedwoodJS, or SvelteKit. 
+
+With this SDK, you can streamline the fetching, manipulation, and storage of data in the BaaS database. The SDK also handles user authentication and authorization, ensuring secure app interactions and additional features such as file handling, user profiles, and user invites, enhancing the application's capability. 
 
 The SDK offers mainly two variations: client-side or **front-end SDK** and server-side or **back-end SDK**.
 
@@ -16,8 +18,7 @@ The front-end SDK is: `@roq/client` and `generated SDK`
 This `@roq/client` package is installed automatically when using the `@roq/cli` tool to generate a front-end SDK. Typically, developers would not use it directly during development because `@roq/cli` generates code that is easier to use and ready for interaction with BaaS.
 </Callout>
 
-
-Our CLI tool `@roq/cli` will generates the front-end SDK. Furthermore, the benefits of the generated front-end SDK include:
+Our CLI tool `@roq/cli` will generate the front-end SDK. Furthermore, the benefits of the generated front-end SDK include:
 
 - **Customization**: Tailored to fit the specific requirements and configurations of your front-end project. For example, if you need to make changes to the project schema, you can do so using the ROQ Console and then regenerate the SDK.
 - **Easy Integration**: The API generated in the SDK is designed to be easily integrated with modern front-end frameworks and libraries.
@@ -41,33 +42,33 @@ The server-side SDK includes the following:
 
 ### CLI
 
-`@roq/cli` is a command-line interface (CLI) tool that facilitates the generation of a front-end SDK in your project. It provides a convenient way to streamline the process of creating a software development kit (SDK) tailored for front-end development. The CLI will generate code based on the project Prisma schema and will handle any dependencies that are needed.
+`@roq/cli` is a command-line interface (CLI) tool that facilitates the generation of a front-end SDK in your project. It provides a convenient way to streamline creating a software development kit (SDK) tailored for front-end development. The CLI will generate code based on the project Prisma schema and will handle any dependencies that are needed.
 
 ## Installation
 
-The installation and setup of the SDK depends on the client and server frameworks used. Refer to the [installation](/development/sdk/installation) documentation for specific details.
+The installation and setup of the SDK depend on the client or server frameworks used. Refer to the [installation](/development/sdk/installation) documentation for specific details.
 
 ## Access to your data
 
-The front-end SDK simplifies BaaS database access on the client and leverages the ROQ platform also, the API uses Prisma-like syntax that is easy to understand. To learn about query syntax, visit the [query syntax](/development/sdk/query-syntax) documentation.
+The front-end SDK simplifies BaaS database access on the client and leverages the ROQ platform. Also, the API uses Prisma-like syntax that is easy to understand. To learn about query syntax, visit the [query syntax](/development/sdk/query-syntax) documentation.
 
 For information on accessing data in applications like Next.js, check out the documentation on [accessing data](/next-js/accessing-the-data). 
 
 ## Authentication
 
-SaaS applications always need authentication. This authentication is handled by the ROQ platform hence the developers don't need to implement it froms scracth. The front-end SDK has helper functions for easy authentication. You can visit [authentication](/development/sdk/authentication) to learn more about authentication.
+SaaS applications always need authentication. The ROQ platform handles this authentication. Hence, the developers don't need to implement it from scratch. The front-end SDK has helper functions for easy authentication. You can visit [authentication](/development/sdk/authentication) to learn more about authentication.
 
 ## Additional features
 
 ### File handling
 
-Thes API handling everything to do with file (upload, get files, delete files, and updating file). Please look into the [file handling](/development/sdk/file-handling) section for more information.
+This API handles everything to do with the file (upload, get files, delete files, and update files). Please look into the [file handling](/development/sdk/file-handling) section for more information.
 
 ### User invites
 
 The API handle user invitation to the project tenant or organization. You can read more in this [user invites](/development/sdk/user-invites) for more information.
 
-### E-Mails
+### Emails
 
-The API handle sending E-mails. Visit the [e-mails](/development/sdk/emails) for more information.
+The API handles sending emails. Visit the [emails](/development/sdk/emails) for more information.
 
