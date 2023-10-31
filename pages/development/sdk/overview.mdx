@@ -29,8 +29,6 @@ The front-end SDK serves primary purposes:
 - **Interaction with ROQ Platform** (via GraphQL)
 - **Redirects to hosted pages**
 
-
-
 ### Back-end SDK
 
 The back-end SDKs are: **`@roq/nodejs`** and **`@roq/nextjs`** (we will support more SDKs coming soon)
@@ -45,41 +43,31 @@ The server-side SDK includes the following:
 
 `@roq/cli` is a command-line interface (CLI) tool that facilitates the generation of a front-end SDK in your project. It provides a convenient way to streamline the process of creating a software development kit (SDK) tailored for front-end development. The CLI will generate code based on the project Prisma schema and will handle any dependencies that are needed.
 
+## Installation
 
-For quick usage on the Next.js application, visit [Quickstart](/next-js/quickstart) documentation.
+The installation and setup of the SDK depends on the client and server frameworks used. Refer to the [installation](/development/sdk/installation) documentation for specific details.
 
 ## Access to your data
 
-The front-end SDK simplifies BaaS database access on the client and leverages the ROQ platform also, the API uses Prisma-like syntax that is easy to understand. To learn about query syntax, visit the [Query Syntax](/development/sdk/query-syntax) documentation.
+The front-end SDK simplifies BaaS database access on the client and leverages the ROQ platform also, the API uses Prisma-like syntax that is easy to understand. To learn about query syntax, visit the [query syntax](/development/sdk/query-syntax) documentation.
 
-For information on accessing data in applications like Next.js, check out the documentation on [Accessing Data](/next-js/accessing-the-data). 
+For information on accessing data in applications like Next.js, check out the documentation on [accessing data](/next-js/accessing-the-data). 
 
 ## Authentication
 
-SaaS applications always need authentication. This authentication is handled by the ROQ platform hence the developers don't need to implement it froms scracth. The front-end SDK has helper functions for easy authentication. You can visit [Authentication](/development/sdk/authentication) to learn more about authentication.
-
-For practical examples, check out [Add Authentication](/next-js/add-authentication). This detailed documentation explains how to add login, logout, and signup to a Next.js project.
+SaaS applications always need authentication. This authentication is handled by the ROQ platform hence the developers don't need to implement it froms scracth. The front-end SDK has helper functions for easy authentication. You can visit [authentication](/development/sdk/authentication) to learn more about authentication.
 
 ## Additional features
 
 ### File handling
 
-Thes API handling everything to do with file (upload, get files, delete files, and updating file). Please look into the [File handling](/development/sdk/file-handling) section for more information.
-
-
-For more practical example, please read [Add File Uploads](/next-js/add-file-uploads) in a Next.js project.
+Thes API handling everything to do with file (upload, get files, delete files, and updating file). Please look into the [file handling](/development/sdk/file-handling) section for more information.
 
 ### User invites
 
-The API handle user invitation to the project tenant or organization. You can read more in this [User invites](/development/sdk/user-invites) for more information.
-
-For a more practical example, visit quickstart on [Add User Invite](/next-js/add-user-invites).
+The API handle user invitation to the project tenant or organization. You can read more in this [user invites](/development/sdk/user-invites) for more information.
 
 ### E-Mails
 
-The API handle sending E-mails. Visit the [E-mails](/development/sdk/emails) for more information.
+The API handle sending E-mails. Visit the [e-mails](/development/sdk/emails) for more information.
 
-
-## Quickstart
-
-If you want to use the SDK with your Next.js application, please refer to the [**Quickstart**](/next-js/quickstart) documentation. It covers the SDK generation using `@roq/cli`, authentication using `@roq/next.js`, and simple data access to BaaS. 
