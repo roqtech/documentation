@@ -104,15 +104,29 @@ For more information, visit the [JSON:API Official Website](https://jsonapi.org/
 
 ## Interacting with the REST API
 
-You need a token to access the REST API in the ROQ BaaS. 
+To access the REST API in the ROQ BaaS, you'll need a token and the REST API URL, which is set on the `ROQ_API` environment key in the `.env` file. 
 
-Let's take a look at this code:
+A useful tip for identifying the REST API URL is to check if it matches the generated application URL with the word `baas` added to it.
+
+For example, the generated application URL:
+
+```shell
+https://myawesome-roq-app.vercel.app
+```
+
+then the REST API URL is:
+
+```shell
+https://myawesome-roq-app-baas.vercel.app
+```
+
+Let's say you have a book story application hosted at `https://book-story-v1-ca2b.vercel.app` and you want to count the total number of available books from the client side.
 
 ```tsx
 const count = await roqClient.book.count({ orderBy: { created_at: 'desc' }})
 ```
 
-The code tells us to query the book count data in descending order. This code will translated to the REST API call:
+The code tells us to query the book count data in descending order. This code will translated to the REST API call to:
 
 ```shell
 https://book-story-v1-ca2b-baas.vercel.app/api/model/book/count?q=%7B%22orderBy%22%3A%7B%22created_at%22%3A%22desc%22%7D%7D
@@ -130,9 +144,9 @@ Whenever a user successfully logs in, a user token is generated. This token is u
 
 ### Get the user token
 
-To access the ROQ BaaS REST API, you need an authorization token known as `roq-session-token`. In a Next.js application, you can programmatically retrieve the user token for authorization. This token by default is stored in a browser cookie with the `HttpOnly` flag, which means it cannot be directly accessed using JavaScript on the client side.
+To access the ROQ BaaS REST API, you need an authorization token known as `roq-session-token`. In a Next.js application, you can programmatically retrieve the user token for authorization. This token, by default, is stored in a browser cookie with the `HttpOnly` flag, which means it cannot be directly accessed using JavaScript on the client side.
 
-There are a few ways to get the user token. You can get it manually for fast testing and development, or you can get the token programmatically.
+There are a few ways to get the user token. You can get the token programmatically, or you can get it manually for fast testing and development.
 
 #### Programmatically
 
@@ -152,7 +166,6 @@ export async function getServerSideProps(context) {
 ```
 
 This is the full example code on how to get the `roq-session-token` and use the token to query book count data.
-
 
 ```tsx filename="book.tsx" {21, 53-63}
 import { useRoqClient } from 'lib/roq'
@@ -225,7 +238,7 @@ The token can also be obtained by copying it directly from the browser cookie an
 
 ![roq session token browser](/screenshots/roq-session-token.png)
 
-### Disabling the `HttpOnly` Flag
+### Disabling the `HttpOnly` flag
 
 To disable the `HttpOnly` flag, you can modify the environment variable. This action will allow you to access the cookie directly using JavaScript.
 
@@ -244,5 +257,5 @@ Step-by-step guide:
     Once the `HttpOnly` flag is disabled, you can retrieve the token directly using JavaScript.
 
 <Callout type="info">
-Disabling the `HttpOnly` flag can expose your application to security vulnerabilities such as Cross-Site Scripting (XSS) attacks. Always weigh the benefits against the risks before making changes. 
+Disabling the `HttpOnly` flag can expose your application to security vulnerabilities such as Cross-Site Scripting (XSS) attacks. Always weigh the benefits against the risks before making changes. ß
 </Callout>
