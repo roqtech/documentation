@@ -55,10 +55,11 @@ const config: DocsThemeConfig = {
     components: {
         pre: Pre
     },
-    
+    /**
     navbar: {
         extraContent: <AskAiButton/> 
     }
+    */
 }
 
 
