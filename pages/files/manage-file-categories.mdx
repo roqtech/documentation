@@ -1,0 +1,33 @@
+# Manage file categories
+
+import { Tab, Tabs } from 'nextra-theme-docs';
+import { Callout } from 'nextra-theme-docs';
+import Image from 'next/image';
+
+### Configure File Categories
+
+Each uploaded file belongs to a file category, which you can configure in ROQ Console. Go to the **Configure Features** ➔ **File Categories** menu. 
+
+![console-file-category](/screenshots/file-categories-console.png)
+
+File categories have two purposes:
+
+* Fetch files by categories (e.g. _get all avatars_).
+* Define the maximum file size of uploaded files.
+
+If you create a new category, these input fields are **required**:
+
+* **Name**: The name of the category.
+* **Key**: The key for the category. You will use it when uploading the file.
+* **Max file Size**: Maximum file size.
+* **Unit**: You can choose **MB** for Megabyte or **GB** for Gigabyte.
+
+This input field is **Optional**:
+
+* **Default visibility**: You can also set the default file visibility.
+
+![console-file-category](/screenshots/file-category-add-console.png)
+
+<Callout type="info">
+There is no strict rule for the key naming system as long as it maintains consistency. For example, the key name `USER_FILES` is a good illustration.
+</Callout>
