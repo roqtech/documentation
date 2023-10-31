@@ -2,6 +2,8 @@ import { Callout } from 'nextra/components'
 
 # Authentication
 
+## Introduction
+
 ROQ provides a complete and secure authentication solution for SaaS application development.
 
 Key Features:
@@ -24,6 +26,8 @@ ROQ's authentication and session management are based on the [OAuth protocol](ht
 
 ## API
 
+All authentication APIs on the client side are live by default in the `/lib/roq` folder, and all authentication APIs are accessible through the ROQ client `useRoqClient()` method.
+
 The front-end SDK provides authentication helper functions for redirecting users to the sign-in and sign-up pages and a function to clean the session upon logout.
 
 Here is the summary of the most important API for authentication:
@@ -33,6 +37,10 @@ Here is the summary of the most important API for authentication:
 Redirect users to the sign-in page.
 
 ```tsx
+import {useRoqClient} from "/lib/roq"
+
+const roqClient = useRoqClient()
+
 roqClient.signIn()
 ```
 
@@ -41,6 +49,10 @@ roqClient.signIn()
 Redirect users to the sign-up page.
 
 ```tsx
+import {useRoqClient} from "/lib/roq"
+
+const roqClient = useRoqClient()
+
 roqClient.signUp()
 ```
 
@@ -49,6 +61,10 @@ roqClient.signUp()
 Clean the session.
 
 ```tsx
+import {useRoqClient} from "/lib/roq"
+
+const roqClient = useRoqClient()
+
 roqClient.logout()
 ```
 
