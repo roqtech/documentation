@@ -1,7 +1,35 @@
 # User Profile
 
-### Managing user profiles
+## Introduction
 
-### Editing user information
+The SDK for ROQ BaaS provides a user profile component. It can be used to show the user's profile information, along with the ability to edit the profile. It includes an avatar uploader, and a form to edit the user's password, and other profile information.
 
-### Profile picture upload and storage
+## Managing user profiles
+
+User profiles can be managed using the ROQ console or SDK, which provides a component and API for profile information management.
+
+To manage user profiles from ROQ Console, go to the **Manage Data** section and select **Users**. Choose on of the user to edit the profile information.
+
+![managing user profile](/screenshots/manage-user-profile-on-console.png)
+
+## Editing user information
+
+## Profile picture upload and storage
+
+
+## Code example
+
+```tsx
+import AppLayout from 'layout/app-layout';
+import { UserProfile } from '@roq/nextjs';
+import { Box } from '@chakra-ui/react';
+
+export default function ProfilePage() {
+  return (
+    <AppLayout>
+      <Box w={{ base: '100%', md: '70%', lg: '70%', xl: '50%' }}>
+        <UserProfile />
+      </Box>
+    </AppLayout>
+  );
+}
