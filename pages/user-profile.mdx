@@ -2,41 +2,9 @@
 
 ## Introduction
 
-There are two ways to add a user profile management to your application:
+ROQ BaaS SDK provides API to query and manage user profiles. The other way to manage user profiles is through the ROQ Console.
 
-* Implement your own user profile management using API.
-* Use the user profile component from ROQ Baas SDK to your application.
-
-
-## Add user profile component
-
-You can use the user profile component from the ROQ BaaS SDK. It can be used to show the user's profile information, along with the ability to edit the profile. It includes an avatar uploader, and a form to edit the user's password, and other profile information.
-
-To add the user profile component to your app, import the component from the SDK and add it to your page. This an example using the component in a Next.js app:
-
-```tsx
-import AppLayout from 'layout/app-layout';
-import { UserProfile } from '@roq/nextjs';
-import { Box } from '@chakra-ui/react';
-
-export default function ProfilePage() {
-  return (
-    <AppLayout>
-      <Box w={{ base: '100%', md: '70%', lg: '70%', xl: '50%' }}>
-        <UserProfile />
-      </Box>
-    </AppLayout>
-  );
-}
-```
-
-{/* 
-The user profile component will be shown as below:
-
-![user profile component](/screenshots/user-profile.png)
-*/}
-
-## Managing user profiles
+## Managing user profiles using ROQ Console
 
 User profiles can be managed using the ROQ console or SDK, which provides a component and API for profile information management.
 
@@ -44,9 +12,15 @@ To manage user profiles from ROQ Console, go to the **Manage Data** section and 
 
 ![managing user profile](/screenshots/manage-user-profile-on-console.png)
 
-## Editing user information
+## Editing user information using ROQ Console
 
 
+## Profile picture upload using ROQ Console
 
-## Profile picture upload and storage
+
+## Add user profile using API
+
+The typical task of managing a user's profile involves displaying their profile information, providing the ability to edit the profile, including an avatar uploader, and presenting a form to edit the user's password and other profile details.
+
+
 
