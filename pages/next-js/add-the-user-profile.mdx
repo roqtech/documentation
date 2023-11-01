@@ -42,3 +42,28 @@ Depending on your application needs, you can choose between using the hook or th
 <Callout type="info">
 Please note that the `userProfile()` method is part of the ROQ platform API and cannot be generated. However, you can still update user profile data in the ROQ Console. You can read the documentation of the `userProfile()` API [here](https://jupiter-pp.roq-platform.com/docs/#query-userProfile).
 </Callout>
+
+
+## Add user profile component
+
+The `@roq/nextjs` package also provide user profile component. You can add this component to your application by importing `UserProfile` component.
+
+For example:
+
+```tsx
+import AppLayout from 'layout/app-layout';
+import { UserProfile } from '@roq/nextjs';
+import { Box } from '@chakra-ui/react';
+
+export default function ProfilePage() {
+  return (
+    <AppLayout>
+      <Box w={{ base: '100%', md: '70%', lg: '70%', xl: '50%' }}>
+        <UserProfile />
+      </Box>
+    </AppLayout>
+  );
+}
+```
+
+To manage and edit information in the user profile, please visit the [user profile](/user-profile) documentation section.
