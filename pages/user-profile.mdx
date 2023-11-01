@@ -65,206 +65,252 @@ The data returned by the `userProfile()` API is an object with the following str
 You can displaying this information using any UI library. For example, using [Tailwind CSS](https://tailwindcss.com/) or a library like [Chakra UI](https://chakra-ui.com/).
 
 
-### Edit user profile
+### Edit & update user profile
 
 To edit the user profile information you need to build a form for editing and also for avatar picture uploading. For example, this is a simple page from Next.js that allows you to edit the user profile information.
 
 ```tsx filename="pages/user-profile.tsx"
-import { useRoqClient } from 'lib/roq'
-import { requireNextAuth, useSession } from '@roq/nextjs'
-import { useEffect, useState } from 'react'
+import { useRoqClient } from "lib/roq";
+import { requireNextAuth, useSession } from "@roq/nextjs";
+import { useEffect, useState } from "react";
+import  ProfileFrom from "components/ProfileForm";
+import { updateUserProfile } from "utils/updateUserProfile";
 
 function UserProfile() {
-	return <UserProfileSection />
+  return <UserProfileSection />;
 }
-
 const UserProfileSection = () => {
-	const { session, status } = useSession()
-	const [profile, setProfile] = useState({
-		firstName: '',
-		lastName: '',
-		email: '',
-		phone: '',
-		locale: '',
-		timezone: '',
-		avatarUrl: ''
-	});
+  const { session, status } = useSession();
+  const [profile, setProfile] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    locale: "",
+    timezone: "",
+    avatarUrl: "",
+  });
 
-	const roqClient = useRoqClient()
-	const roq_user_id = session?.roqUserId
-	const tenant_id = session?.user.tenantId
+  const roqClient = useRoqClient();
+  const roq_user_id = session?.roqUserId;
+  const tenant_id = session?.user.tenantId;
 
-	const handleInputChange = (e) => {
-		const { name, value } = e.target
-		setProfile(prevState => ({
-			...prevState,
-			[name]: value
-		}));
-	};
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProfile((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
-	const handleSubmit = async (e) => {
-		e.preventDefault();
-		// Update the user profile using roqClient here...
-		console.log(profile)
-	};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    updateUserProfile(profile)
+  };
 
-	const logoutHandler = () => {
-		roqClient.signOut()
-	};
+  const logoutHandler = () => {
+    roqClient.signOut();
+  };
 
-	useEffect(() => {
-		const fetchUserProfile = async () => {
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const myUserProfile = await roqClient.roqPlatform.userProfile({
+        id: roq_user_id ?? "",
+      });
 
-			const myUserProfile = await roqClient.roqPlatform.userProfile({
-				id: roq_user_id ?? '',
-			})
+      const myprofile = myUserProfile;
 
-			const myprofile = myUserProfile;
+      setProfile({
+        firstName: myprofile?.userProfile?.firstName ?? "",
+        lastName: myprofile?.userProfile?.lastName ?? "",
+        email: myprofile?.userProfile?.email ?? "",
+        phone: myprofile?.userProfile?.phone ?? "",
+        locale: myprofile?.userProfile?.locale ?? "",
+        timezone: myprofile?.userProfile?.timezone ?? "",
+        avatarUrl: myprofile?.userProfile?.avatarUrl ?? "",
+      });
+    };
 
-			setProfile({
-				firstName: myprofile?.userProfile?.firstName ?? '',
-				lastName: myprofile?.userProfile?.lastName ?? '',
-				email: myprofile?.userProfile?.email ?? '',
-				phone: myprofile?.userProfile?.phone ?? '',
-				locale: myprofile?.userProfile?.locale ?? '',
-				timezone: myprofile?.userProfile?.timezone ?? '',
-				avatarUrl: myprofile?.userProfile?.avatarUrl ?? ''
-			});
-		};
+    fetchUserProfile();
+  }, []);
 
-		fetchUserProfile()
+  return (
+    <div className="m-5">
+      {session ? (
+        <>
+          <p className="my-10">
+            Logged in as: <strong>{session?.user.email}</strong>
+          </p>
 
-	}, []);
-
-	return (
-		<div className='m-5'>
-			{session ? (
-				<>
-					<p className='my-10'>Logged in as: <strong>{session?.user.email}</strong></p>
-
-
-					{/* Display and Edit User Profile */}
-					<form onSubmit={handleSubmit}>
-						<div className='mb-4'>
-							<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='firstName'>
-								First Name
-							</label>
-							<input
-								type='text'
-								name='firstName'
-								value={profile.firstName}
-								onChange={handleInputChange}
-								className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-								placeholder='First Name'
-							/>
-						</div>
-						<div className='mb-4'>
-							<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='lastName'>
-								Last Name
-							</label>
-							<input
-								type='text'
-								name='lastName'
-								value={profile.lastName}
-								onChange={handleInputChange}
-								className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-								placeholder='Last Name'
-							/>
-						</div>
-
-						<div className='mb-4'>
-							<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='phone'>
-								Phone Number
-							</label>
-							<input
-								type='tel'
-								name='phone'
-								value={profile.phone}
-								onChange={handleInputChange}
-								className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-								placeholder='Phone Number'
-							/>
-						</div>
-
-						<div className='mb-4'>
-							<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='locale'>
-								Locale
-							</label>
-							<input
-								type='text'
-								name='locale'
-								value={profile.locale}
-								onChange={handleInputChange}
-								className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-								placeholder='Locale (e.g., en-US)'
-							/>
-						</div>
-
-						<div className='mb-4'>
-							<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='timezone'>
-								Timezone
-							</label>
-							<input
-								type='text'
-								name='timezone'
-								value={profile.timezone}
-								onChange={handleInputChange}
-								className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-								placeholder='Timezone (e.g., UTC+7)'
-							/>
-						</div>
-
-						<div className='mb-4'>
-							<label className='block text-gray-700 text-sm font-bold mb-2' htmlFor='avatarUrl'>
-								Avatar URL
-							</label>
-							<input
-								type='url'
-								name='avatarUrl'
-								value={profile.avatarUrl}
-								onChange={handleInputChange}
-								className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-								placeholder='https://example.com/avatar.jpg'
-							/>
-						</div>
-
-						{/* ... Add more input fields for other profile properties ... */}
-						<button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Update Profile</button>
-					</form>
-
-					<br/>
-					<button
-						onClick={logoutHandler}
-						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-					>
-						Logout
-					</button>
-
-				</>
-			) : (
-				<p>Please log in to see the content.</p>
-			)}
-		</div>
-	);
+          <ProfileFrom
+            profile={profile}
+            handleSubmit={handleSubmit}
+            handleInputChange={handleInputChange}
+          />
+          <button
+            onClick={logoutHandler}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Logout
+          </button>
+        </>
+      ) : (
+        <p>Please log in to see the content.</p>
+      )}
+    </div>
+  );
 };
 
 export async function getServerSideProps(context) {
-	const { req } = context;
-	const cookies = req.headers.cookie?.split(';');
-	console.log(cookies)
-	const tokenCookie = cookies?.find(cookie => cookie.trim().startsWith('roq-session-token='));
-	const token = tokenCookie?.split('=')[1];
+  const { req } = context;
+  const cookies = req.headers.cookie?.split(";");
+  console.log(cookies);
+  const tokenCookie = cookies?.find((cookie) =>
+    cookie.trim().startsWith("roq-session-token=")
+  );
+  const token = tokenCookie?.split("=")[1];
 
-	return {
-		props: { token }
-	};
+  return {
+    props: { token },
+  };
 }
 
 export default requireNextAuth({
-	redirectIfAuthenticated: false,
-	redirectTo: '/',
+  redirectIfAuthenticated: false,
+  redirectTo: "/",
 })(UserProfile);
 ```
 
+And for the form component, you can use the following code:
+
+```tsx filename="components/ProfileForm.tsx"
+function ProfileFrom({ profile, handleSubmit, handleInputChange }) {
+  return (
+    <>
+      {/* Display and Edit User Profile */}
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="firstName"
+          >
+            First Name
+          </label>
+          <input
+            type="text"
+            name="firstName"
+            value={profile.firstName}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="First Name"
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="lastName"
+          >
+            Last Name
+          </label>
+          <input
+            type="text"
+            name="lastName"
+            value={profile.lastName}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Last Name"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="phone"
+          >
+            Phone Number
+          </label>
+          <input
+            type="tel"
+            name="phone"
+            value={profile.phone}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Phone Number"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="locale"
+          >
+            Locale
+          </label>
+          <input
+            type="text"
+            name="locale"
+            value={profile.locale}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Locale (e.g., en-US)"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="timezone"
+          >
+            Timezone
+          </label>
+          <input
+            type="text"
+            name="timezone"
+            value={profile.timezone}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Timezone (e.g., UTC+7)"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="avatarUrl"
+          >
+            Avatar URL
+          </label>
+          <input
+            type="url"
+            name="avatarUrl"
+            value={profile.avatarUrl}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="https://example.com/avatar.jpg"
+          />
+        </div>
+
+        {/* ... Add more input fields for other profile properties ... */}
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Update Profile
+        </button>
+      </form>
+
+      <br />
+    </>
+  );
+}
+
+export default ProfileFrom;
+```
+
+The `updateUserProfile()` function is a utility function that can be used to update the user profile information. This function is defined as follows:
+
+```tsx filename="utils/updateUserProfile.tsx"
+
+```
 
 ### Profile picture upload
