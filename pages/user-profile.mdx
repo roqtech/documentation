@@ -2,13 +2,17 @@
 
 ## Introduction
 
-The SDK for ROQ BaaS provides a user profile component. It can be used to show the user's profile information, along with the ability to edit the profile. It includes an avatar uploader, and a form to edit the user's password, and other profile information.
+There are two ways to add a user profile management to your application:
 
-## Add user profile component to your app
+* Implement your own user profile management using API.
+* Use the user profile component from ROQ Baas SDK to your application.
 
-To add the user profile component to your app, import the component from the SDK and add it to your page.
 
-This an example using the component in a Next.js app:
+## Add user profile component
+
+You can use the user profile component from the ROQ BaaS SDK. It can be used to show the user's profile information, along with the ability to edit the profile. It includes an avatar uploader, and a form to edit the user's password, and other profile information.
+
+To add the user profile component to your app, import the component from the SDK and add it to your page. This an example using the component in a Next.js app:
 
 ```tsx
 import AppLayout from 'layout/app-layout';
@@ -26,9 +30,11 @@ export default function ProfilePage() {
 }
 ```
 
-The user profile component:
+{/* 
+The user profile component will be shown as below:
 
 ![user profile component](/screenshots/user-profile.png)
+*/}
 
 ## Managing user profiles
 
