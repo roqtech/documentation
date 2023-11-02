@@ -46,8 +46,11 @@ Go to the project console and select the project and the environment then copy t
 
 ![copy env from console](/gifs/copy-env-from-console.gif)
 
-Create file `.env` in the root directory of the project and paste the environment values.
+Create file `.env` in the root directory of the Next.js project and paste the environment values. 
 
+<Callout type="info">
+It is recommended to change the `ROQ_SECRET` environment value in copied `.env` into a more secure value. The default value is `CHANGE_THIS_SECRET`.
+</Callout>
 ### Generate SDK
 
 Our Next.js project will work with ROQ BaaS by using a customized generated SDK. This process is necessary to generate Prisma types for SDK. To generate it, run the command below:
@@ -59,18 +62,60 @@ The command generates a customizable SDK based on the Prisma BaaS schema and cho
 
 ![generate roq sdk](/screenshots/generate-sdk.png)
 
-Add `lib` folder to the `compilerOptions` in the TypeScript config file so that the new SDK can be recognized.
+Add `src/lib/roq` folder to the `compilerOptions` in the TypeScript config file `tsconfig.json` so that the new SDK can be recognized. The `tsconfig.json` located in the root directory of the Next.js project.
 
-```json
-"compilerOptions": {
-  "paths": {
-      "@/*": [
-          "./src/*"
-      ],
-        "lib/*": [
-          "./src/lib/*"
-      ]
+before:
+
+```json filename="tsconfig.json"
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
+```
+
+after: 
+
+```json filename="tsconfig.json"
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "lib/*": ["./src/lib/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
 }
 ```
 
@@ -82,15 +127,25 @@ Before doing any data-related query, we need to wrap the Next.js application wit
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { RoqClientProvider } from 'lib/roq'
+import { RoqProvider} from '@roq/nextjs';
 
 export default function App({ Component, pageProps }: AppProps) {
   const backendHost = process.env.NEXT_PUBLIC_ROQ_API_URL as string
   const platformHost = process.env.NEXT_PUBLIC_ROQ_PLATFORM_URL as string
 
   return (
+    <RoqProvider
+      config={{
+        host: platformHost,
+        auth: {
+          useRoqAuth: true,
+        },
+      }}
+    >
       <RoqClientProvider backendHost={backendHost} platformHost={platformHost}>
         <Component {...pageProps} />
       </RoqClientProvider>
+    </RoqProvider>
   )
 }
 ```
