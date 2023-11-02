@@ -23,7 +23,7 @@ And the follow along the installation questions:
 
 ![question](/screenshots/next-js-page-project.png)
 
-We will use Next.js with Page Router in this quickstart.
+We will use Next.js with Page Router in this quickstart
 
 ### Install ROQ BaaS SDK
 
@@ -119,6 +119,10 @@ after:
 }
 ```
 
+<Callout type="info">
+If any changes are made to the project schema or entities after the project creation and SDK generation, we can update the SDK by running the command `npx @roq/cli generate` again. To modify the project schema, we can use the [Schema Editor](/schema-editor) available on the ROQ Console.
+</Callout>
+
 ### Configure Next.js with ROQ authentication
 
 Before doing any data-related query, we need to wrap the Next.js application with the `<RoqClientProvider>` context provider component. This provider enables the components in the application tree to access the customized generated SDK from our earlier command. You can put this code in the `_app.tsx` file.
@@ -166,7 +170,7 @@ export default function Home() {
   const roqClient = useRoqClient()
 
   const handleSignUp = async () => {
-     await roqClient.signUp('owner', { postLoginRedirect: '/dashboard' })
+     await roqClient.signUp('owner', { postLoginRedirect: '/book' })
   }
 
   return (
