@@ -2,13 +2,15 @@ import { Steps, Callout } from "nextra/components"
 
 # Quickstart
 
-Learn how to create a Next.js project using ROQ BaaS, install ROQ SDK, and query data from the ROQ BaaS.
+Learn how to create a Next.js project, install ROQ BaaS SDK, add signup button, login button, and query data from the ROQ BaaS.
 
-{/*
-### Configure user schema and roles
-
-*/}
 <Steps>
+### Prerequisites
+
+Before we can begin, we must first create an initial project. Please create a new project by visiting [**ROQ AI Assistant**](https://app.roq.ai/). This initial project will create a Backend-as-a-Service or BaaS instance that provides APIs.
+
+After creating the project, you will receive an email invitation to access the project console. Accept the invitation, go to the project console and sign up if you don't have an account on [**ROQ Console**](https://console.roq.tech/).
+
 ### Create a Next.js application
 
 To create a new Next.js project. Run this command:
@@ -19,16 +21,9 @@ npx create-next-app@latest
 
 And the follow along the installation questions:
 
-```shell
-What is your project named? roq-baas-nextjs
-Would you like to use TypeScript? No / Yes
-Would you like to use ESLint? No / Yes
-Would you like to use Tailwind CSS? No / Yes
-Would you like to use `src/` directory? No / Yes
-Would you like to use App Router? (recommended) No / Yes
-Would you like to customize the default import alias (@/*)? No / Yes
-What import alias would you like configured? @/*
-```
+![question](/screenshots/next-js-page-project.png)
+
+We will use Next.js with Page Router in this quickstart.
 
 ### Install ROQ BaaS SDK
 
@@ -42,6 +37,10 @@ npm install @roq/cli --save-dev
 ### Setup `.env`
 
 Besides SDK, we need to copy the environment file from the ROQ Console. Make sure to choose the appropriate environment for our project, copy the environment values, and save it to the `.env` file in our root Next.js project directory. 
+
+<Callout type="info">
+Make sure to include the `.env` file in the `.gitignore` file. So that the environment variables are not exposed to the public.
+</Callout>
 
 The environment `.env` file example:
 
