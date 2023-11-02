@@ -157,37 +157,31 @@ import { RoqAuth } from '@roq/nextjs';
 export default RoqAuth({});
 ```
 
-After adding a login button, users will be redirected to the other page if authentication is valid.
+After that we can add a signup button, user will be redirected to the other page if the signup process successful.
 
 ```tsx filename="index.js"
-import { Inter } from 'next/font/google'
 import { useRoqClient } from 'lib/roq'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const roqClient = useRoqClient()
 
-  const handleSignIn = async () => {
-     await roqClient.signIn('owner', { postLoginRedirect: '/dashboard' })
+  const handleSignUp = async () => {
+     await roqClient.signUp('owner', { postLoginRedirect: '/dashboard' })
   }
 
   return (
-    <main className={`text-center flex flex-col items-center justify-between p-24 ${inter.className}`}>
-        <h1 className='m-10'>Add Authentication</h1>
-       <button onClick={handleSignIn}
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Login
-        </button>
+    <main>
+       <h1>Add Signup</h1>
+       <button onClick="{handleSignUp}">SignUp</button>
     </main>
   )
 }
 ```
 
-After successful login, Next.js will get a token that will be used for any further request to the REST API from ROQ Baas. 
+After successful signup, Next.js will get a token that will be used for any further request to the REST API from ROQ Baas.
 
 <Callout type="info">
-To add logout and signup button, visit [**add authentication**](/next-js/add-authentication).
+For more about authentication, please visit [**add authentication**](/next-js/add-authentication).
 </Callout>
 
 ### Query data
