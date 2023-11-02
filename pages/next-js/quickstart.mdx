@@ -42,38 +42,11 @@ Besides SDK, we need to copy the environment file from the ROQ Console. Make sur
 Make sure to include the `.env` file in the `.gitignore` file. So that the environment variables are not exposed to the public.
 </Callout>
 
-The environment `.env` file example:
+Go to the project console and select the project and the environment then copy the environment values by click **Show API in Sandbox** button.
 
-```env
-# Public variables, used on client - Delete these if you are not using Next.js
-NEXT_PUBLIC_ROQ_CLIENT_ID=e3408733-0ac2-4596-8264-0a7da2481801
-NEXT_PUBLIC_ROQ_PLATFORM_URL=https://qa01.roq-platform.com
+![copy env from console](/gifs/copy-env-from-console.gif)
 
-# If you change the host or port on your local installation from https://book-story-v1-ca2b.vercel.app to another value,
-# then you need to update the settings in the console as well. ROQ Console: https://console.roq.tech/
-# Modify this to your application URL
-NEXT_PUBLIC_BASE_URL=https://book-story-v1-ca2b.vercel.app
-
-# Server variables used for ROQ connection
-ROQ_BASE_URL=https://book-story-v1-ca2b.vercel.app
-ROQ_PLATFORM_URL=https://qa01.roq-platform.com
-ROQ_ENVIRONMENT_ID=e3408733-0ac2-4596-8264-0a7da2481801
-ROQ_API_KEY=s3cr3t
-
-# Server variables for ROQ auth
-ROQ_SECRET=CHANGE_THIS_SECRET
-ROQ_CLIENT_ID=e3408733-0ac2-4596-8264-0a7da2481801
-ROQ_CLIENT_SECRET=4354520b-8264-0a7da2481801
-ROQ_AUTH_CALLBACK_URL=https://book-story-v1-ca2b.vercel.app/api/auth/callback
-ROQ_AUTH_LOGIN_URL=https://book-story-v1-ca2b.vercel.app/api/auth/login
-ROQ_AUTH_LOGOUT_URL=https://book-story-v1-ca2b.vercel.app/api/auth/logout
-ROQ_AUTH_URL=https://dgc7uw23yacn9f7vz6xm772m9.auth.qa01.roq-platform.com
-DATABASE_URL=postgresql://username:password@somehost:5432/bookstory
-ROQ_API_URL=https://book-story-v1-ca2b-baas.vercel.app
-NEXT_PUBLIC_ROQ_API_URL=https://book-story-v1-ca2b-baas.vercel.app
-ROQ_SESSION_COOKIE_HTTP_ONLY=false
-
-```
+Create file `.env` in the root directory of the project and paste the environment values.
 
 ### Generate SDK
 
