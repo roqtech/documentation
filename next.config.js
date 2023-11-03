@@ -1,7 +1,10 @@
 const withNextra = require('nextra')({
   theme: 'nextra-theme-docs',
   themeConfig: './theme.config.tsx',
-  defaultShowCopyCode: true
+  defaultShowCopyCode: true,
+  env: {
+    IS_PRODUCTION: process.env.VERCEL_ENV === 'production',
+  }
 })
 
 module.exports = withNextra()
