@@ -285,8 +285,48 @@ function Book() {
 }
 ```
 
+## Email, role and tenant
 
+The `session` object from `@roq/nextjs` contains the current user's email, roles, and tenant. We can use this data to customize the page based on the user's roles or tenant.
 
-{/*
-(explain the token, access to the session data)
-*/}
+```tsx
+import { useSession } from '@roq/nextjs'
+
+const { session } = useSession()
+```
+
+The `session` object contains the following data:
+
+```json
+{
+    "id": "721cb0f4-5804-44aa-8bb6-a350126f59e3",
+    "roqAccessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb3FFbnZpcm9ubWVudElkIjoiZTM0MDg3MzMtMGFjMi00NTk2LTgyNjQtMGE3ZGEyNDgxODAxIiwicm9xVXNlcklkIjoiOGIyNDliMDctYmRkOS00M2Y3LWExMGUtYWNlMTBmMjdmZjY2Iiwicm9sZXMiOlsib3duZXIiXSwibm90aWZpY2F0aW9uVG9rZW4iOi",
+    "roqUserId": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+    "user": {
+        "firstName": "Francis",
+        "lastName": "Bergnaum",
+        "email": "francis84@gmail.com",
+        "timezone": "Asia/Jakarta",
+        "locale": "en-US",
+        "roles": [
+            "owner"
+        ],
+        "tenantId": "dc92f95d-42bd-45af-84a7-da227d694cbb"
+    },
+    "iat": 1698981898,
+    "exp": 1785381906
+}
+```
+
+From the `session` object, we can access the user's email, roles, and tenant:
+
+```tsx
+import { useSession } from '@roq/nextjs'
+
+const { session } = useSession()
+
+const email = session?.user.email
+const roles = session?.user.roles
+const tenant = session?.user.tenantId
+```
+
