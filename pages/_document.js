@@ -33,11 +33,11 @@ export default class AnalyticsHead extends Document {
               `,
             }}
           />
-          {process.env.IS_PRODUCTION && (
-            <script
-              type='text/javascript'
-              dangerouslySetInnerHTML={{
-                __html: `ction(h,o,t,j,a,r){
+
+          <script
+            type='text/javascript'
+            dangerouslySetInnerHTML={{
+              __html: `ction(h,o,t,j,a,r){
             h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
             h._hjSettings={hjid:3436899,hjsv:6};
             a=o.getElementsByTagName('head')[0];
@@ -45,8 +45,8 @@ export default class AnalyticsHead extends Document {
             r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
             a.appendChild(r);
         })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`
-              }}
-            />)}
+            }}
+          />
         </Head>
 
         <body>
