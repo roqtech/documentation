@@ -4,8 +4,8 @@
   "separator-one": {
     "type": "separator"
   },
-  "express-js": "Express.js",
   "next-js": "Next.js",
+  "express-js": "Express.js",
   "nuxt-js": "Nuxt.js",
   "redwood-js": "RedwoodJS",
   "svelte-kit": "SvelteKit",
