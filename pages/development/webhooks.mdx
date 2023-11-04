@@ -8,12 +8,9 @@ ROQ provides webhooks to notify your application when an event happens in your a
 
 ## Events overview
 
-At the moment, ROQ is providing events for the following entities: **Users**, **User invites**, **Conversations**, **Messages**, **Files**
-and actions: **Insert**, **Update**, **Remove**.
+At the moment, ROQ is providing events for the following entities: **Users**, **User invites**, **Conversations**, **Messages**, **Files** and actions: **Insert**, **Update**, **Remove**.
 
-If you registered a webhook endpoint to receive some event,
-this will be sent to your endpoint as part of a POST request.
-Entity objects in the payload will be the same as you can receive through GraphQL API or Backend SDK.
+If you registered a webhook endpoint to receive some event, this will be sent to your endpoint as part of a POST request. Entity objects in the payload will be the same as you can receive through Backend SDK.
 
 Here is an example of a webhook payload:
 
@@ -48,30 +45,29 @@ Here is an example of a webhook payload:
 
 ## How to start using webhooks in your project?
 
-1. Login into your project in the Console (https://console.roq.tech/) and select the environment where you want to enable webhooks.
+1. Login into your project in the [ROQ Console](https://console.roq.tech/) and select the environment where you want to enable webhooks.
 
-2. Navigate to Project Details -> Settings and scroll to the bottom of the page to enable Webhook.
+2. Navigate to **Developer Tools** → **Webhooks** and click **Enable Webhook**.
 
-![Image](/release-notes/2023-003-enable-webhook-console.png)
+![Image](/screenshots/2023-003-enable-webhook-console.png)
 
-3. Specify the URL (The endpoint where the system will send notifications when entities are created, updated, or deleted. Make sure to provide a valid URL that can receive and process these messages. Note that the URL should be publicly accessible and secure, as sensitive information may be included in the notifications.)
+3. Specify the URL 
 
-![Image](/release-notes/2023-003-enable-webhook-console-2.png)
+   The endpoint where the system will send notifications when entities are created, updated, or deleted. Make sure to provide a valid URL that can receive and process these messages. Note that the URL should be publicly accessible and secure, as sensitive information may be included in the notifications.
+
+![Image](/screenshots/2023-003-enable-webhook-console-2.png)
 
 4. Set the Timeout (Set the time limit, in seconds, for a webhook request to complete before timing out. This helps prevent hanging requests and optimizes server resources.)
 
 5. Select the events you want to receive (Files, Users, Chat conversations, Chat messages, and User invites.)
 
-6. Save your settings by hitting the "SAVE" button in the page's header.
+6. Save your settings by hitting the **SAVE** button in the page's header.
 
-![Image](/release-notes/2023-003-enable-webhook-console-3.jpg)
-
-7. Webhooks are now enabled on your environment; you are ready to start working with them.
+7. Webhooks are now enabled on your environment. You are ready to start working with them.
 
 ## How to create a webhook endpoint
 
-Creating a webhook endpoint is no different from creating an endpoint in your API.
-We recommend using an HTTPS endpoint for publicly accessible APIs.
+Creating a webhook endpoint is no different from creating an endpoint in your API. We recommend using an HTTPS endpoint for publicly accessible APIs.
 
 ROQ does not allow setting up several URLs, so you should use one endpoint to handle all event types. Based on `event.name`, you can have different logic for the specific event type.
 
@@ -88,15 +84,13 @@ You can set the proxied URL using Console UI.
 We recommend verifying the request incoming to your webhook endpoint to be sure that it didn’t come from a server acting like ROQ.
 
 ROQ sends a `roq-platform-webhook-key` header with any request triggered on a specific event, and it can be used on your side for validating the sender.
-The `ROQ_WEBHOOK_KEY` secret can be copied along with all other environment variables at the moment when the webhook feature is enabled for this environment in the Console UI.
-You can use SDK for validating the `roq-platform-webhook-key` value.
+
+The `ROQ_WEBHOOK_KEY` secret can be copied along with all other environment variables at the moment when the webhook feature is enabled for this environment in the Console UI. You can use SDK for validating the `roq-platform-webhook-key` value.
 
 <Tabs items={['Node.js SDK']}><Tab>
-
     ```typescript
     await client.verifyWebhookHeader(headers['roq-platform-webhook-key']);
     ```
-
 </Tab></Tabs>
 
 ## Webhook re-try mechanism
