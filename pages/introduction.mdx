@@ -27,6 +27,8 @@ More examples:
 | Freelancer Marketplace   | Company                  |
 | Doctor's Office Software | Doctor's Office          |
 
+Read this [documentation](/multi-tenancy) to learn more about multi-tenancy.
+
 ## 2. User Roles
 
 Now, define which "types of users" (~roles) exist in your application and whether they relate to the tenant. ROQ enables you to configure user roles using ROQ's advanced user role system.
@@ -42,12 +44,16 @@ More examples:
 | Freelancer Marketplace   | Admin, Recruiter                | Freelancer             |
 | Doctor's Office Software | Doctor                          | Patient                |
 
+Read this [documentation](/roles-and-permissions) to learn more about user roles.
+
 ## 3. Schema
 
 A well-thought-out database schema represents your application's basement and requires careful engineering. With ROQ, you can visually design your database schema using the entity relationship diagram technique and optional AI support.
 Every schema has an entity called `user` that represents any user, regardless of the role. In addition, a table represents the tenant. For example, A restaurant is represents the tenant and the table is called **restaurant**.
 
 ![schema editor example](/screenshots/schema-editor.png)
+
+More information about the schema editor can be found in this [documentation](/schema-editor).
 
 
 ## 4. Permissions
