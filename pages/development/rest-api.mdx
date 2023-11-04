@@ -102,53 +102,27 @@ The JSON:API response showcases a single book record under the `data` key, inclu
 
 For more information, visit the [JSON:API official website](https://jsonapi.org/).
 
-## Interacting with the REST API
+## REST API URL
 
-To access the REST API in the ROQ BaaS, you'll need a token and the REST API URL, which is set on the `ROQ_API` environment key in the `.env` file. 
+You can locate the REST API URL by accessing the `ROQ_API_URL` environment key which is available in the ROQ Console. 
 
-A useful tip for identifying the REST API URL is to check if it matches the generated application URL with the word `baas` added to it.
+If you have already copied the environment values from the ROQ Console to your application project's `.env` file, you should be able to view the `ROQ_API_URL` key in the `.env` file.
 
-For example, the generated application URL:
+For example:
 
-```shell
-https://myawesome-roq-app.vercel.app
+```ini
+ROQ_API_URL=https://book-story-v1-ca2b-baas.vercel.app
 ```
 
-then the REST API URL is:
-
-```shell
-https://myawesome-roq-app-baas.vercel.app
-```
-
-Let's say you have a book story application hosted at `https://book-story-v1-ca2b.vercel.app` and you want to count the total number of available books from the client side.
-
-```tsx
-const count = await roqClient.book.count({ orderBy: { created_at: 'desc' }})
-```
-
-The code tells us to query the book count data in descending order. This code will translated to the REST API call to:
-
-```shell
-https://book-story-v1-ca2b-baas.vercel.app/api/model/book/count?q=%7B%22orderBy%22%3A%7B%22created_at%22%3A%22desc%22%7D%7D
-```
-
-The endpoint `/api/model/book/count` indicates an action (`count`) on a model (`book`). The `q` query parameter appears as a JSON object, URL-encoded, which specifies how the counting should be performed. In this case, it instructs the server to order the books by their `created_at` timestamp in descending order (`desc`) before performing the count.
-
-We can use tools such as [Postman](https://www.postman.com/) to call the REST-API's book count endpoint with the necessary request authorization using **Bearer Token**. 
-
-![postman](/screenshots/postman-roq-baas-query.png)
-
-## Token
+## How to get the user token
 
 Whenever a user successfully logs in, a user token is generated. This token is used to identify the user for subsequent requests made to the ROQ BaaS.
-
-### Get the user token
 
 To access the ROQ BaaS REST API, you need an authorization token known as `roq-session-token`. In a Next.js application, you can programmatically retrieve the user token for authorization. This token, by default, is stored in a browser cookie with the `HttpOnly` flag, which means it cannot be directly accessed using JavaScript on the client side.
 
 There are a few ways to get the user token. You can get the token programmatically, or you can get it manually for fast testing and development.
 
-#### Programmatically
+### Programmatically
 
 In the Next.js application, we can use the `getServerSideProps()` method to get the token. The `getServerSideProps()` function allows you to fetch data server-side per request and use it as props in components.
 
@@ -232,13 +206,41 @@ export async function getServerSideProps(context) {
 }
 ```
 
-#### Manually
+### Manually
 
-The token can also be obtained by copying it directly from the browser cookie and pasting it into the authorization header.
+The token can also be obtained by copying it directly from the browser cookie and pasting it into the authorization header of the REST API call. You can test it using tools such as [Postman](https://www.postman.com/).
 
 ![roq session token browser](/screenshots/roq-session-token.png)
 
-### Disabling the `HttpOnly` flag
+
+## Interacting with the REST API
+
+To access the REST API in the ROQ BaaS, you'll need:
+
+*  [**The REST API URL**](#rest-api-url). The URL which the application will use to access the REST API.
+*  [**A Token**](#how-to-get-the-user-token). The token is used to identify the user for subsequent requests made to the ROQ BaaS.
+
+Let's say you have a book story application with the REST API at `https://book-story-v1-ca2b-baas.vercel.app` and you want to count the total number of available books from the client side.
+
+```tsx
+const count = await roqClient.book.count({ orderBy: { created_at: 'desc' }})
+```
+
+The code tells us to query the book count data in descending order. This code will translated to the REST API call to:
+
+```shell
+https://book-story-v1-ca2b-baas.vercel.app/api/model/book/count?q=%7B%22orderBy%22%3A%7B%22created_at%22%3A%22desc%22%7D%7D
+```
+
+The endpoint `/api/model/book/count` indicates an action (`count`) on a model (`book`). The `q` query parameter appears as a JSON object, URL-encoded, which specifies how the counting should be performed. In this case, it instructs the server to order the books by their `created_at` timestamp in descending order (`desc`) before performing the count.
+
+We can use tools such as [Postman](https://www.postman.com/) to call the REST-API's book count endpoint with the necessary request authorization using **Bearer Token**. Remember to add token to the request header.
+
+![postman](/screenshots/postman-roq-baas-query.png)
+
+{/* only for troubleshooting: Equan P. 2023-10-30 10:00:00
+
+## Disabling the `HttpOnly` flag
 
 To disable the `HttpOnly` flag, you can modify the environment variable. This action will allow you to access the cookie directly using JavaScript.
 
@@ -259,3 +261,4 @@ Step-by-step guide:
 <Callout type="info">
 Disabling the `HttpOnly` flag can expose your application to security vulnerabilities such as Cross-Site Scripting (XSS) attacks. Always weigh the benefits against the risks before making changes. ß
 </Callout>
+*/}
