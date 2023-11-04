@@ -234,11 +234,11 @@ https://book-story-v1-ca2b-baas.vercel.app/api/model/book/count?q=%7B%22orderBy%
 
 The endpoint `/api/model/book/count` indicates an action (`count`) on a model (`book`). The `q` query parameter appears as a JSON object, URL-encoded, which specifies how the counting should be performed. In this case, it instructs the server to order the books by their `created_at` timestamp in descending order (`desc`) before performing the count.
 
-We can use tools such as [Postman](https://www.postman.com/) to call the REST-API's book count endpoint with the necessary request authorization using **Bearer Token**. Remember to add token to the request header.
+We can use tools such as [Postman](https://www.postman.com/) to call the REST-API's book count endpoint with the necessary request authorization using **Bearer Token**. Remember to add token 
 
 ![postman](/screenshots/postman-roq-baas-query.png)
 
-{/* only for troubleshooting: Equan P. 2023-10-30 10:00:00
+{/* Currently REST API will failed without HttpOnly flag to false */}
 
 ## Disabling the `HttpOnly` flag
 
@@ -259,6 +259,5 @@ Step-by-step guide:
     Once the `HttpOnly` flag is disabled, you can retrieve the token directly using JavaScript.
 
 <Callout type="info">
-Disabling the `HttpOnly` flag can expose your application to security vulnerabilities such as Cross-Site Scripting (XSS) attacks. Always weigh the benefits against the risks before making changes. ß
+Disabling the `HttpOnly` flag can expose your application to security vulnerabilities such as Cross-Site Scripting (XSS) attacks. Always weigh the benefits against the risks before making changes.
 </Callout>
-*/}

@@ -1,0 +1,41 @@
+# Add user profile to your app
+
+To displaying the user profile information you can use the `userProfile()` API. This method need the user id as parameter. The user id can be obtained from the session object `roqUserId`.
+
+```tsx
+import { useRoqClient } from "lib/roq"
+import { useSession } from "@roq/nextjs"
+
+
+const roqClient = useRoqClient()
+const { session } = useSession()
+
+const { roqUserId } = session
+
+const userProfile = async () => {
+	const profile = await roqClient.roqPlatform.userProfile({
+		id: roqUserId
+	})
+}
+```
+
+The data returned by the `userProfile()` API is an object with the following structure:
+
+```json
+{
+    "userProfile": {
+        "id": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+        "reference": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+        "firstName": "",
+        "lastName": "",
+        "email": "Francis84@roq.tech",
+        "phone": null,
+        "locale": "en-US",
+        "timezone": "Asia/Jakarta",
+        "avatarUrl": ""
+    }
+}
+```
+
+You can displaying this information using any UI library. For example, using [Tailwind CSS](https://tailwindcss.com/) or a library like [Chakra UI](https://chakra-ui.com/).
+

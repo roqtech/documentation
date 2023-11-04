@@ -1,0 +1,154 @@
+import { Tab, Tabs, Callout } from 'nextra-theme-docs';
+
+# User Invites API
+
+## Introduction
+
+This is the API documentation for the User Invites API. This API is used to invite users to your organization.
+
+## Send user invitations
+
+### `sendUserInvites()`
+
+The `sendUserInvites` API is used to invite users and automatically also create a user invite. With this method you can invite multiple users at once.
+
+<Tabs items={['Next.js']}>
+<Tab>
+```js
+import { useRoqClient } from '/lib/roq'
+
+const roqClient = useRoqClient()
+
+const status = async () => {
+	const userInvitation = await roqClient.roqPlatform.sendUserInvites({
+		userInvites: {
+			tenantId: 'ee764883-f2c3-4486-9de6-070345e350af',
+			userInvites: [{
+				createdByUserId: '530c9a92-71c5-4dce-a6e3-c638c2d0b1bc',
+				email: "wick.john@roq.tech",
+				locale: "en-US",
+				roles: ["content-creator"]
+			}]
+		}
+	})
+
+	return userInvitation
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|----------------------------------------------|
+| `userInvites`     | object | User invites data |
+| `userInvites:tenantId` | uuid |  ID of the tenant (organization) | 
+| `userInvites:userInvites` | array | Array of invitees |
+| `userInvites:userInvites:email`           | string | Email of the invitee                         |
+| `userInvites:userInvites:firstName`       | string | First name of the invitee                    |
+| `userInvites:userInvites:lastName`        | string | Last name of the invitee                     |
+| `userInvites:userInvites:locale`          | string | Language of the invitee (used for the email) |
+| `userInvites:userInvites:data`            | array  | Additional custom data                       |
+| `userInvites:userInvites:createdByUserId` | uuid   | ID of the inviting user                      |
+| `userInvites:userInvites:roles`           | array  | Array of IDs of roles for the invitee        |
+
+
+### `resendUserInvite()`
+
+The `resendUserInvite` API will resend the invitation to the invitee.
+
+<Tabs items={["Next.js"]}>
+<Tab>
+```js
+import { useRoqClient } from '/lib/roq'
+
+const roqClient = useRoqClient()
+
+const userInviteModel = async() => {
+    const userInvitationId = "d1459a92-71c5-4edc-a6a1-c638c2d0d34c"
+    return await roqClient.roqPlatform.resendUserInvite(userInvitationId)
+}
+
+```
+</Tab>
+</Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `id`              | uuid   | The invitee ID  |
+
+
+## Cancel user invitation
+
+### `cancelUserInvite()` 
+
+The `cancelUserInvite` API will cancel a user invitation based on the user invitation ID.
+
+<Tabs items={["Next.js"]}>
+<Tab>
+```js
+import { useRoqClient } from '/lib/roq'
+
+const roqClient = useRoqClient()
+
+const cancelUserInvitation = async() => {
+	const userInvitationId = "d1459a92-71c5-4edc-a6a1-c638c2d0d34c"
+    return await roqClient.roqPlatform.cancelUserInvite(userInvitationId)
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `id`              | uuid   | The invitee ID  |
+
+
+## Get user invitations data
+
+You can fetch user invitations data using the `userInvites`.
+
+### `userInvites()`
+
+You can get the user invitations list using the `userInvites()` method. You can limit the results and search the invitee by email, name, or keywords, etc.
+
+<Tabs items={['Next.js']}>
+<Tab>
+```js
+import { useRoqClient } from '/lib/roq'
+
+const roqClient = useRoqClient()
+
+const userInvitesData = async() => { 
+    return await roqClient.roqPlatform.userInvites({
+        limit: 10
+    })
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `limit`           | integer   | Limit the results|
+| `search`          | object    | Search parameter |
+| `filter`          | object    | Filter parameter |
+
+
+### `userInvite()`
+
+Get the data of the invitee by using the `userInvite()` method. You can get the data by using the invitee ID.
+
+<Tabs items={["Next.js"]}>
+<Tab>
+```js
+const inviteeData = async() => {
+    const inviteeId =  "78f665fb-61ab-4931-a565-3136e6d01553"
+    return await roqClient.roqPlatform.userInvite({ id:inviteeId})
+}
+```
+</Tab>
+</Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `id`              | uuid   | The invitee ID  |

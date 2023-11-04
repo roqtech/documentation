@@ -1,0 +1,70 @@
+import { Tab, Tabs, Callout } from "nextra-theme-docs";
+
+# API
+
+The user profiles API is used to get information about users.
+
+## Get user profiles data
+
+### `userProfiles()`
+
+To get a list of all user profiles, use the `userProfiles()` method API. 
+
+<Tabs items={["Next.js"]}>
+<Tab>
+```tsx
+import { useRoqClient } from "lib/roq"
+
+const roqClient = useRoqClient()
+
+const userProfiles = async() => {
+    const response = await roqClient.roqPlatform.userProfiles()
+    return response
+}
+```
+
+The response will be an array of user profiles.
+
+```json
+{
+    "data": [
+        {
+            "id": "3bd1a0c8-c8cd-4dc6-b961-fcfd356f5db4",
+            "reference": "3bd1a0c8-c8cd-4dc6-b961-fcfd356f5db4",
+            "firstName": "",
+            "lastName": "",
+            "email": "aitesta212@roq.tech",
+            "phone": null,
+            "locale": "en-US",
+            "timezone": "Asia/Jakarta",
+            "avatarUrl": ""
+        }
+    ],
+    "totalCount": 1
+}
+```
+</Tab>
+</Tabs>
+
+### `userProfile()`
+
+To get a specific user profile, use the `userProfile()` method API. 
+
+<Tabs items={["Next.js"]}>
+<Tab>
+```tsx
+import { useRoqClient } from "lib/roq"
+
+const roqClient = useRoqClient()
+
+const userProfile = async() => {
+    const userId = "3bd1a0c8-c8cd-4dc6-b961-fcfd356f5db4"
+    const response = await roqClient.roqPlatform.userProfile({
+		id: userId
+    })
+    return response
+}
+```
+</Tab>
+</Tabs>
+
