@@ -42,7 +42,7 @@ Besides SDK, we need to copy the environment file from the ROQ Console. Make sur
 Make sure to include the `.env` file in the `.gitignore` file. So that the environment variables are not exposed to the public.
 </Callout>
 
-Go to the [project console](https://console.roq.tech/) and select the project and the environment then copy the environment values from the console.
+Go to the [project console](https://console.roq.tech/) and select the project and the environment then copy the environment values from the console. For local development, we can use the `Local Development` environment.
 
 ![copy env from console](/gifs/copy-env-from-console.gif)
 
@@ -164,19 +164,21 @@ export default RoqAuth({});
 After that we can add a signup button, user will be redirected to the other page if the signup process successful.
 
 ```tsx filename="index.js"
+import { Inter } from 'next/font/google'
 import { useRoqClient } from 'lib/roq'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const roqClient = useRoqClient()
-
+ 
   const handleSignUp = async () => {
      await roqClient.signUp('owner', { postLoginRedirect: '/book' })
   }
-
+ 
   return (
-    <main>
-       <h1>Add Signup</h1>
-       <button onClick="{handleSignUp}">SignUp</button>
+    <main className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}>
+       <button onClick={handleSignUp} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">SignUp</button>
     </main>
   )
 }
