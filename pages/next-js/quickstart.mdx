@@ -23,7 +23,7 @@ And the follow along the installation questions:
 
 ![question](/screenshots/next-js-page-project.png)
 
-We will use Next.js with Page Router in this quickstart
+We will use Next.js project with **Page Router** feature in this quickstart.
 
 ### Install ROQ BaaS SDK
 
@@ -34,26 +34,24 @@ npm install @roq/nextjs --save
 npm install @roq/cli --save-dev
 ```
 
-### Setup `.env`
+### Copy `.env` from ROQ Console
 
-Besides SDK, we need to copy the environment file from the ROQ Console. Make sure to choose the appropriate environment for our project, copy the environment values, and save it to the `.env` file in our root Next.js project directory. 
+Besides SDK, we need to copy the environment file from the ROQ Console. Go to the [project console](https://console.roq.tech/) and select the project and the environment then copy the environment values from the console. 
+
+For local development, we can use the `Local Development` environment.
+
+![copy env from console](/gifs/copy-env-from-console.gif)
+
+After copy the environment values, create file `.env` in the root directory of the Next.js project and paste the environment values. It is recommended to change the `ROQ_SECRET` environment value into a more secure value. The default value is `CHANGE_THIS_SECRET`.
 
 <Callout type="info">
 Make sure to include the `.env` file in the `.gitignore` file. So that the environment variables are not exposed to the public.
 </Callout>
-
-Go to the [project console](https://console.roq.tech/) and select the project and the environment then copy the environment values from the console. For local development, we can use the `Local Development` environment.
-
-![copy env from console](/gifs/copy-env-from-console.gif)
-
-Create file `.env` in the root directory of the Next.js project and paste the environment values. 
-
-<Callout type="info">
-It is recommended to change the `ROQ_SECRET` environment value in copied `.env` into a more secure value. The default value is `CHANGE_THIS_SECRET`.
-</Callout>
 ### Generate SDK
 
-Our Next.js project will work with ROQ BaaS by using a customized generated SDK. This process is necessary to generate Prisma types for SDK. To generate it, run the command below:
+Our Next.js project will work with ROQ BaaS by using a customized generated SDK. This process is necessary to generate Prisma types for SDK. 
+
+To generate the SDK, run the command below:
 
 ```shell
 npx @roq/cli generate
@@ -125,9 +123,11 @@ If any changes are made to the project schema or entities after the project crea
 
 ### Configure Next.js with ROQ authentication
 
-Before doing any data-related query, we need to wrap the Next.js application with the `<RoqClientProvider>` context provider component. This provider enables the components in the application tree to access the customized generated SDK from our earlier command. You can put this code in the `_app.tsx` file.
+Before doing any data-related query, we need to wrap the Next.js application with the `<RoqClientProvider>` context provider component. This provider enables the components in the application tree to access the customized generated SDK from our earlier command. 
 
-```jsx filename="_app.tsx"
+You can put this code in the `_app.tsx` file.
+
+```jsx filename="src/pages/_app.tsx"
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { RoqClientProvider } from 'lib/roq'
@@ -154,7 +154,9 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 ```
 
-To make our Next.js project seamlessly work with ROQ Authentication, we need to configure the project first. Add file `pages/api/auth/[...roqAuth].ts` and fill with this code:
+To make our Next.js project seamlessly work with ROQ Authentication, we need to configure the project first. 
+
+Add file `pages/api/auth/[...roqAuth].ts` and fill with this code:
 
 ```ts filename="[...roqAuth].ts"
 import { RoqAuth } from '@roq/nextjs';
@@ -163,7 +165,7 @@ export default RoqAuth({});
 
 After that we can add a signup button, user will be redirected to the other page if the signup process successful.
 
-```tsx filename="index.js"
+```tsx filename="src/pages/index.js"
 import { Inter } from 'next/font/google'
 import { useRoqClient } from 'lib/roq'
 
@@ -173,7 +175,7 @@ export default function Home() {
   const roqClient = useRoqClient()
  
   const handleSignUp = async () => {
-     await roqClient.signUp('owner', { postLoginRedirect: '/book' })
+     await roqClient.signUp('owner', { postLoginRedirect: '/user' })
   }
  
   return (
@@ -184,7 +186,30 @@ export default function Home() {
 }
 ```
 
-After successful signup, Next.js will get a token that will be used for any further request to the REST API from ROQ Baas.
+Create another page called `user.tsx` and fill with this code:
+
+```tsx filename="src/pages/user.tsx"
+import { Inter } from 'next/font/google'
+import { useRoqClient } from 'lib/roq'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export default function Home() {
+  const roqClient = useRoqClient()
+ 
+  const handleSignUp = async () => {
+     await roqClient.signUp('owner', { postLoginRedirect: '/user' })
+  }
+ 
+  return (
+    <main className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}>
+     <h1>Dashboard</h1>
+    </main>
+  )
+}
+```
+
+After successful signup, the page will be redirected to the user page and Next.js will get a token that will be used for any further request to the REST API from ROQ Baas.
 
 <Callout type="info">
 For more about authentication, please visit [**add authentication**](/next-js/add-authentication).
@@ -192,6 +217,27 @@ For more about authentication, please visit [**add authentication**](/next-js/ad
 
 ### Query data
 
+We can query current data user in Next.js using `useSession()` hook from `@roq/nextjs` package. 
+
+```tsx filename="src/pages/user.tsx"
+import { Inter } from 'next/font/google'
+import { signOut } from '@roq/nextjs'
+import { useSession } from '@roq/nextjs'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export default function Home() {
+  const { session } = useSession()
+
+  return (
+    <main className={`flex flex-col items-center justify-between p-24 ${inter.className}`}>
+       <p>My email: { session?.user?.email }</p>
+    </main>
+  )
+} 
+
+```
+{/*
 For example, this is a snippet from the generated code for hook to find books with count data:
 
 ```ts filename="src/lib/roq/roq-hooks.ts"
@@ -230,7 +276,7 @@ const { data, error, isLoading, mutate } = useBookFindManyWithCount({
     }
 });
 ```
-We can display the `data` in the `index.tsx` page:
+We can display the `data` in the `dashboard.tsx` page:
 
 ```ts 
 <div>
@@ -253,21 +299,16 @@ We can display the `data` in the `index.tsx` page:
   )}
 </div>
 ```
+*/}
 
 ### Start the Next.js application
 
-To start the development server, run this command:
+Evertything is setup. Now we can start the development server with this command:
 
 ```shell
 npm run dev
 ```
 
-And in the browser, go to `http://localhost:3000`. 
-
-![Next.js Quickstart](/screenshots/nextjs-quickstart-demo.png)
+And in the browser, go to `http://localhost:3000`. Sign up and after that, you will be redirected to the user page with the user's email shown on the page.
 </Steps>
 
-
-{/*
-You need a roq-session-cookie in the browser. You can copy paste the cookie from the existing generated app.
-*/}
