@@ -325,8 +325,9 @@ import { useSession } from '@roq/nextjs'
 
 const { session } = useSession()
 
+const userId = session?.roqUserId
 const email = session?.user.email
 const roles = session?.user.roles
-const tenant = session?.user.tenantId
+const tenantId = session?.user.tenantId
 ```
 
