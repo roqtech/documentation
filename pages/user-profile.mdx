@@ -16,8 +16,9 @@ To manage user profiles from ROQ Console, go to the **Manage Data** section and 
 
 ![managing user profile](/screenshots/manage-user-profile-on-console.png)
 
+{/*
 ### Editing user information
-
+*/}
 
 ## User Profile API
 
@@ -307,10 +308,14 @@ function ProfileFrom({ profile, handleSubmit, handleInputChange }) {
 export default ProfileFrom;
 ```
 
-The `updateUserProfile()` function is a utility function that can be used to update the user profile information. This function is defined as follows:
+{/*
+To update the user profile information, you can use the `updateUserProfile()` function. This function need the user profile object as parameter. The user profile object is the same as the object returned by the `userProfile()` API.
 
-```tsx filename="utils/updateUserProfile.tsx"
+
+```ts
+function updateUserProfile(newUserProfile) {
 
 ```
 
 ### Profile picture upload
+*/}
