@@ -10,7 +10,7 @@ This pertains to accessing and retrieving data from the uploaded files.
 
 Get all files.
 
-<Tabs items={["TypeScript", "Response"]}>
+<Tabs items={["JavaScript", "Response"]}>
 <Tab>
 ```tsx
 import { useRoqClient } from "/lib/roq"
@@ -64,7 +64,7 @@ Get file with specific file ID.
 
 The `file()` API also provides information on the file category, its creator, and associations.
 
-<Tabs items={["TypeScript", "Response"]}>
+<Tabs items={["JavaScript", "Response"]}>
 <Tab>
 ```tsx
 import { useRoqClient } from "/lib/roq"
@@ -146,7 +146,7 @@ The `file()` data response:
 
 You can use the `updateFile()` API to rename the uploaded files.
 
-<Tabs items={["TypeScript"]}>
+<Tabs items={["JavaScript"]}>
 <Tab>
 ```tsx
 import { useRoqClient } from "lib/roq"
@@ -178,7 +178,7 @@ The `updateFileStatus()` API is a method to set the upload file status. The use 
 
 Five status files are currently available: `cancelled`, `error`, `processing`, `ready`, and `upload_pending`.
 
-<Tabs items={["TypeScript"]}>
+<Tabs items={["JavaScript"]}>
 <Tab>
 ```tsx
 import { useRoqClient } from "lib/roq"
@@ -208,7 +208,7 @@ const upfileStatus =async () => {
 
 To delete one or multiple files, use the `deleteFiles()` API. See this [link](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteFiles) for the API documentation.
 
-<Tabs items={["TypeScript"]}>
+<Tabs items={["JavaScript"]}>
 <Tab>
 ```ts
 import { useRoqClient } from "lib/roq"
@@ -257,7 +257,7 @@ Using the `fileCategories()` and `fileCategory()` APIs from the ROQ Platform, we
 
 Get all file categories.
 
-<Tabs items={["TypeScript", "Response"]}>
+<Tabs items={["JavaScript", "Response"]}>
 <Tab>
 ```tsx
 import { useRoqClient } from "/lib/roq"
@@ -315,7 +315,7 @@ The categories response:
 
 Get file category details.
 
-<Tabs items={["TypeScript", "Response"]}>
+<Tabs items={["JavaScript", "Response"]}>
 <Tab>
 ```tsx
 import { useRoqClient } from "/lib/roq"
@@ -433,7 +433,7 @@ A file can be either public or private. Public means that there is a permanent U
 
 Enable public access to a file.
 
-<Tabs items={['TypeScript']}><Tab>
+<Tabs items={['JavaScript']}><Tab>
 ```ts
 import { useRoqClient } from "lib/roq"
 
@@ -452,7 +452,7 @@ const filePublic =async () => {
 
 Hide a file from public access.
 
-<Tabs items={['TypeScript']}><Tab>
+<Tabs items={['JavaScript']}><Tab>
 ```ts
 import { useRoqClient } from "lib/roq"
 

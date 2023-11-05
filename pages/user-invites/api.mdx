@@ -12,7 +12,7 @@ This is the API documentation for the User Invites API. This API is used to invi
 
 The `sendUserInvites` API is used to invite users and automatically also create a user invite. With this method you can invite multiple users at once.
 
-<Tabs items={['Next.js']}>
+<Tabs items={['JavaScript']}>
 <Tab>
 ```js
 import { useRoqClient } from '/lib/roq'
@@ -56,7 +56,7 @@ const status = async () => {
 
 The `resendUserInvite` API will resend the invitation to the invitee.
 
-<Tabs items={["Next.js"]}>
+<Tabs items={["JavaScript"]}>
 <Tab>
 ```js
 import { useRoqClient } from '/lib/roq'
@@ -83,7 +83,7 @@ const userInviteModel = async() => {
 
 The `cancelUserInvite` API will cancel a user invitation based on the user invitation ID.
 
-<Tabs items={["Next.js"]}>
+<Tabs items={["JavaScript"]}>
 <Tab>
 ```js
 import { useRoqClient } from '/lib/roq'
@@ -111,7 +111,7 @@ You can fetch user invitations data using the `userInvites`.
 
 You can get the user invitations list using the `userInvites()` method. You can limit the results and search the invitee by email, name, or keywords, etc.
 
-<Tabs items={['Next.js']}>
+<Tabs items={['JavaScript']}>
 <Tab>
 ```js
 import { useRoqClient } from '/lib/roq'
@@ -138,7 +138,7 @@ const userInvitesData = async() => {
 
 Get the data of the invitee by using the `userInvite()` method. You can get the data by using the invitee ID.
 
-<Tabs items={["Next.js"]}>
+<Tabs items={["JavaScript"]}>
 <Tab>
 ```js
 const inviteeData = async() => {
