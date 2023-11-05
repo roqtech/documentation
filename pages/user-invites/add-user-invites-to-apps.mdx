@@ -1,19 +1,4 @@
-# How to add user invites to apps
-
-We can add user invites feature to applications using the user invites API provided by ROQ BaaS SDK. The invitation process flow with the user invites API can be described as follows:
-
-```mermaid
-graph TD
-A[1. User Initiates Invite] -->|get user and tenant data| B[2. Invite Sent]
-B -->|sendUserInvites API| C[3. Recipient Receives Invite]
-B -->|resendUserInvite API| B
-C --> D[4. Invite Accepted or Rejected]
-D -->|userInvites API| E[Invite Status Checked]
-E -->|Status: Accepted| F[5. Invite Confirmed]
-E -->|Status: Rejected| G[7. End of Flow]
-F --> G
-B -->|cancelUserInvite API| G[7. End of Flow]
-```
+# How to add user invites to app
 
 ## Get user and tenant data
 
@@ -28,4 +13,30 @@ const { session } = useSession()
 
 const userId = session?.roqUserId
 const tenantId = session?.user?.tenantId
+```
+
+## Send invitation
+
+After we get the user and tenant data, we can send the invitation using the [`sendUserInvites()`](/user-invites/api#senduserinvites) method. This method will send an invitation to the user email.
+
+```ts
+import { useRoqClient } from '/lib/roq'
+ 
+const roqClient = useRoqClient()
+ 
+const status = async () => {
+	const userInvitation = await roqClient.roqPlatform.sendUserInvites({
+		userInvites: {
+			tenantId: 'ee764883-f2c3-4486-9de6-070345e350af',
+			userInvites: [{
+				createdByUserId: '530c9a92-71c5-4dce-a6e3-c638c2d0b1bc',
+				email: "wick.john@roq.tech",
+				locale: "en-US",
+				roles: ["content-creator"]
+			}]
+		}
+	})
+ 
+	return userInvitation
+}
 ```

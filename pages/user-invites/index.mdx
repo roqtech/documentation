@@ -10,15 +10,15 @@ Before inviting any user, we should be familiar with the user invitation process
 
 ```mermaid
 graph TD
-A[1. User Initiates Invite] --> B[2. Invite Sent]
-B -->|Resend Option| B
-B --> C[3. Recipient Receives Invite]
-B --> G[6. Cancel Invitation]
+A[1. User Initiates Invite] -->|get user and tenant data| B[2. Invite Sent]
+B -->|sendUserInvites API| C[3. Recipient Receives Invite]
+B -->|resendUserInvite API| B
 C --> D[4. Invite Accepted or Rejected]
-D -->|Rejected| F[7. End of Flow]
-D -->|Accepted| E[5. Invite Confirmed]
-E --> F
-G --> F
+D -->|userInvites API| E[Invite Status Checked]
+E -->|Status: Accepted| F[5. Invite Confirmed]
+E -->|Status: Rejected| G[7. End of Flow]
+F --> G
+B -->|cancelUserInvite API| G[7. End of Flow]
 ```
 
 Moreover, the process of inviting user can be divided into the following steps:
