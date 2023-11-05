@@ -2,21 +2,19 @@ import { Callout } from "nextra/components"
 
 # Manage user profile using SDK
 
-## Overview
-
 To manage user profile using ROQ BaaS SDK, you need to implement the following steps:
 
-- [Add user profile to your app](#add-user-profile-to-your-app)
+- [Add user profile to your app](#add-user-profiles-to-your-app)
 - [Edit user profile](#edit-user-profile)
 - [Upload user avatar](#upload-user-avatar)
 - [Update user profile](#update-user-profile)
 
 
-## Add user profile to your app
+## Add user profiles to your app
 
-To displaying the user profile information you can use the `userProfile()` API. This method need the user id as parameter. The user id can be obtained from the session object `roqUserId`.
+To display the user profile information, you can use the `userProfile()` API. This method needs the user ID as a parameter. The user id can be obtained from the session object `roqUserId`.
 
-For example, in a Next.js app you can use the `useRoqClient()` and `useSession()` hooks to get the `userProfile()` API to get the user profile information and the user id.
+For example, in a Next.js app, you can use the `useRoqClient()` and `useSession()` hooks to get the `userProfile()` API to get the user profile information and the user id.
 
 ```tsx
 import { useRoqClient } from "lib/roq"
@@ -28,9 +26,9 @@ const { session } = useSession()
 const { roqUserId } = session
 
 const userProfile = async () => {
-	const profile = await roqClient.roqPlatform.userProfile({
-		id: roqUserId
-	})
+    const profile = await roqClient.roqPlatform.userProfile({
+        id: roqUserId
+    })
 }
 ```
 
@@ -52,12 +50,12 @@ The data returned by the `userProfile()` API is an object with the following str
 }
 ```
 
-You can displaying this information using any UI library. For example, using [Tailwind CSS](https://tailwindcss.com/) or a library like [Chakra UI](https://chakra-ui.com/).
+You can display this information using any UI library. For example, you can use [Tailwind CSS](https://tailwindcss.com/) or a library like [Chakra UI](https://chakra-ui.com/).
 
 
 ## Edit user profile
 
-To edit the user profile information you need to build a form for editing and also for avatar picture uploading. For example, this is a simple page from Next.js application that allows you to edit the user profile information based on the current user session.
+To edit the user profile information, you need to build a form for editing and also for uploading avatar pictures. For example, this is a simple page from the Next.js application that allows you to edit the user profile information based on the current user session.
 
 ```tsx filename="src/pages/user-profile.tsx"
 import { useRoqClient } from "lib/roq";
@@ -262,23 +260,6 @@ function ProfileFrom({ profile, handleSubmit, handleInputChange }) {
           />
         </div>
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="avatarUrl"
-          >
-            Avatar URL
-          </label>
-          <input
-            type="url"
-            name="avatarUrl"
-            value={profile.avatarUrl}
-            onChange={handleInputChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="https://example.com/avatar.jpg"
-          />
-        </div>
-
         {/* ... Add more input fields for other profile properties ... */}
         <button
           type="submit"
@@ -296,15 +277,17 @@ function ProfileFrom({ profile, handleSubmit, handleInputChange }) {
 export default ProfileFrom;
 ```
 
-To update the user profile information, we can submit the form and the `handleSubmit()` handler will be called. In the handler, we can call the query the user profile information and update the user profile information. 
+To update the user profile information, we can submit the form, and the `handleSubmit()` handler will be called. In the handler, we can call the query the user profile information and update the user profile information. 
 
 ## Upload user avatar
 
-Tha `avatarUrl` is the URL returned from avatar picture uploading. Actually, we don't need to save the avatar picture URL in the user profile by using form input because file uploading in ROQ using file categorization to identity the file. ROQ will indirectly associate the file with the user profile. 
+ROQ uses file categorization to identify uploaded files and indirectly associates them with a user avatar for the specific category. For user avatars, the **`USER_AVATAR_FILES`** category is utilized.
 
-{/*
-code
-*/}
+To upload a file as a user avatar, you can implement custom file upload logic. Please read this [documentation](/files/uploading-files) for more information about this.
+
+Another way to upload a file as a user avatar is by using a specific framework component. For example, this [documentation](/next-js/add-file-uploads#using-the-fileupload-component) covers how to add file upload using the `FileUpload` component from the `@roq/nextjs` package.
+
+Whether you implement file uploading or use a specific framework component, remember to set the `category` property to `USER_AVATAR_FILES` when uploading a file as a user avatar.
 
 ## Update user profile
 
@@ -315,26 +298,23 @@ import { roqClient } from "/lib/roq";
 import { useSession } from "@roq/nextjs";
 
 const handleSubmit = async (e) => {
-	e.preventDefault();
-	
-	const getUserId = await roqClient.user.findMany({
-		where: {
-			email: session?.user.email,
-		},
-	});
+    e.preventDefault();
+    
+    const getUserId = await roqClient.user.findMany({
+        where: {
+            email: session?.user.email,
+        },
+    });
 
-	const myUserProfile = await roqClient.user.update({
-		data: {
-			firstName: profile.firstName,
-			lastName: profile.lastName,
-		},
-		where: {
-			id: getUserId[0].id,
-			email: session?.user.email,
-		},
-	});
+    const myUserProfile = await roqClient.user.update({
+        data: {
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+        },
+        where: {
+            id: getUserId[0].id,
+            email: session?.user.email,
+        },
+    });
 };
 ```
-
-
-
