@@ -1,17 +1,17 @@
-# How to add user invites to app
+# How to add user invites to apps
 
 It's clear from [the user invites diagram overview](/user-invites#user-invite-process-flow) that these APIs are necessary to manage the user invitation process:
 
-- The `sendUserInvites()` API is use to send the invitation.
-- The `resendUserInvite()` API is used to provide a resend invitation option. 
+- The `sendUserInvites()` API sends the invitation.
+- The `resendUserInvite()` API provides a resend invitation option. 
 - The `userInvites()` API is used to check the status of the invitation.
 - The `cancelUserInvite()` API allows the inviter to cancel the invitation.
 
-The usage and implementation of these APIs heavily depends on the app and the use case. However, there are general steps are required to implement the user invitation process.
+The usage and implementation of these APIs heavily depend on the app and the use case. However, general steps are required to implement the user invitation process.
 
 ## Get user and tenant data
 
-Before send any user invitation, we need to get the user and tenant data. The user data can be retrieved from session using the `useSession()` method or user query, which returns the user id and user tenant data from the session.
+Before sending any user invitation, we need to get the user and tenant data. The user data can be retrieved from the session using the `useSession()` method or user query, which returns the user ID and user tenant data from the session.
 
 For example, to get user dan tenant data from the session in Next.js:
 
@@ -26,11 +26,11 @@ const tenantId = session?.user?.tenantId
 
 ## Add user invitation UI
 
-You can use button, or any other UI element to trigger the user invitation process. 
+You can use a button or any other UI element to trigger the user invitation process. 
 
 ## Send user invitations
 
-After we get the user and tenant data and user invitation UI, we can send the invitation using the [`sendUserInvites()`](/user-invites/api#senduserinvites) API method. This method will send an invitation to the users email. This invitation supports multiple users, so we can send multiple invitations in one request.
+After we get the user and tenant data and user invitation UI, we can send the invitation using the [`sendUserInvites()`](/user-invites/api#senduserinvites) API method. This method will send an invitation to the user's email. This invitation supports multiple users so that we can send multiple invitations in one request.
 
 ```ts
 import { useRoqClient } from '/lib/roq'
@@ -38,23 +38,23 @@ import { useRoqClient } from '/lib/roq'
 const roqClient = useRoqClient()
  
 const status = async () => {
-	const userInvitations = await roqClient.roqPlatform.sendUserInvites({
-		userInvites: {
-			tenantId: 'ee764883-f2c3-4486-9de6-070345e350af',
-			userInvites: [{
-				createdByUserId: '530c9a92-71c5-4dce-a6e3-c638c2d0b1bc',
-				email: "wick.john@roq.tech",
-				locale: "en-US",
-				roles: ["content-creator"]
-			}]
-		}
-	})
+    const userInvitations = await roqClient.roqPlatform.sendUserInvites({
+        userInvites: {
+            tenantId: 'ee764883-f2c3-4486-9de6-070345e350af',
+            userInvites: [{
+                createdByUserId: '530c9a92-71c5-4dce-a6e3-c638c2d0b1bc',
+                email: "wick.john@roq.tech",
+                locale: "en-US",
+                roles: ["content-creator"]
+            }]
+        }
+    })
  
-	return userInvitations
+    return userInvitations
 }
 ```
 
-On some cases, we need to resend the invitation, so we can utilize the [`resendUserInvite()`](/user-invites/api#resenduserinvite) API method to resend the invitation or cancel the invitation using the [`cancelUserInvite()`](/user-invites/api#canceluserinvite) API method.
+In some cases, we need to resend the invitation, so we can utilize the [`resendUserInvite()`](/user-invites/api#resenduserinvite) API method to resend the invitation or cancel the invitation using the [`cancelUserInvite()`](/user-invites/api#canceluserinvite) API method.
 
 ## Track user invitation status
 
@@ -71,5 +71,3 @@ const userInvitesData = async() => {
     })
 }
 ```
-
-
