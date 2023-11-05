@@ -10,7 +10,7 @@ ROQ Platform provides a unified way to send emails utilizing multiple providers 
 
 ### `sendMail()`
 
-The `sendMail()` method can be used to send e-mails. It returns the number of emails sent.
+The `sendMail()` method can be used to send emails. It returns the number of emails sent.
 
 <Tabs items={['Node.js']}>
 <Tab>
@@ -28,7 +28,7 @@ await client.asSuperAdmin().sendMail({
 
 | Parameter | Type   | Description                                                                   |
 |-----------|--------|-------------------------------------------------------------------------------|
-| `key`     | string | Key of mail type that you created in ROQ Console, eg._"WELCOME_NOTIFICATION"_ |
+| `key`     | string | Key of mail type that you created in ROQ Console, e.g._"WELCOME_NOTIFICATION"_ |
 | `locale`  | string | Locale (language) of the mail, eg _"en-US"_                                   |
 | `emails`  | array  | List of email addresses                                                       |
 | `data`    | array  | Array with key/value pairs. You can use this data in the template             |
