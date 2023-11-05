@@ -8,6 +8,7 @@ These are common steps to install the SDK for all supported frameworks:
 
 <Steps>
 
+{/*
 ### Generate the application using ROQ AI Assistant
 
     Go to [**app.roq.ai**](https://app.roq.ai/).
@@ -15,10 +16,13 @@ These are common steps to install the SDK for all supported frameworks:
     Start by creating a new application with the help of the AI Assistant. The AI Assistant will guide you through the process, generating a new application for you. Once generated, you can configure your application via the [ROQ Console](https://console.roq.tech). The console will provide you with the necessary environment values. You'll need these values for the SDK generation process.
 
     The generation process will also create ROQ BaaS resources for you, such as API to access your data.
+*/}
 
 ### Create a custom application 
 
-    Create a custom application using one of the supported frameworks. For example, to create a Next.js application, run the following command:
+    Create a custom application using one of the supported frameworks. 
+    
+    For example, to create a Next.js application, run the following command:
 
     ```shell
     npx create-next-app@latest
@@ -26,8 +30,12 @@ These are common steps to install the SDK for all supported frameworks:
 
 ### Copy `.env`
 
-    Copy the environment values from ROQ Console into the `.env` file in the custom application.
+    Copy the environment values from ROQ Console into the `.env` file in the custom application. For local development, you can choose the **Local Environment** on Console.
 
+    ![copy env from console](/gifs/copy-env-from-console.gif)
+
+    After copy the environment values, create file `.env` in the root directory of project and paste the environment values. It is recommended to change the `ROQ_SECRET` environment value into a more secure value. The default value is `CHANGE_THIS_SECRET`.
+     
 ### Install CLI SDK
     
     Install `@roq/cli` command line tool. This tool will help you generate a custom SDK specifically tailored to the application that you have created.
