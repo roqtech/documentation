@@ -2,11 +2,11 @@
 
 ## Introduction
 
-ROQ provides a unified way to send emails utilizing multiple providers like Sendgrid, Mandrill, Mailgun, and others. The email functionality is used by other features of ROQ, for instance confirming new user accounts.
+ROQ provides a unified way to send emails utilizing multiple providers like Sendgrid, Mandrill, Mailgun, and others. The email functionality is used by other features of ROQ, for instance, confirming new user accounts.
 
-## Integrations setup
+## Integration with email service providers
 
-To activate email integrations, in the ROQ Console go to **Integrations** → **Email**.
+To activate email integrations, in the ROQ Console, go to **Integrations** → **Email**.
 
 ![email integration](/screenshots/roq-email-integration.png)
 
@@ -18,26 +18,17 @@ Choose any email providers you want to use and fill in the required information.
 
 ![email provider](/screenshots/roq-email-sendgrid-integration.png)
 
+## Email templates and customization
+
+The email sent to the user is based on the template. The template is a simple HTML file with placeholders for the data that the ROQ will fill in. The template can be customized in the ROQ Console. Please read this [guide](/mails/email-templates-and-customization) for more information.
+
 ## API
 
 The ROQ Platform offers a simple way to send emails with multiple providers through the ROQ [Mails API](/mails/api).
 
-
-{/*
 ## Sending mails
 
-_Coming soon_
-
-## Email templates and customization
-
-_Coming soon_
-
-## Integration with email service providers
-
-_Coming soon_
-
-*/}
-
+Sending emails using API is a simple process. Please read the [guide](/mails/send-emails) for code examples and more information.
 
 ## How to use mails SDK
 
