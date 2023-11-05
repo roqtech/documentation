@@ -1,0 +1,31 @@
+# How to add user invites to apps
+
+We can add user invites feature to applications using the user invites API provided by ROQ BaaS SDK. The invitation process flow with the user invites API can be described as follows:
+
+```mermaid
+graph TD
+A[1. User Initiates Invite] -->|get user and tenant data| B[2. Invite Sent]
+B -->|sendUserInvites API| C[3. Recipient Receives Invite]
+B -->|resendUserInvite API| B
+C --> D[4. Invite Accepted or Rejected]
+D -->|userInvites API| E[Invite Status Checked]
+E -->|Status: Accepted| F[5. Invite Confirmed]
+E -->|Status: Rejected| G[7. End of Flow]
+F --> G
+B -->|cancelUserInvite API| G[7. End of Flow]
+```
+
+## Get user and tenant data
+
+Before send the invitation, we need to get the user and tenant data. The user data can be retrieved using the `useSession()` method, which returns the user id and user tenanta data from the session.
+
+For example in ROQ BaaS for Next.js:
+
+```ts
+import { useSession } from "@roq/nextjs"
+
+const { session } = useSession()
+
+const userId = session?.roqUserId
+const tenantId = session?.user?.tenantId
+```
