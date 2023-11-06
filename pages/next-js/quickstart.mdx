@@ -148,7 +148,7 @@ export default function Home() {
   const roqClient = useRoqClient()
  
   const handleSignUp = async () => {
-     await roqClient.signUp('owner', { postLoginRedirect: '/user' })
+     await roqClient.signUp('REPLACE', { postLoginRedirect: '/user' })
   }
  
   return (
@@ -158,6 +158,16 @@ export default function Home() {
   )
 }
 ```
+
+The `signUp()` method will redirect the user to the registration form for the signup process. To specify the registration form variant, substitute the `REPLACE` placeholder with the corresponding key obtained from the project console.
+
+<Callout type="info">
+To get the  registration form variant key, go to the [project console]((https://console.roq.tech/)) and select **Authentication** and then click the **Design** menu.
+
+![get the reg form key](/screenshots/registration-form-variant.png)
+
+For example, the registration form variant shown is `Admin(administrator)`. This means the registration form variant name is `Admin` and the key is `administrator`.
+</Callout>
 
 Create another page called `user.tsx` and fill with this code:
 
