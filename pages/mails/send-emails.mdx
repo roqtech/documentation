@@ -5,15 +5,15 @@ import { Callout, Steps } from 'nextra-theme-docs'
 There are a few steps to send emails using ROQ BaaS SDK. First, you need to configure an email provider. Then, you need to create an email template. Finally, you can send emails via API.
 
 <Steps>
-### Configure Email Provider
+### Configure email provider
 
-Make sure that an email provider is connected and activated. You will find a list of all integrations in the [ROQ Console](https://console.roq.tech/). To set up the email integration, please read this [documentation](/mails/integration) section.
+Make sure that an email provider is connected and activated. You will find a list of all integrations in the [ROQ Console](https://console.roq.tech/). To set up the email integration, please read this [documentation](/mails#integration-with-email-service-providers) section.
 
-### Create Email Template
+### Create email template
 
-Before sending emails, make sure to create email templates on ROQ Console. Read this [documentation](/mails/tutorials/create-email-templates) to create email template.
+Before sending emails, make sure to create email templates on ROQ Console. Read this [documentation](/mails/email-templates-and-customization) to create email template.
 
-### Send Emails via API
+### Send emails via API
 
 Emails are sent using the [sendMail API](/mails/api#sendmail). You need to use the same key which you set to the email type. For instance to send a **New Product News** email with the unique key `new-product-news` and have data variables: `recipients_name`, `website_url`, `your_name`, `your_position`, and `your_contact_information`, you can send the email by using Node.js SDK
 
