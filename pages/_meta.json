@@ -18,13 +18,13 @@
   "about": {
     "title": "ROQ home",
     "type": "page",
-    "href": "https://www.roq.tech/",
+    "href": "https://www.roq.dev/",
     "newWindow": false
   },
   "contact": {
     "title": "Imprint",
     "type": "page",
-    "href": "https://www.roq.tech/imprint",
+    "href": "https://www.roq.dev/imprint",
     "newWindow": false
   },
   "separator-third": {
