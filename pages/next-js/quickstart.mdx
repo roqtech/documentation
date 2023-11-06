@@ -65,7 +65,7 @@ The command generates a customizable SDK based on the Prisma BaaS schema and cho
 
 ![generate roq sdk](/screenshots/generate-sdk.png)
 
-Add `src/lib/roq` folder to the `paths` of the `compilerOptions` in the TypeScript config file `tsconfig.json` so that the new SDK can be recognized. The `tsconfig.json` located in the root directory of the Next.js project.
+The `tsconfig.json` file in the root directory of the Next.js project should be updated by adding `src/lib/*` to the `paths` key, allowing the new SDK to be recognized:
 
 ```json filename="tsconfig.json" {18}
 {
@@ -248,70 +248,6 @@ export default function Home() {
   );
 }
 ```
-
-{/*
-For example, this is a snippet from the generated code for hook to find books with count data:
-
-```ts filename="src/lib/roq/roq-hooks.ts"
-export function useBookFindManyWithCount<
-  T extends Prisma.bookFindManyArgs,
-  R extends { data: GetFindResult<Prisma.$bookPayload<DefaultArgs>, T>[]; count: number },
->(args?: Prisma.SelectSubset<T, Prisma.bookFindManyArgs>, options?: RequestOptions, swrOptions?: SWRRequestOptions<R>) {
-  const roq = useRoqClient();
-  const key = JSON.stringify(['useBookFindManyWithCount', args || {}]);
-  return useSWR<R, Error>(
-    key,
-    async () => {
-      const result = await roq.book.findManyWithCount(args, options);
-      return result as R;
-    },
-    {
-      ...swrOptions,
-      fallbackData: swrOptions?.initialData ?? swrOptions?.fallbackData,
-    },
-  );
-}
-```
-
-To use the `useBookFindManyWithCount` method in a Next.js page, we need to import this code:
-
-```ts
-import { useRoqClient, useBookFindManyWithCount } from 'lib/roq';
-```
-
-and then use it, for example:
-
-```ts 
-const { data, error, isLoading, mutate } = useBookFindManyWithCount({
-    orderBy: {
-      created_at: 'desc',
-    }
-});
-```
-We can display the `data` in the `dashboard.tsx` page:
-
-```ts 
-<div>
-  {isLoading ? (
-    <p>Loading...</p>
-  ) : error ? (
-    <p>Error: {error.message}</p>
-  ) : (
-    <>
-      <h1>Book Titles</h1>
-      <br />
-      <ul>
-        {data.data.map((book, index) => (
-          <li key={book.id}>
-            {index + 1}. {book.title} by {book.author} ({book.genre})
-          </li>
-        ))}
-      </ul>
-    </>
-  )}
-</div>
-```
-*/}
 
 ### Start the Next.js application
 
