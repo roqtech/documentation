@@ -1,23 +1,20 @@
 {
-  "index": "Introduction",
-  "getting-started": "Getting Started",
-  "development-guides": "Development Guides",
-  "release-notes": "Release Notes",
-  "faq": "FAQ",
-  "----": {
+  "index": "Overview",
+  "introduction": "Introduction",
+  "separator-one": {
     "type": "separator"
   },
-  "user-management": "User Management",
-  "authentication": "Authentication",
-  "access-management": "Access Management",
-  "chat": "Chat System",
-  "files": "File Management",
-  "multi-tenancy": "Multi-tenancy",
-  "notifications": "Notifications",
-  "mails": "Transactional Mails",
-  "translations": "Translations",
-  "user-groups": "User Groups",
-  "user-invites": "User Invites",
+  "next-js": "Next.js",
+  "express-js": "Express.js",
+  "nuxt-js": "Nuxt.js",
+  "redwood-js": "RedwoodJS",
+  "svelte-kit": "SvelteKit",
+  "separator-two": {
+    "type": "separator"
+  },
+  "development": "Development  Guides",
+  "tutorials": "Tutorials",
+  "example-app": "Example App",
   "about": {
     "title": "ROQ home",
     "type": "page",
@@ -29,5 +26,17 @@
     "type": "page",
     "href": "https://www.roq.tech/imprint",
     "newWindow": false
-  }
+  },
+  "separator-third": {
+    "type": "separator"
+  },
+  "schema-editor": "Schema Editor",
+  "roles-and-permissions": "Roles & Permissions",
+  "multi-tenancy": "Multi-Tenancy",
+  "user-registration": "User Registration",
+  "login-session-handling": "Login & Session Handling",
+  "user-profile": "User Profile",
+  "user-invites": "User Invites",
+  "files": "Files",
+  "mails": "Mails"
 }

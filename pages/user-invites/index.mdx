@@ -1,45 +1,58 @@
-import { Tab, Tabs } from 'nextra-theme-docs';
-import { Callout } from 'nextra-theme-docs';
-import Image from 'next/image';
-
-# User Invites
+# Overview
 
 ## Introduction
 
-In B2B SaaS applications, it is common for users to invite others from their organization, also known as "tenants", especially when there is a charge for each user. ROQ offers a comprehensive user invite solution that can be used in conjunction with authentication.
+In SaaS applications, it is common for users to invite others from their organization, also known as **tenants**. This process is known as **user onboarding**.
 
-## How It Works
+## User invite process flow
 
-### User Invites
+Before inviting any user, we should be familiar with the user invitation process flow. The user invitation process can be outlined in the diagram below:
 
-By integrating the `<UserInvitesTable />` UI component, you enable users to invite others. The invitee receives an email with a link to accept the invite. In B2B scenarios, the invited users join the same organization or **tenant** as the inviting user.
+```mermaid
+graph TD
+A[1. User Initiates Invite] -->|get user and tenant data| B[2. Invite Sent]
+B -->|sendUserInvites API| C[3. Recipient Receives Invite]
+B -->|resendUserInvite API| B
+C --> D[4. Invite Accepted or Rejected]
+D -->|userInvites API| E[Invite Status Checked]
+E -->|Status: Accepted| F[5. Invite Confirmed]
+E -->|Status: Rejected| G[7. End of Flow]
+F --> G
+B -->|cancelUserInvite API| G[7. End of Flow]
+```
 
-![Image](/user-invite.png)
+Moreover, the process of inviting users can be divided into the following steps:
 
-### Role of The Invited User
+1. **User Initiates Invite:** The process starts with a user's decision to send an invitation.
+2. **Invite Sent:** The system activates this method, managing the dispatch of the invitation.
+3. **Recipient Receives Invite:** The invitee gets a notification, typically via email or another communication channel.
+4. **Invite Accepted or Rejected:** The recipient can choose to either accept or decline the invitation.
+5. **Invite Confirmed:** If accepted, the system verifies the invitation, potentially involving further setup for the invitee.
+6. **Cancel Invitation:** At any point after sending the invite and before its acceptance, the inviter can opt to cancel the invitation.
+7. **End of Flow:** The process wraps up either with the invitee successfully onboarded, the invitation declined, or the invitation canceled.
 
-The inviting user can define the role of the invitee. For instance, the new user can be invited as a **Member** or **Manager**. This behavior is fully customizable in the ROQ Console.
+ROQ user invites API can be used to implement every step of the invitation process flow, and it is essential to note that **all invited users share the same tenant as the inviting user**.
 
-![Image](/invite-user-role.png)
+## Role of the invited users
 
-<Callout type="info">
-To learn how to manage user roles, please refer to the following documentation on [roles](/access-management/roles).
-</Callout>
+When inviting a new user, the inviting user has the ability to assign a specific role to the invitee, for example, as an **Owner** or **Administrator**, and users with the same role can invite other users with the same role. The ROQ Console allows for complete customization of the roles that can be assigned to invitees.
 
-## UI Components
+![roles invitee customization](/screenshots/roles-invitee.png)
 
-ROQ’s user invite provides multiple UI components which can be integrated into your application:
+## Inviting new users to your application
 
-1. The [**`<UserInvitesTable/>`**](/user-invites/ui-components#userinvitestable-) is an
-   advanced component that handles the entire logic at once.
-2. The [**`<UserInvitePane/>`**](/user-invites/ui-components#userinvitepane-) is a pane that allows to invite one or multiple users at once.
-3. The [**`<UserInviteButton/>`**](/user-invites/ui-components#userinvitebutton-) is a user invite button which opens a lightbox.
+ROQ provides a set of APIs to add and manage user invitations. However, the developer is responsible for implementing the user invitation management UI.
+
+Refer to the [how to add user invites to application](/user-invites/add-user-invites-to-apps) documentation for more information.
+
+## Invitation management and tracking
+
+User invitation management and tracking is a key part of the user onboarding process. ROQ provides a set of APIs to manage and query or track user invitations. However, the developer is responsible for implementing the user invitation management and tracking UI. ROQ only provides the APIs to manage and track user invitations.
 
 ## API
 
-ROQ also provide integration using API. Check out the User Invite API documentation [here](/user-invites/api).
+The user invites API is a RESTful API that allows you to manage the user invitation process programmatically. For API documentation, see [user invites API](/user-invites/api).
 
-## Tutorials
+## How to use the SDK
 
-For how to use user invite components or API, you can look into this [tutorials](/user-invites/tutorials).
-
+The ROQ user invites API accessible through the SDK, which allows developers to manage invitations programmatically. Please refer to the [user invites SDK](/development/sdk/user-invites) for documentation.

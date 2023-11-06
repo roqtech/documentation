@@ -1,6 +1,8 @@
 {
-  "index": "Overview",
-  "api": "API",
-  "ui-components": "UI Components",
-  "tutorials": "Tutorials"
+	"index": "Overview",
+	"api": "API",
+	"uploading-files": "Uploading Files",
+	"download-files": "Download Files",
+	"manage-file-categories": "Manage File Categories",
+	"react-components": "React Components"
 }

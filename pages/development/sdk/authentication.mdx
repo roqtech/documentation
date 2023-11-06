@@ -1,0 +1,75 @@
+import { Callout } from 'nextra/components'
+
+# Authentication
+
+## Introduction
+
+ROQ provides a complete and secure authentication solution for SaaS application development.
+
+Key Features:
+
+- Customizable user login and registration (customization on ROQ Console)
+- Full multi-tenancy support (e.g., creation of new organizations during sign-up)
+- Secure session handling for your application
+- Social sign-in with Google, Github, or Facebook (setup on ROQ Console)
+- Multi-factor Authentication or MFA (setup on ROQ Console) 
+- User invites
+- 360-degree view of all user data
+
+## How It Works
+
+ROQ's authentication and session management are based on the [OAuth protocol](https://oauth.net/2/). Here is how it works:
+
+1. The user clicks the Login button or is redirected to a login page provided by ROQ.
+2. ROQ prompts the user to log in using username and password or social sign-ins (e.g., Google) and then sends a special token back indicating that the user has granted permission to access your web application.
+3. Using the authentication wrapper such as `requireNextAuth` for Next.js, you can easily define which pages are only accessible to authenticated users.
+
+## API
+
+All authentication APIs on the client side are live by default in the `/lib/roq` folder, and all authentication APIs are accessible through the ROQ client `useRoqClient()` method.
+
+The front-end SDK provides authentication helper functions for redirecting users to the sign-in and sign-up pages and a function to clean the session upon logout.
+
+Here is the summary of the most important API for authentication:
+
+### `signIn`
+
+Redirect users to the sign-in page.
+
+```tsx
+import {useRoqClient} from "/lib/roq"
+
+const roqClient = useRoqClient()
+
+roqClient.signIn()
+```
+
+### `signUp`
+
+Redirect users to the sign-up page.
+
+```tsx
+import {useRoqClient} from "/lib/roq"
+
+const roqClient = useRoqClient()
+
+roqClient.signUp()
+```
+
+### `logout`
+
+Clean the session.
+
+```tsx
+import {useRoqClient} from "/lib/roq"
+
+const roqClient = useRoqClient()
+
+roqClient.logout()
+```
+
+## Framework integration
+
+As mentioned earlier, every successful sign-in or sign-up generates a special token. This token is saved in the browser's cookie as `roq-session-token`. Any JavaScript framework can utilize this token.
+
+For practical examples, check out [add authentication](/next-js/add-authentication). This detailed documentation explains how to sign in, log out, and sign up for a Next.js project.

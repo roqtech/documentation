@@ -1,32 +1,35 @@
-import { Callout } from 'nextra-theme-docs'
-
-# Transactional Mails
+# Mails
 
 ## Introduction
 
-ROQ provides a unified way to send emails utilizing multiple providers like Sendgrid, Mandrill, Mailgun, and others. The email functionality is used by other features of ROQ, for instance confirming new user accounts.
+ROQ provides a unified way to send emails utilizing multiple providers like Sendgrid, Mandrill, Mailgun, and others. The email functionality is used by other features of ROQ, for instance, confirming new user accounts.
 
-This page describes how to send emails to someone using an email address. Please keep in mind that users cannot unsubscribe from transactional emails, and they are sent even when the user didn't confirm the email. If you want to notify a user instead, use ROQ's [notification feature](/notifications).
+## Integration with email service providers
 
+To activate email integrations, in the ROQ Console, go to **Integrations** → **Email**.
 
-## Integration Setup
+![email integration](/screenshots/roq-email-integration.png)
 
-To set up email integration in the ROQ Console, read this [documentation](/mails/integration).
+Choose any email providers you want to use and fill in the required information. For instance, select SendGrid as the email provider and fill the form with these required fields:
+
+- **Api Access Key** from your SendGrid account.
+- **From Email**.
+- **The Sender Name**.
+
+![email provider](/screenshots/roq-email-sendgrid-integration.png)
+
+## Email templates and customization
+
+The email sent to the user is based on the template. The template is a simple HTML file with placeholders for the data that the ROQ will fill in. The template can be customized in the ROQ Console. Please read this [guide](/mails/email-templates-and-customization) for more information.
 
 ## API
 
 The ROQ Platform offers a simple way to send emails with multiple providers through the ROQ [Mails API](/mails/api).
 
-## Tutorials
+## Sending mails
 
-### How to Send Emails
+Sending emails using API is a simple process. Please read the [guide](/mails/send-emails) for code examples and more information.
 
-To send an email via ROQ's API, you need to read this [documentation](/mails/tutorials/send-emails).
+## How to use mails SDK
 
-### How to Create Email Templates
-
-Read this [documentation](/mails/tutorials/create-email-templates) to create an email template in ROQ Console.
-
-### How to Create Email Locales
-
-The Email localized content template can be added easily through ROQ Console. Read this [documentation](/mails/tutorials/create-email-locales) to add any email-localized content.
+To prepare and use mails SDK, please read the [SDK documentation](/development/sdk/emails).

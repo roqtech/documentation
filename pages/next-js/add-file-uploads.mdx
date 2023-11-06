@@ -1,0 +1,161 @@
+import { Callout } from "nextra/components"
+
+# Add File Uploads
+
+In ROQ, the upload is realized using signed URLs, which means the files are uploaded directly from the user's browser to the object storage without sending it through your backend. 
+
+ROQ SDK for Next.js also provides a `FileUpload` component to make the file upload easy to code. 
+Let's take an example of how to upload an image file using ROQ BaaS.
+
+## Using the `FileUpload` component
+
+First, we need to instantiate the file upload component from the `@roq/nextjs` package:
+
+```tsx
+<FileUpload className='my-10' fileUploader={fileUploader} accept={['image/*']}
+    fileCategory={category} showActiveUploads={false}>
+    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+    Upload file
+    </button>
+</FileUpload>
+```
+
+When using the `FileUpload` component, there are three properties to keep in mind:
+
+- `accept`: This property specifies the type of file that can be uploaded and will be shown in the file dialog.
+- `fileCategory`: This property is used to indicate the category of the uploaded file. We can get the category programmatically or directly look into the ROQ Console.
+- `fileUploader`: This property represents the ROQ file uploader.
+
+## Add file event handlers
+
+The `useRoqFileUploader()` is a hook used in Next.js to upload files. We can use this method to add handlers for file upload events.
+
+```tsx
+const fileUploader = useRoqFileUploader({
+    onUploadSuccess: (file) => {
+          console.log(file)
+    },
+    onUploadFail: (err) => {
+        console.error(err);
+    },
+    onChange: ([file]) => {
+        setSelectedImage(file);
+        handleUpload(file);
+    },
+    fileCategory: category
+});
+```
+
+## Uploading files
+
+The method `handleUpload()` is responsible for handling the selection of a file by the user via the `onChange()` file event.
+
+```tsx
+const handleUpload = useCallback(async () => {
+    if (selectedImage) {
+        const file = await fileUploader.uploadFile({
+            file: selectedImage as File,
+            temporaryId: Date.now().toString(),
+        });
+    }
+}, [fileUploader, selectedImage]);
+```
+
+The `uploadFile()` method of the `useRoqFileUploader()` hook is the actual code responsible for uploading files to the ROQ storage platform.
+
+
+## Image uploader
+
+We can build an image uploader component in the Next.js application from our previous steps.
+
+Here's the full code for our image uploader:
+
+```tsx filename="upload-image.tsx"
+import { useState, useCallback } from 'react'
+import { useRoqClient } from 'lib/roq'
+import { requireNextAuth, useSession, FileUpload, useRoqFileUploader } from '@roq/nextjs'
+
+function ImageUpload() {
+    return <UploadImage />
+}
+
+const UploadImage = () => {
+    const { session, status } = useSession()
+    const [selectedImage, setSelectedImage] = useState<File | null>(null)
+    const roqClient = useRoqClient()
+    const category = 'USER_FILES'
+
+    const fileUploader = useRoqFileUploader({
+        onUploadSuccess: (file) => {
+          console.log(file)
+        },
+        onUploadFail: (err) => {
+          console.error(err)
+        },
+        onChange: ([file]) => {
+            setSelectedImage(file)
+            handleUpload()
+        },
+        fileCategory: category
+      });
+    
+      const handleUpload = useCallback(async () => {
+        if (selectedImage) {
+          const file = await fileUploader.uploadFile({
+            file: selectedImage as File,
+            temporaryId: Date.now().toString(),
+          });
+
+          console.log(file)
+        }
+      }, [fileUploader, selectedImage]);
+
+    function logoutHandler() {
+        roqClient.signOut()
+    }
+
+    return (
+        <div className='m-5'>
+            {session ? (<>
+                <h1>Upload File</h1>
+                <p className='my-10'>Logged in as: <strong>{session?.user.email}</strong></p>
+                <br />
+                <button
+                    onClick={logoutHandler}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    Logout
+                </button>
+               
+               <br/>
+
+            <FileUpload className='my-10'
+              fileUploader={fileUploader}
+              accept={['image/*']}
+              fileCategory={category}
+              showActiveUploads={false}
+            >
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Upload file
+              </button>
+            </FileUpload>
+            </>) : 'Not logged in'}
+        </div>
+    )
+}
+
+export default requireNextAuth({
+    redirectIfAuthenticated: false,
+    redirectTo: "/"
+})(ImageUpload)
+```
+
+In the ROQ Console, we can check the uploaded files in the **Manage Data** section.
+
+![uploaded files](/screenshots/uploaded-files.png)
+
+
+<Callout type="info">
+For information on downloading, categorizing, and using the file API, visit the [files](/files) documentation section.
+</Callout>

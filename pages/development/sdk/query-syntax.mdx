@@ -1,0 +1,244 @@
+# Query syntax
+
+In order to interact with the BaaS database by accessing, updating, or deleting data, it's essential to have a good understanding of the query syntax. 
+
+
+## BaaS
+
+The query syntax used in BaaS is quite similar to the syntax used in the Prisma ORM. For instance, creating or inserting data into the BaaS database is quite similar to the process in Prisma:
+
+**ROQ**
+
+```tsx filename="ROQ Query"
+roqClient.book.create(data, options);
+roqClient.book.createMany(data, options);
+```
+**Prisma**
+
+```tsx
+prisma.book.create({ data });
+prisma.book.createMany({ data });
+```
+
+From the comparison, we know that both offer single and bulk creation methods and have the same pattern query syntax:
+
+```shell
+roqClient.[entity].[operation](condition)
+```
+
+- **entity**: Project entity representing a specific data model or table. For example: `book`, `review`, `chapter`, etc.
+- **operation**: Data operation, such as `create`, `createMany`, `update`, `updateMany`, `upsert`, `delete`, `deleteMany`, `findMany`, `count`, `findManyWithCount`, and `findFirst`.
+- **condition**: filter, order by, or args.
+
+## ROQ Platform
+
+The front-end SDK also provides API for accessing ROQ Platform features such as user roles, user invites, tenants, profiles, and files. 
+
+The query syntax for API:
+
+```tsx
+roqClient.roqPlatform.[operation](args)
+```
+The operation could be: `userInvite`, `userInvites`, `role`, `roles`, `file`, `files`, `tenant`, and many others.
+
+
+## Code examples
+
+For this example and to provide context, we will use Book Creators. An imaginary SaaS application for authoring books. 
+
+### Add a new book
+
+Suppose we want to create a chapter for a specific book title, and for the return data, we also want to include all the book data. We can create a new chapter using the `create()` API.
+
+```tsx
+import {useRoqClient} from '/lib/roq'
+import { v4 as uuidv4 } from 'uuid';
+
+const roqClient = useRoqClient()
+const uuid = uuidv4()
+
+const createChapter = async() => {
+    const chapter = await roqClient.chapter.create({
+        data: {
+            id: `${uuid}`,
+            title: "Take All Your Pride",
+            content: "This is a draft content fot this chapter",
+            book_id: "d8617785-7b30-47fd-9933-a93cf17f70cc",
+        },
+        include: {
+            book: {}
+        }
+    })
+
+    return chapter
+}
+```
+
+By using the keyword `include` for the entity `book`, the data response will also include the book data.
+
+### Update a book chapter
+
+We can also update the existing data. For example, suppose we want to update a chapter's content. We can use the `update()` API.
+
+```tsx
+
+import {useRoqClient} from '/lib/roq'
+
+const roqClient = useRoqClient()
+
+const updateChapter = async() => {
+    const updateChap = await roqClient.chapter.update({
+        data: {
+            content: "Another update draft content is here",
+        },
+        where: {
+            id: "70b29861-bdce-4c6e-a119-b038a025d0b2"
+        },
+        include: {
+            book: {}
+        }
+    })
+
+    return updateChap
+}
+```
+
+The above code response will also include the book data.
+
+### Delete a user review
+
+The `delete()` API can be used to delete specific data on any entity. For example, to delete a user review with the id `78e99df7-30d1-4205-b88f-6e804d1ec0fc`:
+
+```tsx
+const delReview = async() => {
+    const status = await roqClient.review.delete({
+        where:{
+            id: "78e99df7-30d1-4205-b88f-6e804d1ec0fc"
+        }
+    })
+
+    return status
+}
+```
+
+### Get user count
+
+To get how many users are already registered or currently active on the project, we can use the `count()` API.
+
+```tsx
+const userCount = async() => {
+    const count = await roqClient.user.count({
+        orderBy: {
+            created_at: 'desc'
+        }
+    })
+
+    return count
+}
+```
+
+### Find books
+
+Suppose we want to find a book with the genre containing the "Science" word. We can use the `findMany()` on the book entity to search the book.
+
+
+```tsx
+const findBook = async() =>{
+    const bookData = await roqClient.book.findMany({
+     where: {
+         genre: {
+             contains: "Science"
+         }
+     },
+     orderBy: {
+         created_at: "asc"
+     }
+    })
+
+    return bookData
+}
+```
+
+### Find all books
+
+The `findManyWithCount()` will fetch multiple records and their count data. 
+
+Let's say we want to retrieve books along with their review and user data. We can use the `include` and `user` keys to also include the user data.
+
+```tsx
+import { useRoqClient } from 'lib/roq'
+
+const roqClient = useRoqClient()
+
+const dataBook = async() => {
+    const allBook = await roqClient.book.findManyWithCount({
+    orderBy: { created_at: 'desc' },
+    include: {
+        review: {
+            orderBy: { created_at: 'desc'},
+            include: {
+                user: {
+                    include: {
+                        company: true
+                        }
+                    }
+                }
+            }
+        }
+    }) 
+    
+    return allBook
+}
+```
+
+
+### Get user profiles
+
+To retrieve all user profiles, we can use the `userProfiles()` API that specifically queries data from the ROQ Platform.
+
+```tsx
+const users = async () => {
+   const profiles = await roqClient.roqPlatform.userProfiles();
+   return profiles; 
+}
+```
+
+The data response example:
+
+![user profiles data response](/screenshots/user-profiles-response.png)
+
+
+### Get user files
+
+To get all files from the users, we can use the `files()` API. 
+
+```tsx
+const userFiles = async() => {
+    const allFiles = await roqClient.roqPlatform.files()
+    return allFiles
+}
+```
+
+### Get user roles
+
+Suppose we have a user ID `8b249b07-bdd9-43f7-a10e-ace10f27ff66` and want to know what the user's roles are. We can use the `roles()` API:
+
+```tsx
+const userRoles = async() => {
+    const roles = await roqClient.roqPlatform.roles({
+        filter: {
+            userId: {
+                equalTo: "8b249b07-bdd9-43f7-a10e-ace10f27ff66"
+            }
+        }
+    })
+    return roles
+}
+```
+
+The example response from the code above is:
+
+![user roles filter response](/screenshots/user-roles-filter.png)
+
+
+{/* roqPlatform examples*/}

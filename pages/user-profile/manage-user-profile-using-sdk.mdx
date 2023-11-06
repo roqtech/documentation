@@ -1,0 +1,320 @@
+import { Callout } from "nextra/components"
+
+# Manage user profile using SDK
+
+To manage user profile using ROQ BaaS SDK, you need to implement the following steps:
+
+- [Add user profile to your app](#add-user-profiles-to-your-app)
+- [Edit user profile](#edit-user-profile)
+- [Upload user avatar](#upload-user-avatar)
+- [Update user profile](#update-user-profile)
+
+
+## Add user profiles to your app
+
+To display the user profile information, you can use the `userProfile()` API. This method needs the user ID as a parameter. The user id can be obtained from the session object `roqUserId`.
+
+For example, in a Next.js app, you can use the `useRoqClient()` and `useSession()` hooks to get the `userProfile()` API to get the user profile information and the user id.
+
+```tsx
+import { useRoqClient } from "lib/roq"
+import { useSession } from "@roq/nextjs"
+
+const roqClient = useRoqClient()
+const { session } = useSession()
+
+const { roqUserId } = session
+
+const userProfile = async () => {
+    const profile = await roqClient.roqPlatform.userProfile({
+        id: roqUserId
+    })
+}
+```
+
+The data returned by the `userProfile()` API is an object with the following structure:
+
+```json
+{
+    "userProfile": {
+        "id": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+        "reference": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+        "firstName": "",
+        "lastName": "",
+        "email": "Francis84@roq.tech",
+        "phone": null,
+        "locale": "en-US",
+        "timezone": "Asia/Jakarta",
+        "avatarUrl": ""
+    }
+}
+```
+
+You can display this information using any UI library. For example, you can use [Tailwind CSS](https://tailwindcss.com/) or a library like [Chakra UI](https://chakra-ui.com/).
+
+
+## Edit user profile
+
+To edit the user profile information, you need to build a form for editing and also for uploading avatar pictures. For example, this is a simple page from the Next.js application that allows you to edit the user profile information based on the current user session.
+
+```tsx filename="src/pages/user-profile.tsx"
+import { useRoqClient } from "lib/roq";
+import { requireNextAuth, useSession } from "@roq/nextjs";
+import { useEffect, useState } from "react";
+import  ProfileFrom from "components/ProfileForm";
+
+function UserProfile() {
+  return <UserProfileSection />;
+}
+const UserProfileSection = () => {
+  const { session, status } = useSession();
+  const [profile, setProfile] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    locale: "",
+    timezone: "",
+    avatarUrl: "",
+  });
+
+  const roqClient = useRoqClient();
+  const roq_user_id = session?.roqUserId;
+  const tenant_id = session?.user.tenantId;
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProfile((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // Update user profile
+  };
+
+  const logoutHandler = () => {
+    roqClient.signOut();
+  };
+
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      const myUserProfile = await roqClient.roqPlatform.userProfile({
+        id: roq_user_id ?? "",
+      });
+
+      const myprofile = myUserProfile;
+
+      setProfile({
+        firstName: myprofile?.userProfile?.firstName ?? "",
+        lastName: myprofile?.userProfile?.lastName ?? "",
+        email: myprofile?.userProfile?.email ?? "",
+        phone: myprofile?.userProfile?.phone ?? "",
+        locale: myprofile?.userProfile?.locale ?? "",
+        timezone: myprofile?.userProfile?.timezone ?? "",
+        avatarUrl: myprofile?.userProfile?.avatarUrl ?? "",
+      });
+    };
+
+    fetchUserProfile();
+  }, []);
+
+  return (
+    <div className="m-5">
+      {session ? (
+        <>
+          <p className="my-10">
+            Logged in as: <strong>{session?.user.email}</strong>
+          </p>
+
+          <ProfileFrom
+            profile={profile}
+            handleSubmit={handleSubmit}
+            handleInputChange={handleInputChange}
+          />
+          <button
+            onClick={logoutHandler}
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          >
+            Logout
+          </button>
+        </>
+      ) : (
+        <p>Please log in to see the content.</p>
+      )}
+    </div>
+  );
+};
+
+export async function getServerSideProps(context) {
+  const { req } = context;
+  const cookies = req.headers.cookie?.split(";");
+  console.log(cookies);
+  const tokenCookie = cookies?.find((cookie) =>
+    cookie.trim().startsWith("roq-session-token=")
+  );
+  const token = tokenCookie?.split("=")[1];
+
+  return {
+    props: { token },
+  };
+}
+
+export default requireNextAuth({
+  redirectIfAuthenticated: false,
+  redirectTo: "/",
+})(UserProfile);
+```
+
+And for the form component, you can use the following code:
+
+```tsx filename="components/ProfileForm.tsx"
+function ProfileFrom({ profile, handleSubmit, handleInputChange }) {
+  return (
+    <>
+      {/* Display and Edit User Profile */}
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="firstName"
+          >
+            First Name
+          </label>
+          <input
+            type="text"
+            name="firstName"
+            value={profile.firstName}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="First Name"
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="lastName"
+          >
+            Last Name
+          </label>
+          <input
+            type="text"
+            name="lastName"
+            value={profile.lastName}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Last Name"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="phone"
+          >
+            Phone Number
+          </label>
+          <input
+            type="tel"
+            name="phone"
+            value={profile.phone}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Phone Number"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="locale"
+          >
+            Locale
+          </label>
+          <input
+            type="text"
+            name="locale"
+            value={profile.locale}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Locale (e.g., en-US)"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="timezone"
+          >
+            Timezone
+          </label>
+          <input
+            type="text"
+            name="timezone"
+            value={profile.timezone}
+            onChange={handleInputChange}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Timezone (e.g., UTC+7)"
+          />
+        </div>
+
+        {/* ... Add more input fields for other profile properties ... */}
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Update Profile
+        </button>
+      </form>
+
+      <br />
+    </>
+  );
+}
+
+export default ProfileFrom;
+```
+
+To update the user profile information, we can submit the form, and the `handleSubmit()` handler will be called. In the handler, we can call the query the user profile information and update the user profile information. 
+
+## Upload user avatar
+
+ROQ uses file categorization to identify uploaded files and indirectly associates them with a user avatar for the specific category. For user avatars, the **`USER_AVATAR_FILES`** category is utilized.
+
+To upload a file as a user avatar, you can implement custom file upload logic. Please read this [documentation](/files/uploading-files) for more information about this.
+
+Another way to upload a file as a user avatar is by using a specific framework component. For example, this [documentation](/next-js/add-file-uploads#using-the-fileupload-component) covers how to add file upload using the `FileUpload` component from the `@roq/nextjs` package.
+
+Whether you implement file uploading or use a specific framework component, remember to set the `category` property to `USER_AVATAR_FILES` when uploading a file as a user avatar.
+
+## Update user profile
+
+To update a user profile, we can use the `update` method from the `user` entity. This `user` entity can be accessed in the `roqClient.user` properties:
+
+```ts
+import { roqClient } from "/lib/roq";
+import { useSession } from "@roq/nextjs";
+
+const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const getUserId = await roqClient.user.findMany({
+        where: {
+            email: session?.user.email,
+        },
+    });
+
+    const myUserProfile = await roqClient.user.update({
+        data: {
+            firstName: profile.firstName,
+            lastName: profile.lastName,
+        },
+        where: {
+            id: getUserId[0].id,
+            email: session?.user.email,
+        },
+    });
+};
+```

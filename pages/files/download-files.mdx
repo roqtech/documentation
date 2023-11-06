@@ -1,0 +1,78 @@
+import { Tabs, Tab } from "nextra/components"
+
+# Download files
+
+There are two methods to download files from the ROQ platform. The first method involves using API, while the second method involves downloading files directly from the ROQ Console. However, the latter method is restricted to the administrators or users who have access to the ROQ Console.
+
+## Using API
+
+After you upload a file, you can access it using the `file()` API. If you need to list the uploaded files, use the `files()` method instead.
+
+<Tabs items={["TypeScript", "Response"]}>
+<Tab>
+```tsx
+const filebyId =async () => {
+	const myfile = await roqClient.roqPlatform.file({
+		id: "dd1f3ac5-2951-460e-add3-d3ef9516d694",
+		withCreatedByUser: true
+	})
+}
+```
+</Tab>
+<Tab>
+```json
+{
+    "file": {
+        "id": "dd1f3ac5-2951-460e-add3-d3ef9516d694",
+        "createdAt": "2023-10-29T22:08:14.339Z",
+        "updatedAt": "2023-10-29T22:08:43.053Z",
+        "contentType": "image/png",
+        "createdByUserId": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+        "fileCategoryId": "ff8143f2-cd89-41e9-af16-999c9b9da9b8",
+        "isPublic": true,
+        "name": "2.png",
+        "status": "ready",
+        "url": "https://s3.fr-par.scw.cloud/e3408733-0ac2-4596-8264-0a7da2481801-environment-bucket/2.png",
+        "createdByUser": {
+            "id": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+            "reference": "8b249b07-bdd9-43f7-a10e-ace10f27ff66",
+            "firstName": "",
+            "lastName": "",
+            "active": true,
+            "email": "Francis84@roq.tech",
+            "phone": null,
+            "locale": "en-US",
+            "isOptedIn": true,
+            "synced": false,
+            "tenantId": "dc92f95d-42bd-45af-84a7-da227d694cbb",
+            "customData": {},
+            "timezone": "Asia/Jakarta",
+            "avatarUrl": "",
+            "createdAt": "2023-10-19T09:46:17.157Z",
+            "updatedAt": "2023-10-19T09:46:17.368Z"
+        }
+    }
+}
+```
+</Tab>
+</Tabs>
+
+In JavaScript there are many ways to download files. For example, we can create a React component `DownloadButton` and make the `href` dynamic based on the `fileData`.
+
+```tsx
+function DownloadButton({ fileData }) {
+  return (
+    <a href={fileData.file.url} download={fileData.file.name}>
+      Download {fileData.file.name}
+    </a>
+  );
+}
+```
+
+
+## Using ROQ Console
+
+You can also download files directly from the ROQ Console.
+
+![file in console](/screenshots/download-files-from-console.png)
+

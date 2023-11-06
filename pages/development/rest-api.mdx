@@ -1,0 +1,263 @@
+import { Callout } from "nextra/components"
+
+# REST API
+
+## Overview
+
+ROQ uses JSON:API specification to minimize the number of requests and the amount of data transmitted between clients and servers. Its design allows for fetching, creating, and updating multiple resources in a single request, making operations more efficient.
+
+## What is JSON:API?
+
+JSON:API is a specification for how a client should request that resources be fetched or modified and how a server should respond to those requests. It provides guidelines for structuring requests, responses, and the HTTP methods and status codes to employ. It embraces RESTful conventions. However, it also defines conventions for building and modifying resources via HTTP.
+
+**Features**
+
+- Standardizes how APIs are designed and how requests and responses are handled, promoting interoperability.
+- Specifies the use of JSON in request and response bodies, with conventions for how resources and their relationships should be represented.
+- Supports fetching and modifying resources and provides mechanisms for transactions and error handling.
+- Embraces RESTful principles but also includes conventions for actions not covered by REST.
+
+For example, this is a response from ROQ BaaS REST API:
+
+```json
+{
+    "data": [
+        {
+            "id": "d8617785-7b30-47fd-9933-a93cf17f70cc",
+            "title": "Pride and Prejudice",
+            "author": "Jane Austen",
+            "publication_date": "2023-10-19T01:18:11.866Z",
+            "genre": "Romance",
+            "company_id": "2b1ad26c-0033-496c-9a08-2daa21d924c0",
+            "created_at": "2023-10-19T05:15:05.966Z",
+            "updated_at": "2023-10-19T03:34:13.550Z",
+            "review": [
+                {
+                    "id": "4cd16308-7ad9-4f08-95d0-87cc5205a6b0",
+                    "rating": 91223,
+                    "comment": "Couldn't put it down.",
+                    "user_id": "355ed6b8-ae02-4d3f-9eae-0371ccad7fab",
+                    "book_id": "d8617785-7b30-47fd-9933-a93cf17f70cc",
+                    "created_at": "2023-10-19T04:28:56.203Z",
+                    "updated_at": "2023-10-19T04:06:28.644Z",
+                    "user": {
+                        "id": "355ed6b8-ae02-4d3f-9eae-0371ccad7fab",
+                        "email": "Jayde.Herman88@roq.tech",
+                        "firstName": null,
+                        "lastName": null,
+                        "roq_user_id": "ce3eef49-8f51-4f0b-a0d0-9c8a3181f24a",
+                        "tenant_id": "dc92f95d-42bd-45af-84a7-da227d694cbb",
+                        "created_at": "2023-10-19T09:46:27.426Z",
+                        "updated_at": "2023-10-19T09:46:27.426Z",
+                        "company": []
+                    }
+                },
+                {
+                    "id": "c4c78497-46e1-4337-85da-b84ab85f7953",
+                    "rating": 24135,
+                    "comment": "Great storyline.",
+                    "user_id": "650e43ac-9d5e-4a0d-bca0-fe7edd75e35d",
+                    "book_id": "d8617785-7b30-47fd-9933-a93cf17f70cc",
+                    "created_at": "2023-10-18T20:05:36.817Z",
+                    "updated_at": "2023-10-19T05:38:19.389Z",
+                    "user": {
+                        "id": "650e43ac-9d5e-4a0d-bca0-fe7edd75e35d",
+                        "email": "Jennings49@roq.tech",
+                        "firstName": null,
+                        "lastName": null,
+                        "roq_user_id": "c4fdd112-8f3a-4b07-ba25-e700afa27a46",
+                        "tenant_id": "dc92f95d-42bd-45af-84a7-da227d694cbb",
+                        "created_at": "2023-10-19T09:46:27.669Z",
+                        "updated_at": "2023-10-19T09:46:27.669Z",
+                        "company": []
+                    }
+                },
+                {
+                    "id": "28fc5e57-c76b-4a06-aed8-f4eecf5b9d5a",
+                    "rating": 54616,
+                    "comment": "Excellent book!",
+                    "user_id": "355ed6b8-ae02-4d3f-9eae-0371ccad7fab",
+                    "book_id": "d8617785-7b30-47fd-9933-a93cf17f70cc",
+                    "created_at": "2023-10-18T08:51:31.829Z",
+                    "updated_at": "2023-10-19T05:23:01.787Z",
+                    "user": {
+                        "id": "355ed6b8-ae02-4d3f-9eae-0371ccad7fab",
+                        "email": "Jayde.Herman88@roq.tech",
+                        "firstName": null,
+                        "lastName": null,
+                        "roq_user_id": "ce3eef49-8f51-4f0b-a0d0-9c8a3181f24a",
+                        "tenant_id": "dc92f95d-42bd-45af-84a7-da227d694cbb",
+                        "created_at": "2023-10-19T09:46:27.426Z",
+                        "updated_at": "2023-10-19T09:46:27.426Z",
+                        "company": []
+                    }
+                }
+            ]
+        }
+    ],
+    "count": 1
+}
+```
+The JSON:API response showcases a single book record under the `data` key, including its associated reviews and some user data of the reviewers. It adheres to the JSON:API specifications, encapsulating relationships and attributes of the book entity. The book data comprises various attributes like `title`, `author`, and `publication_date`, among others, along with a nested `review` array containing individual review records. Each review record further nests the `user` data of the reviewer.
+
+For more information, visit the [JSON:API official website](https://jsonapi.org/).
+
+## REST API URL
+
+You can locate the REST API URL by accessing the `ROQ_API_URL` environment key which is available in the ROQ Console. 
+
+If you have already copied the environment values from the ROQ Console to your application project's `.env` file, you should be able to view the `ROQ_API_URL` key in the `.env` file.
+
+For example:
+
+```ini
+ROQ_API_URL=https://book-story-v1-ca2b-baas.vercel.app
+```
+
+## How to get the user token
+
+Whenever a user successfully logs in, a user token is generated. This token is used to identify the user for subsequent requests made to the ROQ BaaS.
+
+To access the ROQ BaaS REST API, you need an authorization token known as `roq-session-token`. In a Next.js application, you can programmatically retrieve the user token for authorization. This token, by default, is stored in a browser cookie with the `HttpOnly` flag, which means it cannot be directly accessed using JavaScript on the client side.
+
+There are a few ways to get the user token. You can get the token programmatically, or you can get it manually for fast testing and development.
+
+### Programmatically
+
+In the Next.js application, we can use the `getServerSideProps()` method to get the token. The `getServerSideProps()` function allows you to fetch data server-side per request and use it as props in components.
+
+```tsx
+export async function getServerSideProps(context) {
+    const { req } = context;
+    const cookies = req.headers.cookie?.split(';');
+    const tokenCookie = cookies?.find(cookie => cookie.trim().startsWith('roq-session-token='));
+    const token = tokenCookie?.split('=')[1];
+  
+    return {
+      props: { token }
+    };
+}
+```
+
+This is the full example code on how to get the `roq-session-token` and use the token to query book count data.
+
+```tsx filename="book.tsx" {21, 53-63}
+import { useRoqClient } from 'lib/roq'
+import { requireNextAuth, useSession } from '@roq/nextjs'
+import { useEffect, useState} from 'react'
+
+export default function Book({token}) {
+    return <AuthenticatedSection token={token}/>
+}
+
+const AuthenticatedSection = ({ token }) => {
+    const { session, status } = useSession()
+    const [bookCount, setBookCount] = useState(0)
+    const roqClient = useRoqClient()
+
+    useEffect(() => {
+        //fetch book count
+        const fetchBookCount = async () => {
+            const count = await roqClient.book.count({
+                orderBy: { created_at: 'desc' }
+            },{
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            setBookCount(count)
+        }
+        fetchBookCount()
+
+    }, [])
+
+    function logoutHandler() {
+        roqClient.signOut()
+    }
+
+    return (
+        <div className='m-5'>
+            {session ? (<>
+                <p className='my-10'>Logged in as: <strong>{session?.user.email}</strong></p>
+                <p>Book Count: {bookCount}</p>
+                <br />
+                <button
+                    onClick={logoutHandler}
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                >
+                    Logout
+                </button>
+               
+               <br/>
+            </>) : 'Not logged in'}
+        </div>
+    )
+}
+
+export async function getServerSideProps(context) {
+    const { req } = context;
+    const cookies = req.headers.cookie?.split(';');
+    const tokenCookie = cookies?.find(cookie => cookie.trim().startsWith('roq-session-token='));
+    const token = tokenCookie?.split('=')[1];
+  
+    return {
+      props: { token }
+    };
+}
+```
+
+### Manually
+
+The token can also be obtained by copying it directly from the browser cookie and pasting it into the authorization header of the REST API call. You can test it using tools such as [Postman](https://www.postman.com/).
+
+![roq session token browser](/screenshots/roq-session-token.png)
+
+
+## Interacting with the REST API
+
+To access the REST API in the ROQ BaaS, you'll need:
+
+*  [**The REST API URL**](#rest-api-url). The URL which the application will use to access the REST API.
+*  [**A Token**](#how-to-get-the-user-token). The token is used to identify the user for subsequent requests made to the ROQ BaaS.
+
+Let's say you have a book story application with the REST API at `https://book-story-v1-ca2b-baas.vercel.app` and you want to count the total number of available books from the client side.
+
+```tsx
+const count = await roqClient.book.count({ orderBy: { created_at: 'desc' }})
+```
+
+The code tells us to query the book count data in descending order. This code will translated to the REST API call to:
+
+```shell
+https://book-story-v1-ca2b-baas.vercel.app/api/model/book/count?q=%7B%22orderBy%22%3A%7B%22created_at%22%3A%22desc%22%7D%7D
+```
+
+The endpoint `/api/model/book/count` indicates an action (`count`) on a model (`book`). The `q` query parameter appears as a JSON object, URL-encoded, which specifies how the counting should be performed. In this case, it instructs the server to order the books by their `created_at` timestamp in descending order (`desc`) before performing the count.
+
+We can use tools such as [Postman](https://www.postman.com/) to call the REST-API's book count endpoint with the necessary request authorization using **Bearer Token**. Remember to add token 
+
+![postman](/screenshots/postman-roq-baas-query.png)
+
+{/* Currently REST API will failed without HttpOnly flag to false */}
+
+## Disabling the `HttpOnly` flag
+
+To disable the `HttpOnly` flag, you can modify the environment variable. This action will allow you to access the cookie directly using JavaScript.
+
+Step-by-step guide:
+
+1. **Set the Environment Variable** 
+    
+    To make the necessary changes to the environment configuration file, simply add or modify the specified line in the `env` file.
+    
+    ```js
+    ROQ_SESSION_COOKIE_HTTP_ONLY=false
+    ```
+
+2. **Access the Token** 
+    
+    Once the `HttpOnly` flag is disabled, you can retrieve the token directly using JavaScript.
+
+<Callout type="info">
+Disabling the `HttpOnly` flag can expose your application to security vulnerabilities such as Cross-Site Scripting (XSS) attacks. Always weigh the benefits against the risks before making changes.
+</Callout>

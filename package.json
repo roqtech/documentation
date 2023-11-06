@@ -19,13 +19,15 @@
   },
   "homepage": "https://github.com/shuding/nextra-docs-template#readme",
   "dependencies": {
+    "@styled-icons/simple-icons": "^10.46.0",
+    "@theguild/remark-mermaid": "^0.0.5",
     "marked": "^5.1.1",
     "mixpanel-browser": "^2.45.0",
-    "next": "^13.0.7",
+    "next": "^13.5.4",
     "next-seo": "^5.15.0",
     "next-sitemap": "^3.1.54",
-    "nextra": "^2.2.14",
-    "nextra-theme-docs": "^2.2.14",
+    "nextra": "^2.13.2",
+    "nextra-theme-docs": "^2.13.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

@@ -1,6 +1,5 @@
 {
-  "index": "Overview",
-  "api": "API",
-  "ui-components": "UI Components",
-  "tutorials": "Tutorials"
+	"index": "Overview",
+	"api": "API",
+	"add-user-invites-to-apps": "Add User Invites to Apps"
 }

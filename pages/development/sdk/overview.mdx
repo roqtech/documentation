@@ -1,0 +1,74 @@
+import { Callout } from "nextra/components"
+
+# Overview
+
+## SDK
+
+ROQ BaaS SDKs are a collection of packages and tools that allow for creating SaaS applications supporting various web frameworks such as Express, Next.js, Nuxt.js, RedwoodJS, or SvelteKit. 
+
+With this SDK, you can streamline the fetching, manipulation, and storage of data in the BaaS database. The SDK also handles user authentication and authorization, ensuring secure app interactions and additional features such as file handling, user profiles, and user invites, enhancing the application's capability. 
+
+The SDK offers mainly two variations: client-side or **front-end SDK** and server-side or **back-end SDK**.
+
+### Front-end SDK
+
+The front-end SDK is: `@roq/client` and `generated SDK`
+
+<Callout type="info">
+This `@roq/client` package is installed automatically when using the `@roq/cli` tool to generate a front-end SDK. Typically, developers would not use it directly during development because `@roq/cli` generates code that is easier to use and ready for interaction with BaaS.
+</Callout>
+
+Our CLI tool `@roq/cli` will generate the front-end SDK. Furthermore, the benefits of the generated front-end SDK include:
+
+- **Customization**: Tailored to fit the specific requirements and configurations of your front-end project. For example, if you need to make changes to the project schema, you can do so using the ROQ Console and then regenerate the SDK.
+- **Easy Integration**: The API generated in the SDK is designed to be easily integrated with modern front-end frameworks and libraries.
+- **Consistency**: Ensures consistent interaction patterns with the back-end, reducing potential integration issues.
+
+The front-end SDK serves primary purposes:
+
+- **Access to the BaaS database** (via Rest API)
+- **Interaction with ROQ Platform** (via GraphQL)
+- **Redirects to hosted pages**
+
+### Back-end SDK
+
+The back-end SDKs are: **`@roq/nodejs`** and **`@roq/nextjs`** (we will support more SDKs coming soon)
+
+The server-side SDK includes the following:
+
+- **Auth-handlers** (specific per framework)
+- **ROQ Node.js SDK** (for interaction with ROQ Platform)
+- **BaaS SDK** (with and without access management)
+
+### CLI
+
+`@roq/cli` is a command-line interface (CLI) tool that facilitates the generation of a front-end SDK in your project. It provides a convenient way to streamline creating a software development kit (SDK) tailored for front-end development. The CLI will generate code based on the project Prisma schema and will handle any dependencies that are needed.
+
+## Installation
+
+The installation and setup of the SDK depend on the client or server frameworks used. Refer to the [installation](/development/sdk/installation) documentation for specific details.
+
+## Access to your data
+
+The front-end SDK simplifies BaaS database access on the client and leverages the ROQ platform. Also, the API uses Prisma-like syntax that is easy to understand. To learn about query syntax, visit the [query syntax](/development/sdk/query-syntax) documentation.
+
+For information on accessing data in applications like Next.js, check out the documentation on [accessing data](/next-js/accessing-the-data). 
+
+## Authentication
+
+SaaS applications always need authentication. The ROQ platform handles this authentication. Hence, the developers don't need to implement it from scratch. The front-end SDK has helper functions for easy authentication. You can visit [authentication](/development/sdk/authentication) to learn more about authentication.
+
+## Additional features
+
+### File handling
+
+This API handles everything to do with the file (upload, get files, delete files, and update files). Please look into the [file handling](/development/sdk/file-handling) section for more information.
+
+### User invites
+
+The API handle user invitation to the project tenant or organization. You can read more in this [user invites](/development/sdk/user-invites) for more information.
+
+### Emails
+
+The API handles sending emails. Visit the [emails](/development/sdk/emails) for more information.
+

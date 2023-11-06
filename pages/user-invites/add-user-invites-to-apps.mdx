@@ -1,0 +1,73 @@
+# How to add user invites to apps
+
+It's clear from [the user invites diagram overview](/user-invites#user-invite-process-flow) that these APIs are necessary to manage the user invitation process:
+
+- The `sendUserInvites()` API sends the invitation.
+- The `resendUserInvite()` API provides a resend invitation option. 
+- The `userInvites()` API is used to check the status of the invitation.
+- The `cancelUserInvite()` API allows the inviter to cancel the invitation.
+
+The usage and implementation of these APIs heavily depend on the app and the use case. However, general steps are required to implement the user invitation process.
+
+## Get user and tenant data
+
+Before sending any user invitation, we need to get the user and tenant data. The user data can be retrieved from the session using the `useSession()` method or user query, which returns the user ID and user tenant data from the session.
+
+For example, to get user dan tenant data from the session in Next.js:
+
+```ts
+import { useSession } from "@roq/nextjs"
+
+const { session } = useSession()
+
+const userId = session?.roqUserId
+const tenantId = session?.user?.tenantId
+```
+
+## Add user invitation UI
+
+You can use a button or any other UI element to trigger the user invitation process. 
+
+## Send user invitations
+
+After we get the user and tenant data and user invitation UI, we can send the invitation using the [`sendUserInvites()`](/user-invites/api#senduserinvites) API method. This method will send an invitation to the user's email. This invitation supports multiple users so that we can send multiple invitations in one request.
+
+```ts
+import { useRoqClient } from '/lib/roq'
+ 
+const roqClient = useRoqClient()
+ 
+const status = async () => {
+    const userInvitations = await roqClient.roqPlatform.sendUserInvites({
+        userInvites: {
+            tenantId: 'ee764883-f2c3-4486-9de6-070345e350af',
+            userInvites: [{
+                createdByUserId: '530c9a92-71c5-4dce-a6e3-c638c2d0b1bc',
+                email: "wick.john@roq.tech",
+                locale: "en-US",
+                roles: ["content-creator"]
+            }]
+        }
+    })
+ 
+    return userInvitations
+}
+```
+
+In some cases, we need to resend the invitation, so we can utilize the [`resendUserInvite()`](/user-invites/api#resenduserinvite) API method to resend the invitation or cancel the invitation using the [`cancelUserInvite()`](/user-invites/api#canceluserinvite) API method.
+
+## Track user invitation status
+
+After we send the invitation, we can track the invitation status using the [`userInvites()`](/user-invites/api#userinvites) API method. This method will return the user invitation status, which can be used to check the invitation status.
+
+```ts
+import { useRoqClient } from '/lib/roq'
+ 
+const roqClient = useRoqClient()
+ 
+const userInvitesData = async() => { 
+    return await roqClient.roqPlatform.userInvites({
+        limit: 10
+    })
+}
+```
