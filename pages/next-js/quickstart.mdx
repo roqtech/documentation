@@ -164,19 +164,27 @@ Create another page called `user.tsx` and fill with this code:
 ```tsx filename="src/pages/user.tsx"
 import { Inter } from 'next/font/google'
 import { useRoqClient } from 'lib/roq'
+import { useSession } from '@roq/nextjs'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const roqClient = useRoqClient()
- 
-  const handleSignUp = async () => {
-     await roqClient.signUp('owner', { postLoginRedirect: '/user' })
-  }
+  const { session } = useSession()
+  
+  const roles = session?.user.roles || [];
  
   return (
     <main className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}>
-     <h1>Dashboard</h1>
+      <h1>Dashboard</h1>
+      <p>You are currently logged in as: { session?.user.email }</p>
+      <p>User roles: 
+        <ul>
+            {roles.map((role, index) => (
+                <li key={index}>{role}</li>
+            ))}
+        </ul>
+      </p>
     </main>
   )
 }
