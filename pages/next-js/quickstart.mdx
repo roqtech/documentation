@@ -49,49 +49,25 @@ Make sure to include the `.env` file in the `.gitignore` file. So that the envir
 </Callout>
 ### Generate SDK
 
-Our Next.js project will work with ROQ BaaS by using a customized generated SDK. This process is necessary to generate Prisma types for SDK. 
+Our Next.js project will work with ROQ by using a customized generated SDK. This process is necessary to generate Prisma types for SDK. 
 
 To generate the SDK, run the command below:
 
 ```shell
 npx @roq/cli generate
 ```
+
+<Callout type="info">
+If any changes are made to the project schema or entities after the project creation and SDK generation, we can update the SDK by running the command `npx @roq/cli generate` again. To modify the project schema, we can use the [Schema Editor](/schema-editor) available on the ROQ Console.
+</Callout>
+
 The command generates a customizable SDK based on the Prisma BaaS schema and chosen environment. The default location for the code generated is `src/lib/roq`.
 
 ![generate roq sdk](/screenshots/generate-sdk.png)
 
-Add `src/lib/roq` folder to the `compilerOptions` in the TypeScript config file `tsconfig.json` so that the new SDK can be recognized. The `tsconfig.json` located in the root directory of the Next.js project.
+Add `src/lib/roq` folder to the `paths` of the `compilerOptions` in the TypeScript config file `tsconfig.json` so that the new SDK can be recognized. The `tsconfig.json` located in the root directory of the Next.js project.
 
-before:
-
-```json filename="tsconfig.json"
-{
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
-}
-```
-
-after: 
-
-```json filename="tsconfig.json"
+```json filename="tsconfig.json" {18}
 {
   "compilerOptions": {
     "target": "es5",
@@ -117,9 +93,6 @@ after:
 }
 ```
 
-<Callout type="info">
-If any changes are made to the project schema or entities after the project creation and SDK generation, we can update the SDK by running the command `npx @roq/cli generate` again. To modify the project schema, we can use the [Schema Editor](/schema-editor) available on the ROQ Console.
-</Callout>
 
 ### Configure Next.js with ROQ authentication
 
