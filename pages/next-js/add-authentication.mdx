@@ -17,9 +17,6 @@ import { RoqProvider } from '@roq/nextjs'
 export default function App({ Component, pageProps }: AppProps) {
   const backendHost = process.env.NEXT_PUBLIC_ROQ_API_URL as string
   const platformHost = process.env.NEXT_PUBLIC_ROQ_PLATFORM_URL as string
-
-  console.log(backendHost)
-  console.log(platformHost)
   
   return (
     <RoqProvider config={{

@@ -49,49 +49,25 @@ Make sure to include the `.env` file in the `.gitignore` file. So that the envir
 </Callout>
 ### Generate SDK
 
-Our Next.js project will work with ROQ BaaS by using a customized generated SDK. This process is necessary to generate Prisma types for SDK. 
+Our Next.js project will work with ROQ by using a customized generated SDK. This process is necessary to generate Prisma types for SDK. 
 
 To generate the SDK, run the command below:
 
 ```shell
 npx @roq/cli generate
 ```
+
+<Callout type="info">
+If any changes are made to the project schema or entities after the project creation and SDK generation, we can update the SDK by running the command `npx @roq/cli generate` again. To modify the project schema, we can use the [Schema Editor](/schema-editor) available on the ROQ Console.
+</Callout>
+
 The command generates a customizable SDK based on the Prisma BaaS schema and chosen environment. The default location for the code generated is `src/lib/roq`.
 
 ![generate roq sdk](/screenshots/generate-sdk.png)
 
-Add `src/lib/roq` folder to the `compilerOptions` in the TypeScript config file `tsconfig.json` so that the new SDK can be recognized. The `tsconfig.json` located in the root directory of the Next.js project.
+The `tsconfig.json` file in the root directory of the Next.js project should be updated by adding `src/lib/*` to the `paths` key, allowing the new SDK to be recognized:
 
-before:
-
-```json filename="tsconfig.json"
-{
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "paths": {
-      "@/*": ["./src/*"]
-    }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
-}
-```
-
-after: 
-
-```json filename="tsconfig.json"
+```json filename="tsconfig.json" {18}
 {
   "compilerOptions": {
     "target": "es5",
@@ -117,9 +93,6 @@ after:
 }
 ```
 
-<Callout type="info">
-If any changes are made to the project schema or entities after the project creation and SDK generation, we can update the SDK by running the command `npx @roq/cli generate` again. To modify the project schema, we can use the [Schema Editor](/schema-editor) available on the ROQ Console.
-</Callout>
 
 ### Configure Next.js with ROQ authentication
 
@@ -191,19 +164,27 @@ Create another page called `user.tsx` and fill with this code:
 ```tsx filename="src/pages/user.tsx"
 import { Inter } from 'next/font/google'
 import { useRoqClient } from 'lib/roq'
+import { useSession } from '@roq/nextjs'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
   const roqClient = useRoqClient()
- 
-  const handleSignUp = async () => {
-     await roqClient.signUp('owner', { postLoginRedirect: '/user' })
-  }
+  const { session } = useSession()
+  
+  const roles = session?.user.roles || [];
  
   return (
     <main className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}>
-     <h1>Dashboard</h1>
+      <h1>Dashboard</h1>
+      <p>You are currently logged in as: { session?.user.email }</p>
+      <p>User roles: 
+        <ul>
+            {roles.map((role, index) => (
+                <li key={index}>{role}</li>
+            ))}
+        </ul>
+      </p>
     </main>
   )
 }
@@ -217,89 +198,56 @@ For more about authentication, please visit [**add authentication**](/next-js/ad
 
 ### Query data
 
-We can query current data user in Next.js using `useSession()` hook from `@roq/nextjs` package. 
+We can use the `useRoqClient()` hook from the generated SDK to query user data, such as the user list.
 
 ```tsx filename="src/pages/user.tsx"
-import { Inter } from 'next/font/google'
-import { signOut } from '@roq/nextjs'
-import { useSession } from '@roq/nextjs'
+import { Inter } from 'next/font/google';
+import { useRoqClient } from 'lib/roq';
+import { useSession } from '@roq/nextjs';
+import { useEffect, useState } from 'react';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-  const { session } = useSession()
+  const roqClient = useRoqClient();
+  const { session } = useSession();
+
+  const [userData, setUserData] = useState<any>(null);
+  const roles = session?.user.roles || [];
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const userData = await roqClient.user.findManyWithCount({});
+      setUserData(userData);
+    };
+
+    getUserData();
+  }, []);
 
   return (
-    <main className={`flex flex-col items-center justify-between p-24 ${inter.className}`}>
-       <p>My email: { session?.user?.email }</p>
+    <main className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}>
+      <h1>Dashboard</h1>
+      <p>You are currently logged in as: {session?.user.email}</p>
+      <p>
+        User roles:
+        <ul>
+          {roles.map((role, index) => (
+            <li key={index}>{role}</li>
+          ))}
+        </ul>
+      </p>
+      <p>
+        User list:
+        <ul>
+          {userData?.data?.map((user, index) => (
+            <li key={index}>{user.email}</li>
+          ))}
+        </ul>
+      </p>
     </main>
-  )
-} 
-
-```
-{/*
-For example, this is a snippet from the generated code for hook to find books with count data:
-
-```ts filename="src/lib/roq/roq-hooks.ts"
-export function useBookFindManyWithCount<
-  T extends Prisma.bookFindManyArgs,
-  R extends { data: GetFindResult<Prisma.$bookPayload<DefaultArgs>, T>[]; count: number },
->(args?: Prisma.SelectSubset<T, Prisma.bookFindManyArgs>, options?: RequestOptions, swrOptions?: SWRRequestOptions<R>) {
-  const roq = useRoqClient();
-  const key = JSON.stringify(['useBookFindManyWithCount', args || {}]);
-  return useSWR<R, Error>(
-    key,
-    async () => {
-      const result = await roq.book.findManyWithCount(args, options);
-      return result as R;
-    },
-    {
-      ...swrOptions,
-      fallbackData: swrOptions?.initialData ?? swrOptions?.fallbackData,
-    },
   );
 }
 ```
-
-To use the `useBookFindManyWithCount` method in a Next.js page, we need to import this code:
-
-```ts
-import { useRoqClient, useBookFindManyWithCount } from 'lib/roq';
-```
-
-and then use it, for example:
-
-```ts 
-const { data, error, isLoading, mutate } = useBookFindManyWithCount({
-    orderBy: {
-      created_at: 'desc',
-    }
-});
-```
-We can display the `data` in the `dashboard.tsx` page:
-
-```ts 
-<div>
-  {isLoading ? (
-    <p>Loading...</p>
-  ) : error ? (
-    <p>Error: {error.message}</p>
-  ) : (
-    <>
-      <h1>Book Titles</h1>
-      <br />
-      <ul>
-        {data.data.map((book, index) => (
-          <li key={book.id}>
-            {index + 1}. {book.title} by {book.author} ({book.genre})
-          </li>
-        ))}
-      </ul>
-    </>
-  )}
-</div>
-```
-*/}
 
 ### Start the Next.js application
 
