@@ -198,26 +198,57 @@ For more about authentication, please visit [**add authentication**](/next-js/ad
 
 ### Query data
 
-We can query current data user in Next.js using `useSession()` hook from `@roq/nextjs` package. 
+We can query current data user in Next.js using `useRoqClient()` hook from the generated SDK. 
 
 ```tsx filename="src/pages/user.tsx"
-import { Inter } from 'next/font/google'
-import { signOut } from '@roq/nextjs'
-import { useSession } from '@roq/nextjs'
+import { Inter } from 'next/font/google';
+import { useRoqClient } from 'lib/roq';
+import { useSession } from '@roq/nextjs';
+import { useEffect, useState } from 'react';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
-  const { session } = useSession()
+  const roqClient = useRoqClient();
+  const { session } = useSession();
+
+  const [userData, setUserData] = useState<any>(null);
+  const roles = session?.user.roles || [];
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const userData = await roqClient.user.findManyWithCount({});
+      setUserData(userData);
+    };
+
+    getUserData();
+  }, []);
 
   return (
-    <main className={`flex flex-col items-center justify-between p-24 ${inter.className}`}>
-       <p>My email: { session?.user?.email }</p>
+    <main className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}>
+      <h1>Dashboard</h1>
+      <p>You are currently logged in as: {session?.user.email}</p>
+      <p>
+        User roles:
+        <ul>
+          {roles.map((role, index) => (
+            <li key={index}>{role}</li>
+          ))}
+        </ul>
+      </p>
+      <p>
+        User list:
+        <ul>
+          {userData?.data?.map((user, index) => (
+            <li key={index}>{user.email}</li>
+          ))}
+        </ul>
+      </p>
     </main>
-  )
-} 
-
+  );
+}
 ```
+
 {/*
 For example, this is a snippet from the generated code for hook to find books with count data:
 
