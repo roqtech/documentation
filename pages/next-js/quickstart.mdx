@@ -188,6 +188,10 @@ export default function Home() {
   const { session } = useSession()
   
   const roles = session?.user.roles || [];
+
+  const logoutHandler = () => {
+    roqClient.signOut();
+  };
  
   return (
     <main className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}>
@@ -200,6 +204,8 @@ export default function Home() {
             ))}
         </ul>
       </p>
+      
+       <button onClick={logoutHandler} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Logout</button>
     </main>
   )
 }
