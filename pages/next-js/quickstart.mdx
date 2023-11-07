@@ -229,15 +229,31 @@ import { useEffect, useState } from 'react';
 
 const inter = Inter({ subsets: ['latin'] });
 
+interface User {
+	id: string;
+	email: string;
+	firstName: string | null;
+	lastName: string | null;
+	roq_user_id: string;
+	tenant_id: string;
+	created_at: string;
+	updated_at: string;
+  }
+  
+interface UserDataResponse {
+    data: User[];
+    count: number;
+}
+
 export default function Home() {
   const roqClient = useRoqClient();
   const { session } = useSession();
 
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<UserDataResponse>({ data: [], count: 0 });
   const roles = session?.user.roles || [];
 
   useEffect(() => {
-    const getUserData = async () => {
+      const getUserData = async () => {
       const userData = await roqClient.user.findManyWithCount({});
       setUserData(userData);
     };
