@@ -147,38 +147,46 @@ export default RoqAuth({});
 After that we can add a signup button, user will be redirected to the other page if the signup process successful.
 
 ```tsx filename="src/pages/index.js"
-import { useRoqClient } from "lib/roq"
+import { useRoqClient } from "lib/roq";
 
 export default function Home() {
-  const roqClient = useRoqClient()
+  const roqClient = useRoqClient();
 
   const handleSignUp = async () => {
-    await roqClient.signUp('owner', { postLoginRedirect: '/user' })
-  }
+    await roqClient.signUp('owner', { postLoginRedirect: '/user' });
+  };
 
   const handleSignIn = async () => {
-    await roqClient.signIn('owner', { postLoginRedirect: '/user' })
-  }
+    await roqClient.signIn('owner', { postLoginRedirect: '/user' });
+  };
 
   return (
-    <div className=" flex w-full h-screen justify-center items-center inline-flex">
-      <div className="flex flex-col justify-start items-center gap-[34px] inline-flex">
-        <div className="text-white text-[32px] font-bold font-['Satoshi Variable'] leading-[38.40px] tracking-tight">Welcome</div>
-        <div className="justify-center items-start gap-3 inline-flex">
-          <div className="px-[18px] py-1.5 bg-indigo-500 rounded shadow flex-col justify-center items-center inline-flex">
-            <div className="justify-center items-center gap-1 inline-flex">
-              <button onClick={handleSignIn} className="text-white text-[15px] font-bold font-['Satoshi Variable'] leading-relaxed tracking-wide">Sign in</button>
-            </div>
+    <div className="flex w-full h-screen justify-center items-center">
+      <div className="flex flex-col justify-start items-center gap-[34px]">
+        <div className="text-white text-[32px] font-bold leading-[38.40px] tracking-tight">
+          Welcome
+        </div>
+        <div className="flex justify-center items-start gap-3">
+          <div className="px-[18px] py-1.5 bg-indigo-500 rounded shadow flex justify-center items-center">
+            <button
+              onClick={handleSignIn}
+              className="text-white text-[15px] font-bold leading-relaxed tracking-wide"
+            >
+              Sign in
+            </button>
           </div>
-          <div className="px-[18px] py-1.5 bg-indigo-500 rounded shadow flex-col justify-center items-center inline-flex">
-            <div className="justify-center items-center gap-1 inline-flex">
-              <button onClick={handleSignUp} className="text-white text-[15px] font-bold font-['Satoshi Variable'] leading-relaxed tracking-wide">Sign up</button>
-            </div>
+          <div className="px-[18px] py-1.5 bg-indigo-500 rounded shadow flex justify-center items-center">
+            <button
+              onClick={handleSignUp}
+              className="text-white text-[15px] font-bold leading-relaxed tracking-wide"
+            >
+              Sign up
+            </button>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }
 ```
 
