@@ -200,13 +200,13 @@ export default function Home() {
       <h1>Dashboard</h1>
       <p>You are currently logged in as: { session?.user.email }</p>
       {roles.length > 0 && (
-        <p>User roles:
+        <>User roles:
           <ul>
             {roles.map((role, index) => (
               <li key={index}>{role}</li>
             ))}
           </ul>
-        </p>
+        </>
       )}
       <button onClick={logoutHandler} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Logout</button>
     </main>
