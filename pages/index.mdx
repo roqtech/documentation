@@ -1,27 +1,34 @@
 import { Card, Cards } from "nextra-theme-docs";
 import * as SimpleIcons from "@styled-icons/simple-icons";
 
-## ROQ Purpose
+## About ROQ
 
-ROQ is a managed backend for multi-tenant SaaS applications. It addresses common challenges, allowing you to concentrate on UI and application specific logic.
+ROQ is a managed backend for multi-tenant SaaS applications.
+It enables you to access your database directly from the client side without worrying about permissions and security.
+Other Backend-as-a-Service (BaaS) solutions exist primarily for mobile or single-page applications and lack support for
+complex use cases involving multiple user roles or organizations. ROQ, however, is tailored for multi-tenant
+applications such as B2B SaaS, Customer Portals, or B2B2C Marketplaces. It simplifies data layer configuration and
+enhances user experience and security with its advanced features:
 
-## Main Features
-
+- Secure access to data from the client-side
 - Managed Postgres database with instant REST API
-- Visual schema editor
-- Organizations (multi-tenancy)
-- User roles & permissions
 - Authentication with 2FA and social logins
+- Organizations (multi-tenancy)
+- Roles & Permissions (RBAC)
 - File handling
 - Emails
 
 {/*
+
 ## Prerequisites
 
 ## ROQ Architecture
+
 */}
 
 ## Supported Frameworks
+
+ROQ works with the most popular JS frameworks:
 
 <Cards>
   <Card icon={<SimpleIcons.Nextdotjs />} title="Next.js" href="/next-js" />
