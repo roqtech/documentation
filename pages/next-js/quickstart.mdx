@@ -13,7 +13,7 @@ After creating the project, you will receive an email invitation to access the p
 
 ### Create a Next.js application
 
-To create a new Next.js project. Run this command:
+To initiate a new Next.js project, execute the following command in your workspace directory:
 
 ```shell
 npx create-next-app@latest
@@ -27,7 +27,7 @@ We will use Next.js project with **Page Router** feature in this quickstart.
 
 ### Install ROQ BaaS SDK
 
-Install the necessary ROQ BaaS SDK for our project, which is `@roq/nextjs` and `@roq/cli` packages. 
+Install the necessary ROQ SDK for our project by running these commands: 
 
 ```shell
 npm install @roq/nextjs --save
@@ -197,15 +197,16 @@ export default function Home() {
     <main className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}>
       <h1>Dashboard</h1>
       <p>You are currently logged in as: { session?.user.email }</p>
-      <p>User roles: 
-        <ul>
+      {roles.length > 0 && (
+        <p>User roles:
+          <ul>
             {roles.map((role, index) => (
-                <li key={index}>{role}</li>
+              <li key={index}>{role}</li>
             ))}
-        </ul>
-      </p>
-      
-       <button onClick={logoutHandler} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Logout</button>
+          </ul>
+        </p>
+      )}
+      <button onClick={logoutHandler} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Logout</button>
     </main>
   )
 }
