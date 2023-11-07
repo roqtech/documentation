@@ -63,7 +63,9 @@ If any changes are made to the project schema or entities after the project crea
 
 The command generates a customizable SDK based on the Prisma BaaS schema and chosen environment. The default location for the code generated is `src/lib/roq`.
 
+{/*
 ![generate roq sdk](/screenshots/generate-sdk.png)
+*/}
 
 The `tsconfig.json` file in the root directory of the Next.js project should be updated by adding `src/lib/*` to the `paths` key, allowing the new SDK to be recognized:
 
@@ -217,6 +219,7 @@ After successful signup, the page will be redirected to the user page and Next.j
 For more about authentication, please visit [**add authentication**](/next-js/add-authentication).
 </Callout>
 
+{/*
 ### Query data
 
 We can use the `useRoqClient()` hook from the generated SDK to query user data, such as the user list.
@@ -285,6 +288,7 @@ export default function Home() {
   );
 }
 ```
+*/}
 
 ### Start the Next.js application
 
