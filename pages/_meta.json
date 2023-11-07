@@ -1,7 +1,8 @@
 {
   "index": "Overview",
   "introduction": "Introduction",
-  "separator-one": {
+  "-": {
+    "title": "",
     "type": "separator"
   },
   "next-js": "Next.js",
@@ -9,7 +10,8 @@
   "nuxt-js": "Nuxt.js",
   "redwood-js": "RedwoodJS",
   "svelte-kit": "SvelteKit",
-  "separator-two": {
+  "--": {
+    "title": "",
     "type": "separator"
   },
   "development": "Development  Guides",
@@ -27,7 +29,8 @@
     "href": "https://www.roq.dev/imprint",
     "newWindow": false
   },
-  "separator-third": {
+  "---": {
+    "title": "",
     "type": "separator"
   },
   "schema-editor": "Schema Editor",
