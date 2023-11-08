@@ -1,0 +1,32 @@
+# Save data
+
+{/*TODO:
+- Show to to save data without relations
+- Show to to save data with relations
+- Add a fully working small example (render a form with handler)
+*/}
+
+## Save data without relations
+
+To write or update data, we can use `update` method. For instance, to update review data with the review id `f61176b6-ba89-4ec6-8840-1efffb7f51e6`:
+
+```tsx
+const updateReviewbyID = async () => {
+    const updateResult = await roqClient.review.update({
+	    data: { comment: "Highly recommended book" },
+		    where: {
+			    id: "f61176b6-ba89-4ec6-8840-1efffb7f51e6"
+		}
+	},)
+}
+   
+updateReviewbyID()
+```
+The provided review id will be used to update the comment data.
+
+![update review data](/screenshots/nextjs-write-data-baas.png)
+
+
+## Save data with relations
+
+_Coming soon_

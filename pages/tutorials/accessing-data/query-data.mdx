@@ -1,11 +1,20 @@
-# Accessing data
+# Query data
+
+{/*TODO:
+- Show how to fetch data with and without filters.
+- Add a fully working small example (render a list)
+*/}
 
 ROQ generated SDK on client is directly tight with the Prisma schema of the application. 
 The generated SDK make developer easier to query data from ROQ BaaS database. All database operation such as read and write data can be done through `useRoqClient()` method.
 
-## Read data using SDK
+## Query data without filters
 
-In this example, we demonstrate how to retrieve and count reviews from BaaS using the Roq SDK. 
+_Coming soon_
+
+## Query data with filters
+
+In this example, we demonstrate how to retrieve and count reviews data from BaaS using the ROQ SDK. 
 
 ```tsx {5,6,7,8}
 const roqClient = useRoqClient()
@@ -36,25 +45,3 @@ The benefit of a Prisma-like pattern is easily understood due to its common form
 JSON:API is utilized to create REST APIs in ROQ BaaS, resulting in JSON-format response data. For instance, the data response from our earlier code in the browser console:
 
 ![review count data](/screenshots/nextjs-read-data-baas.png)
-
-## Write data using SDK
-
-To write or update data, we can use `update` method. For instance, to update review data with the review id `f61176b6-ba89-4ec6-8840-1efffb7f51e6`:
-
-```tsx
-const updateReviewbyID = async () => {
-    const updateResult = await roqClient.review.update({
-	    data: { comment: "Highly recommended book" },
-		    where: {
-			    id: "f61176b6-ba89-4ec6-8840-1efffb7f51e6"
-		}
-	},)
-}
-   
-updateReviewbyID()
-```
-The provided review id will be used to update the comment data.
-
-![update review data](/screenshots/nextjs-write-data-baas.png)
-
-
