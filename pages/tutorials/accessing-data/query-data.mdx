@@ -5,36 +5,45 @@
 - Add a fully working small example (render a list)
 */}
 
-ROQ generated SDK on client is directly tight with the Prisma schema of the application. 
-The generated SDK make developer easier to query data from ROQ BaaS database. All database operation such as read and write data can be done through `useRoqClient()` method.
+ROQ generated SDK on client is directly tight with the Prisma schema of the application. The generated SDK make developer easier to query data from ROQ BaaS database. All database operation such as read and write data can be done through `useRoqClient()` method.
 
-{/*
 ## Query data without filters
 
-_Coming soon_
-*/}
+Fetching data without filters means retrieving all records from a particular dataset without any constraints. In the ROQ SDK, this can be done using methods that does not require any arguments that specify filtering criteria.
+
+For example, to retrieve all reviews data from BaaS:
+
+```tsx {4}
+import { useRoqClient } from 'lib/roq';
+
+const fetchReviewCount = async () => {
+	const reviewCount = await roqClient.review.findManyWithCount();
+	return reviewCount;
+};
+
+fetchReviewCount().then((data) => {
+	console.log(data);
+});
+```
 
 ## Query data with filters
 
-In this example, we demonstrate how to retrieve and count reviews data from BaaS using the ROQ SDK. 
+In this example, we demonstrate how to retrieve and count reviews data from BaaS using the ROQ SDK using filtering criteria.
 
-```tsx {5,6,7,8}
+```tsx {4,5,6,7}
 const roqClient = useRoqClient()
 
-useEffect(() => {
-    const fetchReviewCount = async () =>{
-	    const reviewCount = await roqClient.review.findManyWithCount({ orderBy: {
-		    created_at: 'desc'
-		  }
-		})	
-
-		console.log(`Reviews:`)
-		console.log(reviewCount)
-	}
-	fetchReviewCount()
-
-}, [roqClient])
-
+const fetchReviewCount = async () =>{
+    const reviewCount = await roqClient.review.findManyWithCount({ orderBy: {
+	        created_at: 'desc'
+	    }
+    })	
+	return reviewCount
+}
+	
+fetchReviewCount().then((data) => {
+    console.log(data);
+});
 ```
 
 The important thing to note that the code syntax for the data operation follows a Prisma-like pattern.
