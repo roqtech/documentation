@@ -1,10 +1,12 @@
 # Query data
 
-{/*TODO:
-- Add a fully working small example (render a list)
-*/}
+This tutorial will guide you to query data from ROQ BaaS database using ROQ generated SDK on client side. All database operation such as read and write data can be done through `useRoqClient()` method.
 
-ROQ generated SDK on client is directly tight with the Prisma schema of the application. The generated SDK make developer easier to query data from ROQ BaaS database. All database operation such as read and write data can be done through `useRoqClient()` method.
+## Preparation
+
+Before we start, make sure you have completed the following steps:
+
+- [Next.js Quickstart](/next-js).
 
 ## Query data without filters
 
@@ -55,3 +57,9 @@ The benefit of a Prisma-like pattern is easily understood due to its common form
 JSON:API is utilized to create REST APIs in ROQ BaaS, resulting in JSON-format response data. For instance, the data response from our earlier code in the browser console:
 
 ![review count data](/screenshots/nextjs-read-data-baas.png)
+
+
+{/*TODO:
+- Add a fully working small example (render a list)
+*/}
+ 
