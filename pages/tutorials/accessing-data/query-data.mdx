@@ -1,14 +1,19 @@
-# Query data
+# How to render a list in Next.js
 
-This tutorial will guide you to query data from ROQ BaaS database using ROQ generated SDK on client side. All database operation such as read and write data can be done through `useRoqClient()` method.
+This tutorial will guide you to query from ROQ BaaS database using ROQ generated SDK on client side. All database operation such as read and write data can be done through `useRoqClient()` method.
 
 ## Preparation
 
 Before we start, make sure you have completed the following steps:
 
-- [Next.js Quickstart](/next-js).
+- [Next.js Quickstart](/next-js)
 
-## Query data without filters
+
+## Query data
+
+There are two kind of query data in ROQ BaaS: query data without filters and query data with filters.
+
+### Query data without filters
 
 Fetching data without filters means retrieving all records from a particular dataset without any constraints. In the ROQ SDK, this can be done using methods that does not require any arguments that specify filtering criteria.
 
@@ -27,7 +32,7 @@ fetchReviewCount().then((data) => {
 });
 ```
 
-## Query data with filters
+### Query data with filters
 
 In this example, we demonstrate how to retrieve and count reviews data from BaaS using the ROQ SDK using filtering criteria.
 
