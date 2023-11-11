@@ -1,14 +1,50 @@
+import { Steps } from 'nextra/components'
+
 # How to save data in Next.js
 
 In this tutorial we will building a form to save data to ROQ using Next.js. We will use the ROQ SDK to save data to the database.
 
 ## Project setup
 
-Before we start, make sure you have completed the following quickstart:
+Before we start, make sure we generate a ROQ project using [AI Assistant](https://app.roq.dev/). Let's build a SaaS for works marketplace for freelancers.
 
-- [Next.js Quickstart](/next-js)
+<Steps>
+### App name and prompt
+
+For this project, we will use these setup values:
+
+* **App name**: Freelancer Inc.
+* **Prompt**: Freelancer works marketplace saas application.
+
+![app name and prompt](/screenshots/app-name-and-prompt.png)
+
+### User setup
+
+Next, we will create initial user roles: 
+
+* **Business Owner**: The owner of the company.
+* **Freelancer**: The freelancer that will work in the company and not belong to the company.
+
+![user setup](/screenshots/user-setup.png)
+
+
+### Project schema
+
+For this tutorial we will use this project schema:
+
+![freelancer project schema](/screenshots/freelancer-inc-project-schema.png)
+
+We can edit schema later in project [Console](https://console.roq.tech/). For more information about schema, please read [schema editor](/schema-editor) documentation.
+
+### Next.js quickstart
+
+Make sure to follow the next steps in this tutorial to create a Next.js project:
+
+- [Next.js Quickstart](/next-js#create-a-nextjs-application)
 
 The quickstart will initialize a Next.js project with ROQ SDK installed also signup, login, and logout features.
+
+</Steps>
 
 ## Basic concepts
 
@@ -25,7 +61,7 @@ For example, we have a
 
 When dealing with simple data structures, you might need to save data that does not include relationships with other entities. ROQ SDK supports this operation, allowing you to create or update data in a single transaction.
 
-For example, to update a company, we can use the following code:
+For example, to update a company data, we can use the following code:
 
 {/*
 [
