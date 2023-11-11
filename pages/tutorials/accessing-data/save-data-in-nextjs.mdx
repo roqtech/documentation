@@ -168,7 +168,7 @@ export default function ProjectForm({ projectData, onSubmit }) {
 			name: e.target.name.value,
 			description: e.target.description.value,
 			status: e.target.status.value,
-			deadline: e.target.deadline.value,
+			deadline: new Date(e.target.deadline.value),
 		  };
 	  
 		onSubmit(formData);
@@ -242,10 +242,11 @@ interface ProjectData {
   }  
 
 export default function Freelancer() {
+  const [currentProject, setCurrentProject] = useState([]);
+
   const roqClient = useRoqClient();
   const { session } = useSession();
   const roles = session?.user.roles || [];
-  const [currentProject, setCurrentProject] = useState([]);
   const company_id = session?.user.tenantId;
 
   const logoutHandler = () => {
@@ -255,8 +256,14 @@ export default function Freelancer() {
   const handleFormSubmit = async (projectData: ProjectData) => {
     try {
       const projectId = uuidv4();
+
 	  projectData.id = projectId;
-      console.log(projectData);
+	  projectData.company_id = company_id;
+      
+      const project = await roqClient.project.create({
+		data: projectData
+	  });
+    
     } catch (error) {
       console.error('Error submitting project:', error);
     }
@@ -290,6 +297,23 @@ export default function Freelancer() {
 This page renders the `ProjectForm` component and passes the `handleFormSubmit` function as the `onSubmit` prop. The `handleFormSubmit` function will be called when the form is submitted and it will save the project data to ROQ.
 
 ![project page](/screenshots/add-project-page.png)
+
+For now we can only check the response data from the browser console. We will add a list of projects in the next section.
+
+The response data from the browser console:
+
+```json
+{
+    "id": "7edd49af-4f44-4887-b80b-48e279999614",
+    "name": "AI Chatbot",
+    "description": "Creating AI chatbot for customer service",
+    "deadline": "2024-01-01T00:00:00.000Z",
+    "status": "open",
+    "company_id": "22d80a45-0cf6-445d-a5db-f1091c6cb5d6",
+    "created_at": "2023-11-11T14:28:12.654Z",
+    "updated_at": "2023-11-11T14:28:12.654Z"
+}
+```
 
 
 
