@@ -46,6 +46,28 @@ Make sure to follow the next steps in this tutorial to create a Next.js project:
 
 The quickstart will initialize our freelancer works marketplace project with signup, login, and logout features.
 
+There are a few changes to the `index.tsx` for the login page. We need to replace the role for sign in and sign up process with the role we created in the project setup which is `business-owner` and change the redirect page `postLoginRedirect` to `/projects`:
+
+```tsx {7, 11} filename="src/pages/index.tsx"
+import { useRoqClient } from "lib/roq";
+
+export default function Home() {
+  const roqClient = useRoqClient();
+
+  const handleSignUp = async () => {
+    await roqClient.signUp('business-owner', { postLoginRedirect: '/projects' });
+  };
+
+  const handleSignIn = async () => {
+    await roqClient.signIn('business-owner', { postLoginRedirect: '/projects' });
+  };
+
+  return (
+    {/* the code here is the same as before */}
+  );
+}
+```
+
 </Steps>
 
 ## Basic save data concepts
@@ -127,5 +149,9 @@ const updateCompany = async () => {
 
 From our previous project schema, this company does not have any relations, so we can update it directly in other words, we can update it without relations.
 
-## Create save data page
+## Building project form
+
+Now that we have a basic understanding of how to save data to ROQ, let's build a form to save data to ROQ. 
+
+Create a project form component `project-form.tsx` in the same folder
 
