@@ -48,7 +48,7 @@ The quickstart will initialize our freelancer works marketplace project with sig
 
 </Steps>
 
-## Basic concepts
+## Basic save data concepts
 
 There are two kind of ways to save data to ROQ: save data with relations and save data without relations.
 
@@ -61,22 +61,33 @@ For example, the business owner can create a project with the following code:
 ```tsx
 const company_id = "22d80a45-0cf6-445d-a5db-f1091c6cb5d6"
 
-const refactorProject = async() => {
-    const newProject = await roqClient.project.create({
-		data: {
-		    id: "project_id",
-			name: 'AI Story Teller',
-			description: 'Create a story teller using OpenAI API and ChatGPT',
-			status: 'open',
-			created_at: new Date(),
-			updated_at: new Date(),
-			company_id: company_id
-	    }
-    });
-}
+const project = await roqClient.project.create({
+    data: {
+        id: uuidv4(),
+        name: 'AI Chatbot',
+        description: 'AI Chatbot for customer service',
+        status: 'open',
+        created_at: new Date(),
+        updated_at: new Date(),
+        company_id: company_id,
+        deadline: new Date("2024-10-31"),
+        task: {
+            create: [
+                {
+                    id: uuidv4(),
+                    name: 'Project setup',
+                    description: 'Setup the project',
+                    created_at: new Date(),
+                    updated_at: new Date(),
+                    status: 'open',
+                }
+            ]
+        }
+    }
+});
 ```
 
-From our previous project schema, this project has a relationship with the company entity. To create a new project we need to pass the company id to the project entity.
+Based on our previous project schema, it's clear that this project shares a relationship with the company entity while it may also relate to the task entity, depending on the situation. To create a new project with associated tasks, we must provide the project entity with the company ID as well as the task entity.
 
 ### Save data without relations
 
@@ -115,3 +126,6 @@ const updateCompany = async () => {
 ```
 
 From our previous project schema, this company does not have any relations, so we can update it directly in other words, we can update it without relations.
+
+## Create save data page
+
