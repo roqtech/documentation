@@ -153,5 +153,143 @@ From our previous project schema, this company does not have any relations, so w
 
 Now that we have a basic understanding of how to save data to ROQ, let's build a form to save data to ROQ. 
 
-Create a project form component `project-form.tsx` in the same folder
+### Create a project form component
+
+Create a `project-form.tsx` file in the same folder as `index.tsx` and add the following code:
+
+```tsx filename="src/pages/project-form.tsx"
+import React from 'react';
+
+export default function ProjectForm({ projectData, onSubmit }) {
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const formData = {
+			name: e.target.name.value,
+			description: e.target.description.value,
+			status: e.target.status.value,
+			deadline: e.target.deadline.value,
+		  };
+	  
+		onSubmit(formData);
+	};
+
+	return (
+		<div className="flex flex-col justify-center items-center h-screen bg-zinc-950 px-4">
+			<div className="w-full max-w-lg">
+				<h1 className="text-white text-xl font-bold my-4">Create Project</h1>
+				<form onSubmit={handleSubmit} className="flex flex-col gap-4 bg-zinc-800 p-6 rounded shadow-lg w-full max-w-lg">
+					<div className="flex flex-col gap-2">
+						<label htmlFor="name" className="text-gray-400">Name</label>
+						<input type="text" id="name" defaultValue={projectData.name} className="bg-zinc-950 text-white border border-gray-600 rounded p-2" />
+					</div>
+
+					<div className="flex flex-col gap-2">
+						<label htmlFor="description" className="text-gray-400">Description</label>
+						<textarea id="description" defaultValue={projectData.description} className="bg-zinc-950 text-white border border-gray-600 rounded p-2" />
+					</div>
+
+					<div className="flex flex-col gap-2">
+						<label htmlFor="status" className="text-gray-400">Status</label>
+						<select id="status" defaultValue={projectData.status} className="bg-zinc-950 text-white border border-gray-600 rounded p-2">
+						    <option value="open">Open</option>
+							<option value="inprogress">In Progress</option>
+							<option value="active">Active</option>
+							<option value="inactive">Inactive</option>
+							<option value="completed">Completed</option>
+							<option value="cancelled">Cancelled</option>
+							<option value="onhold">On Hold</option>
+							<option value="pending">Pending</option>
+						</select>
+					</div>
+
+					<div className="flex flex-col gap-2">
+						<label htmlFor="deadline" className="text-gray-400">Deadline</label>
+						<input type="date" id="deadline" defaultValue={projectData.deadline ? projectData.deadline.split('T')[0] : ''} className="bg-zinc-950 text-white border border-gray-600 rounded p-2" />
+					</div>
+
+					<button type="submit" className="px-4 py-2 bg-indigo-500 text-white rounded shadow">Save</button>
+				</form>
+			</div>
+		</div>
+	);
+}
+```
+
+This component basically renders a form with the project data and a submit button. The `onSubmit` prop is a function that will be called when the form is submitted. The project form only create a new project with a company relation but without relation such as task entity.
+
+### Create a project page
+
+To use the `ProjectForm` component, we need to create a page that renders the form. Create a `projects.tsx` file in the same folder as `index.tsx`, `project-form.tsx` and add the following code:
+
+```tsx filename="src/pages/projects.tsx"
+import { useRoqClient } from 'lib/roq';
+import { useSession } from '@roq/nextjs';
+import { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
+import ProjectForm from './project-form'
+import { get } from 'http';
+
+interface ProjectData {
+	id: string;
+	name: string;
+	description: string;
+	deadline: string | null;
+	status: 'active' | 'inactive' | 'completed' | 'pending' | 'on hold' | 'cancelled';
+	company_id: string;
+	created_at: string;
+	updated_at: string;
+  }  
+
+export default function Freelancer() {
+  const roqClient = useRoqClient();
+  const { session } = useSession();
+  const roles = session?.user.roles || [];
+  const [currentProject, setCurrentProject] = useState([]);
+  const company_id = session?.user.tenantId;
+
+  const logoutHandler = () => {
+    roqClient.signOut();
+  };
+
+  const handleFormSubmit = async (projectData: ProjectData) => {
+    try {
+      const projectId = uuidv4();
+	  projectData.id = projectId;
+      console.log(projectData);
+    } catch (error) {
+      console.error('Error submitting project:', error);
+    }
+  };
+ 
+  return (
+	<div className="flex flex-col w-full h-screen bg-zinc-950">
+	<nav className="flex justify-between items-center p-4 bg-zinc-800 shadow">
+	  <h1 className="text-white text-xl font-bold">Freelancer Inc.</h1>
+	  <div className="flex items-center gap-4">
+		<div>
+		  <p className="text-gray-400 text-sm">
+			Logged in as: <span className="text-white">{session?.user.email}</span>
+		  </p>
+		  <p className="text-gray-400 text-sm">
+			Role: <span className="text-white">{roles[0]}</span>
+		  </p>
+		</div>
+		<button onClick={logoutHandler} className="px-3 py-1 bg-indigo-500 rounded shadow text-white font-bold">
+		  Log out
+		</button>
+	  </div>
+	</nav>
+	<ProjectForm projectData={currentProject} onSubmit={handleFormSubmit} />
+  </div>
+  
+  );
+}
+```
+
+This page renders the `ProjectForm` component and passes the `handleFormSubmit` function as the `onSubmit` prop. The `handleFormSubmit` function will be called when the form is submitted and it will save the project data to ROQ.
+
+![project page](/screenshots/add-project-page.png)
+
+
 
