@@ -2,11 +2,13 @@ import { Steps } from 'nextra/components'
 
 # How to save data in Next.js
 
-In this tutorial we will building a form to save data to ROQ using Next.js. We will use the ROQ SDK to save data to the database.
+In this tutorial we will building a form to save data to ROQ using Next.js. We will use the ROQ SDK to save data to the database. 
+
+Let's build a simple SaaS for works marketplace for freelancers. The application will have two user roles: **Business Owner** and **Freelancer**. The **Business Owner** will be able to create projects and the **Freelancer** will be able to create a freelancer profile and apply to projects.
 
 ## Project setup
 
-Before we start, make sure we generate a ROQ project using [AI Assistant](https://app.roq.dev/). Let's build a SaaS for works marketplace for freelancers.
+Before we start, make sure we generate a ROQ project using [AI Assistant](https://app.roq.dev/).
 
 <Steps>
 ### App name and prompt
@@ -42,7 +44,7 @@ Make sure to follow the next steps in this tutorial to create a Next.js project:
 
 - [Next.js Quickstart](/next-js#create-a-nextjs-application)
 
-The quickstart will initialize a Next.js project with ROQ SDK installed also signup, login, and logout features.
+The quickstart will initialize our freelancer works marketplace project with signup, login, and logout features.
 
 </Steps>
 
@@ -54,8 +56,27 @@ There are two kind of ways to save data to ROQ: save data with relations and sav
 
 When dealing with more complex data structures, you might need to save data that includes relationships with other entities. ROQ SDK supports this operation, allowing you to create or update data along with its related entities in a single transaction.
 
-For example, we have a 
+For example, the business owner can create a project with the following code:
 
+```tsx
+const company_id = "22d80a45-0cf6-445d-a5db-f1091c6cb5d6"
+
+const refactorProject = async() => {
+    const newProject = await roqClient.project.create({
+		data: {
+		    id: "project_id",
+			name: 'AI Story Teller',
+			description: 'Create a story teller using OpenAI API and ChatGPT',
+			status: 'open',
+			created_at: new Date(),
+			updated_at: new Date(),
+			company_id: company_id
+	    }
+    });
+}
+```
+
+From our previous project schema, this project has a relationship with the company entity. To create a new project we need to pass the company id to the project entity.
 
 ### Save data without relations
 
@@ -93,4 +114,4 @@ const updateCompany = async () => {
 }
 ```
 
-This company does not have any relations, so we can update it directly in other words, we can update it without relations.
+From our previous project schema, this company does not have any relations, so we can update it directly in other words, we can update it without relations.
