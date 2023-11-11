@@ -1,0 +1,60 @@
+# How to save data in Next.js
+
+In this tutorial we will building a form to save data to ROQ using Next.js. We will use the ROQ SDK to save data to the database.
+
+## Project setup
+
+Before we start, make sure you have completed the following quickstart:
+
+- [Next.js Quickstart](/next-js)
+
+The quickstart will initialize a Next.js project with ROQ SDK installed also signup, login, and logout features.
+
+## Basic concepts
+
+There are two kind of ways to save data to ROQ: save data with relations and save data without relations.
+
+### Save data with relations
+
+When dealing with more complex data structures, you might need to save data that includes relationships with other entities. ROQ SDK supports this operation, allowing you to create or update data along with its related entities in a single transaction.
+
+For example, we have a 
+
+
+### Save data without relations
+
+When dealing with simple data structures, you might need to save data that does not include relationships with other entities. ROQ SDK supports this operation, allowing you to create or update data in a single transaction.
+
+For example, to update a company, we can use the following code:
+
+{/*
+[
+    {
+        "id": "22d80a45-0cf6-445d-a5db-f1091c6cb5d6",
+        "description": null,
+        "location": null,
+        "industry": null,
+        "size": null,
+        "name": "Freelancer Inc.",
+        "created_at": "2023-11-10T08:38:53.524Z",
+        "updated_at": "2023-11-10T08:38:53.524Z"
+    }
+]
+
+*/}
+
+```tsx
+const updateCompany = async () => {
+    const updateCompanyResult = await roqClient.company.update({
+	    data: { 
+			description: "Top projects marketplace where you can work everywhere.",
+			location: "Worldwide", 
+			industry: "Internet", size: "1001-5000" },
+		    where: {
+			    id: "22d80a45-0cf6-445d-a5db-f1091c6cb5d6"
+		}
+	},)
+}
+```
+
+This company does not have any relations, so we can update it directly in other words, we can update it without relations.
