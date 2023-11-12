@@ -4,9 +4,7 @@ import { Steps } from "nextra/components"
  
 In this tutorial, we will learn how to retrieve and render a list of data from ROQ in Next.js. We will use the ROQ SDK to query data from BaaS and render the data in a list.
 
-This tutorial is about a straightforward Software as a Service (SaaS) platform for freelance workers. The platform will have two unique user roles, namely the **Business Owner** and the **Freelancer**. The **Business Owner** will be able to create projects while the "Freelancer" will have the ability to create a freelancer profile and apply for projects.
-
-This tutorial will only cover the **Freelancer** role.
+This tutorial is about a straightforward Software as a Service (SaaS) platform for freelance workers. The platform will have two unique user roles, namely the **Business Owner** and the **Freelancer**. The **Business Owner** will be able to create projects while the "Freelancer" will have the ability to view and apply for projects. This tutorial will only cover the **Freelancer** role.
 
 ## Project setup
 
@@ -14,60 +12,60 @@ Before we start, make sure to follow the previous tutorial:
 
 - [How to save data in Next.js](/tutorials/accessing-data/save-data-in-nextjs)
 
-	The tutorial will guide you through the process of setting up a Next.js application and connecting it to ROQ BaaS.
+    The tutorial will guide you through the process of setting up a Next.js application and connecting it to ROQ BaaS.
 
-	There are some changes to the code from the previous tutorial. These changes are necessary because this time we will build the app for the **Freelancer** role. The changes are:
+    There are some changes to the code from the previous tutorial. These changes are necessary because we will build the app for the **Freelancer** role this time. The changes are:
 
-	- Change the roles to `freelancer` when user (freelancer) register or sign in. 
-	- Change page redirect to `freelancer` page for any sucessfull login.
+    - Change the roles to `freelancer` when the user (freelancer) registers or sign-in. 
+    - Change the page to redirect to the `freelancer` page for any successful login.
 
-	The `index.tsx` page is the one that responsible for user authentication. We will changes the code to the following:
+    The `index.tsx` page is responsible for user authentication. We will change the code to the following:
 
-	```tsx {7, 11} filename="src/pages/index.tsx"
-	import { useRoqClient } from "lib/roq";
+    ```tsx {7, 11} filename="src/pages/index.tsx"
+    import { useRoqClient } from "lib/roq";
 
-	export default function Home() {
-		const roqClient = useRoqClient();
+    export default function Home() {
+        const roqClient = useRoqClient();
 
-		const handleSignUp = async () => {
-			await roqClient.signUp('freelancer', { postLoginRedirect: '/freelancer' });
-		};
+        const handleSignUp = async () => {
+            await roqClient.signUp('freelancer', { postLoginRedirect: '/freelancer' });
+        };
 
-		const handleSignIn = async () => {
-			await roqClient.signIn('freelancer', { postLoginRedirect: '/freelancer' });
-		};
+        const handleSignIn = async () => {
+            await roqClient.signIn('freelancer', { postLoginRedirect: '/freelancer' });
+        };
 
-		return (
-			{/* the code here is the same as before */}
-		);
-	}
-	```
+        return (
+            {/* the code here is the same as before */}
+        );
+    }
+    ```
 
 ## Basic query data concepts
 
-There are two kind of query data in ROQ BaaS: query data with filters and query data without filters.
+There are two kinds of query data in ROQ BaaS: query data with filters and query data without filters.
 
 ### Query data with filters
 
-In this example, we demonstrate how to retrieve and count reviews data from BaaS using the ROQ SDK using filtering criteria.
+In this example, we demonstrate how to retrieve and count review data from BaaS using the ROQ SDK using filtering criteria.
 
 ```tsx {4,5,6,7}
 const roqClient = useRoqClient()
 
 const fetchProjectCount = async () =>{
     const projectCount = await roqClient.project.findManyWithCount({ orderBy: {
-	        created_at: 'desc'
-	    }
-    })	
-	return projectCount
+            created_at: 'desc'
+        }
+    })  
+    return projectCount
 }
-	
+    
 fetchReviewCount().then((data) => {
     console.log(data);
 });
 ```
 
-The important thing to note that the code syntax for the data operation follows a Prisma-like pattern.
+The important thing to note is that the code syntax for the data operation follows a Prisma-like pattern.
 
 ```tsx
 await roqClient.project.findManyWithCount()
@@ -82,20 +80,20 @@ JSON:API is utilized to create REST APIs in ROQ BaaS, resulting in JSON-format r
 
 ### Query data without filters
 
-Fetching data without filters means retrieving all records from a particular dataset without any constraints. In the ROQ SDK, this can be done using methods that does not require any arguments that specify filtering criteria.
+Fetching data without filters means retrieving all records from a particular dataset without any constraints. In the ROQ SDK, this can be done using methods that do not require any arguments that specify filtering criteria.
 
-For example, to retrieve all reviews data from BaaS:
+For example, to retrieve all review data from BaaS:
 
 ```tsx {4}
 import { useRoqClient } from 'lib/roq';
 
 const fetchReviewCount = async () => {
-	const reviewCount = await roqClient.review.findManyWithCount();
-	return reviewCount;
+    const reviewCount = await roqClient.review.findManyWithCount();
+    return reviewCount;
 };
 
 fetchReviewCount().then((data) => {
-	console.log(data);
+    console.log(data);
 });
 ```
 
@@ -117,54 +115,54 @@ import { ItemType } from '@/interface/project-data-types';
 import ProjectList from './project-list';
 
 export default function Projects() {
-	const roqClient = useRoqClient();
-	const { session } = useSession();
-	const [projects, setProjects] = useState<ItemType[]>([]);
+    const roqClient = useRoqClient();
+    const { session } = useSession();
+    const [projects, setProjects] = useState<ItemType[]>([]);
 
-	const roles = session?.user.roles || [];
+    const roles = session?.user.roles || [];
 
-	const logoutHandler = () => {
-		roqClient.signOut();
-	};
+    const logoutHandler = () => {
+        roqClient.signOut();
+    };
 
-	useEffect(() => {
-		const fetchProjectData = async () => {
-			const projectData = await roqClient.project.findManyWithCount({
-				orderBy: {
-					created_at: 'desc'
-				}
-			})
-			return projectData
-		}
+    useEffect(() => {
+        const fetchProjectData = async () => {
+            const projectData = await roqClient.project.findManyWithCount({
+                orderBy: {
+                    created_at: 'desc'
+                }
+            })
+            return projectData
+        }
 
-		fetchProjectData().then((projects) => {
-			setProjects(projects.data)
-		})
+        fetchProjectData().then((projects) => {
+            setProjects(projects.data)
+        })
 
-	}, [])
+    }, [])
 
-	return (
-		<div className="flex flex-col w-full h-screen bg-zinc-950">
-			<nav className="flex justify-between items-center p-4 bg-zinc-800 shadow">
-				<h1 className="text-white text-xl font-bold">Freelancer Inc.</h1>
-				<div className="flex items-center gap-4">
-					<div>
-						<p className="text-gray-400 text-sm">
-							Logged in as: <span className="text-white">{session?.user.email}</span>
-						</p>
-						<p className="text-gray-400 text-sm">
-							Role: <span className="text-white">{roles[0]}</span>
-						</p>
-					</div>
-					<button onClick={logoutHandler} className="px-3 py-1 bg-indigo-500 rounded shadow text-white font-bold">
-						Log out
-					</button>
-				</div>
-			</nav>
-			<ProjectList items={projects} />
-		</div>
+    return (
+        <div className="flex flex-col w-full h-screen bg-zinc-950">
+            <nav className="flex justify-between items-center p-4 bg-zinc-800 shadow">
+                <h1 className="text-white text-xl font-bold">Freelancer Inc.</h1>
+                <div className="flex items-center gap-4">
+                    <div>
+                        <p className="text-gray-400 text-sm">
+                            Logged in as: <span className="text-white">{session?.user.email}</span>
+                        </p>
+                        <p className="text-gray-400 text-sm">
+                            Role: <span className="text-white">{roles[0]}</span>
+                        </p>
+                    </div>
+                    <button onClick={logoutHandler} className="px-3 py-1 bg-indigo-500 rounded shadow text-white font-bold">
+                        Log out
+                    </button>
+                </div>
+            </nav>
+            <ProjectList items={projects} />
+        </div>
 
-	);
+    );
 }
 ```
 
@@ -173,16 +171,16 @@ The heart of this code is query data from BaaS using the ROQ SDK. The code below
 ```tsx
 const projectData = await roqClient.project.findManyWithCount({
     orderBy: {
-	    created_at: 'desc'
-	}
+        created_at: 'desc'
+    }
 })
 ```
 
-The code above will retrieve all projects data from BaaS and sort the data by the `created_at` field in descending order. The data will be rendered in the `<ProjectList>` component.
+The code above will retrieve all project data from BaaS and sort the data by the `created_at` field in descending order. The data will be rendered in the `<ProjectList>` component.
 
 ### Create a project list component
 
-Create a new component called `project-list.tsx` in the `pages` directory. This component is `<ProjectList>` component that we use in the previous code. The component will render the list of projects that have been created by the **Business Owner**.
+Create a new component called `project-list.tsx` in the `pages` directory. This component is the `<ProjectList>` component that we used in the previous code. The component will render the list of projects that the **Business Owner** has created.
 
 ```tsx filename="src/pages/project-list.tsx"
 import React from 'react';
@@ -227,7 +225,7 @@ export default List;
 
 ### Add interface for project list
 
-This page use an interface to define the data type for the project list. Open the file called `project-data-types.ts` in the `src/interface` directory. Add this project list interface in the code:
+This page uses an interface to define the data type for the project list. Open the file called `project-data-types.ts` in the `src/interface` directory. Add this project list interface in the code and change the `export` type:
 
 
 ```tsx filename="src/interface/project-data-types.ts"
@@ -235,14 +233,14 @@ This page use an interface to define the data type for the project list. Open th
 // the code here is the same as before 
 
 interface ProjectListType {
-	items: ItemType[];
+    items: ItemType[];
 }
 
 export type { ItemType, ProjectListType, StatusMessageType, ProjectFormProps };
 ```
 
-## What we have built?
+## What have we built?
 
-We have built a simple project list page for the **Freelancer** role. The page will display all projects that have been created by the **Business Owner**.
+If you follow this tutorial from the beginning, we will build a simple project list page for the **Freelancer** role. The page displays all projects created by the **Business Owner**.
 
 ![project list](/screenshots/project-list-freelancer.png)
