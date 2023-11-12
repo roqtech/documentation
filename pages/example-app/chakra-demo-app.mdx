@@ -3,7 +3,7 @@ import { Steps } from "nextra/components"
 # Chakra demo app
 
 
-## What we will build?
+## What will we build?
 
 Let's name the app as **Curriculum Creators**. 
 
@@ -11,48 +11,50 @@ It is a SaaS platform that connects schools and educational institutions with fr
 
 ## Use AI Assistant
 
-To generate app, go to the [AI Assistant](https://app.roq.dev/).
+To generate an app, go to the [AI Assistant](https://app.roq.dev/).
 
 <Steps>
 ### App name and prompt
 
-First screen is, you need to provide information about the application.
+On the first screen, you need to provide information about the application.
 
 ![app-name-prompt](/screenshots/01-app-name-and-prompt.png)
 
-There are two fields to fill in or two questions to answer:	
+There are two fields to fill in or two questions to answer: 
 
 - **What is the name of your application?**
-  This is the name of the application an it's a reference to generate the application name.
+  This is the name of the application, and it's a reference to generate the application name.
 
 - **What is your application about?**
-  It's a short description of the application. This will be use as the prompt by AI Assistant to generate the application.
+  It's a short description of the application. This will be used as the prompt by the AI Assistant to generate the application.
 
 ### User setup
 
-The user setup wizzard will guide you and generate the user roles.
+The user setup wizard will guide you and generate the user roles.
 
 ![user roles setup](/screenshots/02-user-roles-setup.png)
 
-There are few questions to answer and the questions depends on the previous answers. For examples:
+There are a few questions to answer, which depend on the previous answers. For examples:
 
 - **How do you refer to your business customers?**
-	
-	This is initially will be generated. However, you have the option to customize the type of your business. Examples: Institution, School, Academy, etc. Suppose you choose **Institution**. Then the next question will be:
-	
-- **What user roles belong to a Institution?**
+    
+ This is initially will be generated. However, you have the option to customize the type of your business. For examples: Institution, School, Academy, etc. 
 
-	These are the roles that belong to the instution. The roles will be generated based on the answer to the previous question. Again, you will have the option to customize the roles. Suppose you choose **School Administrator**, **Content Creator**, and **Curriculum Reviewer**. Then the next question will be:
+Suppose you choose **Institution**. Then the next question will be:
+    
+- **What user roles belong to an Institution?**
 
-- **Which user role will have ownership over a Institution account in your SaaS application?**
+    These are the roles that belong to the Institution. The roles will be generated based on the answer to the previous question. Again, you will have the option to customize the roles. Suppose you choose **School Administrator**, **Content Creator**, and **Curriculum Reviewer**. Then the next question will be:
 
-	The role you choose here will act as the owner of your business customer. This means that this role will have full access to the business customer, allowing it to update the customer's information and invite other users.
+- **Which user role will have ownership over an Institution account in your SaaS application?**
 
-	You can choose one of the roles you have previously selected or you can choose a new role. Suppose you choose **School Administrator**. Then the next question will be:
+    The role you choose here will be your business customer's owner. This means that this role will have full access to the business customer, allowing it to update the customer's information and invite other users.
+
+    You can choose one of the roles you have previously selected, or you can choose a new role. Suppose you choose **School Administrator**. Then the next question will be:
 
 - **Are there any roles of end-users who don't belong to a School?**
 
-	The end-user has its own signup form and doesn’t belong to the Institution. For example, **Freelance Educator**.
+    The end-user has their own signup form and doesn't belong to the institution. For example, **Freelance Educator**.
 
 ### Data model
 
@@ -60,9 +62,9 @@ The data model is the most important part of the application. It's the foundatio
 
 ![Schema editor](/screenshots/03-schema-editor-ai-autofill.png)
 
-The schema editor is a visual tool to create the data model. You can manually add, edit, delete table and create fields as well as the relationship between the tables. You can also use the **AI Autofill** help to generate additional tables and their relationships. 
+The schema editor is a visual tool to create the data model. You can manually add, edit, delete tables, and create fields as well as the relationship between the tables. You can also use the **AI Autofill** help to generate additional tables and their relationships. 
 
-For a better representation of the data model, AI Assistant also provide schema diagram visualization. So, you can see the relationship between the tables easily.
+AI Assistant also provides schema diagram visualization to better represent the data model. So you can see the relationship between the tables easily.
 
 ![Schema diagram visualization](/screenshots/04-schema-visualization.png)
 
@@ -70,15 +72,21 @@ For more information about the schema editor, please refer to the [schema editor
 
 ### Access management
 
-This screen is to setup the user access management. You can setup the access management manually or use the **AI Autofill** to help generate initial permissions and refine them later.
+This screen is to set up the user access management. You can set up the access management manually or use the **AI Autofill** to help generate initial permissions and refine them later.
 
 ![Access management setup](/screenshots/05-access-management-setup.png)
 
 ### Generate app
 
-If everything is ready, you can generate the application. If not you always can go back to the previous steps to make changes. In this screen, you will be asked to provide your email address to receive the generated application.
+If everything is ready, you can generate the application. If not, you can always go back to the previous steps to make changes. In this screen, you will be asked to provide your email address to receive the generated application.
 
 ![App generate](/screenshots/06-generate-app-email.png)
 
 Click **Generate Your App** to start the generation process.
 </Steps>
+
+## Project Console
+
+After app generation is complete, you will receive an email with a link to the project console. In this project console, you can manage your users and fine-tune all configurations.
+
+![project console](/screenshots/07-project-console.png)
