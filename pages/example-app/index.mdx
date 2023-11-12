@@ -2,9 +2,10 @@ import { Steps, Callout } from "nextra/components";
 
 # Chakra Demo App
 
-ROQ enables you to generate an entire SaaS application. Here you can see the entire user journey from the start using the [AI Assistant](https://app.roq.dev/) until the launch of your application. 
+ROQ enables you to generate an entire SaaS application. The generated application is only generated once and will not update if there are schema changes. The generated application consists of two parts: user interface and backend API that serve as a Backend as a service or BaaS API. The user interface will not updated if you change the schema. However, the BaaS API will be updated if you change the schema.
 
-The generated application is only generated once and will not update if there are schema changes. The generated application consist of two parts: user interface and API that serve as a Backend as a service or BaaS API. The user interface will not updated if you change the schema. However, the BaaS API will be updated if you change the schema.
+Here, you can see the entire user journey from the start using the [AI Assistant](https://app.roq.dev/) until the launch of your application. 
+
 
 ## Generate App
 
@@ -14,31 +15,31 @@ Follow these steps to generate your application:
 
 ### Use AI Assistant
 
-You start your journey by using the [AI Assistant](https://app.roq.dev/) that enables you to describe your scenario, define user roles, schema and permissions.
+Start your journey by using the [AI Assistant](https://app.roq.dev/) that enables you to describe your scenario and define user roles, schema, and permissions.
 
 ### Get access to your generated application
 
-The app generation usually takes around 15 minutes. When it's done, you get an email with a link to your new application deployed to Vercel. You are also invited to the [ROQ Console](https://console.roq.tech/), where you can manage your users and fine-tune all configurations.
+The app generation usually takes around 15 minutes. When it's done, you get an email to manage your project in [ROQ Console](https://console.roq.tech/), where you can manage your users and fine-tune all configurations. 
 
-Now it's time to give your new application a test run! If you are satisfied with the results, proceed here; otherwise, you can re-generate your application and give it another try. AI isn't deterministic, meaning every run will result in a slightly different result.
+If you are satisfied with the results, proceed here; otherwise, you can regenerate the backend API with schema changes and give it another try, or you can regenerate the whole application by using the AI Assistant again (step 1). AI isn't deterministic, meaning every run will result slightly differently.
 
 ### Continue development
 
 We recommend logging in to [ROQ Console](https://console.roq.tech/) and creating a new environment so that you are not using the same environment as the deployed application, which can result in side effects, e.g., when you change the application's URL.
 
-To continue development, use BaaS API from the generated application with any supported JavaScript frameworks (Next.js, Nuxt.js, React + Express.js, Vue.js, SvelteKit, and RedwoodJS.). You can also use the BaaS API with any other programming language.
+For continued development, use the BaaS API from the generated application with supported JavaScript frameworks like Next.js, Nuxt.js, React + Express.js, Vue.js, SvelteKit, and RedwoodJS. 
 
 →️ [Quickstart with Next.js](/next-js)
 
 ### Launch
 
-Before you publish your application, it's essential to create a **production** environment in [ROQ Console](https://console.roq.tech/) and use these environment variables.
+Before you publish your application, creating a **production** environment in [ROQ Console](https://console.roq.tech/) and using these environment variables is essential.
 
 </Steps>
 
 ## Technology stack
 
-ROQ's app generator builds a fully-functional application based on your input. The resulting application follows the best practices of the
+ROQ's app generator builds a fully functional application based on your input. The resulting application follows the best practices of the
 underlying frameworks. If you are familiar with them, there won't be any surprises.
 
 * [Next.js](https://nextjs.org/)
@@ -47,5 +48,4 @@ underlying frameworks. If you are familiar with them, there won't be any surpris
 
 ## Hosting
 
-It can be easily deployed to any PaaS solution like [Vercel](https://vercel.com/), [Render](https://render.com/),
-[Scalingo](https://scalingo.com/) and connected to a database system that is supported by Prisma, like Postgres, MongoDB, and many more.
+Since you will develop an application using any supported JavaScript frameworks and using ROQ BaaS API, your application can be easily deployed to any PaaS solution like [Vercel](https://vercel.com/), [Render](https://render.com/), [Scalingo](https://scalingo.com/), etc.
