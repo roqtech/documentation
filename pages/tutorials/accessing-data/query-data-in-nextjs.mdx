@@ -101,11 +101,13 @@ fetchReviewCount().then((data) => {
 
 ## Building project list page
 
-We will build a simple project list to show all projects that have been created by the **Business Owner**. The project list will be displayed in the **Freelancer** dashboard.
+We will build a simple project list to show all projects that have been created by the **Business Owner**. The project list will be displayed in the **Freelancer** page.
 
 ### Create a project list page
 
-Create a new page called `freelancer.tsx` in the `pages` directory. The page will be the **Freelancer** dashboard.
+Create a new page called `freelancer.tsx` in the `pages` directory. The page will be the project list for the freelancer. 
+
+The code below is the complete code for the page:
 
 ```tsx filename="src/pages/freelancer.tsx"
 import { useRoqClient } from 'lib/roq';
@@ -136,7 +138,6 @@ export default function Projects() {
 		}
 
 		fetchProjectData().then((projects) => {
-			console.log(projects)
 			setProjects(projects.data)
 		})
 
@@ -167,13 +168,21 @@ export default function Projects() {
 }
 ```
 
-{/*
-Description of the code above
-*/}
+The heart of this code is query data from BaaS using the ROQ SDK. The code below is the query data code:
+
+```tsx
+const projectData = await roqClient.project.findManyWithCount({
+    orderBy: {
+	    created_at: 'desc'
+	}
+})
+```
+
+The code above will retrieve all projects data from BaaS and sort the data by the `created_at` field in descending order. The data will be rendered in the `<ProjectList>` component.
 
 ### Create a project list component
 
-Create a new component called `project-list.tsx` in the `pages` directory. The component will be the list of projects that have been created by the **Business Owner**.
+Create a new component called `project-list.tsx` in the `pages` directory. This component is `<ProjectList>` component that we use in the previous code. The component will render the list of projects that have been created by the **Business Owner**.
 
 ```tsx filename="src/pages/project-list.tsx"
 import React from 'react';
@@ -199,6 +208,22 @@ const List: React.FC<ProjectListType> = ({ items }) => {
 export default List;
 ```
 
-### What we have built?
+### Add interface for project list
+
+This page use an interface to define the data type for the project list. Open the file called `project-data-types.ts` in the `src/interface` directory. Add this project list interface in the code:
+
+
+```tsx filename="src/interface/project-data-types.ts"
+
+// the code here is the same as before 
+
+interface ProjectListType {
+	items: ItemType[];
+}
+
+export type { ItemType, ProjectListType, StatusMessageType, ProjectFormProps };
+```
+
+## What we have built?
 
 ![project list](/screenshots/project-list-freelancer.png)
