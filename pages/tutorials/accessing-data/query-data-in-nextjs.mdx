@@ -1,18 +1,84 @@
-# How to render a list in Next.js
+import { Steps } from "nextra/components"
 
-This tutorial will guide you to query from ROQ database using ROQ SDK on client side. All database operation such as read and write data can be done through `useRoqClient()` method.
+# How to render a list in Next.js
+ 
+In this tutorial, we will learn how to retrieve and render a list of data from ROQ in Next.js. We will use the ROQ SDK to query data from BaaS and render the data in a list.
+
+This tutorial is about a straightforward Software as a Service (SaaS) platform for freelance workers. The platform will have two unique user roles, namely the **Business Owner** and the **Freelancer**. The **Business Owner** will be able to create projects while the "Freelancer" will have the ability to create a freelancer profile and apply for projects.
+
+This tutorial will only cover the **Freelancer** role.
 
 ## Project setup
 
-Before we start, make sure you have completed the following quickstart:
+Before we start, make sure to follow the previous tutorial:
 
-- [Next.js Quickstart](/next-js)
+- [How to save data in Next.js](/tutorials/accessing-data/save-data-in-nextjs)
 
-The quickstart will initialize a Next.js project with ROQ SDK installed also signup, login, and logout features.
+	The tutorial will guide you through the process of setting up a Next.js application and connecting it to ROQ BaaS.
 
-## Basic concepts
+	There are some changes to the code from the previous tutorial. These changes are necessary because this time we will build the app for the **Freelancer** role. The changes are:
 
-There are two kind of query data in ROQ BaaS: query data without filters and query data with filters.
+	- Change the roles to `freelancer` when user (freelancer) register or sign in. 
+	- Change page redirect to `freelancer` page for any sucessfull login.
+
+	The `index.tsx` page is the one that responsible for user authentication. We will changes the code to the following:
+
+	```tsx {7, 11} filename="src/pages/index.tsx"
+	import { useRoqClient } from "lib/roq";
+
+	export default function Home() {
+		const roqClient = useRoqClient();
+
+		const handleSignUp = async () => {
+			await roqClient.signUp('freelancer', { postLoginRedirect: '/freelancer' });
+		};
+
+		const handleSignIn = async () => {
+			await roqClient.signIn('freelancer', { postLoginRedirect: '/freelancer' });
+		};
+
+		return (
+			{/* the code here is the same as before */}
+		);
+	}
+	```
+
+## Basic query data concepts
+
+There are two kind of query data in ROQ BaaS: query data with filters and query data without filters.
+
+### Query data with filters
+
+In this example, we demonstrate how to retrieve and count reviews data from BaaS using the ROQ SDK using filtering criteria.
+
+```tsx {4,5,6,7}
+const roqClient = useRoqClient()
+
+const fetchProjectCount = async () =>{
+    const projectCount = await roqClient.project.findManyWithCount({ orderBy: {
+	        created_at: 'desc'
+	    }
+    })	
+	return projectCount
+}
+	
+fetchReviewCount().then((data) => {
+    console.log(data);
+});
+```
+
+The important thing to note that the code syntax for the data operation follows a Prisma-like pattern.
+
+```tsx
+await roqClient.project.findManyWithCount()
+```
+
+The benefit of a Prisma-like pattern is easily understood due to its common format: `roqClient.[entity].[operation]`. Read more about the Prisma-like pattern [here](/development/sdk/query-syntax).
+
+JSON:API is utilized to create REST APIs in ROQ BaaS, resulting in JSON-format response data. For instance, the data response from our earlier code in the browser console:
+
+![review count data](/screenshots/nextjs-read-data-baas.png)
+
 
 ### Query data without filters
 
@@ -33,39 +99,106 @@ fetchReviewCount().then((data) => {
 });
 ```
 
-### Query data with filters
+## Building project list page
 
-In this example, we demonstrate how to retrieve and count reviews data from BaaS using the ROQ SDK using filtering criteria.
+We will build a simple project list to show all projects that have been created by the **Business Owner**. The project list will be displayed in the **Freelancer** dashboard.
 
-```tsx {4,5,6,7}
-const roqClient = useRoqClient()
+### Create a project list page
 
-const fetchReviewCount = async () =>{
-    const reviewCount = await roqClient.review.findManyWithCount({ orderBy: {
-	        created_at: 'desc'
-	    }
-    })	
-	return reviewCount
+Create a new page called `freelancer.tsx` in the `pages` directory. The page will be the **Freelancer** dashboard.
+
+```tsx filename="src/pages/freelancer.tsx"
+import { useRoqClient } from 'lib/roq';
+import { useSession } from '@roq/nextjs';
+import { useEffect, useState } from 'react';
+import { ItemType } from '@/interface/project-data-types';
+import ProjectList from './project-list';
+
+export default function Projects() {
+	const roqClient = useRoqClient();
+	const { session } = useSession();
+	const [projects, setProjects] = useState<ItemType[]>([]);
+
+	const roles = session?.user.roles || [];
+
+	const logoutHandler = () => {
+		roqClient.signOut();
+	};
+
+	useEffect(() => {
+		const fetchProjectData = async () => {
+			const projectData = await roqClient.project.findManyWithCount({
+				orderBy: {
+					created_at: 'desc'
+				}
+			})
+			return projectData
+		}
+
+		fetchProjectData().then((projects) => {
+			console.log(projects)
+			setProjects(projects.data)
+		})
+
+	}, [])
+
+	return (
+		<div className="flex flex-col w-full h-screen bg-zinc-950">
+			<nav className="flex justify-between items-center p-4 bg-zinc-800 shadow">
+				<h1 className="text-white text-xl font-bold">Freelancer Inc.</h1>
+				<div className="flex items-center gap-4">
+					<div>
+						<p className="text-gray-400 text-sm">
+							Logged in as: <span className="text-white">{session?.user.email}</span>
+						</p>
+						<p className="text-gray-400 text-sm">
+							Role: <span className="text-white">{roles[0]}</span>
+						</p>
+					</div>
+					<button onClick={logoutHandler} className="px-3 py-1 bg-indigo-500 rounded shadow text-white font-bold">
+						Log out
+					</button>
+				</div>
+			</nav>
+			<ProjectList items={projects} />
+		</div>
+
+	);
 }
-	
-fetchReviewCount().then((data) => {
-    console.log(data);
-});
 ```
 
-The important thing to note that the code syntax for the data operation follows a Prisma-like pattern.
-
-```tsx
-await roqClient.review.findManyWithCount()
-```
-The benefit of a Prisma-like pattern is easily understood due to its common format: `roqClient.[entity].[operation]`.
-
-JSON:API is utilized to create REST APIs in ROQ BaaS, resulting in JSON-format response data. For instance, the data response from our earlier code in the browser console:
-
-![review count data](/screenshots/nextjs-read-data-baas.png)
-
-
-{/*TODO:
-- Add a fully working small example (render a list)
+{/*
+Description of the code above
 */}
- 
+
+### Create a project list component
+
+Create a new component called `project-list.tsx` in the `pages` directory. The component will be the list of projects that have been created by the **Business Owner**.
+
+```tsx filename="src/pages/project-list.tsx"
+import React from 'react';
+import { ProjectListType } from '@/interface/project-data-types';
+    
+const List: React.FC<ProjectListType> = ({ items }) => {
+	return (
+		<div className="bg-gray-800 p-4 rounded-lg">
+			{items.map((item, index) => (
+				<div
+					key={index}
+					className="bg-gray-700 text-white p-2 my-2 rounded-md shadow-md"
+				>
+					<h3 className="text-lg font-semibold">{item.name}</h3>
+					<p>{item.description}</p>
+					<span className="text-indigo-400">{item.status}</span>
+				</div>
+			))}
+		</div>
+	)
+};
+
+export default List;
+```
+
+### What we have built?
+
+![project list](/screenshots/project-list-freelancer.png)

@@ -1,14 +1,22 @@
-import { Steps } from 'nextra/components'
+import { Steps, Callout } from 'nextra/components'
 
 # How to save data in Next.js
 
-In this tutorial we will building a form to save data to ROQ using Next.js. We will use the ROQ SDK to save data to the database. 
+In this tutorial we will building a form to save data to ROQ using Next.js. We will use the ROQ SDK to save data to the database.
 
 Let's build a simple SaaS for works marketplace for freelancers. The application will have two user roles: **Business Owner** and **Freelancer**. The **Business Owner** will be able to create projects and the **Freelancer** will be able to create a freelancer profile and apply to projects.
 
+This tutorial will only cover the **Business Owner** role. We will cover the **Freelancer** role in the next tutorial.
+
 ## Project setup
 
-Before we start, make sure we generate a ROQ project using [AI Assistant](https://app.roq.dev/).
+{/*
+<Callout type="info">
+Skip this steps if you just want to learn [basic save data concepts](#basic-save-data-concepts) and see code examples.
+</Callout>
+*/}
+
+Before we start, make sure we generate a ROQ project using [AI Assistant](https://app.roq.dev/). 
 
 <Steps>
 ### App name and prompt
@@ -46,7 +54,9 @@ Make sure to follow the next steps in this tutorial to create a Next.js project:
 
 The quickstart will initialize our freelancer works marketplace project with signup, login, and logout features.
 
-There are a few changes to the `index.tsx` for the login page. We need to replace the role for sign in and sign up process with the role we created in the project setup which is `business-owner` and change the redirect page `postLoginRedirect` to `/projects`:
+### Code changes
+
+After created project from quickstart, there are a few changes to the `index.tsx` for the login page. We need to replace the role for sign in and sign up process with the role we created in the project setup which is `business-owner` and change the redirect page `postLoginRedirect` to `/projects`:
 
 ```tsx {7, 11} filename="src/pages/index.tsx"
 import { useRoqClient } from "lib/roq";
@@ -159,12 +169,15 @@ Create a `project-form.tsx` file in the same folder as `index.tsx` and add the f
 
 ```tsx filename="src/pages/project-form.tsx"
 import React from 'react';
+import { ProjectFormProps } from '@/interface/project-data-types';
+import { v4 as uuidv4 } from 'uuid';
 
-export default function ProjectForm({ projectData, onSubmit }) {
+export default function ProjectForm({ projectData, onSubmit, status }: ProjectFormProps) {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const formData = {
+	        id: uuidv4(),
 			name: e.target.name.value,
 			description: e.target.description.value,
 			status: e.target.status.value,
@@ -207,6 +220,12 @@ export default function ProjectForm({ projectData, onSubmit }) {
 						<label htmlFor="deadline" className="text-gray-400">Deadline</label>
 						<input type="date" id="deadline" defaultValue={projectData.deadline ? projectData.deadline.split('T')[0] : ''} className="bg-zinc-950 text-white border border-gray-600 rounded p-2" />
 					</div>
+					
+					{status && (
+                        <div className={`p-3 rounded ${status.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}>
+                            {status.message}
+                        </div>
+                    )}
 
 					<button type="submit" className="px-4 py-2 bg-indigo-500 text-white rounded shadow">Save</button>
 				</form>
@@ -225,50 +244,44 @@ To use the `ProjectForm` component, we need to create a page that renders the fo
 ```tsx filename="src/pages/projects.tsx"
 import { useRoqClient } from 'lib/roq';
 import { useSession } from '@roq/nextjs';
-import { useEffect, useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-import ProjectForm from './project-form'
-import { get } from 'http';
+import { useState } from 'react';
+import ProjectForm from './project-form';
+import { ItemType, StatusMessageType } from '@/interface/project-data-types';
 
-interface ProjectData {
-	id: string;
-	name: string;
-	description: string;
-	deadline: string | null;
-	status: 'active' | 'inactive' | 'completed' | 'pending' | 'on hold' | 'cancelled';
-	company_id: string;
-	created_at: string;
-	updated_at: string;
-  }  
-
-export default function Freelancer() {
-  const [currentProject, setCurrentProject] = useState([]);
-
+export default function Projects() {
   const roqClient = useRoqClient();
   const { session } = useSession();
+  const [currentProject, setCurrentProject] = useState([]);
+  const [status, setStatus] = useState<StatusMessageType | null>(null);
+  
+  const company_id = session?.user.tenantId || '';
   const roles = session?.user.roles || [];
-  const company_id = session?.user.tenantId;
 
   const logoutHandler = () => {
     roqClient.signOut();
   };
 
-  const handleFormSubmit = async (projectData: ProjectData) => {
+  const handleFormSubmit = async (projectData: ItemType) => {
     try {
-      const projectId = uuidv4();
-
-	  projectData.id = projectId;
 	  projectData.company_id = company_id;
-      
+      console.log(projectData)
       const project = await roqClient.project.create({
 		data: projectData
 	  });
-    
+
+      console.log(projectData);
+	  setStatus({ message: 'Project saved successfully!', type: 'success' });
+
+	  setTimeout(() => {
+		setStatus(null);
+	  }, 3000);
+
     } catch (error) {
       console.error('Error submitting project:', error);
+      setStatus({ message: 'Error saving project.', type: 'error' });
     }
   };
- 
+
   return (
 	<div className="flex flex-col w-full h-screen bg-zinc-950">
 	<nav className="flex justify-between items-center p-4 bg-zinc-800 shadow">
@@ -287,7 +300,7 @@ export default function Freelancer() {
 		</button>
 	  </div>
 	</nav>
-	<ProjectForm projectData={currentProject} onSubmit={handleFormSubmit} />
+	<ProjectForm projectData={currentProject} onSubmit={handleFormSubmit} status={status}/>
   </div>
   
   );
@@ -295,6 +308,46 @@ export default function Freelancer() {
 ```
 
 This page renders the `ProjectForm` component and passes the `handleFormSubmit` function as the `onSubmit` prop. The `handleFormSubmit` function will be called when the form is submitted and it will save the project data to ROQ.
+
+### Interface for project data types
+
+This project uses TypeScript, so we need to create an interface for project data types. Create a `project-data-types.ts` file in `src/interface` add the following code:
+
+```tsx filename="src/pages/project-data-types.ts"
+interface ItemType {
+	id: string;
+	name: string;
+	description: string | null;
+	deadline: Date | null;
+	status: string;
+	company_id: string;
+	created_at?: Date;
+	updated_at?: Date;
+}
+
+type StatusMessageType = {
+	message: string;
+	type: 'success' | 'error';
+};
+
+type ProjectFormProps = {
+	projectData: ItemType;
+	onSubmit: (formData: ItemType) => void;
+	status?: StatusMessageType;
+};
+
+export type { ItemType, StatusMessageType, ProjectFormProps };
+```
+
+Then we can import the interface in `project-form.tsx` and `projects.tsx`:
+
+```tsx filename="src/pages/project-form.tsx"
+import { ProjectFormProps, ItemType, StatusMessageType } from '@/interface/project-data-types';
+```
+
+### What we have built?
+
+If you follow along this tutorial, you should have a project form that looks like this:
 
 ![project page](/screenshots/add-project-page.png)
 
@@ -313,5 +366,5 @@ For now we can only check the response data from the browser console. The respon
 }
 ```
 
-We will add a list of projects in the next section for different user roles such as freelancer.
+We will include a project list for freelancers in the next section.
 
