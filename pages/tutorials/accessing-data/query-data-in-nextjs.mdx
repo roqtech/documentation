@@ -187,22 +187,39 @@ Create a new component called `project-list.tsx` in the `pages` directory. This 
 ```tsx filename="src/pages/project-list.tsx"
 import React from 'react';
 import { ProjectListType } from '@/interface/project-data-types';
-    
+
 const List: React.FC<ProjectListType> = ({ items }) => {
-	return (
-		<div className="bg-gray-800 p-4 rounded-lg">
-			{items.map((item, index) => (
-				<div
-					key={index}
-					className="bg-gray-700 text-white p-2 my-2 rounded-md shadow-md"
-				>
-					<h3 className="text-lg font-semibold">{item.name}</h3>
-					<p>{item.description}</p>
-					<span className="text-indigo-400">{item.status}</span>
-				</div>
-			))}
-		</div>
-	)
+
+    const handleApply = (projectId: string) => {
+        // Logic to apply for the project
+        console.log(`Applying for project with ID: ${projectId}`);
+    };
+
+    return (
+        <div className="bg-gray-800 p-4 rounded-lg">
+            {items.map((item, index) => (
+                <div
+                    key={index}
+                    className="flex justify-between items-end bg-gray-700 text-white p-2 my-2 rounded-md shadow-md"
+                >
+                    <div>
+                        <h3 className="text-lg font-semibold">{item.name}</h3>
+                        <p>{item.description}</p>
+                        <span className="text-indigo-400">{item.status}</span>
+                    </div>
+                    <button 
+                        onClick={() => handleApply(item.id)}
+                        disabled={item.status !== 'open'} // Disable the button if status is not 'open'
+                        className={`px-3 py-1 rounded shadow font-bold ${
+                            item.status === 'open' ? 'bg-indigo-500 text-white' : 'bg-gray-500 text-gray-300'
+                        }`}
+                    >
+                        Apply
+                    </button>
+                </div>
+            ))}
+        </div>
+    )
 };
 
 export default List;
