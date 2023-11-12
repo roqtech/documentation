@@ -4,90 +4,48 @@ import { Steps, Callout } from "nextra/components";
 
 ROQ enables you to generate an entire SaaS application. Here you can see the entire user journey from the start using the [AI Assistant](https://app.roq.dev/) until the launch of your application. 
 
+The generated application is only generated once and will not update if there are schema changes. The generated application consist of two parts: user interface and API that serve as a Backend as a service or BaaS API. The user interface will not updated if you change the schema. However, the BaaS API will be updated if you change the schema.
+
 ## Generate App
 
-We will generate app using The generated application is only generated once and will not update if there are schema changes. Follow these steps to generate your application:
+Follow these steps to generate your application:
 
 <Steps>
 
 ### Use AI Assistant
 
-You start your journey by using the [AI Assistant](https://app.roq.dev/) that enables you to describe your scenario, define user roles and select additional features.
+You start your journey by using the [AI Assistant](https://app.roq.dev/) that enables you to describe your scenario, define user roles, schema and permissions.
 
 ### Get access to your generated application
 
-The app generation usually takes around 15 minutes (see [how it works](/getting-started/how-it-works)). When it's done, you get an email with a link to your new application deployed to Vercel. You are also invited to the [ROQ Console](https://console.roq.tech/), where you can manage your users and fine-tune all configurations.
+The app generation usually takes around 15 minutes. When it's done, you get an email with a link to your new application deployed to Vercel. You are also invited to the [ROQ Console](https://console.roq.tech/), where you can manage your users and fine-tune all configurations.
 
 Now it's time to give your new application a test run! If you are satisfied with the results, proceed here; otherwise, you can re-generate your application and give it another try. AI isn't deterministic, meaning every run will result in a slightly different result.
 
-→️ [Application Guide](/getting-started/app-guide)
-
-### Install locally and continue development
-
-In the initial email, you will find a link to the project's source code on GitHub. If you decide to continue your
-project, you can clone the code and install the application locally. The application ships with a `README.md` file, which explains how to run it locally. Almost the same way, you can install the application on a provider like Vercel.
+### Continue development
 
 We recommend logging in to [ROQ Console](https://console.roq.tech/) and creating a new environment so that you are not using the same environment as the deployed application, which can result in side effects, e.g., when you change the application's URL.
 
-Before coding, look at the [list of used technologies](/getting-started/technology-stack). Have fun!
+To continue development, use BaaS API from the generated application with any supported JavaScript frameworks (Next.js, Nuxt.js, React + Express.js, Vue.js, SvelteKit, and RedwoodJS.). You can also use the BaaS API with any other programming language.
+
+→️ [Quickstart with Next.js](/next-js)
 
 ### Launch
 
-Before you publish your application, it's essential to create a "production" environment in
-[ROQ Console](https://console.roq.tech/) and use these environment variables.
+Before you publish your application, it's essential to create a **production** environment in [ROQ Console](https://console.roq.tech/) and use these environment variables.
 
 </Steps>
 
-## How it works
-
-ROQ enables you to generate the first version of your B2B SaaS application in minutes using the
-[AI Assistant](https://app.roq.ai/). This page looks behind the scenes and describes how the generation process
-works internally:
-
-| Nr  | Step                                          | Description                                                                                                                                                                                                                                                                                                                                           |
-|-----|-----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| 1   | **AI generates project-specific information** | Based on our description, ROQ uses a powerful machine learning model to determine the project's user stories, domain model, and other project-specific information. The quality of this heavily depends on your input. The more details you provide in the [AI Assistant](https://app.roq.ai/), the more accurate your application will be generated. |
-| 2   | **Generate Code**                             | All parts of your application will be realized using ROQ's advanced code generator. You get an appealing homepage and navigation that looks different for each user role. All entities can be managed via paginated data-tables and validated forms.                                                                                                  |
-| 3   | **Setup of User Management**                  | Every B2B SaaS application has multiple user roles like owner, manager, admin, or customer. ROQ's application generator automatically sets up all these roles. Then it configures the built-in access management that restricts who can do which action and retrieves what data.                                                                      |
-| 4   | **Adding Features**                           | Based on your selection, some of ROQ's pre-build features are added and configured automatically: Chat,Notifications, and File-handling.                                                                                                                                                                                                              |
-| 5   | **Publish Code and Deploy!**                  | Before you are informed via email, the resulting application is then pushed to a public repository on GitHub and deployed to a staging environment at Vercel.                                                                                                                                                                                         |
-
 ## Technology stack
 
-ROQ's app generator builds a fully-functional application based on your input (
-see [how it works](/getting-started/how-it-works)). The resulting application follows the best practices of the
+ROQ's app generator builds a fully-functional application based on your input. The resulting application follows the best practices of the
 underlying frameworks. If you are familiar with them, there won't be any surprises.
 
 * [Next.js](https://nextjs.org/)
 * [Chakra UI](https://chakra-ui.com/)
 * [Prisma ORM](https://www.prisma.io/)
-* ROQ UI Components and APIs (see below)
 
-### Hosting
+## Hosting
 
 It can be easily deployed to any PaaS solution like [Vercel](https://vercel.com/), [Render](https://render.com/),
-[Scalingo](https://scalingo.com/) and connected to a database system that is supported by Prisma, like Postgres, MongoDB
-and many more.
-
-### ROQ UI Components and APIs
-
-The application uses ROQ's functional React components and APIs, which enrich your application with functionality like user- and access
-management, notifications, chat, and more. 
-
-The integration is realized by the [@roq/nextjs](https://www.npmjs.com/package/@roq/nextjs) library which ships with 
-multiple React Components and an API client. 
-
-![Image](/generated-app.png)
-
-
-
-
-
-
-{/*
-## Step-by-step guide to building a sample application.
-
-## Key features and concepts.
-
-## Code snippets and sample code.
-*/}
+[Scalingo](https://scalingo.com/) and connected to a database system that is supported by Prisma, like Postgres, MongoDB, and many more.
