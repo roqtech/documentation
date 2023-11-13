@@ -74,39 +74,6 @@ If any changes are made to the project schema or entities after the project crea
 
 The command generates a customizable SDK based on the Prisma BaaS schema and chosen environment. The default location for the code generated is `src/lib/roq`.
 
-{/*
-![generate roq sdk](/screenshots/generate-sdk.png)
-*/}
-
-The `tsconfig.json` file in the root directory of the Next.js project should be updated by adding `src/lib/*` to the `paths` key, allowing the new SDK to be recognized:
-
-```json filename="tsconfig.json" {18}
-{
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "paths": {
-      "@/*": ["./src/*"],
-      "lib/*": ["./src/lib/*"]
-    }
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
-}
-```
-
-
 ### Configure Next.js with ROQ authentication
 
 Before doing any data-related query, we need to wrap the Next.js application with the `<RoqClientProvider>` context provider component. This provider enables the components in the application tree to access the customized generated SDK from our earlier command. 
@@ -116,7 +83,7 @@ You can put this code in the `_app.tsx` file.
 ```jsx filename="src/pages/_app.tsx"
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { RoqClientProvider } from 'lib/roq'
+import { RoqClientProvider } from '@/lib/roq'
 import { RoqProvider} from '@roq/nextjs';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -152,7 +119,7 @@ export default RoqAuth({});
 After that we can add a signup button, user will be redirected to the other page if the signup process successful.
 
 ```tsx filename="src/pages/index.tsx"
-import { useRoqClient } from "lib/roq";
+import { useRoqClient } from "@/lib/roq";
 
 export default function Home() {
   const roqClient = useRoqClient();
@@ -208,7 +175,7 @@ For example, the registration form variant shown is `Admin(administrator)`. This
 Create another page called `user.tsx` and fill with this code:
 
 ```tsx filename="src/pages/user.tsx"
-import { useRoqClient } from 'lib/roq';
+import { useRoqClient } from '@/lib/roq';
 import { useSession } from '@roq/nextjs';
 
 export default function Home() {
@@ -266,77 +233,6 @@ After successful signup, the page will be redirected to the user page and Next.j
 <Callout type="info">
 For more about authentication, please visit [**add authentication**](/next-js/add-authentication).
 </Callout>
-
-{/*
-### Query data
-
-We can use the `useRoqClient()` hook from the generated SDK to query user data, such as the user list.
-
-```tsx filename="src/pages/user.tsx"
-import { Inter } from 'next/font/google';
-import { useRoqClient } from 'lib/roq';
-import { useSession } from '@roq/nextjs';
-import { useEffect, useState } from 'react';
-
-const inter = Inter({ subsets: ['latin'] });
-
-interface User {
-	id: string;
-	email: string;
-	firstName: string | null;
-	lastName: string | null;
-	roq_user_id: string;
-	tenant_id: string;
-	created_at: string;
-	updated_at: string;
-  }
-  
-interface UserDataResponse {
-    data: User[];
-    count: number;
-}
-
-export default function Home() {
-  const roqClient = useRoqClient();
-  const { session } = useSession();
-
-  const [userData, setUserData] = useState<UserDataResponse>({ data: [], count: 0 });
-  const roles = session?.user.roles || [];
-
-  useEffect(() => {
-      const getUserData = async () => {
-      const userData = await roqClient.user.findManyWithCount({});
-      setUserData(userData);
-    };
-
-    getUserData();
-  }, []);
-
-  return (
-    <main className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}>
-      <h1>Dashboard</h1>
-      <p>You are currently logged in as: {session?.user.email}</p>
-      <p>
-        User roles:
-        <ul>
-          {roles.map((role, index) => (
-            <li key={index}>{role}</li>
-          ))}
-        </ul>
-      </p>
-      <p>
-        User list:
-        <ul>
-          {userData?.data?.map((user, index) => (
-            <li key={index}>{user.email}</li>
-          ))}
-        </ul>
-      </p>
-    </main>
-  );
-}
-```
-*/}
 
 ### Start the Next.js application
 
