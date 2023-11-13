@@ -6,7 +6,7 @@ Any web application needs user authentication. ROQ BaaS offers easy authenticati
 
 ## Preparation
 
-It is recommended that you start by reading the [Quickstart](/next-js) guide to set up a new Next.js project. Additionally, you can wrap the main component on the Next.js page with `RoqProvider` to enable page authentication.
+It is recommended that you start by reading the [Quickstart](/next-js) guide to set up a new Next.js project. The `RoqProvider` component is currently needed to enable page authentication.
 
 ```tsx filename="_app.tsx"
 import '@/styles/globals.css'
@@ -30,7 +30,6 @@ export default function App({ Component, pageProps }: AppProps) {
       </RoqClientProvider>
     </RoqProvider>
   )
- 
 }
 ```
 
@@ -43,9 +42,18 @@ export default requireNextAuth({
 })(ComponentPage)
 ```
 
+Before continuing, please ensure that the file `pages/api/auth/[...roqAuth].ts` exists. If it does not exist, create it and fill it with the following code:
+
+```tsx filename="[...roqAuth].ts"
+import { RoqAuth } from '@roq/nextjs';
+export default RoqAuth({});
+```
+
+## Authentication
+
 In this section, we will cover the process of adding a login button, a logout button, and a signup button.
 
-## Add login button
+### Add login button
 
 To add a login button to a Next.js page, we can use the `signIn` API from the `@roq/nextjs` package or the `signIn` method from the `useRoqClient()`.
 
@@ -105,9 +113,9 @@ You can customize the `postLoginRedirect` option value to redirect the route to 
 Please note that the login process will take the user to the ROQ login form. You can customize the login form through ROQ Console.
 </Callout>
 
-## Add logout button
+### Add logout button
 
-On the book page, we can check if the user validates or not with the helper of the `useSession()` method from the `@roq/nextjs` package. To add a logout button is pretty simple. We can add a link or HTML button tag to call the `signOut` method from the `useRoqClient()` or use the `signOut` API from the `@roq/nextjs` package.
+On the book page, we can check whether the user validates with the helper of the `useSession()` method from the `@roq/nextjs` package. To add a logout button is pretty simple. We can add a link or HTML button tag to call the `signOut` method from the `useRoqClient()` or use the `signOut` API from the `@roq/nextjs` package.
 
 Using the `signOut` API from the `@roq/nextjs` package:
 
@@ -185,7 +193,7 @@ export default requireNextAuth({
 
 The `requireNextAuth` function is necessary to protect the book page in case the user accesses the `/book` route directly. 
 
-## Add signup button
+### Add signup button
 
 Similar to the login process, the signup process is handled by the `signUp` method from the `useRoqClient()` or `signUp` API from the `@roq/nextjs` package. 
 
@@ -257,7 +265,7 @@ Please note that the signup process will take the user to the ROQ signup form. Y
 ROQ's login and session management is based on the [OAuth protocol](https://oauth.net/2/). Here is how it works:
 
 1. The user clicks the Login button or is redirected to a login page provided by ROQ.
-2. ROQ prompts the user to log in using username and password or social sign-ins (e.g. Google) and then sends a special token back indicating that the user has granted permission to access your web application.
+2. ROQ prompts the user to log in using username and password or social sign-ins (e.g., Google) and then sends a special token back indicating that the user has granted permission to access your web application.
 3. Using the `requireNextAuth` wrapper, you can easily define which pages are only accessible to authenticated users.
 
 The `roq-session-token` is created whenever a user is authenticated. This is a session ID that allows you to maintain a continuous interaction with the ROQ BaaS. The token is stored in a cookie, and later, it will be used in the `Authorization` header in every HTTP request via `RoqClient` (generated SDK).
@@ -282,9 +290,9 @@ function Book() {
 }
 ```
 
-## Email, role and tenant
+## Get user's email, role and tenant
 
-The `session` object from `@roq/nextjs` contains the current user's email, roles, and tenant. We can use this data to customize the page based on the user's roles or tenant.
+The `session` object from `@roq/nextjs` contains the current user's email, roles, and tenant. We can use this data to customize the page based on the user's roles or tenants.
 
 ```tsx
 import { useSession } from '@roq/nextjs'
