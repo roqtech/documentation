@@ -1,3 +1,29 @@
 # E-Mails
 
-_Coming soon_
+## Introduction
+
+The Mail API is a simple API to send emails to users. We can access it through the `RoqServerClient` object. This API is exposed when we generate SDK using `@roq/cli` tool.
+
+## Code examples
+
+For example in Next.js and the generated SDK is installed in the `src/lib/roq` folder. 
+
+```tsx
+import { RoqServerClient } from '@/lib/roq/roq-server-client';
+
+const roqServerClient = new RoqServerClient()
+
+const sendMyMail = async() => {
+    roqServerClient.roqPlatform.asSuperAdmin().sendMail({
+	    mail: {
+		    key: 'onboarding',
+			locale: 'en-US',
+			emails: ['Fransic84@roq.tech'],
+			data: [{ key: 'name', value: 'Francis84 Columbus' }] }
+	})
+}
+```
+
+## Frameworks integration
+
+The Mails API can be used in any ROQ's supported JavaScript frameworks.  
