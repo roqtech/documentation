@@ -1,12 +1,12 @@
-# E-Mails
+# Emails
 
 ## Introduction
 
-The Mail API is a simple API to send emails to users. We can access it through the `RoqServerClient` object. This API is exposed when we generate SDK using `@roq/cli` tool.
+The Mail API provides a straightforward way to send emails to users. To send emails, we use the `sendMail()` method, which is available through the generated SDK. This method is housed in the ROQ platform and can be accessed using the `RoqServerClient` object.
 
 ## Code examples
 
-For example in Next.js and the generated SDK is installed in the `src/lib/roq` folder. 
+Let's take an example in the Next.js project with the generated SDK installed in the default `src/lib/roq` folder. We can send an email to a user by using the following code: 
 
 ```tsx
 import { RoqServerClient } from '@/lib/roq/roq-server-client';
@@ -15,15 +15,17 @@ const roqServerClient = new RoqServerClient()
 
 const sendMyMail = async() => {
     roqServerClient.roqPlatform.asSuperAdmin().sendMail({
-	    mail: {
-		    key: 'onboarding',
-			locale: 'en-US',
-			emails: ['Fransic84@roq.tech'],
-			data: [{ key: 'name', value: 'Francis84 Columbus' }] }
-	})
+        mail: {
+            key: 'onboarding',
+            locale: 'en-US',
+            emails: ['Fransic84@roq.tech'],
+            data: [{ key: 'name', value: 'Francis84 Columbus' }] }
+    })
 }
 ```
 
+To be able to send an email to a user, we also need to create a mail template in the [ROQ Console](https://console.roq.tech). The mail template is a simple HTML template with some variables. The variables are replaced with the data that we send in the `sendMail()` method. Please check the [mail template](/mails/email-templates-and-customization) section for more information about the mail template.
+
 ## Frameworks integration
 
-The Mails API can be used in any ROQ's supported JavaScript frameworks.  
+The Mails API can be used in any ROQ's supported JavaScript frameworks such as Next.js, Nuxt.js, SvelteKit, Express.js, and RedwoodJS. Other than specific ROQ framework packages such as `@roq/nextjs`, there is no need to install any additional packages to use the Mail API. When we generate the SDK using `@roq/cli`, the generated SDK will provide the `sendMail()` method.
