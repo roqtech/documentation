@@ -90,7 +90,7 @@ export default function Home() {
   const roqClient = useRoqClient()
 
   const handleSignIn = async () => {
-      await roqClient.signIn('owner', { postLoginRedirect: '/book' })
+      await roqClient.signIn('default', { postLoginRedirect: '/book' })
   }
 
   return (
@@ -226,11 +226,11 @@ export default function Home() {
   const roqClient = useRoqClient()
 
   const handleSignIn = async () => {
-      await roqClient.signIn('owner', { postLoginRedirect: '/book' })
+      await roqClient.signIn('default', { postLoginRedirect: '/book' })
   }
 
   const handleSignUp = async () => {
-      await roqClient.signUp('owner', { postLoginRedirect: '/book' })
+      await roqClient.signUp('default', { postLoginRedirect: '/book' })
   }
 
   return (

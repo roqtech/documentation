@@ -125,11 +125,11 @@ export default function Home() {
   const roqClient = useRoqClient();
 
   const handleSignUp = async () => {
-    await roqClient.signUp('owner', { postLoginRedirect: '/user' });
+    await roqClient.signUp('default', { postLoginRedirect: '/user' });
   };
 
   const handleSignIn = async () => {
-    await roqClient.signIn('owner', { postLoginRedirect: '/user' });
+    await roqClient.signIn('default', { postLoginRedirect: '/user' });
   };
 
   return (
