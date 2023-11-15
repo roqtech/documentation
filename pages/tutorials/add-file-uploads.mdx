@@ -72,7 +72,7 @@ Here's the full code for our image uploader:
 
 ```tsx filename="upload-image.tsx"
 import { useState, useCallback } from 'react'
-import { useRoqClient } from 'lib/roq'
+import { useRoqClient } from '@/lib/roq'
 import { requireNextAuth, useSession, FileUpload, useRoqFileUploader } from '@roq/nextjs'
 
 function ImageUpload() {
