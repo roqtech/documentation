@@ -34,7 +34,7 @@ export default function Home() {
   )
 }
 ```
-If you want to redirect the page after the login process, you should use `postLoginRedirect` option. 
+If you want to redirect the page after the login process, you should use the `postLoginRedirect` option. 
 
 For example, suppose we want to log in with the type `owner` and we want to redirect the page to the `user` page when it's authenticated:
 
@@ -89,7 +89,7 @@ export default function Home() {
 }
 ```
 
-If we want to redirect the page after signing up, you need to configue the `postLoginRedirect` option.
+If we want to redirect the page after signing up, you need to configure the `postLoginRedirect` option.
 
 ```tsx filename="page.tsx"
 import { defaultBrowserClient } from "@/lib/roq/roq-client";
@@ -152,7 +152,7 @@ const AuthenticatedSection = () => {
 }
 ```
 
-The `useRoqPlatformUserProfiles()` is a hook to get the user's profile data. It support filtering, sorting and searching for a specific user profile data.
+The `useRoqPlatformUserProfiles()` is a hook to get the user's profile data. It supports filtering, sorting, and searching for specific user profile data.
 
 {/*
 ## Handling session 
