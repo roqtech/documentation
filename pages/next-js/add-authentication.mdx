@@ -2,52 +2,11 @@ import { Callout } from 'nextra/components'
 
 # Add authentication
 
-Any web application needs user authentication. ROQ BaaS offers easy authentication through its SDK. For Next.js projects, you can utilize the `signIn`, `signOut`, and `signUp` methods from the `useRoqClient()` package.
+Any web application needs user authentication. ROQ BaaS offers easy authentication through its SDK. For Next.js projects, you can utilize the `signIn`, `signOut`, and `signUp` methods from the `defaultBrowserClient` factory.
 
 ## Preparation
 
-It is recommended that you start by reading the [Quickstart](/next-js) guide to set up a new Next.js project. The `RoqProvider` component is currently needed to enable page authentication.
-
-```tsx filename="_app.tsx"
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
-import { RoqClientProvider } from '@/lib/roq'
-import { RoqProvider } from '@roq/nextjs'
-
-export default function App({ Component, pageProps }: AppProps) {
-  const backendHost = process.env.NEXT_PUBLIC_ROQ_API_URL as string
-  const platformHost = process.env.NEXT_PUBLIC_ROQ_PLATFORM_URL as string
-  
-  return (
-    <RoqProvider config={{
-      host: platformHost,
-      auth: {
-        useRoqAuth: true
-      }
-    }}>
-      <RoqClientProvider backendHost={backendHost} platformHost={platformHost}>
-        <Component {...pageProps} />
-      </RoqClientProvider>
-    </RoqProvider>
-  )
-}
-```
-
-Later, you can secure the Next.js page with this snippet of code:
-
-```tsx 
-export default requireNextAuth({
-  redirectIfAuthenticated: false,
-  redirectTo: "/"
-})(ComponentPage)
-```
-
-Before continuing, please ensure that the file `pages/api/auth/[...roqAuth].ts` exists. If it does not exist, create it and fill it with the following code:
-
-```tsx filename="[...roqAuth].ts"
-import { RoqAuth } from '@roq/nextjs';
-export default RoqAuth({});
-```
+It is recommended that you start by reading the [Quickstart](/next-js) guide to set up a new Next.js project. 
 
 ## Authentication
 
@@ -55,20 +14,18 @@ In this section, we will cover the process of adding a login button, a logout bu
 
 ### Add login button
 
-To add a login button to a Next.js page, we can use the `signIn` API from the `@roq/nextjs` package or the `signIn` method from the `useRoqClient()`.
+To add a login button to a Next.js page, we can use the `signIn` API from the generated SDK. The `defaultBrowserClient` factory live in the `src/lib/roq/roq-client.ts"`. To use it you must import it first:
 
-Using the `signIn` API from the `@roq/nextjs` package:
 
-```tsx filename="index.tsx"
-import { Inter } from 'next/font/google'
-import { signIn, signUp, signOut } from `@roq/nextjs`
+```tsx filename="page.tsx"
+import { defaultBrowserClient } from "@/lib/roq/roq-client";
 
 export default function Home() {
   return (
     <main className={`text-center flex flex-col items-center justify-between p-24`}>
-        <h1 className='m-10'>Add Authentication</h1>
+        <h1 className='m-10'>Welcome</h1>
       <button 
-          onClick={signIn}
+          onClick={() => defaultBrowserClient.signIn()}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Login
@@ -77,25 +34,22 @@ export default function Home() {
   )
 }
 ```
+If you want to redirect the page after the login process, you should use `postLoginRedirect` option. 
 
-Please note that the `signIn` API will not redirect the page. If you want to redirect the page after the login process, you can use the `signIn` method from the `useRoqClient()` package.
+For example, suppose we want to log in with the type `owner` and we want to redirect the page to the `user` page when it's authenticated:
 
-For example, suppose we want to log in with the type `owner` and we want to redirect the page to the `book` page when it's authenticated:
-
-```tsx filename="index.tsx"
-import { Inter } from 'next/font/google'
-import { useRoqClient } from '@/lib/roq'
+```tsx filename="page.tsx"
+import { defaultBrowserClient } from "@/lib/roq/roq-client";
 
 export default function Home() {
-  const roqClient = useRoqClient()
 
-  const handleSignIn = async () => {
-      await roqClient.signIn('owner', { postLoginRedirect: '/book' })
+  const handleSignIn = () => {
+      defaultBrowserClient.signIn('owner', { postLoginRedirect: '/user' })
   }
 
   return (
     <main className={`text-center flex flex-col items-center justify-between p-24`}>
-        <h1 className='m-10'>Add Authentication</h1>
+        <h1 className='m-10'>Welcome</h1>
       <button 
           onClick={handleSignIn}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -113,101 +67,19 @@ You can customize the `postLoginRedirect` option value to redirect the route to 
 Please note that the login process will take the user to the ROQ login form. You can customize the login form through ROQ Console.
 </Callout>
 
-### Add logout button
-
-On the book page, we can check whether the user validates with the helper of the `useSession()` method from the `@roq/nextjs` package. To add a logout button is pretty simple. We can add a link or HTML button tag to call the `signOut` method from the `useRoqClient()` or use the `signOut` API from the `@roq/nextjs` package.
-
-Using the `signOut` API from the `@roq/nextjs` package:
-
-```tsx filename="book.tsx" 
-import { requireNextAuth, useSession, signOut } from '@roq/nextjs'
-
-function Book() {
-  return <AuthenticatedSection />
-}
-
-const AuthenticatedSection = () => {
-  const { session, status } = useSession()
-  
-  return (
-    <div className='m-5'>
-      {session ? (<>
-        <p className='my-10'>Logged in as: <strong>{session?.user.email}</strong></p>
-        <br />
-        <button
-          onClick={signOut}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Logout
-        </button>
-      </>) : 'Not logged in'}
-    </div>
-  )
-}
-
-export default requireNextAuth({
-  redirectIfAuthenticated: false,
-  redirectTo: "/"
-})(Book)
-```
-
-Using the `signOut` method from `useRoqClient()`:
-
-```tsx filename="book.tsx" {13}
-import { useRoqClient } from '@/lib/roq'
-import { requireNextAuth, useSession } from '@roq/nextjs'
-
-function Book() {
-  return <AuthenticatedSection />
-}
-
-const AuthenticatedSection = () => {
-  const { session, status } = useSession()
-  const roqClient = useRoqClient()
-  
-  function logoutHandler() {
-    roqClient.signOut()
-  }
-
-  return (
-    <div className='m-5'>
-      {session ? (<>
-        <p className='my-10'>Logged in as: <strong>{session?.user.email}</strong></p>
-        <br />
-        <button
-          onClick={logoutHandler}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Logout
-        </button>
-      </>) : 'Not logged in'}
-    </div>
-  )
-}
-
-export default requireNextAuth({
-  redirectIfAuthenticated: false,
-  redirectTo: "/"
-})(Book)
-```
-
-The `requireNextAuth` function is necessary to protect the book page in case the user accesses the `/book` route directly. 
-
 ### Add signup button
 
-Similar to the login process, the signup process is handled by the `signUp` method from the `useRoqClient()` or `signUp` API from the `@roq/nextjs` package. 
+Similar to the login process, the signup process is handled by the `signUp` method from the generated SDK. 
 
-Using the `signUp` API from the `@roq/nextjs` package is pretty simple:
-
-```tsx
-import { signOut } from '@roq/nextjs'
+```tsx filename="page.tsx"
+import { defaultBrowserClient } from "@/lib/roq/roq-client";
 
 export default function Home() {
   return (
     <main className={`text-center flex flex-col items-center justify-between p-24`}>
-      <h1 className='m-10'>Add Authentication</h1>
+      <h1 className='m-10'>Welcome</h1>
       <button 
-        onClick={signUp}
+        onClick={() => defaultBrowserClient.signUp()}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Signup
@@ -217,32 +89,20 @@ export default function Home() {
 }
 ```
 
-If we want to redirect the page after signing up, add this additional code to our `index.tsx`:
+If we want to redirect the page after signing up, you need to configue the `postLoginRedirect` option.
 
-```tsx filename="index.tsx"
-import { useRoqClient } from '@/lib/roq'
+```tsx filename="page.tsx"
+import { defaultBrowserClient } from "@/lib/roq/roq-client";
 
 export default function Home() {
-  const roqClient = useRoqClient()
 
-  const handleSignIn = async () => {
-      await roqClient.signIn('owner', { postLoginRedirect: '/book' })
-  }
-
-  const handleSignUp = async () => {
-      await roqClient.signUp('owner', { postLoginRedirect: '/book' })
+  const handleSignUp = () => {
+      defaultBrowserClient.signUp('owner', { postLoginRedirect: '/user' })
   }
 
   return (
     <main className={`text-center flex flex-col items-center justify-between p-24`}>
-        <h1 className='m-10'>Add Authentication</h1>
-       <button 
-          onClick={handleSignIn}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >
-          Login
-        </button>
-        <br/>
+        <h1 className='m-10'>Welcome</h1>
         <button 
           onClick={handleSignUp}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -254,12 +114,47 @@ export default function Home() {
   )
 }
 ```
-After successfully signing up, the user will be redirected to the `book` page. We can change the redirected page by changing the `postLoginRedirect` option value.
+After successfully signing up, the user will be redirected to the `user` page.
 
 <Callout type="info">
 Please note that the signup process will take the user to the ROQ signup form. You can customize the signup form through the ROQ Console.
 </Callout>
 
+
+### Add logout button
+
+To add a logout button is pretty simple. We can add a link or HTML button tag to call the `signOut` method from the generated SDK.
+
+```tsx filename="user/page.tsx" 
+import { defaultBrowserClient } from "@/lib/roq/roq-client";
+import { useRoqPlatformUserProfiles } from "@/lib/roq";
+
+function User() {
+  return <AuthenticatedSection />
+}
+
+const AuthenticatedSection = () => {
+  const {data} = useRoqPlatformUserProfiles()
+
+  return (
+    <div className='m-5'>
+        <h1 className='m-10'>Welcome</h1>
+        <p className='my-10'>Logged in as: <strong>{data?.userProfiles.data[0].email}</strong></p>
+        <br />
+        <button
+          onClick={() => defaultBrowserClient.signOut()}
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
+          Logout
+        </button>
+    </div>
+  )
+}
+```
+
+The `useRoqPlatformUserProfiles()` is a hook to get the user's profile data. It support filtering, sorting and searching for a specific user profile data.
+
+{/*
 ## Handling session 
 
 ROQ's login and session management is based on the [OAuth protocol](https://oauth.net/2/). Here is how it works:
@@ -289,6 +184,7 @@ function Book() {
   )
 }
 ```
+
 
 ## Get user's email, role and tenant
 
@@ -336,3 +232,4 @@ const roles = session?.user.roles
 const tenantId = session?.user.tenantId
 ```
 
+*/}
