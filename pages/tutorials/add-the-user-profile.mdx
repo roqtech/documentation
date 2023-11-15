@@ -5,7 +5,7 @@ import {Callout} from "nextra/components"
 Wrapper functions provided by the generated SDK can be used instead of calling `useRoqClient()` directly. For example, we can use these functions to access user profile data for the specific user id:
 
 ```tsx
-import {  useRoqPlatformUserProfile } from 'lib/roq'
+import {  useRoqPlatformUserProfile } from '@/lib/roq'
 
 const { data, isLoading } = useRoqPlatformUserProfile({
 	id: "8b249b07-bdd9-43f7-a10e-ace10f27ff66",

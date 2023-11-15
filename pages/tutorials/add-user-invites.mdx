@@ -155,7 +155,7 @@ In Next.js, it is easy to implement a form that allows users to invite others vi
 
 ```tsx filename="invite.tsx"
 import { useState } from 'react'
-import { useRoqClient } from 'lib/roq'
+import { useRoqClient } from '@/lib/roq'
 import { useSession } from '@roq/nextjs'
 
 export default function InvitePage() {
@@ -259,7 +259,7 @@ In this Next.js page, we will use it for a single email use case. To support mor
 
 ```tsx filename="invite.tsx"
 import { useState, useEffect } from 'react'
-import { useRoqClient } from 'lib/roq'
+import { useRoqClient } from '@/lib/roq'
 import { useSession } from '@roq/nextjs'
 
 export default function InvitePage() {

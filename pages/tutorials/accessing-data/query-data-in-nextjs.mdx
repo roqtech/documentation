@@ -22,7 +22,7 @@ Before we start, make sure to follow the previous tutorial:
     The `index.tsx` page is responsible for user authentication. We will change the code to the following:
 
     ```tsx {7, 11} filename="src/pages/index.tsx"
-    import { useRoqClient } from "lib/roq";
+    import { useRoqClient } from "@/lib/roq";
 
     export default function Home() {
         const roqClient = useRoqClient();
@@ -111,7 +111,7 @@ Fetching data without filters means retrieving all records from a particular dat
 For example, to retrieve all review data from BaaS:
 
 ```tsx {4}
-import { useRoqClient } from 'lib/roq';
+import { useRoqClient } from '@/lib/roq';
 
 const fetchReviewCount = async () => {
     const reviewCount = await roqClient.review.findManyWithCount();
@@ -134,7 +134,7 @@ Create a new page called `freelancer.tsx` in the `pages` directory. The page wil
 The code below is the complete code for the page:
 
 ```tsx filename="src/pages/freelancer.tsx"
-import { useRoqClient } from 'lib/roq';
+import { useRoqClient } from '@/lib/roq';
 import { useSession } from '@roq/nextjs';
 import { useEffect, useState } from 'react';
 import { ItemType } from '@/interface/project-data-types';
