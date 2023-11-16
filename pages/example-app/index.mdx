@@ -4,36 +4,41 @@ import { Steps, Callout } from "nextra/components";
 
 ROQ enables you to generate an entire SaaS application. The generated application is only generated once and will not update if there are schema changes. The generated application consists of two parts: user interface and backend API that serve as a Backend as a service or BaaS API. The user interface will not updated if you change the schema. However, the BaaS API will be updated if you change the schema.
 
-Here, you can see the entire user journey from the start using the [AI Assistant](https://app.roq.dev/) until the launch of your application. 
-
-
 ## Generate app
 
 Follow these steps to generate your application:
 
 <Steps>
 
-### Use AI Assistant
+### Use ROQ Console
 
-Start your journey by using the [AI Assistant](https://app.roq.dev/) that enables you to describe your scenario and define user roles, schema, and permissions.
+Start your journey by signing up at the [ROQ Console](https://console.roq.tech).
 
-### Get access to your generated application
+### Create a new application
 
-The app generation usually takes around 15 minutes. When it's done, you get an email to manage your project in [ROQ Console](https://console.roq.tech/), where you can manage your users and fine-tune all configurations. 
+To create a new application, click the **+ Add Application** button.
 
-If you are satisfied with the results, proceed here; otherwise, you can regenerate the backend API with schema changes and give it another try, or you can regenerate the whole application by using the AI Assistant again (step 1). AI isn't deterministic, meaning every run will result slightly differently.
+![add new application](/screenshots/add-application.png)
+
+The application creation wizard will guide you through the process of creating a new application.
+
+![create new application](/screenshots/create-application.png)
+
+### Generate application
+
+The app generation usually takes a few minutes. When it's done, you will have a Backend-as-a-Service (BaaS) API and options to manage your users and fine-tune all configurations in the ROQ Console.
+
+![generate new application](/screenshots/generate-new-application.png)
 
 ### Continue development
 
-We recommend logging in to [ROQ Console](https://console.roq.tech/) and creating a new environment so that you are not using the same environment as the deployed application, which can result in side effects, e.g., when you change the application's URL.
+By default, ROQ Console will create a **Local Development** environment. What you need the most for the development is the environment variables. You can copy and use these environment variables to start a new development using any ROQ's supported JavaScript frameworks, such as Next.js, Nuxt.js, React + Express.js, Vue.js, SvelteKit, and RedwoodJS.
 
-For continued development, use the BaaS API from the generated application with supported JavaScript frameworks like Next.js, Nuxt.js, React + Express.js, Vue.js, SvelteKit, and RedwoodJS. 
-
-→️ [Quickstart with Next.js](/next-js)
+→️ For Next.js you can read this easy [quickstart](/next-js) to get started.
 
 ### Launch
 
-Before you publish your application, creating a **production** environment in [ROQ Console](https://console.roq.tech/) and using these environment variables is essential.
+Before you publish your application, make sure to configure the **Domain and URLs** section in [ROQ Console](https://console.roq.tech/).
 
 </Steps>
 
