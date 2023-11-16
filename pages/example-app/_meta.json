@@ -1,4 +1,7 @@
 {
 	"index": "Getting Started",
-	"chakra-demo-app": "Chakra Demo App"
+	"chakra-demo-app": {
+		"title": "Chakra Demo App",
+		"display": "hidden"
+	}
 }
