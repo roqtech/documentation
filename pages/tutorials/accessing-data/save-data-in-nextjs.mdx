@@ -24,20 +24,19 @@ The quickstart will initialize our freelancer works marketplace project with sig
 
 ### Code changes
 
-We will use Next.js with App Router feature. There are a few changes to the login page's `page.tsx`. We need to replace the role for sign-in and sign-up process with the role we created in the project setup, which is `business-owner`, and change the redirect page `postLoginRedirect` to `http://localhost:3000/projects`:
+There are a few changes to the login page's `index.tsx`. We need to replace the role for sign-in and sign-up process with the role we created in the project setup, which is `business-owner`, and change the redirect page `postLoginRedirect` to `/projects`:
 
-```tsx {7, 11} filename="src/app/page.tsx"
-'use client'
+```tsx {7, 11} filename="src/pages/index.tsx"
 import { roqBrowserClient } from "@/lib/roq/roq-client";
  
 export default function Home() {
  
   const handleSignUp = async () => {
-    await roqBrowserClient.signUp('business-owner', { postLoginRedirect: 'http://localhost:3000/projects' });
+    await roqBrowserClient.signUp('business-owner', { postLoginRedirect: '/projects' });
   };
  
   const handleSignIn = async () => {
-    await roqBrowserClient.signIn('business-owner', { postLoginRedirect: 'http://localhost:3000/projects' });
+    await roqBrowserClient.signIn('business-owner', { postLoginRedirect: '/projects' });
   };
 
   return (
@@ -94,22 +93,6 @@ Based on our previous project schema, it's clear that this project shares a rela
 When dealing with simple data structures, you might need to save data that does not include relationships with other entities. ROQ SDK supports this operation, allowing you to create or update data in a single transaction.
 
 For example, to update company data, we can use the following code:
-
-{/*
-[
-    {
-        "id": "22d80a45-0cf6-445d-a5db-f1091c6cb5d6",
-        "description": null,
-        "location": null,
-        "industry": null,
-        "size": null,
-        "name": "Freelancer Inc.",
-        "created_at": "2023-11-10T08:38:53.524Z",
-        "updated_at": "2023-11-10T08:38:53.524Z"
-    }
-]
-
-*/}
 
 ```tsx
 const updateCompany = async () => {
@@ -210,8 +193,8 @@ This component basically renders a form with the project data and a submit butto
 To use the `ProjectForm` component, we need to create a page that renders the form. Create a `projects.tsx` file in the same folder as `index.tsx`, `project-form.tsx` and add the following code:
 
 ```tsx filename="src/pages/projects.tsx"
-import { useRoqClient } from '@/lib/roq';
-import { useSession } from '@roq/nextjs';
+import { roqBrowserClient } from "@/lib/roq/roq-client";
+import { useSession } from '@/lib/roq/roq-hooks';
 import { useState } from 'react';
 import ProjectForm from './project-form';
 import { ItemType, StatusMessageType } from '@/interface/project-data-types';
