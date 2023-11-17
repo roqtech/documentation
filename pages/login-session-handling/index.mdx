@@ -6,11 +6,17 @@ import { Callout, Tabs, Tab } from 'nextra/components'
 
 ROQ offers easy API to handle user authentication and authorization using generated SDK. This section will show you how to add a login and logout button.
 
-### Add login button
-
-For Next.js projects, you can utilize the `signIn` and `signOut` methods from the `roqBrowserClient` factory that live in the `src/lib/roq/roq-client.ts"`. To use it you must import it first:
+You can utilize the `signIn` and `signOut` methods from the `roqBrowserClient` factory that live in the `src/lib/roq/roq-client.ts"`. To use it you must import it first:
 
 ```tsx
+import { roqBrowserClient } from "@/lib/roq/roq-client";
+```
+
+### Add login button
+
+You can use the `signIn()` method to add a login button. For example, suppose we want to add a login button to the home page in Next.js:
+
+```tsx filename="page.tsx"
 import { roqBrowserClient } from "@/lib/roq/roq-client";
 
 export default function Home() {
@@ -70,11 +76,7 @@ import { roqBrowserClient } from "@/lib/roq/roq-client";
 import { useRoqPlatformUserProfiles } from "@/lib/roq";
 
 function User() {
-  return <AuthenticatedSection />
-}
-
-const AuthenticatedSection = () => {
-  const {data} = useRoqPlatformUserProfiles()
+  const { data } = useRoqPlatformUserProfiles()
 
   return (
     <div className='m-5'>
@@ -90,10 +92,10 @@ const AuthenticatedSection = () => {
     </div>
   )
 }
+
 ```
 
 The `useRoqPlatformUserProfiles()` is a hook to get the user's profile data. It supports filtering, sorting, and searching for specific user profile data.
-
 
 ## Handling session 
 
