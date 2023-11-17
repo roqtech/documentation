@@ -49,7 +49,6 @@ There are two kinds of query data in ROQ BaaS: query data with filters and query
 In this example, we demonstrate how to retrieve and count review data from BaaS using the ROQ SDK using filtering criteria.
 
 ```tsx
-
 const fetchProjectCount = async () =>{
     const projectCount = await roqBrowserClient.project.findManyWithCount({ orderBy: {
             created_at: 'desc'

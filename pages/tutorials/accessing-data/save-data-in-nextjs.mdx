@@ -26,7 +26,7 @@ The quickstart will initialize our freelancer works marketplace project with sig
 
 There are a few changes to the login page's `index.tsx`. We need to replace the role for sign-in and sign-up process with the role we created in the project setup, which is `business-owner`, and change the redirect page `postLoginRedirect` to `/projects`:
 
-```tsx {7, 11} filename="src/pages/index.tsx"
+```tsx {6, 10} filename="src/pages/index.tsx"
 import { roqBrowserClient } from "@/lib/roq/roq-client";
  
 export default function Home() {
