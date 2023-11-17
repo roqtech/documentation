@@ -116,11 +116,11 @@ import { roqBrowserClient } from "@/lib/roq/roq-client";
 export default function Home() {
 
   const handleSignUp = async () => {
-    await roqBrowserClient.signUp('REPLACE', { postLoginRedirect: 'http://localhost:3000/user' });
+    await roqBrowserClient.signUp('default', { postLoginRedirect: 'http://localhost:3000/user' });
   };
 
   const handleSignIn = async () => {
-    await roqBrowserClient.signIn('REPLACE', { postLoginRedirect: 'http://localhost:3000/user' });
+    await roqBrowserClient.signIn('default', { postLoginRedirect: 'http://localhost:3000/user' });
   };
 
   return (
@@ -153,9 +153,9 @@ export default function Home() {
 }
 ```
 
-The `signUp()` method will redirect the user to the registration form for the signup process. To specify the registration form variant, substitute the `REPLACE` placeholder with the corresponding key obtained from the project console.  
+The `signUp()` method will redirect the user to the registration form for the signup process. To specify the registration form variant, substitute the `default` key with the corresponding key obtained from the project console.  
 
-In a parallel manner, the `signIn()` method will redirect the user to the login form for the sign-in process. To specify the login form variant, substitute the `REPLACE` placeholder with the corresponding key obtained from the project console.
+In a parallel manner, the `signIn()` method will redirect the user to the login form for the sign-in process. To specify the login form variant, substitute the `default` key with the corresponding key obtained from the project console.
 
 <Callout type="info">
 To get the registration form variant key, go to the [project console](https://console.roq.tech/), select **Authentication**, and then click the **Design** menu.
