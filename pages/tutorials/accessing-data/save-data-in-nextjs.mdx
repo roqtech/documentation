@@ -60,7 +60,7 @@ For example, the business owner can create a project with the following code:
 ```tsx
 const company_id = "22d80a45-0cf6-445d-a5db-f1091c6cb5d6"
 
-const project = await roqClient.project.create({
+const project = await roqBrowserClient.project.create({
     data: {
         id: uuidv4(),
         name: 'AI Chatbot',
@@ -96,7 +96,7 @@ For example, to update company data, we can use the following code:
 
 ```tsx
 const updateCompany = async () => {
-    const updateCompanyResult = await roqClient.company.update({
+    const updateCompanyResult = await roqBrowserClient.company.update({
         data: { 
             description: "Top projects marketplace where you can work everywhere.",
             location: "Worldwide", 
@@ -200,7 +200,7 @@ import ProjectForm from './project-form';
 import { ItemType, StatusMessageType } from '@/interface/project-data-types';
 
 export default function Projects() {
-  const roqClient = useRoqClient();
+  
   const { session } = useSession();
   const [currentProject, setCurrentProject] = useState([]);
   const [status, setStatus] = useState<StatusMessageType | null>(null);
@@ -209,14 +209,14 @@ export default function Projects() {
   const roles = session?.user.roles || [];
 
   const logoutHandler = () => {
-    roqClient.signOut();
+    roqBrowserClient.signOut();
   };
 
   const handleFormSubmit = async (projectData: ItemType) => {
     try {
       projectData.company_id = company_id;
       console.log(projectData)
-      const project = await roqClient.project.create({
+      const project = await roqBrowserClient.project.create({
         data: projectData
       });
 
