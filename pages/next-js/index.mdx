@@ -79,7 +79,7 @@ If any changes are made to the project schema or entities after the project crea
 
 The command generates a customizable SDK based on the Prisma BaaS schema and chosen environment. The default location for the code generated is `src/lib/roq`.
 
-<Tabs items={["App Router"]}>
+<Tabs items={["App Router", "Page Router"]}>
 <Tab>
 ### Configure Next.js with ROQ authentication
 
@@ -231,14 +231,10 @@ export default function Home() {
 After successful signup, the page will be redirected to the user page, and Next.js will get a token that will be used for any further request to the REST API from ROQ Baas.
 
 </Tab>
-{/**
 <Tab>
-### Configure Next.js with ROQ authentication
-
-_Coming soon_
+{/*
 
 ### Configure Next.js with ROQ authentication
-
 Before doing any data-related query, we need to wrap the Next.js application with the `<RoqClientProvider>` context provider component. This provider enables the components in the application tree to access the customized generated SDK from our earlier command. 
 
 You can put this code in the `_app.tsx` file.
@@ -269,7 +265,7 @@ export default function App({ Component, pageProps }: AppProps) {
   )
 }
 ```
-
+*/}
 
 ### Configure Next.js with ROQ authentication
 
@@ -340,17 +336,16 @@ For example, the registration form variant shown is `Admin(administrator)`. This
 Create another page called `user.tsx` and fill in this code:
 
 ```tsx filename="src/pages/user.tsx"
-import { useRoqClient } from '@/lib/roq';
-import { useSession } from '@roq/nextjs';
+import { roqBrowserClient } from "@/lib/roq/roq-client";
+import { useSession } from '@/lib/roq/roq-hooks';
 
 export default function Home() {
-  const roqClient = useRoqClient();
   const { session } = useSession();
 
   const roles = session?.user.roles || [];
 
   const logoutHandler = () => {
-    roqClient.signOut();
+    roqBrowserClient.signOut();
   };
 
   return (
@@ -394,9 +389,8 @@ export default function Home() {
 ```
 
 After successful signup, the page will be redirected to the user page, and Next.js will get a token that will be used for any further request to the REST API from ROQ Baas.
-
 </Tab>
-*/}
+
 </Tabs>
 
 {/*
