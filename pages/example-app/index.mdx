@@ -2,11 +2,11 @@ import { Steps, Callout } from "nextra/components";
 
 # Getting started
 
-ROQ enables you to generate an entire SaaS application. The generated application is only generated once and will not update if there are schema changes. The generated application consists of two parts: user interface and backend API that serve as a Backend as a service or BaaS API. The user interface will not updated if you change the schema. However, the BaaS API will be updated if you change the schema.
+ROQ enables you to generate a backend SaaS application that serves as a Backend service or BaaS API. With this API, you can further develop your front-end application using any JavaScript framework.
 
 ## Generate app
 
-Follow these steps to generate your application:
+To generate a new BaaS API, please follow these steps:
 
 <Steps>
 
@@ -22,19 +22,22 @@ ROQ Console will guide you through the process of creating a new application.
 
 ![roq console new user](/screenshots/roq-console-new-user.png)
 
-If you already have an account before, to create a new application just click the **+ Add Application** button.
+If you already have an account, just click the **+ Add Application** button to create a new application.
 
 ### Generate application
 
-The app generation usually takes a few minutes. When it's done, you will have a Backend-as-a-Service (BaaS) API and options to manage your users and fine-tune all configurations in the ROQ Console.
+The app generation typically takes a few minutes. Once complete, a checklist will guide you through configuring the application. You may mark it as done if you have already configured it. 
 
-![generate new application](/screenshots/generate-new-application.png)
+![generated app user checklist](/screenshots/generated-app-user-checklist.png)
+
 
 ### Continue development
 
 By default, ROQ Console will create a **Local Development** environment. What you need the most for the development is the environment variables. You can copy and use these environment variables to start a new development using any ROQ's supported JavaScript frameworks, such as Next.js, Nuxt.js, React + Express.js, Vue.js, SvelteKit, and RedwoodJS.
 
-→️ For Next.js you can read this easy [quickstart](/next-js) to get started.
+![generate new application](/screenshots/generate-new-application.png)
+
+→️ To start development using Next.js, read this [quickstart](/next-js).
 
 ### Launch
 
@@ -53,7 +56,7 @@ underlying frameworks. If you are familiar with them, there won't be any surpris
 
 ## Hosting
 
-Since you will develop an application using any supported JavaScript frameworks and using ROQ BaaS API, your application can be easily deployed to any PaaS solution like [Vercel](https://vercel.com/), [Render](https://render.com/), [Scalingo](https://scalingo.com/), etc.
+Since you will develop an application using any supported JavaScript frameworks and using ROQ BaaS API, your application can be easily deployed to any PaaS solution like [Vercel](https://vercel.com/), [Render](https://render.com/), [Scalingo](https://scalingo.com/).
 
 
 {/*
