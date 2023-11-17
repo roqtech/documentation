@@ -1,54 +1,22 @@
-import { Steps, Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
 
 # How to save data in Next.js
 
 In this tutorial, we will build a form to save data to ROQ using Next.js. We will use the ROQ SDK to save data to the database.
 
-Let's build a simple SaaS works marketplace for freelancers. The application will have two user roles: **Business Owner** and **Freelancer**. The **Business Owner** will be able to create projects, and the **Freelancer** will be able to create a freelancer profile and apply to projects.
-
-This tutorial will only cover the **Business Owner** role. We will cover the **Freelancer** role in the next tutorial.
+Let's build a simple SaaS works marketplace for freelancers. The application will have two user roles: **Business Owner** and **Freelancer**. The **Business Owner** will be able to create projects, and the **Freelancer** will be able to see the available projects and apply to projects. This tutorial will only cover the **Business Owner** role. We will cover the **Freelancer** role in the next tutorial.
 
 ## Project setup
 
-{/*
-<Callout type="info">
-Skip these steps if you just want to learn [basic save data concepts](#basic-save-data-concepts) and see code examples.
-</Callout>
-*/}
-
-Before we start, make sure we generate a ROQ project using [AI Assistant](https://app.roq.dev/). 
 
 <Steps>
-### App name and prompt
+### Create an application
 
-For this project, we will use these setup values:
-
-* **App name**: Freelancer Inc.
-* **Prompt**: Freelancer works marketplace SaaS application.
-
-![app name and prompt](/screenshots/app-name-and-prompt.png)
-
-### User setup
-
-Next, we will create initial user roles: 
-
-* **Business Owner**: The owner of the company.
-* **Freelancer**: The freelancer who will work for the company and does not belong to the company.
-
-![user setup](/screenshots/user-setup.png)
-
-
-### Project schema
-
-For this tutorial, we will use this project schema:
-
-![freelancer project schema](/screenshots/freelancer-inc-project-schema.png)
-
-We can edit the schema later in the project [Console](https://console.roq.tech/). Please read [schema editor](/schema-editor) documentation for more information about schema.
+Before we start, first make sure to generate an application using [ROQ Console](https://console.roq.tech). Create user roles: **Business Owner** and **Freelancer**, create the application data model or schema, and configure the access management for the data model.
 
 ### Next.js quickstart
 
-Make sure to follow the next steps in this tutorial to create a Next.js project:
+After application creation, for futher development, follow the next steps in this tutorial:
 
 - [Next.js Quickstart](/next-js#create-a-nextjs-application)
 
@@ -56,20 +24,20 @@ The quickstart will initialize our freelancer works marketplace project with sig
 
 ### Code changes
 
-After creating the project from quickstart, there are a few changes to the login page's `index.tsx`. We need to replace the role for sign-in and sign-up process with the role we created in the project setup, which is `business-owner`, and change the redirect page `postLoginRedirect` to `/projects`:
+We will use Next.js with App Router feature. There are a few changes to the login page's `page.tsx`. We need to replace the role for sign-in and sign-up process with the role we created in the project setup, which is `business-owner`, and change the redirect page `postLoginRedirect` to `http://localhost:3000/projects`:
 
-```tsx {7, 11} filename="src/pages/index.tsx"
-import { useRoqClient } from "@/lib/roq";
-
+```tsx {7, 11} filename="src/app/page.tsx"
+'use client'
+import { roqBrowserClient } from "@/lib/roq/roq-client";
+ 
 export default function Home() {
-  const roqClient = useRoqClient();
-
+ 
   const handleSignUp = async () => {
-    await roqClient.signUp('business-owner', { postLoginRedirect: '/projects' });
+    await roqBrowserClient.signUp('business-owner', { postLoginRedirect: 'http://localhost:3000/projects' });
   };
-
+ 
   const handleSignIn = async () => {
-    await roqClient.signIn('business-owner', { postLoginRedirect: '/projects' });
+    await roqBrowserClient.signIn('business-owner', { postLoginRedirect: 'http://localhost:3000/projects' });
   };
 
   return (
