@@ -2,7 +2,7 @@ import { Callout } from 'nextra/components'
 
 # Add authentication
 
-Any web application needs user authentication. ROQ BaaS offers easy authentication through its SDK. For Next.js projects, you can utilize the `signIn`, `signOut`, and `signUp` methods from the `defaultBrowserClient` factory.
+Any web application needs user authentication. ROQ BaaS offers easy authentication through its SDK. For Next.js projects, you can utilize the `signIn`, `signOut`, and `signUp` methods from the `roqBrowserClient` factory.
 
 ## Preparation
 
@@ -14,18 +14,18 @@ In this section, we will cover the process of adding a login button, a logout bu
 
 ### Add login button
 
-To add a login button to a Next.js page, we can use the `signIn` API from the generated SDK. The `defaultBrowserClient` factory live in the `src/lib/roq/roq-client.ts"`. To use it you must import it first:
+To add a login button to a Next.js page, we can use the `signIn` API from the generated SDK. The `roqBrowserClient` factory live in the `src/lib/roq/roq-client.ts"`. To use it you must import it first:
 
 
 ```tsx filename="page.tsx"
-import { defaultBrowserClient } from "@/lib/roq/roq-client";
+import { roqBrowserClient } from "@/lib/roq/roq-client";
 
 export default function Home() {
   return (
     <main className={`text-center flex flex-col items-center justify-between p-24`}>
         <h1 className='m-10'>Welcome</h1>
       <button 
-          onClick={() => defaultBrowserClient.signIn()}
+          onClick={() => roqBrowserClient.signIn()}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Login
@@ -39,12 +39,12 @@ If you want to redirect the page after the login process, you should use the `po
 For example, suppose we want to log in with the type `owner` and we want to redirect the page to the `user` page when it's authenticated:
 
 ```tsx filename="page.tsx"
-import { defaultBrowserClient } from "@/lib/roq/roq-client";
+import { roqBrowserClient } from "@/lib/roq/roq-client";
 
 export default function Home() {
 
   const handleSignIn = () => {
-      defaultBrowserClient.signIn('owner', { postLoginRedirect: '/user' })
+      roqBrowserClient.signIn('owner', { postLoginRedirect: '/user' })
   }
 
   return (
@@ -72,14 +72,14 @@ Please note that the login process will take the user to the ROQ login form. You
 Similar to the login process, the signup process is handled by the `signUp` method from the generated SDK. 
 
 ```tsx filename="page.tsx"
-import { defaultBrowserClient } from "@/lib/roq/roq-client";
+import { roqBrowserClient } from "@/lib/roq/roq-client";
 
 export default function Home() {
   return (
     <main className={`text-center flex flex-col items-center justify-between p-24`}>
       <h1 className='m-10'>Welcome</h1>
       <button 
-        onClick={() => defaultBrowserClient.signUp()}
+        onClick={() => roqBrowserClient.signUp()}
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         Signup
@@ -92,12 +92,12 @@ export default function Home() {
 If we want to redirect the page after signing up, you need to configure the `postLoginRedirect` option.
 
 ```tsx filename="page.tsx"
-import { defaultBrowserClient } from "@/lib/roq/roq-client";
+import { roqBrowserClient } from "@/lib/roq/roq-client";
 
 export default function Home() {
 
   const handleSignUp = () => {
-      defaultBrowserClient.signUp('owner', { postLoginRedirect: '/user' })
+      roqBrowserClient.signUp('owner', { postLoginRedirect: '/user' })
   }
 
   return (
@@ -126,7 +126,7 @@ Please note that the signup process will take the user to the ROQ signup form. Y
 To add a logout button is pretty simple. We can add a link or HTML button tag to call the `signOut` method from the generated SDK.
 
 ```tsx filename="user/page.tsx" 
-import { defaultBrowserClient } from "@/lib/roq/roq-client";
+import { roqBrowserClient } from "@/lib/roq/roq-client";
 import { useRoqPlatformUserProfiles } from "@/lib/roq";
 
 function User() {
@@ -142,7 +142,7 @@ const AuthenticatedSection = () => {
         <p className='my-10'>Logged in as: <strong>{data?.userProfiles.data[0].email}</strong></p>
         <br />
         <button
-          onClick={() => defaultBrowserClient.signOut()}
+          onClick={() => roqBrowserClient.signOut()}
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Logout

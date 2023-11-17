@@ -107,16 +107,16 @@ Open file `src/app/page.tsx` and fill with this code:
 
 ```tsx filename="src/app/page.tsx"
 'use client'
-import { defaultBrowserClient } from "@/lib/roq/roq-client";
+import { roqBrowserClient } from "@/lib/roq/roq-client";
 
 export default function Home() {
 
   const handleSignUp = async () => {
-    await defaultBrowserClient.signUp('REPLACE', { postLoginRedirect: 'http://localhost:3000/user' });
+    await roqBrowserClient.signUp('REPLACE', { postLoginRedirect: 'http://localhost:3000/user' });
   };
 
   const handleSignIn = async () => {
-    await defaultBrowserClient.signIn('REPLACE', { postLoginRedirect: 'http://localhost:3000/user' });
+    await roqBrowserClient.signIn('REPLACE', { postLoginRedirect: 'http://localhost:3000/user' });
   };
 
   return (
@@ -166,7 +166,7 @@ Create another `page.tsx` in folder `src/app/user` and fill it with this code:
 ```tsx filename="src/app/user/page.tsx"
 'use client'
 
-import { defaultBrowserClient } from '@/lib/roq/roq-client';
+import { roqBrowserClient } from '@/lib/roq/roq-client';
 import { useRoqPlatformUserProfiles, useRoqPlatformRoles } from "@/lib/roq";
 
 
@@ -183,7 +183,7 @@ export default function Home() {
   })
  
   const logoutHandler = () => {
-    defaultBrowserClient.signOut();
+    roqBrowserClient.signOut();
   };
 
   return (
@@ -283,16 +283,16 @@ export default RoqAuth({});
 After that, we can add a signup button, and the user will be redirected to the other page if the signup process is successful.
 
 ```tsx filename="src/pages/index.tsx"
-import { defaultBrowserClient } from "@/lib/roq/roq-client";
+import { roqBrowserClient } from "@/lib/roq/roq-client";
 
 export default function Home() {
 
   const handleSignUp = async () => {
-    await defaultBrowserClient.signUp('owner', { postLoginRedirect: '/user' });
+    await roqBrowserClient.signUp('owner', { postLoginRedirect: '/user' });
   };
 
   const handleSignIn = async () => {
-    await defaultBrowserClient.signIn('owner', { postLoginRedirect: '/user' });
+    await roqBrowserClient.signIn('owner', { postLoginRedirect: '/user' });
   };
 
   return (
