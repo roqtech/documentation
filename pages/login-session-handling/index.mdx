@@ -2,9 +2,9 @@
 
 import { Callout, Tabs, Tab } from 'nextra/components' 
 
-# Login and Logout
+## Login and logout
 
-Any web application needs user authentication. ROQ BaaS offers easy authentication through its generated SDK.
+ROQ offers easy API to handle user authentication and authorization using generated SDK. This section will show you how to add a login and logout button.
 
 ### Add login button
 
@@ -27,7 +27,7 @@ export default function Home() {
   )
 }
 ```
-If you want to redirect the page after the login process, you should use the `postLoginRedirect` option. 
+You can use inline handling and if you want to redirect the page after the login process, you can use the `postLoginRedirect` option. 
 
 For example, suppose we want to log in with the type `owner` and we want to redirect the page to the `user` page when it's authenticated:
 
@@ -94,7 +94,7 @@ const AuthenticatedSection = () => {
 
 The `useRoqPlatformUserProfiles()` is a hook to get the user's profile data. It supports filtering, sorting, and searching for specific user profile data.
 
-{/*
+
 ## Handling session 
 
 ROQ's login and session management is based on the [OAuth protocol](https://oauth.net/2/). Here is how it works:
@@ -110,7 +110,7 @@ The `roq-session-token` is created whenever a user is authenticated. This is a s
 To use session data in the Next.js application, we can use the `useSession()` method and then use the `session` data.
 
 ```tsx
-import { useSession } from '@roq/nextjs'
+import { useSession } from '@/lib/roq/roq-hooks';
 
 function Book() {
   const { session, status } = useSession()
@@ -131,7 +131,7 @@ function Book() {
 The `session` object from `@roq/nextjs` contains the current user's email, roles, and tenant. We can use this data to customize the page based on the user's roles or tenants.
 
 ```tsx
-import { useSession } from '@roq/nextjs'
+import { useSession } from '@/lib/roq/roq-hooks';
 
 const { session } = useSession()
 ```
@@ -172,4 +172,3 @@ const roles = session?.user.roles
 const tenantId = session?.user.tenantId
 ```
 
-*/}
