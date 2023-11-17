@@ -103,9 +103,8 @@ ROQ's login and session management is based on the [OAuth protocol](https://oaut
 
 1. The user clicks the Login button or is redirected to a login page provided by ROQ.
 2. ROQ prompts the user to log in using username and password or social sign-ins (e.g., Google) and then sends a special token back indicating that the user has granted permission to access your web application.
-3. Using the `requireNextAuth` wrapper, you can easily define which pages are only accessible to authenticated users.
 
-The `roq-session-token` is created whenever a user is authenticated. This is a session ID that allows you to maintain a continuous interaction with the ROQ BaaS. The token is stored in a cookie, and later, it will be used in the `Authorization` header in every HTTP request via `RoqClient` (generated SDK).
+The `roq-session-token` is created whenever a user is authenticated. This is a session ID that allows you to maintain a continuous interaction with the ROQ BaaS. The token is stored in a cookie, and later, it will be used in the `Authorization` header in every HTTP request via `roqBrowserClient` (generated SDK).
 
 ![roq session token](/screenshots/roq-session-token.png)
 
@@ -130,7 +129,7 @@ function Book() {
 
 ## Get user's email, role and tenant
 
-The `session` object from `@roq/nextjs` contains the current user's email, roles, and tenant. We can use this data to customize the page based on the user's roles or tenants.
+The `session` object contains the current user's email, roles, and tenant. We can use this data to customize the page based on the user's roles or tenants.
 
 ```tsx
 import { useSession } from '@/lib/roq/roq-hooks';
