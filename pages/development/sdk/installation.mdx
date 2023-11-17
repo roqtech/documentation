@@ -8,16 +8,6 @@ These are common steps to install the SDK for all supported frameworks:
 
 <Steps>
 
-{/*
-### Generate the application using ROQ AI Assistant
-
-    Go to [**app.roq.ai**](https://app.roq.ai/).
-    
-    Start by creating a new application with the help of the AI Assistant. The AI Assistant will guide you through the process, generating a new application for you. Once generated, you can configure your application via the [ROQ Console](https://console.roq.tech). The console will provide you with the necessary environment values. You'll need these values for the SDK generation process.
-
-    The generation process will also create ROQ BaaS resources for you, such as API to access your data.
-*/}
-
 ### Create a custom application 
 
     Create a custom application using one of the supported frameworks. 
@@ -44,20 +34,6 @@ These are common steps to install the SDK for all supported frameworks:
     npm install --save-dev @roq/cli
     ```
 
-    Once the installation is complete, you can generate the SDK using the following command:
-
-    ```shell
-    npx @roq/cli generate
-    ```
-    
-    You will be prompted with a few questions. The generated SDK will be placed, by default, in the `src/lib/roq` folder at the root of your application, and this CLI will automatically detect `ROQ_API_URL` from your `.env` file.
-
-    ```shell
-    Please provide ROQ_API_URL … https://book-story-v1-ca2b-baas.vercel.app
-    ✔ Enter the SDK path (default: src/lib/roq): … src/lib/roq
-    ✔ Write SDK to src/lib/roq. Proceed? … yes
-    ```
-
 ### Install SDK 
 
     Install the ROQ BaaS SDK for a specific framework using the following command:
@@ -76,4 +52,20 @@ These are common steps to install the SDK for all supported frameworks:
     For a practical example, please refer to the [**quickstart on Next.js**](/next-js). It covers the SDK generation using `@roq/cli`, authentication using `@roq/next.js`, and simple data access to ROQ BaaS.
 </Tab>
 </Tabs>
+
+### Generate SDK
+
+    Once the installation is complete, you can generate the SDK using the following command:
+
+    ```shell
+    npx @roq/cli generate
+    ```
+    
+    You will be prompted with a few questions. The generated SDK will be placed, by default, in the `src/lib/roq` folder at the root of your application, and this CLI will automatically detect `ROQ_API_URL` from your `.env` file. The `ROQ_API_URL` is the URL for ROQ BaaS API and it's unique for each generated application.
+
+    ```shell
+    Please provide ROQ_API_URL … https://book-story-v1-ca2b-baas.vercel.app
+    ✔ Enter the SDK path (default: src/lib/roq): … src/lib/roq
+    ✔ Write SDK to src/lib/roq. Proceed? … yes
+    ```
 </Steps>

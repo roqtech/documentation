@@ -21,18 +21,17 @@ Before we start, make sure to follow the previous tutorial:
 
     The `index.tsx` page is responsible for user authentication. We will change the code to the following:
 
-    ```tsx {7, 11} filename="src/pages/index.tsx"
-    import { useRoqClient } from "@/lib/roq";
+    ```tsx {6, 10} filename="src/pages/index.tsx"
+    import { roqBrowserClient } from "@/lib/roq/roq-client";
 
     export default function Home() {
-        const roqClient = useRoqClient();
 
         const handleSignUp = async () => {
-            await roqClient.signUp('freelancer', { postLoginRedirect: '/freelancer' });
+            await roqBrowserClient.signUp('freelancer', { postLoginRedirect: '/freelancer' });
         };
 
         const handleSignIn = async () => {
-            await roqClient.signIn('freelancer', { postLoginRedirect: '/freelancer' });
+            await roqBrowserClient.signIn('freelancer', { postLoginRedirect: '/freelancer' });
         };
 
         return (
@@ -49,11 +48,9 @@ There are two kinds of query data in ROQ BaaS: query data with filters and query
 
 In this example, we demonstrate how to retrieve and count review data from BaaS using the ROQ SDK using filtering criteria.
 
-```tsx {4,5,6,7}
-const roqClient = useRoqClient()
-
+```tsx
 const fetchProjectCount = async () =>{
-    const projectCount = await roqClient.project.findManyWithCount({ orderBy: {
+    const projectCount = await roqBrowserClient.project.findManyWithCount({ orderBy: {
             created_at: 'desc'
         }
     })  
@@ -68,10 +65,10 @@ fetchReviewCount().then((data) => {
 The important thing to note is that the code syntax for the data operation follows a Prisma-like pattern.
 
 ```tsx
-await roqClient.project.findManyWithCount()
+await roqBrowserClient.project.findManyWithCount()
 ```
 
-The benefit of a Prisma-like pattern is easily understood due to its common format: `roqClient.[entity].[operation]`. Read more about the Prisma-like pattern [here](/development/sdk/query-syntax).
+The benefit of a Prisma-like pattern is easily understood due to its common format: `roqBrowserClient.[entity].[operation]`. Read more about the Prisma-like pattern [here](/development/sdk/query-syntax).
 
 JSON:API is utilized to create REST APIs in ROQ BaaS, resulting in JSON-format response data. For instance, the data response from our earlier code in the browser console:
 
@@ -111,10 +108,10 @@ Fetching data without filters means retrieving all records from a particular dat
 For example, to retrieve all review data from BaaS:
 
 ```tsx {4}
-import { useRoqClient } from '@/lib/roq';
+import { roqBrowserClient } from "@/lib/roq/roq-client";
 
 const fetchReviewCount = async () => {
-    const reviewCount = await roqClient.review.findManyWithCount();
+    const reviewCount = await roqBrowserClient.review.findManyWithCount();
     return reviewCount;
 };
 
@@ -134,26 +131,25 @@ Create a new page called `freelancer.tsx` in the `pages` directory. The page wil
 The code below is the complete code for the page:
 
 ```tsx filename="src/pages/freelancer.tsx"
-import { useRoqClient } from '@/lib/roq';
-import { useSession } from '@roq/nextjs';
+import { roqBrowserClient } from "@/lib/roq/roq-client";
+import { useSession } from '@/lib/roq/roq-hooks';
 import { useEffect, useState } from 'react';
 import { ItemType } from '@/interface/project-data-types';
 import ProjectList from './project-list';
 
 export default function Projects() {
-    const roqClient = useRoqClient();
     const { session } = useSession();
     const [projects, setProjects] = useState<ItemType[]>([]);
 
     const roles = session?.user.roles || [];
 
     const logoutHandler = () => {
-        roqClient.signOut();
+        roqBrowserClient.signOut();
     };
 
     useEffect(() => {
         const fetchProjectData = async () => {
-            const projectData = await roqClient.project.findManyWithCount({
+            const projectData = await roqBrowserClient.project.findManyWithCount({
                 orderBy: {
                     created_at: 'desc'
                 }
@@ -195,7 +191,7 @@ export default function Projects() {
 The heart of this code is query data from BaaS using the ROQ SDK. The code below is the query data code:
 
 ```tsx
-const projectData = await roqClient.project.findManyWithCount({
+const projectData = await roqBrowserClient.project.findManyWithCount({
     orderBy: {
         created_at: 'desc'
     }
