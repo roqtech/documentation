@@ -24,9 +24,7 @@ The front-end SDK provides the necessary API for file handling on the client sid
 To use these APIs, you need to import it first.
 
 ```tsx
-import { useRoqClient } from "lib/roq"
-
-const roqClient = useRoqClient()
+import { roqBrowserClient } from '@/lib/roq/roq-client';
 ```
 
 And because file handling APIs are ROQ platform features, they live not in specific entities but in the ROQ platform. 
@@ -36,12 +34,10 @@ Let's take an example of how to list all uploaded files:
 <Tabs items={["TypeScript", "Response"]}>
 <Tab>
 ```tsx
-import { useRoqClient } from "lib/roq"
-
-const roqClient = useRoqClient()
+import { roqBrowserClient } from '@/lib/roq/roq-client';
 
 const getFiles = async () => {
-  return await roqClient.roqPlatform.files({})
+  return await roqBrowserClient.roqPlatform.files({})
 }
 ```
 </Tab>

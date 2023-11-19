@@ -37,11 +37,9 @@ Here is the summary of the most important API for authentication:
 Redirect users to the sign-in page.
 
 ```tsx
-import {useRoqClient} from "/lib/roq"
+import { roqBrowserClient } from '@/lib/roq/roq-client';
 
-const roqClient = useRoqClient()
-
-roqClient.signIn()
+roqBrowserClient.signIn()
 ```
 
 ### `signUp`
@@ -49,23 +47,18 @@ roqClient.signIn()
 Redirect users to the sign-up page.
 
 ```tsx
-import {useRoqClient} from "/lib/roq"
+import { roqBrowserClient } from '@/lib/roq/roq-client';
 
-const roqClient = useRoqClient()
-
-roqClient.signUp()
+roqBrowserClient.signUp()
 ```
 
 ### `logout`
 
 Clean the session.
 
-```tsx
-import {useRoqClient} from "/lib/roq"
+```tsximport { roqBrowserClient } from '@/lib/roq/roq-client';
 
-const roqClient = useRoqClient()
-
-roqClient.logout()
+roqBrowserClient.logout()
 ```
 
 ## Framework integration
