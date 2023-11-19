@@ -1,5 +1,10 @@
 {
 	"index": "Overview",
 	"registration-forms": "Registration Forms",
-	"registration-button": "Registration Button"
+	"registration-button": "Registration Button",
+	"link-social-sign-ins": "Social Sign-Ins",
+	"custom-domain": {
+		"title": "Custom Domain",
+		"display": "hidden"
+	}
 }

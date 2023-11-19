@@ -1,0 +1,60 @@
+import {Callout} from "nextra/components"
+
+# Social sign-ins
+
+## Introduction
+
+ROQ supports various social sign-ins like Google, Facebook, Github, and LinkedIn. Go to the ROQ Console and then select **Authentication** ➔ **Social** to activate and configure them. 
+
+![Social Sign-ins](/screenshots/social-sign-ins.png)
+
+## Google
+
+### ROQ Social Sign-in
+
+In all social sign-ins, you need to set up these two credentials on the ROQ Console:
+
+* **Client ID**: Client ID for web application
+* **Client Secret**: Client Secret for web application
+
+These credentials are used to authenticate user login or signup with the social sign-in provider.
+
+### Google OAuth 
+
+<Callout type="warning">
+You must follow this [guide](https://support.google.com/cloud/answer/6158849?hl=en) first to set up OAuth 2.0 and then continue with the guide below. 
+</Callout>
+
+In the Google OAuth setting page, you need to set these two mandatory fields:
+
+    #### Authorized Redirect URIs 
+
+    This URI setting is used to redirect users after they have authenticated with Google. Fill this with **Auth Redirect URI** from the ROQ Social Sign-in page.
+
+    ```shell
+    https://2d8rgp5gn9qjobt4wfrraicmc.auth.jupiter-pp.roq-platform.com/oauth/google/redirect
+    ```
+
+    #### Authorized JavaScript Origins
+
+    The HTTP origins that host your web application. This value can't contain wildcards or paths. The value must be the authentication hostname of the environment: 
+
+    ```shell
+    https://<prefix>.auth.jupiter-pp.roq-platform.com
+    ```
+
+    That is:
+
+    ```shell
+    https://2d8rgp5gn9qjobt4wfrraicmc.auth.jupiter-pp.roq-platform.com
+    ```
+    The settings for both options are displayed in the screenshot below.
+
+    ![auth-redirect-setup](/screenshots/add-google-auth-redirect.png)
+
+    Once activated, Google Sign-in can be used as a registration or login option. The next step is to add this Google Sign-in to the registration form.
+
+## How to Add Social Sign-in
+
+To add **Google Sign-In** to the login or registration form variants, you should enable it in the **Social Sign-in** options. Go here for more information about [customize the registration form](/user-registration/registration-forms#sign-in-options).
+
