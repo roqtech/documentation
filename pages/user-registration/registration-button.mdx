@@ -11,57 +11,57 @@ import {roqBrowserClient} from "@/lib/roq/roq-client"
 
 export default function SignupButton() {
   return (
-	<button
-	  onClick={() => {
-		roqBrowserClient.signUp()
-	  }}
-	>
-	  Signup
-	</button>
+    <button
+      onClick={() => {
+        roqBrowserClient.signUp()
+      }}
+    >
+      Signup
+    </button>
   )
 }
 ```
 
-By default without any parameter passed to the `signUp()` function, the registration page that will be shown to the user is the default registration page. You can configure the registration form in the ROQ Console or create another registration form.
+By default, without any parameter passed to the `signUp()` function, the registration page that will be shown to the user is the default registration page. You can configure the ROQ Console registration form or create another one.
 
-The registration page is a managed page that is hosted by ROQ and can be configured to have your own branding. The registration forms has keys that late you can use in the `signUp()` function. 
+The registration page is a managed page that is hosted by ROQ and can be configured to have your own branding. The registration forms have keys that you can use in the `signUp()` function. 
 
-For example, if you have a registration form with the key `developer`, you can use the following code to open the registration page with your custom form:
+For example, if you have a registration form with the key `developer`, you can use the following code to open the registration page with your customs form:
 
 ```jsx
 import {roqBrowserClient} from "@/lib/roq/roq-client"
 
 export default function SignupButton() {
   return (
-	<button
-	  onClick={() => {
-		roqBrowserClient.signUp("developer")
-	  }}
-	>
-	  Signup
-	</button>
+    <button
+      onClick={() => {
+        roqBrowserClient.signUp("developer")
+      }}
+    >
+      Signup
+    </button>
   )
 }
 ```
 
 ## Redirect after registration
 
-After the user has registered, you can redirect the user to a specific page. To do so, you need to pass the `postLoginRedirect` optional parameter to the `signUp()` function. 
+After registering, you can redirect the user to a specific page. To do so, you need to pass the `postLoginRedirect` optional parameter to the `signUp()` function. 
 
-For example, if you want to redirect the user to the dashboard page after registration, you can use the following code:
+For example, if you want to redirect the user to the dashboard page after registration in the Next.js application, you can use the following code:
 
 ```jsx
 import {roqBrowserClient} from "@/lib/roq/roq-client"
 
 export default function SignupButton() {
   return (
-	<button
-	  onClick={() => {
-		roqBrowserClient.signUp("developer", { postLoginRedirect: "/dashboard"})
-	  }}
-	>
-	  Signup
-	</button>
+    <button
+      onClick={() => {
+        roqBrowserClient.signUp("developer", { postLoginRedirect: "/dashboard"})
+      }}
+    >
+      Signup
+    </button>
   )
 }
 ```
