@@ -19,7 +19,7 @@ import { roqBrowserClient } from 'lib/roq/roq-client'
 
 const status = async () => {
 	const userInvitation = await roqBrowserClient.roqPlatform.sendUserInvites({
-		userInvites: {
+		data: {
 			tenantId: 'ee764883-f2c3-4486-9de6-070345e350af',
 			userInvites: [{
 				createdByUserId: '530c9a92-71c5-4dce-a6e3-c638c2d0b1bc',
@@ -38,16 +38,16 @@ const status = async () => {
 
 | Parameter         | Type   | Description                                  |
 |-------------------|--------|----------------------------------------------|
-| `userInvites`     | object | User invites data |
-| `userInvites:tenantId` | uuid |  ID of the tenant (organization) | 
-| `userInvites:userInvites` | array | Array of invitees |
-| `userInvites:userInvites:email`           | string | Email of the invitee                         |
-| `userInvites:userInvites:firstName`       | string | First name of the invitee                    |
-| `userInvites:userInvites:lastName`        | string | Last name of the invitee                     |
-| `userInvites:userInvites:locale`          | string | Language of the invitee (used for the email) |
-| `userInvites:userInvites:data`            | array  | Additional custom data                       |
-| `userInvites:userInvites:createdByUserId` | uuid   | ID of the inviting user                      |
-| `userInvites:userInvites:roles`           | array  | Array of IDs of roles for the invitee        |
+| `data`     | object | User invites data |
+| `data:tenantId` | uuid |  ID of the tenant (organization) | 
+| `data:userInvites` | array | Array of invitees |
+| `data:userInvites:email`           | string | Email of the invitee                         |
+| `data:userInvites:firstName`       | string | First name of the invitee                    |
+| `data:userInvites:lastName`        | string | Last name of the invitee                     |
+| `data:userInvites:locale`          | string | Language of the invitee (used for the email) |
+| `data:userInvites:data`            | array  | Additional custom data                       |
+| `data:userInvites:createdByUserId` | uuid   | ID of the inviting user                      |
+| `data:userInvites:roles`           | array  | Array of IDs of roles for the invitee        |
 
 
 ### `resendUserInvite()`
@@ -61,7 +61,9 @@ import { roqBrowserClient } from 'lib/roq/roq-client'
 
 const userInviteModel = async() => {
     const userInvitationId = "d1459a92-71c5-4edc-a6a1-c638c2d0d34c"
-    return await roqBrowserClient.roqPlatform.resendUserInvite(userInvitationId)
+    return await roqBrowserClient.roqPlatform.resendUserInvite({
+		userInviteId: userInvitationId
+    })
 }
 
 ```
@@ -70,7 +72,7 @@ const userInviteModel = async() => {
 
 | Parameter         | Type   | Description                                  |
 |-------------------|--------|-----------------|
-| `id`              | uuid   | The invitee ID  |
+| `userInviteId`    | uuid   | The invitee ID  |
 
 
 ## Cancel user invitation
@@ -86,7 +88,9 @@ import { roqBrowserClient } from 'lib/roq/roq-client'
 
 const cancelUserInvitation = async() => {
 	const userInvitationId = "d1459a92-71c5-4edc-a6a1-c638c2d0d34c"
-    return await roqBrowserClient.roqPlatform.cancelUserInvite(userInvitationId)
+    return await roqBrowserClient.roqPlatform.cancelUserInvite({
+		userInviteId:userInvitationId
+	})
 }
 ```
 </Tab>
@@ -94,7 +98,7 @@ const cancelUserInvitation = async() => {
 
 | Parameter         | Type   | Description                                  |
 |-------------------|--------|-----------------|
-| `id`              | uuid   | The invitee ID  |
+| `userInviteId`    | uuid   | The invitee ID  |
 
 
 ## Get user invitations data
@@ -124,7 +128,8 @@ const userInvitesData = async() => {
 | `limit`           | integer   | Limit the results|
 | `search`          | object    | Search parameter |
 | `filter`          | object    | Filter parameter |
-
+| `offset`          | integer   | Offset the results |
+| `order`           | object    | Order parameter |
 
 ### `userInvite()`
 
