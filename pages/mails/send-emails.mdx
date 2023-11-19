@@ -15,45 +15,21 @@ Before sending emails, make sure to create email templates on ROQ Console. Read 
 
 ### Send emails via API
 
-Emails are sent using the [sendMail API](/mails/api#sendmail). You need to use the same key which you set to the email type. For instance to send a **New Product News** email with the unique key `new-product-news` and have data variables: `recipients_name`, `website_url`, `your_name`, `your_position`, and `your_contact_information`, you can send the email by using Node.js SDK
+Emails are sent using the [sendMail API](/mails/api#sendmail). You need to use the same key which you set to the email type. For instance to send a **New Product News** email with the unique key `new-product-news` and have data variables: `recipients_name`, `website_url`, `your_name`, `your_position`, and `your_contact_information`, you can send the email by using generated SDK.
 
 ```ts
-import { Platform } from '@roq/nodejs'
-
-const client = new Platform({
-	apiKey: process.env.ROQ_API_KEY,
-	environmentId: process.env.ROQ_ENVIRONMENT_ID,
-	host: process.env.ROQ_PLATFORM_URL
-})
-
-await client.asSuperAdmin().sendMail({
-  mail: {
-      key: "new-product-news",
-      locale: "en-US",
-      emails: ["test@randomemail.com"],
-      data: [   
-      {
-        key: "recipients_name",
-        value: "exampleValue"
-      }, 
-      {
-        key: "website_url",
-        value: "exampleValue"
-      }, 
-      {
-        key: "your_name",
-        value: "exampleValue"
-      }, 
-      {
-        key: "your_position",
-        value: "exampleValue"
-      }, 
-      {
-        key: "your_contact_information",
-        value: "exampleValue"
-      }, 
-    ]
-  },
-});
+import { RoqServerClient } from '@/lib/roq/roq-server-client';
+ 
+const roqServerClient = new RoqServerClient()
+ 
+const sendMyMail = async() => {
+    roqServerClient.roqPlatform.asSuperAdmin().sendMail({
+        mail: {
+            key: 'onboarding',
+            locale: 'en-US',
+            emails: ['Fransic84@roq.tech'],
+            data: [{ key: 'name', value: 'Francis84 Columbus' }] }
+    })
+}
 ```
 </Steps>
