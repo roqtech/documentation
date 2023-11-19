@@ -4,12 +4,17 @@ import { Callout } from "nextra/components"
 
 In ROQ, the upload is realized using signed URLs, which means the files are uploaded directly from the user's browser to the object storage without sending it through your backend. 
 
-ROQ SDK for Next.js also provides a `FileUpload` component to make the file upload easy to code. 
-Let's take an example of how to upload an image file using ROQ BaaS.
+ROQ SDK for Next.js also provides a `FileUpload` component to make the file upload easy to code. Let's take an example of how to upload an image file using ROQ BaaS.
 
 ## Using the `FileUpload` component
 
-First, we need to instantiate the file upload component from the `@roq/nextjs` package:
+To use the `FileUpload` component, we need to install the `@roq/ui-react` package:
+
+```bash
+npm install @roq/ui-react --save
+```
+
+And then we need to instantiate the file upload component from the `@roq/ui-react` package:
 
 ```tsx
 <FileUpload className='my-10' fileUploader={fileUploader} accept={['image/*']}
@@ -72,17 +77,17 @@ Here's the full code for our image uploader:
 
 ```tsx filename="upload-image.tsx"
 import { useState, useCallback } from 'react'
-import { useRoqClient } from '@/lib/roq'
-import { requireNextAuth, useSession, FileUpload, useRoqFileUploader } from '@roq/nextjs'
+import { FileUpload, useRoqFileUploader } from '@roq/ui-react'
+import { roqBrowserClient } from "@/lib/roq/roq-client"
+import { useSession } from '@/lib/roq'
 
-function ImageUpload() {
+export default function ImageUpload() {
     return <UploadImage />
 }
 
 const UploadImage = () => {
     const { session, status } = useSession()
     const [selectedImage, setSelectedImage] = useState<File | null>(null)
-    const roqClient = useRoqClient()
     const category = 'USER_FILES'
 
     const fileUploader = useRoqFileUploader({
@@ -111,7 +116,7 @@ const UploadImage = () => {
       }, [fileUploader, selectedImage]);
 
     function logoutHandler() {
-        roqClient.signOut()
+        roqBrowserClient.signOut()
     }
 
     return (
@@ -144,11 +149,6 @@ const UploadImage = () => {
         </div>
     )
 }
-
-export default requireNextAuth({
-    redirectIfAuthenticated: false,
-    redirectTo: "/"
-})(ImageUpload)
 ```
 
 In the ROQ Console, we can check the uploaded files in the **Manage Data** section.
