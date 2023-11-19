@@ -1,4 +1,4 @@
-import { Tab, Tabs, Callout } from "nextra-theme-docs";
+import { Tab, Tabs } from "nextra-theme-docs";
 
 # API
 
@@ -16,7 +16,9 @@ To get a list of all user profiles, use the `userProfiles()` method API.
 import { roqBrowserClient } from "lib/roq/roq-client"
 
 const userProfiles = async() => {
-    const response = await roqBrowserClient.roqPlatform.userProfiles()
+    const response = await roqBrowserClient.roqPlatform.userProfiles({
+        limit: 5
+    })
     return response
 }
 ```
@@ -41,6 +43,15 @@ The response will be an array of user profiles.
     "totalCount": 1
 }
 ```
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `limit`           | integer   | Limit the results|
+| `search`          | object    | Search parameter |
+| `filter`          | object    | Filter parameter |
+| `offset`          | integer   | Offset the results |
+| `order`           | object    | Order parameter |
+
 </Tab>
 </Tabs>
 
@@ -63,6 +74,10 @@ const userProfile = async() => {
     return response
 }
 ```
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `id`              | uuid   | The user profile ID  |
 </Tab>
 </Tabs>
 
