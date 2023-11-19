@@ -48,12 +48,23 @@ The `files()` data response:
 </Tab>
 </Tabs>
 
+filter?: InputMaybe<FileFilterArgType>;
+    limit?: InputMaybe<Scalars['Int']>;
+    offset?: InputMaybe<Scalars['Int']>;
+    order?: InputMaybe<FileOrderArgType>;
+    search?: InputMaybe<FileSearchArgType>;
+    withFileCategory?: InputMaybe<Scalars['Boolean']>;
+    withCreatedByUser?: InputMaybe<Scalars['Boolean']>;
+    withFileAssociations?: InputMaybe<Scalars['Boolean']>;
 
 | Parameter           | Type   | Description    |
 | ------------------- | ------ |--------------- |
-| `filter:entityName` | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_. Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter |
-| `filter:entityReferences` | object | References (or IDs) of the related objects from your database.  Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter  |
-| `filter:fileCategory`  |  object   | Filter file by categories. Read [FileFilterArgType](https://jupiter-pp.roq-platform.com/docs/#definition-FileFilterArgType) for more information about file filter  |
+| `limit` | integer | The number of files to return. |
+| `offset` | integer | The offset number of files. |
+| `order` | object | The order of the files. |
+| `filter:entityName` | object | Name of the object. This could be the name of the table in your database, e.g. _"contract"_. |
+| `filter:entityReferences` | object | References (or IDs) of the related objects from your database.  |
+| `filter:fileCategory`  |  object   | Filter file by categories.  |
 | `withFileCategory` | boolean | Include file categories |
 | `withCreatedByUser` | boolean | Include user data that created the file |
 | `withFileAssociations` | boolean | Include file associations |
@@ -153,10 +164,11 @@ import { roqBrowserClient } from "lib/roq/roq-client"
 
 const updateResult =async () => {
     return await roqBrowserClient.roqPlatform.updateFile({
-	    id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
-    	updateFileDto: {
-		    name: "screenshot.png"
-	    }
+        data: {
+            fileId: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
+            name: "screenshot.png",
+            status: FileStatusEnum.Ready
+        }
     })
 }  
 ```
@@ -166,8 +178,9 @@ const updateResult =async () => {
 
 | Parameter                 | Type     | Description                  |
 | --------------------------| -------- |------------------------------|
-| `id`                      | UUID     | The file ID to be updated    |
-| `updateFileDto`:`name`    | string   | New filename                 |
+| `data:fileId`                      | UUID     | The file ID to be updated.    |
+| `data:name`    | string   | New filename.                 |
+| `data:status` | string | The file status. |
 
 
 {/*
@@ -205,7 +218,7 @@ const upfileStatus =async () => {
 
 ### `deleteFiles()`
 
-To delete one or multiple files, use the `deleteFiles()` API. See this [link](https://jupiter-pp.roq-platform.com/docs/#mutation-deleteFiles) for the API documentation.
+To delete one or multiple files, use the `deleteFiles()` API.
 
 <Tabs items={["JavaScript"]}>
 <Tab>
@@ -305,8 +318,18 @@ The categories response:
     }
 }
 ```
+
+
 </Tab>
 </Tabs>
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `limit`           | integer   | Limit the results|
+| `search`          | object    | Search parameter |
+| `filter`          | object    | Filter parameter |
+| `offset`          | integer   | Offset the results |
+| `order`           | object    | Order parameter |
 
 ### `fileCategory()`
 
@@ -362,9 +385,12 @@ The category details response:
 }
 ```
 </Tab>
-
 </Tabs>
 
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `id`              | UUID   | The file category ID to be retrieved.        |
+| `withFileCategoryContentGroups` | boolean | Include file category content groups. |
 
 ## File visibility
 
@@ -389,6 +415,11 @@ const filePublic =async () => {
 </Tab>
 </Tabs>
 
+
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `id`              | UUID   | The file ID to be made public.        |
+
 ### `makeFilePrivate()`
 
 Hide a file from public access.
@@ -409,3 +440,6 @@ cons private =async () => {
 </Tabs>
 
 
+| Parameter         | Type   | Description                                  |
+|-------------------|--------|-----------------|
+| `id`              | UUID   | The file ID to be made private.        |
