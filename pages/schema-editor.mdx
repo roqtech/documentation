@@ -15,7 +15,7 @@ The general flow is as follows:
 Create entities or update existing ones in your backend's database schema.
 ### Set Relations 
 Create or update relations between entities.
-### Publish Schema
+### Publish schema
 Publish your new schema.
 ### Access Schema
 Access the schema via the API.
@@ -25,7 +25,7 @@ You can do all of this in one place in the Console, under the Configure > Schema
 
 ## Entities
 
-An entity represents a table in the database of your backend. It represents a real-world object or concept. For example, an entity can be a menu, menu item, or order in the context of a Restaurant Management Application.
+An entity represents a table in your backend's database. It represents a real-world object or concept. For example, an entity can be a menu, menu item, or order in the context of a Restaurant Management Application.
 
 On the Schema Editor page, users can:
 
@@ -57,7 +57,7 @@ When clicking on the "+" button, you create a new entity. You need to fill in th
 
 - Entity name
 - Field name
-- Field type. The Schema Editor supports the following field types: text, varchar, float, integer, boolean, timestamp, relation. If you set "relation" as a field type, you need to set the related table in the default value.
+- Field type. The Schema Editor supports the following field types: text, varchar, float, integer, boolean, timestamp, and relation. If you set "relation" as a field type, you need to set the related table in the default value.
 - Default value
 - Nullable (yes/no)
 - Unique (yes/no)
@@ -67,7 +67,7 @@ When clicking on the "+" button, you create a new entity. You need to fill in th
 
 ![schema-Params](public/screenshots/schemaParams.jpg)
 
-All changes made to the entities are displayed on the left side in the visualization window.
+All changes made to the entities are displayed on the left side of the visualization window.
 
 #### What Does "Nullable" Mean?
 
@@ -79,20 +79,20 @@ Entities can be marked as either public or protected, with the default setting b
 
 ### AI Assistance
 
-Users have the option to add a field with the assistance of AI. In this case, the console generates a new field based on the context of the entity.
+Users have the option to add a field with AI assistance. In this case, the console generates a new field based on the context of the entity.
 Another method to add entities to the list is through the "AI Recommend" feature. AI pre-generates a selection of relevant entities, and they can be added to the list with a single click, allowing for further editing.
 
 ![schema-AddAI](public/screenshots/schemaAddFieldAI.jpg)
 
 ## Publishing Schema
 
-It's important to emphasize that while the schema is automatically saved, it must be published to be reflected in the API. Publishing may take a few minutes, and a progress bar at the top of the page will indicate the status. During the publishing process, users can continue to edit the schema, but they cannot initiate another publish until the current one is completed. In the event of errors during publishing, such as migration failures, the recommended action is to attempt publishing again.
+It's important to emphasize that while the schema is automatically saved, it must be published to be reflected in the API. Publishing may take a few minutes, and a progress bar at the top of the page will indicate the status. During the publishing process, users can continue to edit the schema, but they can only initiate another publish once the current one is completed. In the event of errors during publishing, such as migration failures, the recommended action is to attempt publishing again.
 
 Even if a user leaves this page, publishing continues in the background. Once completed, a notification will be displayed within the console.
 
 #### AI Autofill
 
-AI Autofill is another notable feature on this page. Clicking it will populate the entities, relationships, and schema with AI-recommended values. However, be cautious, as the autofilled data can be edited but might not entirely align with your specific needs.
+AI Autofill is another notable feature on this page. Clicking it will populate the entities, relationships, and schema with AI-recommended values. However, be cautious, as the auto-filled data can be edited but might not entirely align with your specific needs.
 
 ![schema-AI](public/screenshots/schemaAI.jpg)
 
@@ -105,18 +105,18 @@ For a fresh start, there's a "Reset Data Model" option. Clicking this will remov
 
 ### View schema visually
 
-On the right side of the page, you'll find the schema visualization. Here, you can view the entire schema in fullscreen mode, align items vertically or horizontally, center the content, zoom in or out, and lock the visualization.
+On the right side of the page, you'll find the schema visualization. Here, you can view the entire schema in fullscreen mode, align-items vertically or horizontally, center the content, zoom in or out, and lock the visualization.
 
 ![schema-visualization-small](public/screenshots/schemaVisual1.jpg)
 ![schema-visualization-full](public/screenshots/schemaVisual2.jpg)
 
-### Re-generate SDK
+### Regenerate SDK
 
-Whenever you modify the schema on the ROQ Console and publis, it is necessary to regenerate the SDK in your application development.
+Whenever you modify the schema on the ROQ Console and publish, it is necessary to regenerate the SDK in your application development.
 
 {/*
 ### Best Practices
 
 
-### Data Validation and constratins
+### Data Validation and constraints
 */}
