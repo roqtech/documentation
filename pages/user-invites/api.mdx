@@ -15,12 +15,10 @@ The `sendUserInvites` API is used to invite users and automatically also create 
 <Tabs items={['JavaScript']}>
 <Tab>
 ```js
-import { useRoqClient } from '/lib/roq'
-
-const roqClient = useRoqClient()
+import { roqBrowserClient } from 'lib/roq/roq-client'
 
 const status = async () => {
-	const userInvitation = await roqClient.roqPlatform.sendUserInvites({
+	const userInvitation = await roqBrowserClient.roqPlatform.sendUserInvites({
 		userInvites: {
 			tenantId: 'ee764883-f2c3-4486-9de6-070345e350af',
 			userInvites: [{
@@ -59,13 +57,11 @@ The `resendUserInvite` API will resend the invitation to the invitee.
 <Tabs items={["JavaScript"]}>
 <Tab>
 ```js
-import { useRoqClient } from '/lib/roq'
-
-const roqClient = useRoqClient()
+import { roqBrowserClient } from 'lib/roq/roq-client'
 
 const userInviteModel = async() => {
     const userInvitationId = "d1459a92-71c5-4edc-a6a1-c638c2d0d34c"
-    return await roqClient.roqPlatform.resendUserInvite(userInvitationId)
+    return await roqBrowserClient.roqPlatform.resendUserInvite(userInvitationId)
 }
 
 ```
@@ -86,13 +82,11 @@ The `cancelUserInvite` API will cancel a user invitation based on the user invit
 <Tabs items={["JavaScript"]}>
 <Tab>
 ```js
-import { useRoqClient } from '/lib/roq'
-
-const roqClient = useRoqClient()
+import { roqBrowserClient } from 'lib/roq/roq-client'
 
 const cancelUserInvitation = async() => {
 	const userInvitationId = "d1459a92-71c5-4edc-a6a1-c638c2d0d34c"
-    return await roqClient.roqPlatform.cancelUserInvite(userInvitationId)
+    return await roqBrowserClient.roqPlatform.cancelUserInvite(userInvitationId)
 }
 ```
 </Tab>
@@ -114,12 +108,10 @@ You can get the user invitations list using the `userInvites()` method. You can 
 <Tabs items={['JavaScript']}>
 <Tab>
 ```js
-import { useRoqClient } from '/lib/roq'
-
-const roqClient = useRoqClient()
+import { roqBrowserClient } from 'lib/roq/roq-client'
 
 const userInvitesData = async() => { 
-    return await roqClient.roqPlatform.userInvites({
+    return await roqBrowserClient.roqPlatform.userInvites({
         limit: 10
     })
 }
@@ -143,7 +135,7 @@ Get the data of the invitee by using the `userInvite()` method. You can get the 
 ```js
 const inviteeData = async() => {
     const inviteeId =  "78f665fb-61ab-4931-a565-3136e6d01553"
-    return await roqClient.roqPlatform.userInvite({ id:inviteeId})
+    return await roqBrowserClient.roqPlatform.userInvite({ id:inviteeId})
 }
 ```
 </Tab>

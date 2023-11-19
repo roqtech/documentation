@@ -12,7 +12,7 @@ After you upload a file, you can access it using the `file()` API. If you need t
 <Tab>
 ```tsx
 const filebyId =async () => {
-	const myfile = await roqClient.roqPlatform.file({
+	const myfile = await roqBrowserClient.roqPlatform.file({
 		id: "dd1f3ac5-2951-460e-add3-d3ef9516d694",
 		withCreatedByUser: true
 	})

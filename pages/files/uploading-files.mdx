@@ -54,7 +54,7 @@ const handleFileChange = async (event) => {
     const file = event.target.files[0]
 
     try {
-        const response = await client.asSuperAdmin().createFileUpload({
+        const response = await roqBrowserClient.roqPlatform.createFileUpload({
             createFileDto: {
                 name: file.name,
                 contentType: file.type,
@@ -146,11 +146,11 @@ for (let [key, value] of Object.entries(formFields || {})) {
 
 ### Set the file status 
 
-    Set the status of the file using the `updateFileStatus()` API. When the upload is finished, you need to set the upload status. This is required because the file is uploaded directly to the object storage, bypassing the ROQ Platform.
+Set the status of the file using the `updateFile()` API. When the upload is finished, you need to set the upload status. This is required because the file is uploaded directly to the object storage, bypassing the ROQ Platform.
 
 ```tsx
-await roqClient.roqPlatform.updateFileStatus({
-    id: id,
+await roqBrowserClient.roqPlatform.updateFile({
+    fileId: id,
     status: FileStatusEnum.Ready,
 })
 ```
@@ -164,7 +164,7 @@ With the completed file upload then we can check the file using the `file()` met
 <Tab>
 ```tsx
 const filebyId =async () => {
-	const myfile = await roqClient.roqPlatform.file({
+	const myfile = await roqBrowserClient.roqPlatform.file({
 		id: "dd1f3ac5-2951-460e-add3-d3ef9516d694",
 		withCreatedByUser: true
 	})
@@ -213,4 +213,4 @@ const filebyId =async () => {
 
 ## Uploading files in Next.js
 
-Next.js is one of the many JavaScript frameworks that is supported by ROQ SDK for BaaS. For details on how to perform file uploads using the `FileUpload` component from `@roq/nextjs`, visit [add file uploads](/tutorials/add-file-uploads) documentation section.
+Next.js is one of the many JavaScript frameworks that is supported by ROQ SDK for BaaS. For details on how to perform file uploads using the `FileUpload` component from `@roq/ui-react`, visit [add file uploads](/tutorials/add-file-uploads) documentation section.

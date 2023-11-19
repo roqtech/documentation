@@ -13,10 +13,10 @@ Get all files.
 <Tabs items={["JavaScript", "Response"]}>
 <Tab>
 ```tsx
-import { useRoqClient } from "/lib/roq"
+import { roqBrowserClient } from 'lib/roq/roq-client';
 
 const allFiles = async () => {
-	const allFiles = await roqClient.roqPlatform.files()
+	const allFiles = await roqBrowserClient.roqPlatform.files()
 	return allFiles
 }
 ```
@@ -67,10 +67,10 @@ The `file()` API also provides information on the file category, its creator, an
 <Tabs items={["JavaScript", "Response"]}>
 <Tab>
 ```tsx
-import { useRoqClient } from "/lib/roq"
+import { roqBrowserClient } from "lib/roq/roq-client"
 
 const myfile = async () => {
-	const myfile = await roqClient.roqPlatform.file({
+	const myfile = await roqBrowserClient.roqPlatform.file({
 		id: "e54b7785-f7c0-41cc-bfbe-06dbd1645ed9",
 		withFileCategory: true,
 		withCreatedByUser: true,
@@ -149,12 +149,10 @@ You can use the `updateFile()` API to rename the uploaded files.
 <Tabs items={["JavaScript"]}>
 <Tab>
 ```tsx
-import { useRoqClient } from "lib/roq"
-
-const roqClient = useRoqClient()
+import { roqBrowserClient } from "lib/roq/roq-client"
 
 const updateResult =async () => {
-    return await roqClient.roqPlatform.updateFile({
+    return await roqBrowserClient.roqPlatform.updateFile({
 	    id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
     	updateFileDto: {
 		    name: "screenshot.png"
@@ -172,6 +170,7 @@ const updateResult =async () => {
 | `updateFileDto`:`name`    | string   | New filename                 |
 
 
+{/*
 ### `updateFileStatus()`
 
 The `updateFileStatus()` API is a method to set the upload file status. The use case of this API is, for example, you upload a file without using UI Component, and after the file upload is completed, you need to set the upload file status manually.
@@ -181,12 +180,12 @@ Five status files are currently available: `cancelled`, `error`, `processing`, `
 <Tabs items={["JavaScript"]}>
 <Tab>
 ```tsx
-import { useRoqClient } from "lib/roq"
+import { useroqBrowserClient } from "lib/roq"
 
-const roqClient = useRoqClient()
+const roqBrowserClient = useroqBrowserClient()
 
 const upfileStatus =async () => {
-    return await roqClient.roqPlatform.updateFileStatus({
+    return await roqBrowserClient.roqPlatform.updateFileStatus({
 	    id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
 	    status: FileStatusEnum.Cancelled
     })   
@@ -200,7 +199,7 @@ const upfileStatus =async () => {
 | `id`                      | UUID     | The file ID to be updated    |
 | `status`                  | string   | The file status. Look for [FileStatusEnum](https://jupiter-pp.roq-platform.com/docs/#definition-FileStatusEnum) for the details             |
 
-
+*/}
 
 ## File deletion
 
@@ -211,12 +210,10 @@ To delete one or multiple files, use the `deleteFiles()` API. See this [link](ht
 <Tabs items={["JavaScript"]}>
 <Tab>
 ```ts
-import { useRoqClient } from "lib/roq"
-
-const roqClient = useRoqClient()
+import { roqBrowserClient } from "lib/roq/roq-client"
 
 const delFiles =async () => {
-    return await roqClient.asSuperAdmin().deleteFiles({
+    return await roqBrowserClient.asSuperAdmin().deleteFiles({
 	    filter: {
 		    id: {
 			    equalTo: "76dada4e-4f07-456b-90e7-a43099f07052"
@@ -260,10 +257,10 @@ Get all file categories.
 <Tabs items={["JavaScript", "Response"]}>
 <Tab>
 ```tsx
-import { useRoqClient } from "/lib/roq"
+import { roqBrowserClient } from "lib/roq/roq-client"
 
 const doReadCategories = async () => {
-	const allCategories = await roqClient.roqPlatform.fileCategories({})
+	const allCategories = await roqBrowserClient.roqPlatform.fileCategories({})
 	return allCategories
 }
 ```
@@ -318,10 +315,10 @@ Get file category details.
 <Tabs items={["JavaScript", "Response"]}>
 <Tab>
 ```tsx
-import { useRoqClient } from "/lib/roq"
+import { roqBrowserClient } from "lib/roq/roq-client"
 
 const categoryDetails = async () => {
-	const categoryDetail = await roqClient.roqPlatform.fileCategory({
+	const categoryDetail = await roqBrowserClient.roqPlatform.fileCategory({
 		id: "ff8143f2-cd89-41e9-af16-999c9b9da9b8",
 		withFileCategoryContentGroups: true
 	})
@@ -357,65 +354,9 @@ The category details response:
                     "updatedAt": "2023-03-30T09:47:06.957Z",
                     "key": "application",
                     "name": "Application"
-                },
-                {
-                    "id": "1150e947-a2d3-4702-ba3c-73d3b173bc33",
-                    "createdAt": "2023-03-30T09:47:06.957Z",
-                    "updatedAt": "2023-03-30T09:47:06.957Z",
-                    "key": "text",
-                    "name": "Text"
-                },
-                {
-                    "id": "db505acd-0112-4378-92db-7694e17c4bdb",
-                    "createdAt": "2023-03-30T09:47:06.957Z",
-                    "updatedAt": "2023-03-30T09:47:06.957Z",
-                    "key": "video",
-                    "name": "Video"
-                },
-                {
-                    "id": "aa70bc75-d6a7-4f76-8e91-8cccc38d570c",
-                    "createdAt": "2023-03-30T09:47:06.957Z",
-                    "updatedAt": "2023-03-30T09:47:06.957Z",
-                    "key": "message",
-                    "name": "Message"
-                },
-                {
-                    "id": "df711f31-1c7e-4204-b7fc-759307f64ec3",
-                    "createdAt": "2023-03-30T09:47:06.957Z",
-                    "updatedAt": "2023-03-30T09:47:06.957Z",
-                    "key": "audio",
-                    "name": "Audio"
-                },
-                {
-                    "id": "3327d8d3-2d7e-40f9-b507-2bcf160df480",
-                    "createdAt": "2023-03-30T09:47:06.957Z",
-                    "updatedAt": "2023-03-30T09:47:06.957Z",
-                    "key": "font",
-                    "name": "Font"
-                },
-                {
-                    "id": "6d6b2413-309e-4ee8-9a14-8138f95b0816",
-                    "createdAt": "2023-03-30T09:47:06.957Z",
-                    "updatedAt": "2023-03-30T09:47:06.957Z",
-                    "key": "multipart",
-                    "name": "Multipart"
-                },
-                {
-                    "id": "085d98ac-cc9a-4092-9c91-f2d1a0eb6978",
-                    "createdAt": "2023-03-30T09:47:06.957Z",
-                    "updatedAt": "2023-03-30T09:47:06.957Z",
-                    "key": "model",
-                    "name": "Model"
-                },
-                {
-                    "id": "7ae85adf-f2fb-47b1-9f5f-2d8fb1900faf",
-                    "createdAt": "2023-03-30T09:47:06.957Z",
-                    "updatedAt": "2023-03-30T09:47:06.957Z",
-                    "key": "other",
-                    "name": "Other"
                 }
             ],
-            "totalCount": 10
+            "totalCount": 2
         }
     }
 }
@@ -435,12 +376,12 @@ Enable public access to a file.
 
 <Tabs items={['JavaScript']}><Tab>
 ```ts
-import { useRoqClient } from "lib/roq"
+import { roqBrowserClient } from "lib/roq/roq-client"
 
-const roqClient = useRoqClient()
+const roqBrowserClient = useroqBrowserClient()
 
 const filePublic =async () => {
-    return await roqClient.roqPlatform.makeFilePublic({
+    return await roqBrowserClient.roqPlatform.makeFilePublic({
         id: 'fileId'
     });
 }
@@ -454,12 +395,12 @@ Hide a file from public access.
 
 <Tabs items={['JavaScript']}><Tab>
 ```ts
-import { useRoqClient } from "lib/roq"
+import { roqBrowserClient } from "lib/roq/roq-client"
 
-const roqClient = useRoqClient()
+const roqBrowserClient = useroqBrowserClient()
 
 cons private =async () => {
-    return await roqClient.roqPlatform.makeFilePrivate({
+    return await roqBrowserClient.roqPlatform.makeFilePrivate({
         id: 'fileId'
     })
 }

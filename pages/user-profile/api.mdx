@@ -13,12 +13,10 @@ To get a list of all user profiles, use the `userProfiles()` method API.
 <Tabs items={["JavaScript"]}>
 <Tab>
 ```tsx
-import { useRoqClient } from "lib/roq"
-
-const roqClient = useRoqClient()
+import { roqBrowserClient } from "lib/roq/roq-client"
 
 const userProfiles = async() => {
-    const response = await roqClient.roqPlatform.userProfiles()
+    const response = await roqBrowserClient.roqPlatform.userProfiles()
     return response
 }
 ```
@@ -53,13 +51,13 @@ To get a specific user profile, use the `userProfile()` method API.
 <Tabs items={["JavaScript"]}>
 <Tab>
 ```tsx
-import { useRoqClient } from "lib/roq"
+import { roqBrowserClient } from "lib/roq/roq-client"
 
 const roqClient = useRoqClient()
 
 const userProfile = async() => {
     const userId = "3bd1a0c8-c8cd-4dc6-b961-fcfd356f5db4"
-    const response = await roqClient.roqPlatform.userProfile({
+    const response = await roqBrowserClient.roqPlatform.userProfile({
 		id: userId
     })
     return response
