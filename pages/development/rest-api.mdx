@@ -89,41 +89,33 @@ ROQ_API_URL=https://book-story-v1-ca2b-baas.vercel.app
 ## How to get the user token
 
 Whenever a user successfully logs in, a user token is generated. This token is used to identify the user for subsequent
-requests made to the ROQ BaaS.
+requests made to the ROQ BaaS. To access the ROQ BaaS REST API, you need an authorization token known as `roq-session-token`. In a Next.js application, you can programmatically retrieve the user token for authorization. There are a few ways to get the user token. You can get the token programmatically, or you can get it manually for fast testing and development.
 
-To access the ROQ BaaS REST API, you need an authorization token known as `roq-session-token`. In a Next.js application,
-you can programmatically retrieve the user token for authorization. This token, by default, is stored in a browser
-cookie with the `HttpOnly` flag, which means it cannot be directly accessed using JavaScript on the client side.
-
-There are a few ways to get the user token. You can get the token programmatically, or you can get it manually for fast
-testing and development.
+<Callout type="info">
+Using ROQ SDK will automatically get the user token for you. Its rarely needed to get the token manually except for testing and development purposes.
+</Callout>
 
 ### Programmatically
 
-In the Next.js application, we can use the `getServerSideProps()` method to get the token. The `getServerSideProps()`
-function allows you to fetch data server-side per request and use it as props in components.
-
-```tsx
-export async function getServerSideProps(context) {
-    const {req} = context;
-    const cookies = req.headers.cookie?.split(';');
-    const tokenCookie = cookies?.find(cookie => cookie.trim().startsWith('roq-session-token='));
-    const token = tokenCookie?.split('=')[1];
-
-    return {
-        props: {token}
-    };
-}
-```
+The user token, by default, is stored in a browser cookie with the `HttpOnly` flag to `false`, which means you can directly accessed using JavaScript on the client side. In the latest Next.js version, we can use the `document.cookie` method directly to get the token. However, this method only available on the client side with `use client` directive. 
 
 This is the full example code on how to get the `roq-session-token` and use the token to query book count data.
 
 ```tsx filename="book.tsx" {21, 53-63}
-import {useRoqClient} from 'lib/roq'
-import {requireNextAuth, useSession} from '@roq/nextjs'
+"use client"
+
+import {roqBrowserClient} from "@/lib/roq/roq-client";
+import {useSession} from '@/lib/roq'
 import {useEffect, useState} from 'react'
 
-export default function Book({token}) {
+function getCookie(name) {
+  const cookies = document.cookie.split('; ');
+  const cookieValue = cookies.find(cookie => cookie.startsWith(name + '='));
+  return cookieValue ? cookieValue.split('=')[1] : null;
+}
+
+export default function Book() {
+    const token = getCookie('roq-session-token')
     return <AuthenticatedSection token={token}/>
 }
 
@@ -170,17 +162,6 @@ const AuthenticatedSection = ({token}) => {
         </div>
     )
 }
-
-export async function getServerSideProps(context) {
-    const {req} = context;
-    const cookies = req.headers.cookie?.split(';');
-    const tokenCookie = cookies?.find(cookie => cookie.trim().startsWith('roq-session-token='));
-    const token = tokenCookie?.split('=')[1];
-
-    return {
-        props: {token}
-    };
-}
 ```
 
 ### Manually
@@ -224,8 +205,7 @@ necessary request authorization using **Bearer Token**. Remember to add token
 
 ## Disabling the `HttpOnly` flag
 
-To disable the `HttpOnly` flag, you can modify the environment variable. This action will allow you to access the cookie
-directly using JavaScript.
+To enable or disable the `HttpOnly` flag, you can modify the environment variable. This action will allow or dissallow you to access the cookie directly using JavaScript.
 
 Step-by-step guide:
 
