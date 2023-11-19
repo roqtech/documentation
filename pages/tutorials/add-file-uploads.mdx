@@ -76,6 +76,8 @@ We can build an image uploader component in the Next.js application from our pre
 Here's the full code for our image uploader:
 
 ```tsx filename="upload-image.tsx"
+"use client"
+
 import { useState, useCallback } from 'react'
 import { FileUpload, useRoqFileUploader } from '@roq/ui-react'
 import { roqBrowserClient } from "@/lib/roq/roq-client"

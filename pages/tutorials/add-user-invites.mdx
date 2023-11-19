@@ -154,6 +154,8 @@ const resendUserInvitationStatus = async() => {
 In Next.js, it is easy to implement a form that allows users to invite others via email:
 
 ```tsx filename="invite.tsx"
+"use client"
+
 import { useState } from 'react'
 import { roqBrowserClient } from "@/lib/roq/roq-client";
 import { useSession } from '@/lib/roq'
@@ -254,6 +256,8 @@ If the invitee accepts the invitation, the response `status` will have an `accep
 In this Next.js page, we will use it for a single email use case. To support more emails, we need a better solution for auto status checking rather than polling.
 
 ```tsx filename="invite.tsx"
+"use client"
+
 import { useState, useEffect } from 'react'
 import { roqBrowserClient } from "@/lib/roq/roq-client";
 import { useSession } from '@/lib/roq'
