@@ -3,6 +3,7 @@
 	"registration-forms": "Registration Forms",
 	"registration-button": "Registration Button",
 	"link-social-sign-ins": "Social Sign-Ins",
+	"mfa": "Multi-Factor Authentication",
 	"custom-domain": {
 		"title": "Custom Domain",
 		"display": "hidden"
