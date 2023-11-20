@@ -3,5 +3,6 @@
 	"chakra-demo-app": {
 		"title": "Chakra Demo App",
 		"display": "hidden"
-	}
+	},
+	"deploying-to-vercel": "Deploying to Vercel"
 }
