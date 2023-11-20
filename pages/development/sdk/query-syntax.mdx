@@ -10,8 +10,8 @@ The query syntax used in BaaS is quite similar to the syntax used in the Prisma 
 **ROQ**
 
 ```tsx filename="ROQ Query"
-roqClient.book.create(data, options);
-roqClient.book.createMany(data, options);
+roqBrowserClient.book.create(data, options);
+roqBrowserClient.book.createMany(data, options);
 ```
 **Prisma**
 
@@ -23,7 +23,7 @@ prisma.book.createMany({ data });
 From the comparison, we know that both offer single and bulk creation methods and have the same pattern query syntax:
 
 ```shell
-roqClient.[entity].[operation](condition)
+roqBrowserClient.[entity].[operation](condition)
 ```
 
 - **entity**: Project entity representing a specific data model or table. For example: `book`, `review`, `chapter`, etc.
@@ -37,7 +37,7 @@ The front-end SDK also provides API for accessing ROQ Platform features such as 
 The query syntax for API:
 
 ```tsx
-roqClient.roqPlatform.[operation](args)
+roqBrowserClient.roqPlatform.[operation](args)
 ```
 The operation could be: `userInvite`, `userInvites`, `role`, `roles`, `file`, `files`, `tenant`, and many others.
 
@@ -51,14 +51,13 @@ For this example and to provide context, we will use Book Creators. An imaginary
 Suppose we want to create a chapter for a specific book title, and for the return data, we also want to include all the book data. We can create a new chapter using the `create()` API.
 
 ```tsx
-import {useRoqClient} from '/lib/roq'
+import { roqBrowserClient } from '@/lib/roq/roq-client';
 import { v4 as uuidv4 } from 'uuid';
 
-const roqClient = useRoqClient()
 const uuid = uuidv4()
 
 const createChapter = async() => {
-    const chapter = await roqClient.chapter.create({
+    const chapter = await roqBrowserClient.chapter.create({
         data: {
             id: `${uuid}`,
             title: "Take All Your Pride",
@@ -81,13 +80,10 @@ By using the keyword `include` for the entity `book`, the data response will als
 We can also update the existing data. For example, suppose we want to update a chapter's content. We can use the `update()` API.
 
 ```tsx
-
-import {useRoqClient} from '/lib/roq'
-
-const roqClient = useRoqClient()
+import { roqBrowserClient } from '@/lib/roq/roq-client';
 
 const updateChapter = async() => {
-    const updateChap = await roqClient.chapter.update({
+    const updateChap = await roqBrowserClient.chapter.update({
         data: {
             content: "Another update draft content is here",
         },
@@ -111,7 +107,7 @@ The `delete()` API can be used to delete specific data on any entity. For exampl
 
 ```tsx
 const delReview = async() => {
-    const status = await roqClient.review.delete({
+    const status = await roqBrowserClient.review.delete({
         where:{
             id: "78e99df7-30d1-4205-b88f-6e804d1ec0fc"
         }
@@ -127,7 +123,7 @@ To get how many users are already registered or currently active on the project,
 
 ```tsx
 const userCount = async() => {
-    const count = await roqClient.user.count({
+    const count = await roqBrowserClient.user.count({
         orderBy: {
             created_at: 'desc'
         }
@@ -144,7 +140,7 @@ Suppose we want to find a book with the genre containing the "Science" word. We 
 
 ```tsx
 const findBook = async() =>{
-    const bookData = await roqClient.book.findMany({
+    const bookData = await roqBrowserClient.book.findMany({
      where: {
          genre: {
              contains: "Science"
@@ -166,12 +162,10 @@ The `findManyWithCount()` will fetch multiple records and their count data.
 Let's say we want to retrieve books along with their review and user data. We can use the `include` and `user` keys to also include the user data.
 
 ```tsx
-import { useRoqClient } from 'lib/roq'
-
-const roqClient = useRoqClient()
+import { roqBrowserClient } from '@/lib/roq/roq-client';
 
 const dataBook = async() => {
-    const allBook = await roqClient.book.findManyWithCount({
+    const allBook = await roqBrowserClient.book.findManyWithCount({
     orderBy: { created_at: 'desc' },
     include: {
         review: {
@@ -198,7 +192,7 @@ To retrieve all user profiles, we can use the `userProfiles()` API that specific
 
 ```tsx
 const users = async () => {
-   const profiles = await roqClient.roqPlatform.userProfiles();
+   const profiles = await roqBrowserClient.roqPlatform.userProfiles();
    return profiles; 
 }
 ```
@@ -214,7 +208,7 @@ To get all files from the users, we can use the `files()` API.
 
 ```tsx
 const userFiles = async() => {
-    const allFiles = await roqClient.roqPlatform.files()
+    const allFiles = await roqBrowserClient.roqPlatform.files()
     return allFiles
 }
 ```
@@ -225,7 +219,7 @@ Suppose we have a user ID `8b249b07-bdd9-43f7-a10e-ace10f27ff66` and want to kno
 
 ```tsx
 const userRoles = async() => {
-    const roles = await roqClient.roqPlatform.roles({
+    const roles = await roqBrowserClient.roqPlatform.roles({
         filter: {
             userId: {
                 equalTo: "8b249b07-bdd9-43f7-a10e-ace10f27ff66"
@@ -239,6 +233,3 @@ const userRoles = async() => {
 The example response from the code above is:
 
 ![user roles filter response](/screenshots/user-roles-filter.png)
-
-
-{/* roqPlatform examples*/}

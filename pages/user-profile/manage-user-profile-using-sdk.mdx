@@ -14,19 +14,18 @@ To manage user profile using ROQ BaaS SDK, you need to implement the following s
 
 To display the user profile information, you can use the `userProfile()` API. This method needs the user ID as a parameter. The user id can be obtained from the session object `roqUserId`.
 
-For example, in a Next.js app, you can use the `useRoqClient()` and `useSession()` hooks to get the `userProfile()` API to get the user profile information and the user id.
+For example, in a Next.js app, you can use the `roqBrowserClient` and `useSession()` hooks to get the `userProfile()` API to get the user profile information and the user id.
 
 ```tsx
-import { useRoqClient } from "lib/roq"
-import { useSession } from "@roq/nextjs"
+import { roqBrowserClient } from '@/lib/roq/roq-client';
+import { useSession } from "@/lib/roq"
 
-const roqClient = useRoqClient()
 const { session } = useSession()
 
 const { roqUserId } = session
 
 const userProfile = async () => {
-    const profile = await roqClient.roqPlatform.userProfile({
+    const profile = await roqBrowserClient.roqPlatform.userProfile({
         id: roqUserId
     })
 }
@@ -57,9 +56,11 @@ You can display this information using any UI library. For example, you can use 
 
 To edit the user profile information, you need to build a form for editing and also for uploading avatar pictures. For example, this is a simple page from the Next.js application that allows you to edit the user profile information based on the current user session.
 
-```tsx filename="src/pages/user-profile.tsx"
-import { useRoqClient } from "lib/roq";
-import { requireNextAuth, useSession } from "@roq/nextjs";
+```tsx filename="src/app/user-profile/page.tsx"
+"use client"
+
+import { roqBrowserClient } from '@/lib/roq/roq-client';
+import { useSession } from "@/lib/roq";
 import { useEffect, useState } from "react";
 import  ProfileFrom from "components/ProfileForm";
 
@@ -78,7 +79,6 @@ const UserProfileSection = () => {
     avatarUrl: "",
   });
 
-  const roqClient = useRoqClient();
   const roq_user_id = session?.roqUserId;
   const tenant_id = session?.user.tenantId;
 
@@ -96,12 +96,12 @@ const UserProfileSection = () => {
   };
 
   const logoutHandler = () => {
-    roqClient.signOut();
+    roqBrowserClient.signOut();
   };
 
   useEffect(() => {
     const fetchUserProfile = async () => {
-      const myUserProfile = await roqClient.roqPlatform.userProfile({
+      const myUserProfile = await roqBrowserClient.roqPlatform.userProfile({
         id: roq_user_id ?? "",
       });
 
@@ -147,25 +147,6 @@ const UserProfileSection = () => {
     </div>
   );
 };
-
-export async function getServerSideProps(context) {
-  const { req } = context;
-  const cookies = req.headers.cookie?.split(";");
-  console.log(cookies);
-  const tokenCookie = cookies?.find((cookie) =>
-    cookie.trim().startsWith("roq-session-token=")
-  );
-  const token = tokenCookie?.split("=")[1];
-
-  return {
-    props: { token },
-  };
-}
-
-export default requireNextAuth({
-  redirectIfAuthenticated: false,
-  redirectTo: "/",
-})(UserProfile);
 ```
 
 And for the form component, you can use the following code:
@@ -291,22 +272,22 @@ Whether you implement file uploading or use a specific framework component, reme
 
 ## Update user profile
 
-To update a user profile, we can use the `update` method from the `user` entity. This `user` entity can be accessed in the `roqClient.user` properties:
+To update a user profile, we can use the `update` method from the `user` entity. This `user` entity can be accessed in the `roqBrowserClient.user` properties:
 
-```ts
-import { roqClient } from "/lib/roq";
-import { useSession } from "@roq/nextjs";
+```tsx
+import { roqBrowserClient } from '@/lib/roq/roq-client';
+import { useSession } from "@/lib/roq";
 
 const handleSubmit = async (e) => {
     e.preventDefault();
     
-    const getUserId = await roqClient.user.findMany({
+    const getUserId = await roqBrowserClient.user.findMany({
         where: {
             email: session?.user.email,
         },
     });
 
-    const myUserProfile = await roqClient.user.update({
+    const myUserProfile = await roqBrowserClient.user.update({
         data: {
             firstName: profile.firstName,
             lastName: profile.lastName,

@@ -4,7 +4,7 @@ import { Steps } from "nextra/components"
  
 In this tutorial, we will learn how to retrieve and render a list of data from ROQ in Next.js. We will use the ROQ SDK to query data from BaaS and render the data in a list.
 
-This tutorial is about a straightforward Software as a Service (SaaS) platform for freelance workers. The platform will have two unique user roles, namely the **Business Owner** and the **Freelancer**. The **Business Owner** will be able to create projects while the "Freelancer" will have the ability to view and apply for projects. This tutorial will only cover the **Freelancer** role.
+This tutorial is about a straightforward Software as a Service (SaaS) platform for freelance workers. The platform will have two unique user roles, namely the **Business Owner** and the **Freelancer**. The **Business Owner** will be able to create projects while the **Freelancer** will have the ability to view and apply for projects. This tutorial will only cover the **Freelancer** role.
 
 ## Project setup
 
@@ -12,26 +12,24 @@ Before we start, make sure to follow the previous tutorial:
 
 - [How to save data in Next.js](/tutorials/accessing-data/save-data-in-nextjs)
 
-    The tutorial will guide you through the process of setting up a Next.js application and connecting it to ROQ BaaS.
-
-    There are some changes to the code from the previous tutorial. These changes are necessary because we will build the app for the **Freelancer** role this time. The changes are:
+    The tutorial will guide you through the process of setting up a Next.js application and connecting it to ROQ BaaS. There are some changes to the code from the previous tutorial. These changes are necessary because we will build the app for the **Freelancer** role this time. The changes are:
 
     - Change the roles to `freelancer` when the user (freelancer) registers or sign-in. 
     - Change the page to redirect to the `freelancer` page for any successful login.
 
-    The `index.tsx` page is responsible for user authentication. We will change the code to the following:
+    The `pages.tsx` page is responsible for user authentication. We will change the code to the following:
 
-    ```tsx {6, 10} filename="src/pages/index.tsx"
+    ```tsx {6, 10} filename="src/app/page.tsx"
     import { roqBrowserClient } from "@/lib/roq/roq-client";
 
     export default function Home() {
 
         const handleSignUp = async () => {
-            await roqBrowserClient.signUp('freelancer', { postLoginRedirect: '/freelancer' });
+            await roqBrowserClient.signUp('freelancer', { postLoginRedirect: 'http://localhost:3000/freelancer' });
         };
 
         const handleSignIn = async () => {
-            await roqBrowserClient.signIn('freelancer', { postLoginRedirect: '/freelancer' });
+            await roqBrowserClient.signIn('freelancer', { postLoginRedirect: 'http://localhost:3000/freelancer' });
         };
 
         return (
@@ -100,7 +98,6 @@ JSON:API is utilized to create REST APIs in ROQ BaaS, resulting in JSON-format r
 }
 ```
 
-
 ### Query data without filters
 
 Fetching data without filters means retrieving all records from a particular dataset without any constraints. In the ROQ SDK, this can be done using methods that do not require any arguments that specify filtering criteria.
@@ -126,11 +123,9 @@ We will build a simple project list to show all projects that have been created 
 
 ### Create a project list page
 
-Create a new page called `freelancer.tsx` in the `pages` directory. The page will be the project list for the freelancer. 
+Create a new page called `page.tsx` in the `src/app/freelancer` directory. The page will be the project list for the freelancer. The code below is the complete code for the page:
 
-The code below is the complete code for the page:
-
-```tsx filename="src/pages/freelancer.tsx"
+```tsx filename="src/app/freelancer/page.tsx"
 import { roqBrowserClient } from "@/lib/roq/roq-client";
 import { useSession } from '@/lib/roq/roq-hooks';
 import { useEffect, useState } from 'react';
@@ -202,9 +197,9 @@ The code above will retrieve all project data from BaaS and sort the data by the
 
 ### Create a project list component
 
-Create a new component called `project-list.tsx` in the `pages` directory. This component is the `<ProjectList>` component that we used in the previous code. The component will render the list of projects that the **Business Owner** has created.
+Create a new component called `project-list.tsx` in the `src/app` directory. This component is the `<ProjectList>` component that we used in the previous code. The component will render the list of projects that the **Business Owner** has created.
 
-```tsx filename="src/pages/project-list.tsx"
+```tsx filename="src/app/project-list.tsx"
 import React from 'react';
 import { ProjectListType } from '@/interface/project-data-types';
 
@@ -251,7 +246,6 @@ This page uses an interface to define the data type for the project list. Open t
 
 
 ```tsx filename="src/interface/project-data-types.ts"
-
 // the code here is the same as before 
 
 interface ProjectListType {

@@ -21,13 +21,13 @@ Users also have the option to edit the name of an existing role. On this page, v
 - Configuring which user roles are permitted to invite other user roles (e.g., a recruiter user role inviting a freelancer user role to the application)
 - Linking to the configuration of permissions (access management rules).
 
-All changes made on this page take effect in real-time.
+All changes made on this page take effect in real time.
 
 ## Setting up and configuring Access Management
 
 In ROQ, the interaction of user roles and permissions is essential to control access to data entities. This comprises three core aspects: users, data, and access to data. Data access is managed through the Access Management system, which encompasses roles and permissions. After defining user roles, configuring multi-tenancy, and establishing the backend data schema, users can specify the access permissions for particular user roles within the data schema. Each role can have Create, Read, Update, and Delete permissions for data schema entities. Furthermore, each level of access can be defined with a specific scope: none, tenant, own, or all.
 
-To simplify this, consider the example of building a restaurant management software. The tenants are restaurants, and user roles include chefs, waiters, and customers (end consumers, not associated with a tenant). Meanwhile, the data schema includes entities such as "Menu." With the Access Management page in the Console, you can easily set rules like "Chefs can edit their restaurant's menu" or "End consumers can view menus from all restaurants." All these configurations occur in real-time without the need for app publishing or deployment.
+To simplify this, consider the example of building a restaurant management software. The tenants are restaurants, and user roles include chefs, waiters, and customers (end consumers not associated with a tenant). Meanwhile, the data schema includes entities such as "Menu." With the Access Management page in the Console, you can easily set rules like "Chefs can edit their restaurant's menu" or "End consumers can view menus from all restaurants." All these configurations occur in real time without the need for app publishing or deployment.
 
 ### AI Autofill
 

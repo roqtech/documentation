@@ -4,39 +4,68 @@ import { Steps } from 'nextra/components'
 
 In this tutorial, we will build a form to save data to ROQ using Next.js. We will use the ROQ SDK to save data to the database.
 
-Let's build a simple SaaS works marketplace for freelancers. The application will have two user roles: **Business Owner** and **Freelancer**. The **Business Owner** will be able to create projects, and the **Freelancer** will be able to see the available projects and apply to projects. This tutorial will only cover the **Business Owner** role. We will cover the **Freelancer** role in the next tutorial.
+Let's build a simple SaaS works marketplace for freelancers. The application will have two user roles: **Business Owner** and **Freelancer**. The **Business Owner** will be able to create projects, and the **Freelancer** will be able to see the available projects. This tutorial will only cover the **Business Owner** role, we will cover the **Freelancer** role in the next tutorial.
 
 ## Project setup
-
 
 <Steps>
 ### Create an application
 
-Before we start, first make sure to generate an application using [ROQ Console](https://console.roq.tech). Create user roles: **Business Owner** and **Freelancer**, create the application data model or schema, and configure the access management for the data model.
+To create a new application you need to have a ROQ Console account. If you don't have one, please create an account at [ROQ Console](https://console.roq.tech/register) and read this [guide](/example-app#create-a-new-application) to learn how to create an application. 
+
+If you want to follow in detail in this tutorial, these are the application configurations we used in the ROQ Console:
+
+#### Create registration form variants
+
+We need to create a registration form variant for the **Business Owner** and **Freelancer** roles. So when the user register or login will be redirected to the correct page based on the role.
+
+Go to the [ROQ Console](https://console.roq.tech) and click the **Authentication** menu. Then click the **Design** and then create a new registration form variant using the **+ Create Form** button. 
+
+![registration form variants](/screenshots/freelancer-inc-registration-form-variants.png)
+
+Create one each role for **Business Owner** and **Freelancer**. The registration form variants key should be `business-owner` and `freelancer` and these will be used in the code later.
+
+#### Create user roles
+
+The user roles we use are: **Business Owner** and **Freelancer**.
+
+![user roles](/screenshots/freelancer-inc-user-roles.png)
+
+Please note that each roles will have different registration form variants. This make sure that the user will be able to register or signin with the correct role. For example, the **Business Owner** will have the `business-owner` registration form variant and the **Freelancer** will have the `freelancer` registration form variant.
+
+#### Configure project schema
+
+To change the data model, you need to acces the schema editor. Go to the [ROQ Console](https://console.roq.tech) and click the **Schema Editor** menu. 
+
+![project schema](/screenshots/freelancer-inc-project-schema.png)
+
+Make sure to publish any changes, it will take a while and ROQ will notify you via email when the changes are published.
+
+#### Configure access management
+
+Next, we need to configure the access management for users and make sure to publish any changes.
+
+![user access management](/screenshots/freelancer-inc-access-management.png)
 
 ### Next.js quickstart
 
-After application creation, for futher development, follow the next steps in this tutorial:
-
-- [Next.js Quickstart](/next-js#create-a-nextjs-application)
-
-The quickstart will initialize our freelancer works marketplace project with signup, login, and logout features.
+For further development, we should create another clean Next.js application outside the ROQ Console. Read this [Next.js quickstart](/next-js#create-a-nextjs-application) guide to initialize the Next.js application with signup, login, and logout features.
 
 ### Code changes
 
-There are a few changes to the login page's `index.tsx`. We need to replace the role for sign-in and sign-up process with the role we created in the project setup, which is `business-owner`, and change the redirect page `postLoginRedirect` to `/projects`:
+There are a few changes to the login page's `src/app/page.tsx`. We need to replace the role for sign-in and sign-up process with the role we created in the project setup, which is `business-owner`, and change the redirect page `postLoginRedirect` to `/projects`:
 
-```tsx {6, 10} filename="src/pages/index.tsx"
+```tsx {6, 10} filename="src/app/page.tsx"
 import { roqBrowserClient } from "@/lib/roq/roq-client";
  
 export default function Home() {
  
   const handleSignUp = async () => {
-    await roqBrowserClient.signUp('business-owner', { postLoginRedirect: '/projects' });
+    await roqBrowserClient.signUp('business-owner', { postLoginRedirect: 'http://locallhost:3000/projects' });
   };
  
   const handleSignIn = async () => {
-    await roqBrowserClient.signIn('business-owner', { postLoginRedirect: '/projects' });
+    await roqBrowserClient.signIn('business-owner', { postLoginRedirect: 'http://localhost:3000/projects' });
   };
 
   return (
@@ -44,6 +73,7 @@ export default function Home() {
   );
 }
 ```
+
 
 </Steps>
 
@@ -62,7 +92,7 @@ const company_id = "22d80a45-0cf6-445d-a5db-f1091c6cb5d6"
 
 const project = await roqBrowserClient.project.create({
     data: {
-        id: uuidv4(),
+        id: "id_here",
         name: 'AI Chatbot',
         description: 'AI Chatbot for customer service',
         status: 'open',
@@ -116,9 +146,9 @@ Now that we have a basic understanding of how to save data to ROQ let's build a 
 
 ### Create a project form component
 
-Create a `project-form.tsx` file in the same folder as `index.tsx` and add the following code:
+Create a `project-form.tsx` file in the same folder as `src/app/page.tsx` and add the following code:
 
-```tsx filename="src/pages/project-form.tsx"
+```tsx filename="src/app/project-form.tsx"
 import React from 'react';
 import { ProjectFormProps } from '@/interface/project-data-types';
 import { v4 as uuidv4 } from 'uuid';
@@ -188,11 +218,18 @@ export default function ProjectForm({ projectData, onSubmit, status }: ProjectFo
 
 This component basically renders a form with the project data and a submit button. The `onSubmit` prop is a function that will be called when the form is submitted. The project form only creates a new project with a company relation but without a relation such as a task entity.
 
+We need also install `uuid` npm package to generate a unique ID for the freelance project. Run the following command to install the package:
+
+```bash
+npm i --save uuid 
+npm i --save-dev @types/uuid
+```
+
 ### Create a project page
 
-To use the `ProjectForm` component, we need to create a page that renders the form. Create a `projects.tsx` file in the same folder as `index.tsx`, `project-form.tsx` and add the following code:
+To use the `ProjectForm` component, we need to create a page that renders the form. Create a `src/app/projects/page.tsx` file and add the following code:
 
-```tsx filename="src/pages/projects.tsx"
+```tsx filename="src/app/projects/page.tsx"
 import { roqBrowserClient } from "@/lib/roq/roq-client";
 import { useSession } from '@/lib/roq/roq-hooks';
 import { useState } from 'react';
@@ -262,9 +299,9 @@ This page renders the `ProjectForm` component and passes the `handleFormSubmit` 
 
 ### Add interface for project data
 
-This project uses TypeScript, so we need to create an interface for project data types. Create a `project-data-types.ts` file in `src/interface` and add the following code:
+This project uses TypeScript, so we need to create an interface for project data types. Create a `project-data-types.ts` file in `src/app/interface` folder and add the following code:
 
-```tsx filename="src/pages/project-data-types.ts"
+```tsx filename="src/app/inerface/project-data-types.ts"
 interface ItemType {
     id: string;
     name: string;
@@ -290,7 +327,7 @@ type ProjectFormProps = {
 export type { ItemType, StatusMessageType, ProjectFormProps };
 ```
 
-Then we can import the interface in `project-form.tsx` and `projects.tsx`:
+Then we can import the interface in `project-form.tsx` and `src/app/projects/page.tsx` files :
 
 ```tsx filename="src/pages/project-form.tsx"
 import { ProjectFormProps, ItemType, StatusMessageType } from '@/interface/project-data-types';

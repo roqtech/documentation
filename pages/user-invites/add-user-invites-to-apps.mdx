@@ -16,7 +16,7 @@ Before sending any user invitation, we need to get the user and tenant data. The
 For example, to get user dan tenant data from the session in Next.js:
 
 ```ts
-import { useSession } from "@roq/nextjs"
+import { useSession } from "@/lib/roq"
 
 const { session } = useSession()
 
@@ -32,13 +32,11 @@ You can use a button or any other UI element to trigger the user invitation proc
 
 After we get the user and tenant data and user invitation UI, we can send the invitation using the [`sendUserInvites()`](/user-invites/api#senduserinvites) API method. This method will send an invitation to the user's email. This invitation supports multiple users so that we can send multiple invitations in one request.
 
-```ts
-import { useRoqClient } from '/lib/roq'
- 
-const roqClient = useRoqClient()
+```tsx
+import { roqBrowserClient } from '@/lib/roq/roq-client';
  
 const status = async () => {
-    const userInvitations = await roqClient.roqPlatform.sendUserInvites({
+    const userInvitations = await roqBrowserClient.roqPlatform.sendUserInvites({
         userInvites: {
             tenantId: 'ee764883-f2c3-4486-9de6-070345e350af',
             userInvites: [{
@@ -61,12 +59,10 @@ In some cases, we need to resend the invitation, so we can utilize the [`resendU
 After we send the invitation, we can track the invitation status using the [`userInvites()`](/user-invites/api#userinvites) API method. This method will return the user invitation status, which can be used to check the invitation status.
 
 ```ts
-import { useRoqClient } from '/lib/roq'
- 
-const roqClient = useRoqClient()
+import { roqBrowserClient } from '@/lib/roq/roq-client';
  
 const userInvitesData = async() => { 
-    return await roqClient.roqPlatform.userInvites({
+    return await roqBrowserClient.roqPlatform.userInvites({
         limit: 10
     })
 }

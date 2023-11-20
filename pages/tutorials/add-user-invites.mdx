@@ -28,7 +28,7 @@ The process starts with a user's decision to send an invitation. To send any inv
 In Next.js, we can get the user data from the session:
 
 ```tsx
-import { useSession } from "@roq/next.js"
+import { useSession } from "@/lib/roq"
 
 const { session } = useSession()
 
@@ -40,7 +40,7 @@ Another way we can query these data is using the `findMany()` on the `user` enti
 
 ```tsx
 const getUserData = async () => {
-  const userData = await roqClient.user.findMany({
+  const userData = await roqBrowserClient.user.findMany({
     where: {
       email: {
         equals: "t.justin@roq.tech"
@@ -75,7 +75,7 @@ The `sendUserInvites()` API invites users and automatically creates a user invit
 
 ```tsx
 const status = async() => {
-  await roqClient.roqPlatform.sendUserInvites({
+  await roqBrowserClient.roqPlatform.sendUserInvites({
     userInvites: {
       tenantId: 'dc92f95d-42bd-45af-84a7-da227d694cbb',
       userInvites: [{
@@ -120,7 +120,7 @@ In case we want to resend the invitation, we can use the ID from the `sendUserIn
 
 ```tsx
 const resendUserInvitationStatus = async() => {
-    const userInviteModel = await roqClient.roqPlatform.resendUserInvite({
+    const userInviteModel = await roqBrowserClient.roqPlatform.resendUserInvite({
         userInviteId: "db7a682d-6dca-4259-b15b-83aef12d1f5c"
     })
 }
@@ -154,20 +154,20 @@ const resendUserInvitationStatus = async() => {
 In Next.js, it is easy to implement a form that allows users to invite others via email:
 
 ```tsx filename="invite.tsx"
+"use client"
+
 import { useState } from 'react'
-import { useRoqClient } from '@/lib/roq'
-import { useSession } from '@roq/nextjs'
+import { roqBrowserClient } from "@/lib/roq/roq-client";
+import { useSession } from '@/lib/roq'
 
 export default function InvitePage() {
   const { session } = useSession();
   const [email, setEmail] = useState('')
   const [statusMessage, setStatusMessage] = useState('')
 
-  const roqClient = useRoqClient()
-
   const handleInvite = async () => {
     if (session?.roqUserId && session?.user?.tenantId) {
-      await roqClient.roqPlatform.sendUserInvites({
+      await roqBrowserClient.roqPlatform.sendUserInvites({
         userInvites: {
           tenantId: session.user.tenantId,
           userInvites: [{
@@ -210,12 +210,10 @@ The invitee gets a notification by email.
 The recipient can choose to either accept or decline the invitation and then we can check the invitation status using the `userInvites()` API.
 
 ```tsx
-import { useRoqClient } from '@roq/nextjs'
-
-const roqClient = useRoqClient()
+import { roqBrowserClient } from "@/lib/roq/roq-client";
 
 const findUserInvitebyEmail = async() => {
-    const inviteeData = await roqClient.roqPlatform.userInvites({
+    const inviteeData = await roqBrowserClient.roqPlatform.userInvites({
         filter: {
             email: {
                 equalTo: "wick.john@roq.tech"
@@ -258,9 +256,11 @@ If the invitee accepts the invitation, the response `status` will have an `accep
 In this Next.js page, we will use it for a single email use case. To support more emails, we need a better solution for auto status checking rather than polling.
 
 ```tsx filename="invite.tsx"
+"use client"
+
 import { useState, useEffect } from 'react'
-import { useRoqClient } from '@/lib/roq'
-import { useSession } from '@roq/nextjs'
+import { roqBrowserClient } from "@/lib/roq/roq-client";
+import { useSession } from '@/lib/roq'
 
 export default function InvitePage() {
   const { session } = useSession()
@@ -269,12 +269,10 @@ export default function InvitePage() {
   const [inviteStatus, setInviteStatus] = useState('pending')
   const POLL_INTERVAL = 5000 // Polling every 5 seconds
 
-  const roqClient = useRoqClient()
-
   useEffect(() => {
     const pollInviteStatus = setInterval(async () => {
       if (email) {
-        const inviteeData = await roqClient.roqPlatform.userInvites({
+        const inviteeData = await roqBrowserClient.roqPlatform.userInvites({
           filter: {
             email: {
               equalTo: email
@@ -293,7 +291,7 @@ export default function InvitePage() {
 
   const handleInvite = async () => {
     if (session?.roqUserId && session?.user?.tenantId) {
-      await roqClient.roqPlatform.sendUserInvites({
+      await roqBrowserClient.roqPlatform.sendUserInvites({
         userInvites: {
           tenantId: session.user.tenantId,
           userInvites: [{
@@ -337,7 +335,7 @@ We can use `cancelUserInvite()` to cancel a user invitation.
 
 ```tsx
 const cancleInvitation = async() => {
-    const cancelStatus = await roqClient.roqPlatform.cancelUserInvite({
+    const cancelStatus = await roqBrowserClient.roqPlatform.cancelUserInvite({
         userInviteId: "db7a682d-6dca-4259-b15b-83aef12d1f5c"
     })
     return cancelStatus

@@ -1,0 +1,70 @@
+import { Callout } from 'nextra-theme-docs'
+
+# Registration forms
+
+## Introduction
+
+The registration form's configuration can be done in the [ROQ Console](https://console.roq.tech). Access the registration forms by navigating to **Design** under the **Authentication** menu.
+
+![Authentication Design](/screenshots/console-registration-design.png)
+
+You can create multiple registration form variants and customize them as you need. What's important to know is that every registration form has a unique key. This key is used to identify the registration form variant when you need to use it in your application.
+
+## Default Registration Form
+
+In every newly generated application, you will have a default registration form. This form is used by default when a user needs to register to your application. Programmatically, you don't need to pass any key to the signup method to use this form.
+
+<Callout type='info'>
+Please read [here](/user-registration/registration-button) to learn how to add a registration button to your application code.
+</Callout>
+
+## Registration Form Variants
+
+Other than the default registration form, you can create registration form variants. This type of form is needed to display a custom form to the user for a specific business case.
+
+To create a registration form variant, click the **+ Create A Form** button. The Console will then prompt you to provide a name for the form, as well as a unique key that will be used to identify the form when you need to use it in your application.
+
+![Create a registarion form variant](/screenshots/create-form-variant.png)
+
+### How to Customize a Registration Form Variant
+
+This customization is specific to a selected registration form variant. If you choose `Owner (default)`, then the customization will only affect the `Owner (default)` registration form variant.
+
+These are the customization options available for a registration form variant:
+
+#### Sign-in options
+
+There are two settings available for the sign-in options:
+
+- **Email confirmation**: Enable this if you want to send an email to the user to confirm his email address.
+- **Social Sign-in**: Enable this if you want to allow users to sign in using social providers such as Google, Facebook, GitHub, and LinkedIn. These options are only shown when you have already enabled the social integrations.
+
+#### Form configuration
+
+These are the fields that you can configure on the registration form:
+
+- **First Name**
+- **Last Name**
+- **Hide Registration**
+- **Two-factor Authentication**
+- **Email label & placeholder**
+- **Password label & placeholder**
+- **Terms and Conditions Link**
+- **Privacy Policy Link**
+
+<Callout type="info" emoji="ℹ️">
+If you enable `Hide Registration`, the `First Name` and `Last Name` fields won't be shown on the login form even if you enable them.
+</Callout>
+
+#### Default roles
+
+In the ROQ Console, you can add roles manually to the registration form. This is particularly useful when you want to assign a specific role to a user based on the form they used to register for your application. The roles will also automatically be added to the form when configuring user roles.
+
+#### Multitenancy
+
+ROQ is a multitenancy platform. This means that you can have multiple companies in your application. If you want to enable the multitenancy feature. During registration, you can customize the registration form to:
+
+- **Create a new Company automatically during registration**
+- **Assign users to Default Company during registration**
+- **Show Company field on registration form**: If enabled, you can also customize the label and placeholder for the Company field.
+
