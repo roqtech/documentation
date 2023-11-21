@@ -2,22 +2,24 @@ import { Callout, Steps } from 'nextra/components';
 
 # Application Deployment on Vercel
 
-There are so many application hosting services. The generated application is Node.js and Next.js based, so as long as the hosting service support that then it will be ok. 
+There are numerous application hosting services available, but we will focus on Next.js applications. As long as the hosting service supports Next.js, it will work. We will use [Vercel's application hosting service](https://vercel.com/). 
 
-For this documentation, we will use [Vercel](https://vercel.com/). 
- 
 ## Vercel
 
-There are a few steps that should be done before deploying our generated application into Vercel.
+There are a few steps that should be taken before deploying our application into Vercel.
 
 <Steps>
-### Create Vercel account
+### App development using ROQ BaaS SDK
 
-Creating a Vercel account is a straightforward process. Go to [https://vercel.com/signup](https://vercel.com/signup). You can choose **Hobby** or **Pro** and name the project whatever you need.
+Before deploying an app to Vercel, you should have an application using ROQ BaaS SDK. Please follow this [getting started](/example-app) to create a new application and [Next.js quickstart](/next-js) for quick integration with ROQ BaaS SDK. Make sure the application is also saved into a Git repository, such as GitHub, GitLab, or Bitbucket.
+
+### Create a Vercel account
+
+Creating a Vercel account is a straightforward process. Go to [https://vercel.com/signup](https://vercel.com/signup) to signup. You can choose **Hobby** or **Pro** and name the project whatever you need.
 
 ![vercel reg page](/screenshots/vercel-create-account.png)
 
-Vercel will try to connect the new account with git providers or you can use the email instead. You can use any git provider, such as GitHub, GitLab, or Bitbucket and for this documentation, we will use GitHub.
+Vercel will try to connect the new account with git providers, or you can use the email instead. You can use any git provider, such as GitHub, GitLab, or Bitbucket, and for this documentation, we will use GitHub.
 
 ![Vercel git providers](/screenshots/vercel-git-provider.png)
 
@@ -28,26 +30,33 @@ To import a project, click the **Add New...** → **Project**. This will bring y
 
 ![vercel importing project](/screenshots/vercel-import-project.png)
 
+{/*
 <Callout type="info">
-Please make sure you have a GitHub account and you application development source code is already pushed into GitHub.
+Please make sure you have a GitHub account, and your application development source code is already pushed into GitHub.
 </Callout>
+*/}
 
 ### Deployment Kickstart
 
-For instance, choose **freelancer-inc** into our Vercel project and import it into Vercel.
+For instance, choose the **freelancer-inc** project into our Vercel project and import it into Vercel.
 
 ![Vercel first deployment](/screenshots/vercel-first-deploy.png)
 
-You need to deploy the project first to get into the Vercel project settings. We will set up the environment settings later.
+You must deploy the project first to get into the Vercel project settings. We will set up the environment settings later.
 
 <Callout type="warning">
-The deployment will be an error because we haven't set the environment settings yet. After this initial build, we will get the project domain name from Vercel which we will need later for the project environment settings. 
+The deployment will be an error because we still need to set the environment settings. After this initial build, we will get the project domain name from Vercel, which we will need later for the project environment settings. 
 </Callout>
 
 ### Setup Environment Variables
 
-To get the project domain name go to the Vercel project **Settings** → **Domains**. For example, the project domain name is `freelancer-inc.vercel.app`. You need to set these fields with the domain name from Vercel:
+To get the project domain name, go to the Vercel project **Settings** → **Domains**. For example, the project domain name is `freelancer-inc.vercel.app`.
 
+![Vercel settings](/screenshots/vercel-project-settings.png)
+
+#### ROQ Console Environments
+
+You need to set this base URL `freelancer-inc.vercel.app` of the project. Log in to the [ROQ Console](https://console.roq.tech) and go to **Domain & URLs**. You need to set up these fields:
 
 | Key | Value |
 | --- | --- |
@@ -56,38 +65,32 @@ To get the project domain name go to the Vercel project **Settings** → **Domai
 | Allowed Logout URLs | `https://freelancer-inc.vercel.app/api/auth/logout` |
 | Allowed Callback URLs | `https://freelancer-inc.vercel.app/api/auth/callback` |
 
+![Vercel base URL ROQ environment settings](/screenshots/vercel-base-url-roq-env.png)
 
-![Vercel settings](/screenshots/vercel-project-settings.png)
-
-
-#### ROQ Console Environments
-
-You need to set this base URL `freelancer-inc.vercel.app` of the project in ROQ Console.
-
-![Vercel base URL ROQ environment settings](/vercel-base-url-roq-env.png)
-
-Make sure you change all base URL settings on ROQ Console, save it, and then click the **Copy Env File** button for the *Extended environment variables for ROQ's authentication feature*. 
-
-Copy all the environment variables and save them somewhere or save them into `.env.prod` file in our locally generated project repository.
+Make sure you change all base URL settings on ROQ Console, save it, and then click the **Copy Env File** button for the *Extended environment variables for ROQ's authentication feature*. Copy all the environment variables and save them somewhere or save them into a `.env` file in our locally generated project repository.
 
 #### Vercel Environments
 
-The next step is to import `.env.local` into our Vercel project. Go to **Settings** → **Environment Variables**. 
+The next step is to import the `.env` file into our Vercel project. Go to **Settings** → **Environment Variables**. 
 
-![vercel import settings](/vercel-import-env.png)
+![vercel import settings](/screenshots/vercel-import-env.png)
 
-and then click the **Import** button
+And then click the **Import** button to populate the environment variables from the `.env` file.
 
-![vercel import envs](/vercel-import-env-2.png)
+![vercel import envs](/screenshots/vercel-import-env-2.png)
+
+Another easy way to populate environment variables is to drag and drop the `.env` file into the **Environment Variables** section.
+
+![drag n drop import](/screenshots/vercel-import-env-dnd.png)
 
 <Callout type="info">
-At this stage, the project can be redeployed manually from the Vercel Deployment tab. The build process will be successful; however, please note that creating an account is currently not possible as the database has not been set up yet.
+At this stage, the project can be redeployed manually from the Vercel Deployment tab or if you push any changes in the connected repository branch. The build process will be successful.
 </Callout>
 
 {/*
 ### Setup PostgreSQL
 
-We will use the PostgreSQL database. This database is supported by Vercel and it's quite easy to set up.
+We will use the PostgreSQL database. Vercel supports this database and it's quite easy to set up.
 
 ![Create vercel database](/vercel-create-database.png)
 
@@ -144,6 +147,6 @@ The `postinstall` will try to generate SQL and apply any changes to PostgreSQL. 
 
 To test the installation, open the browser and go to the project URL.
 
-![project URL](/vercel-test.png)
+![project URL](/screenshots/vercel-test.png)
 
 </Steps>
