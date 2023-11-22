@@ -33,9 +33,11 @@ The ROQ platform doesn't yet support Next.js 14's new App Router architecture, b
 </Callout>
 */}
 
-The ROQ Platform supports both Next.js' Page Router and App Router architectures. To learn more about the difference, please refer to [Next.js documentation](https://nextjs.org/docs/routing/introduction).
+The ROQ Platform supports both Next.js' **Page Router** and **App Router** architectures. To learn more about the difference, please refer to [Next.js documentation](https://nextjs.org/docs/routing/introduction).
 
+{/*
 We will use Next.js project with **App Router** feature in this quickstart.
+*/}
 
 ### Install ROQ BaaS SDK
 
@@ -79,17 +81,18 @@ If any changes are made to the project schema or entities after the project crea
 
 The command generates a customizable SDK based on the Prisma BaaS schema and chosen environment. The default location for the code generated is `src/lib/roq`.
 
-{/*
-<Tabs items={["App Router"]}>
+The next steps will be different depending on whether you are using Next.js with **App Router** or **Page Router**.
+
+<Tabs items={["App Router", "Page Router"]}>
 <Tab>
-*/}
+
 ### Configure Next.js with ROQ authentication
 
 To make our Next.js project seamlessly work with ROQ Authentication, we need to configure the project first. 
 
-Add file `src/app/api/auth/[...roqAuth]/route.ts` and fill with this code: 
+Create folders `src/app/api/auth/[...roqAuth]` and add file `route.ts` then fill with this code: 
 
-```ts filename="route.ts"
+```ts filename="src/app/api/auth/[...roqAuth]/route.ts"
 import { RoqAuth } from '@roq/nextjs';
 
 const handler = RoqAuth({
@@ -232,20 +235,31 @@ export default function Home() {
 
 After successful signup, the page will be redirected to the user page, and Next.js will get a token that will be used for any further request to the REST API from ROQ Baas.
 
-{/*
 </Tab>
-*/}
-{/*
+
 <Tab>
 ### Configure Next.js with ROQ authentication
 
 We need to configure the project first to make our Next.js project seamlessly work with ROQ Authentication. 
 
-Add file `pages/api/auth/[...roqAuth].ts` and fill with this code:
+Create folders `src/app/api/auth/[...roqAuth]` and add file `route.ts` then fill with this code: 
 
-```ts filename="[...roqAuth].ts"
+```ts filename="src/app/api/auth/[...roqAuth]/route.ts"
 import { RoqAuth } from '@roq/nextjs';
-export default RoqAuth({});
+
+const handler = RoqAuth({
+  hooks: {
+    // This hook is optional - and can be used to persist user information,
+    // or as in the case below, send them a welcome notification
+
+    onRegisterSuccess: async ({ user }) => {
+    },
+
+    onLoginSuccess: async ({ user }) => {},
+  },
+});
+
+export { handler as GET, handler as POST }
 ```
 
 After that, we can add a signup button, and the user will be redirected to the other page if the signup process is successful.
@@ -256,11 +270,11 @@ import { roqBrowserClient } from "@/lib/roq/roq-client";
 export default function Home() {
 
   const handleSignUp = async () => {
-    await roqBrowserClient.signUp('owner', { postLoginRedirect: '/user' });
+    await roqBrowserClient.signUp('owner', { postLoginRedirect: 'http://localhost:3000/user' });
   };
 
   const handleSignIn = async () => {
-    await roqBrowserClient.signIn('owner', { postLoginRedirect: '/user' });
+    await roqBrowserClient.signIn('owner', { postLoginRedirect: 'http://localhost:3000/user' });
   };
 
   return (
@@ -360,11 +374,7 @@ export default function Home() {
 
 After successful signup, the page will be redirected to the user page, and Next.js will get a token that will be used for any further request to the REST API from ROQ Baas.
 </Tab>
-*/}
-
-{/*
 </Tabs>
-*/}
 
 ### Start the Next.js application
 
