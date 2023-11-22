@@ -8,14 +8,18 @@ ROQ Platform provides a unified way to send emails utilizing multiple providers 
 
 ## Send mails
 
+<Callout type="info">
+These APIs are only available from the server side of your application.
+</Callout>
+
 ### `sendMail()`
 
 The `sendMail()` method can be used to send emails. It returns the number of emails sent.
 
-<Tabs items={['Node.js']}>
+<Tabs items={['JavaScript']}>
 <Tab>
 ```typescript
-await client.asSuperAdmin().sendMail({
+await roqServerClient.roqPlatform.asSuperAdmin().sendMail({
   mail: {
       key: 'onboarding',
       locale: 'en-US',
@@ -34,6 +38,27 @@ await client.asSuperAdmin().sendMail({
 | `data`    | array  | Array with key/value pairs. You can use this data in the template             |
 
 
-<Callout type="info">
-This endpoint is only available from the server side of your application.
-</Callout>
+### `sendUserResetPasswordMail()`
+
+The `sendUserResetPasswordMail()` method can be used to send a reset password email to a user.  
+
+<Tabs items={['JavaScript']}>
+<Tab>
+```typescript
+await roqServerClient.roqPlatform.asSuperAdmin().sendUserResetPasswordMail({
+  userId: "5f9b3b1b-3b1b-4b3b-9b3b-1b3b4b3b9b3b"
+});
+```
+</Tab>
+</Tabs>
+
+The returns value:
+
+```json
+{"data": {"sendUserResetPasswordMail": true}}
+```
+
+| Parameter | Type   | Description                                                                   |
+|-----------|--------|-------------------------------------------------------------------------------|
+| `userId`     | string | user ID of the user that you want to send the reset password email to |
+
