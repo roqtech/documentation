@@ -15,7 +15,7 @@ The `sendMail()` method can be used to send emails. It returns the number of ema
 <Tabs items={['Node.js']}>
 <Tab>
 ```typescript
-await client.asSuperAdmin().sendMail({
+await roqServerClient.roqPlatform.asSuperAdmin().sendMail({
   mail: {
       key: 'onboarding',
       locale: 'en-US',
