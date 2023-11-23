@@ -51,20 +51,22 @@ The file upload process flow is outlined as a series of steps below:
 <Tab>
 ```tsx
 const handleFileChange = async (event) => {
-    const file = event.target.files[0]
+	const file = event.target.files[0]
 
-    try {
-        const response = await roqBrowserClient.roqPlatform.createFileUpload({
-            data: {
-                name: file.name,
-                contentType: file.type,
-                fileCategory: 'USER_FILES',
-            },
-            const { uploadUrl } = response.createFileUpload
-        }) catch (err) {
-            console.log(err)
-        }
-    }
+	try {
+		const response = await roqBrowserClient.roqPlatform.createFileUpload({
+			data: {
+				name: file.name,
+				contentType: file.type,
+				fileCategory: 'USER_FILES',
+			}
+		})
+
+		const { uploadUrl } = response.createFileUpload
+
+	} catch (err) {
+		console.log(err)
+	}
 }    
 ```
 </Tab>
