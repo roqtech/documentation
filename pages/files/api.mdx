@@ -2,6 +2,32 @@ import {Tab, Tabs, Callout} from 'nextra/components'
 
 # API
 
+## File uploading
+
+### `createFileUpload()`
+
+Generate a signed URL using the `createFileUpload()` API. The API returns a **signed URL**, which is then used to upload the file directly from the user's browser to the object storage.
+
+<Tabs items={["JavaScript"]}>
+<Tab>
+```tsx
+await roqBrowserClient.roqPlatform.createFileUpload({
+    data: {
+        name: file.name,
+        contentType: file.type,
+        fileCategory: 'USER_FILES',
+    }
+})
+```
+</Tab>
+</Tabs>
+
+| Parameter      | Type   | Description                                      |
+| -------------- | ------ | -------------------------------------------------------------------- |
+| `name`         | string | Name of the uploaded file   |
+| `contentType`  | string | Mime type of the file, see [here](https://mimetype.io/all-types/) for a list of all types |
+| `fileCategory` | string | `Key` of the category of the file   |
+
 ## File reading
 
 This pertains to accessing and retrieving data from the uploaded files.
@@ -206,60 +232,6 @@ const upfileStatus =async () => {
 
 */}
 
-## File associations
-
-<Callout type="info" emoji="ℹ️">
-  This endpoint is only available from the server side of your application.
-</Callout>
-
-### `createFileAssociation()`
-
-Files usually belong to some other object. For instance, you may have PDFs which represent _"contracts"_. Or you may have images which are _"avatars"_ and so on. To simplify this, ROQ enables you to relate files with objects which are saved on your database. The advantage is that you don't need to add these relations to your own database. File associations will simplify the database schema.
-
-<Tabs items={['JavaScript']}>
-<Tab>
-```ts
-await roqServerClient.roqPlatform.asSuperAdmin().createFileAssociation({
-    data: {
-        entityName: "purchase_history",
-		entityReference: "3c0e2ce1-3105-447a-b214-ac1e0b1e7304",
-		fileId: "97eeb4da-d402-4a89-b034-bcb277b9e65c"
-  },
-});
-```
-</Tab>
-</Tabs>
-
-| Parameter         | Type   | Description     |
-| ----------------- | ------ |-----------------|
-| `fileId`          | UUID   | The ID of the file|
-| `entityReference` | UUID   | Reference (or ID) of the related entity in your database |
-| `entityName`      | string | Name of the object. This could be the name of the table in your database, e.g. _"purchase_history"_ |
-
-### `deleteFileAssociations()`
-
-Using this API will result in the deletion of any file associations.
-
-<Tabs items={["JavaScript"]}>
-<Tab>
-```js
-const delFileAssoc = await roqServerClient.roqPlatform.asSuperAdmin().deleteFileAssociations({
-    filter: {
-	    id: {
-		    equalTo: "7526d4b4-26db-4872-834d-68da2a1447e9"
-	    }
-    }
-})
-```
-</Tab>
-</Tabs>
-
-| Parameter         | Type     | Description                                                            |
-| ----------------- | -------- |------------------------------------------------------------------------|
-| `filter:id`       | object   | You can use `equalTo` or `valueIn` for the ID of the file associations |
-| `filter:fileId`   | object   | You can use `equalTo` or `valueIn` for the ID of the files             |
-
-
 ## File deletion
 
 ### `deleteFiles()`
@@ -300,8 +272,6 @@ To delete multiple files, utilize the `valueIn` filter option.
 | Parameter      | Type   | Description               |
 | -------------- | ------ | --------------------------|
 | `filter:id`    | object | The IDs of files to delete can be filtered using `equalTo` for a single file or `valueIn` for multiple file IDs.|
-
-
 
 ## File categories
 
@@ -489,3 +459,56 @@ cons private =async () => {
 | Parameter         | Type   | Description                                  |
 |-------------------|--------|-----------------|
 | `id`              | UUID   | The file ID to be made private.        |
+
+## File associations
+
+<Callout type="info" emoji="ℹ️">
+  This endpoint is only available from the server side of your application.
+</Callout>
+
+### `createFileAssociation()`
+
+Files usually belong to some other object. For instance, you may have PDFs which represent _"contracts"_. Or you may have images which are _"avatars"_ and so on. To simplify this, ROQ enables you to relate files with objects which are saved on your database. The advantage is that you don't need to add these relations to your own database. File associations will simplify the database schema.
+
+<Tabs items={['JavaScript']}>
+<Tab>
+```ts
+await roqServerClient.roqPlatform.asSuperAdmin().createFileAssociation({
+    data: {
+        entityName: "purchase_history",
+		entityReference: "3c0e2ce1-3105-447a-b214-ac1e0b1e7304",
+		fileId: "97eeb4da-d402-4a89-b034-bcb277b9e65c"
+  },
+});
+```
+</Tab>
+</Tabs>
+
+| Parameter         | Type   | Description     |
+| ----------------- | ------ |-----------------|
+| `fileId`          | UUID   | The ID of the file|
+| `entityReference` | UUID   | Reference (or ID) of the related entity in your database |
+| `entityName`      | string | Name of the object. This could be the name of the table in your database, e.g. _"purchase_history"_ |
+
+### `deleteFileAssociations()`
+
+Using this API will result in the deletion of any file associations.
+
+<Tabs items={["JavaScript"]}>
+<Tab>
+```js
+const delFileAssoc = await roqServerClient.roqPlatform.asSuperAdmin().deleteFileAssociations({
+    filter: {
+	    id: {
+		    equalTo: "7526d4b4-26db-4872-834d-68da2a1447e9"
+	    }
+    }
+})
+```
+</Tab>
+</Tabs>
+
+| Parameter         | Type     | Description                                                            |
+| ----------------- | -------- |------------------------------------------------------------------------|
+| `filter:id`       | object   | You can use `equalTo` or `valueIn` for the ID of the file associations |
+| `filter:fileId`   | object   | You can use `equalTo` or `valueIn` for the ID of the files             |
