@@ -22,11 +22,10 @@ In a framework like Next.js, the `sendMail` API can be called in the server-side
 ```ts filename="actions.ts"
 "use server"
 
-import { createServerClient } from "@/lib/roq/roq-server-client";
+import { roqServerClient } from "@/lib/roq/roq-server-client";
 
 export default async function Actions() {
-    const roqServerClient = createServerClient()
-
+    
     const sendEmailConfirmation = await roqServerClient.roqPlatform.asSuperAdmin().sendMail({
         mail: {
             emails: ["francis.84p@gmail.com"],

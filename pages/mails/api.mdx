@@ -19,6 +19,8 @@ The `sendMail()` method can be used to send emails. It returns the number of ema
 <Tabs items={['JavaScript']}>
 <Tab>
 ```typescript
+import { roqServerClient } from "lib/roq/roq-server-client";
+
 await roqServerClient.roqPlatform.asSuperAdmin().sendMail({
   mail: {
       key: 'onboarding',
@@ -45,6 +47,8 @@ The `sendUserResetPasswordMail()` method can be used to send a reset password em
 <Tabs items={['JavaScript']}>
 <Tab>
 ```typescript
+import { roqServerClient } from "lib/roq/roq-server-client";
+
 await roqServerClient.roqPlatform.asSuperAdmin().sendUserResetPasswordMail({
   userId: "5f9b3b1b-3b1b-4b3b-9b3b-1b3b4b3b9b3b"
 });
@@ -61,4 +65,3 @@ The returns value:
 | Parameter | Type   | Description                                                                   |
 |-----------|--------|-------------------------------------------------------------------------------|
 | `userId`     | string | user ID of the user that you want to send the reset password email to |
-
