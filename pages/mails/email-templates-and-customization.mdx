@@ -2,10 +2,10 @@ import { Callout } from "nextra-theme-docs"
 
 # Email templates and customization
 
-Before sending any emails you have to create a new email template and define a unique key in ROQ Console.
+Before sending any emails, you have to create a new email template and define a unique key in the ROQ Console.
 
 <Callout type="info">
-ROQ already provides email templates for *user invitation mail*, *reset password mail*, and *email confirmation* for usage such as registration confirmation. 
+ROQ already provides email templates for *user invitation mail*, *reset password mail*, and *email confirmation* for usage, such as registration confirmation. 
 </Callout>
 
 ## Email templates
@@ -37,51 +37,46 @@ To edit a template, click **Edit Template** button (pen icon) on **Controls** se
 To delete an email template, click the **Trash** button and confirm the deletion.
 
 <Callout type="warning">
-Be careful to delete any email template on ROQ Console. Make sure the email template is not used in any application code because it will make a runtime error if there is a code that sends an email with a nonexisting email template.
+Be careful to delete any email template on ROQ Console. Make sure the email template is not used in any application code because it will make a runtime error if there is a code that sends an email with a nonexistent email template.
 </Callout>
 
 ### Template Content
 
-The email content support custom variables which you can set later through code. Basically, you can create any text for the email content. You can use placeholders or variables for any content you submit in the `data` parameter of the [sendMail API](/mails/api#sendmail).
+The email content supports custom variables, which you can set later through code. You can create any text for the email content. You can use placeholders or variables for any custom content you submit.
 
-For instance using HTML content as a template for a **New Product Release** with custom variables: `recipients_name`, `website_url`, `support_contact`, `your_name`, `your_position`, and `your_contact_information`.
+For instance, using HTML content as a template for a new product with the key `product-name` and custom variables: `recipients_name` and `product_name`:
 
 ```html copy
 <!DOCTYPE html>
 <html>
 <head>
-    <title>New Product Release</title>
+    <title>{{product_name}}</title>
 </head>
 <body>
     <p>Hello {{recipients_name}},</p>
     
-    <p>I hope this email finds you well.</p>
+    <p>Exciting news! We've just released {{product_name}}, a managed backend for multi-tenant SaaS applications. It's designed to be easier to use and improve your workflow significantly.</p>
 
-    <p>We're thrilled to announce the release of our latest product, an innovative AI software designed to revolutionize the process of video captioning. This product promises to streamline your workflow and enhance your content's accessibility like never before.</p>
-
-    <h3>Our AI Captioner brings along the following impressive features:</h3>
-    
+    <p>Key features include:</p>
     <ul>
-        <li><strong>Automated Captioning:</strong> Our software uses cutting-edge AI technology to automatically transcribe and time-code video captions, reducing the need for manual intervention.</li>
-        <li><strong>Accuracy:</strong> We leverage the power of AI to deliver the highest level of accuracy, ensuring your content is represented as precisely as possible.</li>
-        <li><strong>Multilingual Support:</strong> Our software supports a wide range of languages, providing an inclusive experience for your diverse audience.</li>
-        <li><strong>Easy Editing:</strong> The AI Captioner provides an easy-to-use interface for reviewing and editing the automatically generated captions.</li>
-        <li><strong>Fast Turnaround:</strong> Thanks to the power of AI, we offer lightning-fast caption generation without compromising on accuracy or quality.</li>
+        <li>Authentication</li>
+        <li>Roles & Permissions</li>
+        <li>Organizations</li>
+        <li>Billing & Subscriptions</li>
+        <li>Schema builder</li>
     </ul>
 
-    <p>We strongly believe that this new software will make a significant difference in your content production, saving time and resources, and making your videos more accessible to a wider audience.</p>
+    <p>Try free and see the difference in your SaaS application development. Visit <a href="https://roq.dev">roq.dev</a> to get started.</p>
 
-    <p>We'd love to offer you a free trial so you can experience firsthand how the AI Captioner can revolutionize your content production process. Please visit our website at <a href="{{website_url}}">{{ website_url }}</a> to start your trial today.</p>
-
-    <p>If you have any questions, feel free to reply to this email or contact our support team at {{ support_contact}}.</p>
-
-    <p>Thank you for your time, and we look forward to your feedback on our newest innovation.</p>
-
-    <p>Best Regards,</p>
+    <p>Looking forward to your feedback,</p>
     
-    <p>{{your_name}}<br>
-    {{your_position}}<br>
-    {{your_contact_information}}</p>
+    <strong>ROQ Team</strong>
 </body>
 </html>
 ```
+
+Later, you can send email using this template with the help of [`sendMail()`](/mails/api#sendmail) API. 
+
+## What's next?
+
+- [How to send emails](/mails/send-emails)

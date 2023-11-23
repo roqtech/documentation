@@ -2,34 +2,61 @@ import { Callout, Steps } from 'nextra-theme-docs'
 
 # How to send emails
 
-There are a few steps to send emails using ROQ BaaS SDK. First, you need to configure an email provider. Then, you need to create an email template. Finally, you can send emails via API.
+There are a few steps to send emails using ROQ BaaS SDK:
+You need to configure an email provider.
+You need to create an email template.
+You can send emails via API.
 
 <Steps>
 ### Configure email provider
 
 Make sure that an email provider is connected and activated. You will find a list of all integrations in the [ROQ Console](https://console.roq.tech/). To set up the email integration, please read this [documentation](/mails#integration-with-email-service-providers) section.
 
-### Create email template
+### Create an email template
 
-Before sending emails, make sure to create email templates on ROQ Console. Read this [documentation](/mails/email-templates-and-customization) to create email template.
+Before sending emails, make sure to create email templates on the ROQ Console. To create an email template, read this [documentation](/mails/email-templates-and-customization).
 
 ### Send emails via API
 
-Emails are sent using the [sendMail API](/mails/api#sendmail). You need to use the same key which you set to the email type. For instance to send a **New Product News** email with the unique key `new-product-news` and have data variables: `recipients_name`, `website_url`, `your_name`, `your_position`, and `your_contact_information`, you can send the email by using generated SDK.
+Emails are sent using the [sendMail API](/mails/api#sendmail). You need to use the same key which you set to the email type. For instance, to send a new product email with the unique key `product-name` and data variables: `recipients_name` and `product_name`, you can send the email using the `sendMail()` API in the generated SDK.
 
-```ts
-import { RoqServerClient } from '@/lib/roq/roq-server-client';
- 
-const roqServerClient = new RoqServerClient()
- 
-const sendMyMail = async() => {
-    roqServerClient.roqPlatform.asSuperAdmin().sendMail({
+In a framework like Next.js, the `sendMail` API can be called in the server-side code. For example, in Next.js 14 and later, you can call the API by using [**Server Actions**](https://nextjs.org/docs/app/api-reference/functions/server-actions) features.
+
+```ts filename="actions.ts"
+"use server"
+
+import { createServerClient } from "@/lib/roq/roq-server-client";
+
+export default async function Actions() {
+    const roqServerClient = createServerClient()
+
+    const sendEmailConfirmation = await roqServerClient.roqPlatform.asSuperAdmin().sendMail({
         mail: {
-            key: 'onboarding',
-            locale: 'en-US',
-            emails: ['Fransic84@roq.tech'],
-            data: [{ key: 'name', value: 'Francis84 Columbus' }] }
+            emails: ["francis.84p@gmail.com"],
+            key: "product-name",
+            data: [
+                { key: 'recipients_name', value: 'Francis Bacon' }, 
+                { key: 'product_name', value: 'Bacon' }],
+            locale: "de-DE"
+        }
     })
 }
 ```
+
+With the `use server` directive, you can call the API directly in the Next.js Client Component. For example:
+
+```ts filename="page.tsx"
+import sendMailAction from "./actions.ts"
+
+export default function SendEmail() {
+    const sendEmail = async () => {
+        await sendMailAction()
+    }
+
+    return (
+        <button onClick={sendEmail}>Send Email</button>
+    )
+}
+```
+
 </Steps>
