@@ -62,7 +62,7 @@ const handleFileChange = async (event) => {
 			}
 		})
 
-		const { uploadUrl } = response.createFileUpload
+		const { uploadUrl } = response.createFileUploadV2
 
 	} catch (err) {
 		console.log(err)
@@ -109,7 +109,7 @@ The file will be uploaded using the provided **signed URL**, which means it is u
 Let's take an example, uploading a file using `axios`:
 
 ```tsx
-const { uploadUrl, formFields, id } = response.createFileUpload
+const { uploadUrl, formFields, id } = response.createFileUploadV2
 const formData = new FormData()
 
 for (let [key, value] of Object.entries(formFields || {})) {
@@ -128,6 +128,12 @@ try {
     if (response.status >= 200 && response.status < 300) {
 
         // Add set file status here
+		await roqBrowserClient.roqPlatform.updateFile({
+		    data: {
+			    fileId: id,
+				status: FileStatusEnum.Ready, 
+			}
+		})
         
         console.log('Upload successful!', response.data);
     } else {
