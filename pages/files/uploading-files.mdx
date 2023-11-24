@@ -45,26 +45,28 @@ The file upload process flow is outlined as a series of steps below:
 
 ### Generates a signed URL
 
-    The `createFileUpload()` method will return a signed URL. This URL is needed for uploading the file later.
+The [`createFileUpload()`](/files/api##createfileupload) API will return a signed URL. This URL is needed for uploading the file later.
 
 <Tabs items={["TypeScript", "Responses"]}>
 <Tab>
 ```tsx
 const handleFileChange = async (event) => {
-    const file = event.target.files[0]
+	const file = event.target.files[0]
 
-    try {
-        const response = await roqBrowserClient.roqPlatform.createFileUpload({
-            createFileDto: {
-                name: file.name,
-                contentType: file.type,
-                fileCategory: 'USER_FILES',
-            },
-            const { uploadUrl } = response.createFileUpload
-        }) catch (err) {
-            conssole.log(err)
-        }
-    }
+	try {
+		const response = await roqBrowserClient.roqPlatform.createFileUpload({
+			data: {
+				name: file.name,
+				contentType: file.type,
+				fileCategory: 'USER_FILES',
+			}
+		})
+
+		const { uploadUrl } = response.createFileUpload
+
+	} catch (err) {
+		console.log(err)
+	}
 }    
 ```
 </Tab>
@@ -102,9 +104,9 @@ const handleFileChange = async (event) => {
 
 ### Upload file using signed URL 
 
-    The file will be uploaded using the provided **signed URL**, which means it is uploaded directly from the user's browser to the object storage without sending it through your backend.
+The file will be uploaded using the provided **signed URL**, which means it is uploaded directly from the user's browser to the object storage without sending it through your backend.
 
-    Let's take an example, uploading a file using `axios`:
+Let's take an example, uploading a file using `axios`:
 
 ```tsx
 const { uploadUrl, formFields, id } = response.createFileUpload
@@ -150,15 +152,16 @@ Set the status of the file using the `updateFile()` API. When the upload is fini
 
 ```tsx
 await roqBrowserClient.roqPlatform.updateFile({
-    fileId: id,
-    status: FileStatusEnum.Ready,
+    data: {
+        fileId: id,
+        status: FileStatusEnum.Ready,
+    }
 })
 ```
 
 ### File upload completed
 
 With the completed file upload then we can check the file using the `file()` method.
-
 
 <Tabs items={["TypeScript", "Response"]}>
 <Tab>
