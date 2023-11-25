@@ -53,9 +53,25 @@ const fetchFilesWithFilters = async () => {
 The code above will fetch files with a file category equal to `USER_FILES` and limit the result to 20 files. Please look here for more information about [file category](/files/manage-file-categories).
 
 
-{/*
-Fetch files using file associations.
-*/}
 
+## Fetch files using file associations
 
+ROQ Platform provides a way to associate files with data models. For example, you can associate files with a project. To retrieve files linked with the project, you can filter files based on the `entityName` which is `project`:
 
+```tsx
+const fetchFileAssociations = async () => {
+    try {
+        const dataList = await roqBrowserClient.roqPlatform.files({
+            filter: {
+                entityName: {
+                    equalTo: "project"
+                }
+            }
+        });
+    } catch (error) {
+        console.error('Error fetching file associations:', error);
+    }
+}
+```
+
+The code above will fetch files associated with the project and files belonging to the current owner. Please look here for more information about [file API](/files/api).
