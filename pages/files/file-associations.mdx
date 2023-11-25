@@ -12,10 +12,9 @@ The file that needs to be associated can be accessed using the `files()` or `fil
 
 There are a few parameters that need to be passed to the `createFileAssociations()` API method:
 
-- **entityName**: The name of the entity that the file will be associated with. For example, `discussion_board` or `figure_inventory`.
+- **entityName**: The name of the entity that the file will be associated with. For example, `discussion_board` or `figure_inventory`. The entity name is the same as the name of the entity table in the database.
 - **entityReference**: The ID of the entity that the file will be associated with.
 - **fileId**: The ID of the file that will be associated with the entity.
-
 
 For a file photo or image with the file ID `97eeb4da-d402-4a89-b034-bcb277b9e65c`, we want to associate it with the entity `discussion_board`:
 
@@ -61,7 +60,6 @@ const fileAssocStatus = await roqServerClient.roqPlatform.asSuperAdmin().createF
 <Callout type="info">
 For more information about `createFileAssociations()` API usage, please read this [documentation](/files/api#createfileassociation) section.
 </Callout>
-
 
 If we check the file data using the `file()` API, we can get all the file association data.
 
