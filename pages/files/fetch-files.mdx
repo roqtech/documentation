@@ -1,0 +1,61 @@
+import { Callout } from "nextra/components"
+
+# Fetch files
+
+## Fetch files using API
+
+ROQ Platform provides an API to fetch files from the ROQ Platform. The API is available at the generated SDK.
+
+### Fetch all files
+
+We can use the `files()` API to fetch all files belonging to the current owner. For example, to fetch files in the Next.js application, you can use the following code:
+
+```tsx {5}
+import { roqBrowserClient } from "lib/roq/roq-client"
+
+const fetchFiles = async () => {
+    try {
+        const dataList = await roqBrowserClient.roqPlatform.files();
+    } catch (error) {
+        console.error('Error fetching files:', error);
+    }
+};
+```
+
+The `files` API is live on the ROQ Platform, and it's guaranteed to be available. Whatever data model you use, you can always fetch files from the ROQ Platform.
+
+<Callout type="info">
+How does the files API know who the current owner is? The owner is determined by the `roqBrowserClient`. It will get the current user token and use the token for every file request.
+</Callout>
+
+### Fetch files with filters
+
+The `files` API also accepts filters. For example, to fetch files with a file category equal to `USER_FILES`, you can use the following code:
+
+```tsx
+import { roqBrowserClient } from "lib/roq/roq-client"
+
+const fetchFilesWithFilters = async () => {
+    try {
+        const dataList = await roqBrowserClient.roqPlatform.files({
+            filter: {
+                fileCategory: {
+                    equalTo: "USER_FILES"
+                }
+            }, limit: 20
+        });
+    } catch (error) {
+        console.error('Error fetching files:', error);
+    }
+};
+```
+
+The code above will fetch files with a file category equal to `USER_FILES` and limit the result to 20 files. Please look here for more information about [file category](/files/manage-file-categories).
+
+
+{/*
+Fetch files using file associations.
+*/}
+
+
+
