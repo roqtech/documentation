@@ -1,0 +1,107 @@
+import { Tab, Tabs, Callout } from 'nextra-theme-docs';
+
+# How to Associate Files
+
+## Introduction
+
+Let's take an example of file associations for discussion attachments on inventory. When users discuss particular figures on the discussion board, they might upload a photo relevant to the figure inventory. So, this photo will be associated with the discussion board and figure inventory.
+
+## Create File Associations
+
+The file that needs to be associated can be accessed using the `files()` or `file()` API. As long as the file ID is known, we can associate it. We will use the `createFileAssociations()` API method to create file associations with entities. 
+
+There are a few parameters that need to be passed to the `createFileAssociations()` API method:
+
+- **entityName**: The name of the entity that the file will be associated with. For example, `discussion_board` or `figure_inventory`. The entity name is the same as the name of the entity table in the database.
+- **entityReference**: The ID of the entity that the file will be associated with.
+- **fileId**: The ID of the file that will be associated with the entity.
+
+For a file photo or image with the file ID `97eeb4da-d402-4a89-b034-bcb277b9e65c`, we want to associate it with the entity `discussion_board`:
+
+```js
+import { roqServerClient } from "lib/roq/roq-server-client";
+
+const fileAssocStatus = await roqServerClient.roqPlatform.asSuperAdmin().createFileAssociation({
+  data: {
+    entityName: "discussion_board",
+    entityReference: "4bc171d3-a748-47de-9d64-fa0126bac58f",
+    fileId: "97eeb4da-d402-4a89-b034-bcb277b9e65c"
+  }
+})
+```
+
+The code above will return file association data:
+
+```js
+{
+  createFileAssociation: {
+    id: '4a452ade-a83c-44ae-b7ba-d207a1ab903b',
+    createdAt: '2023-08-25T12:33:06.350Z',
+    updatedAt: '2023-08-25T12:33:06.350Z',
+    entityReference: '4bc171d3-a748-47de-9d64-fa0126bac58f',
+    entityName: 'discussion_board',
+    fileId: '97eeb4da-d402-4a89-b034-bcb277b9e65c'
+  }
+}
+```
+
+Later on, we need to associate the file with the `figure_inventory` entity, too:
+
+```js
+const fileAssocStatus = await roqServerClient.roqPlatform.asSuperAdmin().createFileAssociation({
+  createFileAssociationDto: {
+    entityName: "figure_inventory",
+    entityReference: "ebf2956d-9699-46c8-ae7b-f56c97ba2347",
+    fileId: "97eeb4da-d402-4a89-b034-bcb277b9e65c"
+  }
+})
+```
+
+<Callout type="info">
+For more information about `createFileAssociations()` API usage, please read this [documentation](/files/api#createfileassociation) section.
+</Callout>
+
+If we check the file data using the `file()` API, we can get all the file association data.
+
+```js
+import { roqBrowserClient } from "lib/roq/roq-client";
+
+const fileDetailsAgain = await roqBrowserClient.roqPlatform.file({
+  id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
+  withFileAssociations: true
+})
+console.log(fileDetailsAgain.file.fileAssociations.data)
+```
+
+The response will be an array containing the file associations data:
+
+```js
+[
+  {
+    id: '0903ed50-62cd-4338-b1ec-fcc4a7bf9125',
+    createdAt: '2023-08-25T12:44:38.099Z',
+    updatedAt: '2023-08-25T12:44:38.099Z',
+    entityReference: 'ebf2956d-9699-46c8-ae7b-f56c97ba2347',
+    entityName: 'figure_inventory',
+    fileId: '97eeb4da-d402-4a89-b034-bcb277b9e65c'
+  },
+  {
+    id: '4a452ade-a83c-44ae-b7ba-d207a1ab903b',
+    createdAt: '2023-08-25T12:33:06.350Z',
+    updatedAt: '2023-08-25T12:33:06.350Z',
+    entityReference: '4bc171d3-a748-47de-9d64-fa0126bac58f',
+    entityName: 'discussion_board',
+    fileId: '97eeb4da-d402-4a89-b034-bcb277b9e65c'
+  }
+]
+```
+
+## Why use file associations?
+
+### Simplified Database Schema
+
+In traditional relational database design, associating two different tables requires the creation of a "junction" or "bridge" table. This table is used to maintain many-to-many relationships between tables. 
+
+For example, if we have a table for **Files** and another for entities, the junction table would typically contain two foreign keys pointing to each associated table. Over time, as the number of entities or associations increases, these junction tables can become substantial in size and can potentially complicate the schema.
+
+The `createFileAssociation()` will simplify the database schema. By using a function-based approach, there's no need to maintain separate junction tables. This reduces the number of tables in the database and streamlines the schema.
