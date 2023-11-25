@@ -17,7 +17,7 @@ There are a few parameters that need to be passed to the `createFileAssociations
 - **fileId**: The ID of the file that will be associated with the entity.
 
 
-For a file photo or image with the file ID `97eeb4da-d402-4a89-b034-bcb277b9e65c`, and we want to associate it with the entity `discussion_board`:
+For a file photo or image with the file ID `97eeb4da-d402-4a89-b034-bcb277b9e65c`, we want to associate it with the entity `discussion_board`:
 
 ```js
 import { roqServerClient } from "lib/roq/roq-server-client";
@@ -63,14 +63,14 @@ For more information about `createFileAssociations()` API usage, please read thi
 </Callout>
 
 
-And if we check the file data using `file()` API, we can get all the file associations data
+If we check the file data using the `file()` API, we can get all the file association data.
 
 ```js
 import { roqBrowserClient } from "lib/roq/roq-client";
 
 const fileDetailsAgain = await roqBrowserClient.roqPlatform.file({
-	id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
-	withFileAssociations: true
+  id: "97eeb4da-d402-4a89-b034-bcb277b9e65c",
+  withFileAssociations: true
 })
 console.log(fileDetailsAgain.file.fileAssociations.data)
 ```
@@ -98,10 +98,12 @@ The response will be an array containing the file associations data:
 ]
 ```
 
-## Simplified Database Schema
+## Why use file associations?
 
-In traditional relational database design, associating two different tables often requires the creation of a "junction" or "bridge" table. This table is used to maintain many-to-many relationships between tables. 
+### Simplified Database Schema
 
-For example, if we have a table for **Files** and another for entities, the junction table would typically contain two foreign keys, one pointing to each of the associated tables. Over time, as the number of entities or associations increases, these junction tables can become substantial in size and can potentially complicate the schema.
+In traditional relational database design, associating two different tables requires the creation of a "junction" or "bridge" table. This table is used to maintain many-to-many relationships between tables. 
 
-The `createFileAssociation()` will simplified the database schema. By using a function-based approach, there's no need to maintain separate junction tables. This reduces the number of tables in the database and streamlines the schema.
+For example, if we have a table for **Files** and another for entities, the junction table would typically contain two foreign keys pointing to each associated table. Over time, as the number of entities or associations increases, these junction tables can become substantial in size and can potentially complicate the schema.
+
+The `createFileAssociation()` will simplify the database schema. By using a function-based approach, there's no need to maintain separate junction tables. This reduces the number of tables in the database and streamlines the schema.
