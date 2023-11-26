@@ -1,6 +1,6 @@
 # Handling user data
 
-The user data exists on both the BaaS and ROQ Platform and it is synced. However, some changes can only be made via the ROQ Platform.
+The user data exists on both the BaaS and ROQ Platform, and it is synced. However, some changes can only be made via the ROQ Platform.
 
 {/*
 | System      | Operation   | Data Sync  |
@@ -15,27 +15,111 @@ The user data exists on both the BaaS and ROQ Platform and it is synced. However
 
 ## Create user
 
-The creation of new user is only supported via the ROQ Platform. Whenever a new user is created in the ROQ Platform, the user is also created on the BaaS. The new user can be created from an invitation from the Console or created using API.
+Creating new users is only possible through the ROQ Platform. When a new user is created on the ROQ Platform, a corresponding user account is also created on the BaaS. You can create a new user by sending an invitation from the Console, user signup or by using the `createUser` API.
+
+Let's take an example of creating a new user using the `createUser` API on the Next.js framework.
 
 ```tsx filename="actions.ts"
 "use server"
+
+import crypto from "crypto";
 import {roqServerClient} from "lib/roq/roq-server-client";
 
 export async function createNewUser({ email, tenantId, roles, password }: { email: string, tenantId: string, roles: string[], password: string }) {
-	const newUser = await roqServerClient.roqPlatform.asSuperAdmin().createUser({
-		user: {
-			email,
-			reference: crypto.randomUUID(),
-			tenantId,
-			roles,
-			password
-		}
-	})
+    const newUser = await roqServerClient.roqPlatform.asSuperAdmin().createUser({
+        user: {
+            email,
+            reference: crypto.randomUUID(),
+            tenantId,
+            roles,
+            password
+        }
+    })
 }
 ```
+
+We can call the code from the client side later on the `page.tsx` file.
+
+```tsx filename="pages.tsx"
+"use client"
+
+import { useSession } from "@/lib/roq/roq-hooks";
+import { createNewUser} from "./actions"
+
+export default function CreateUser() {
+    const { session } = useSession();
+    const tenantId = session?.user.tenantId as string;
+
+    const userPayload = {
+        email: "Francis.99@roq.dev",
+        password: "secret",
+        tenantId: tenantId,
+        roles: ["freelancer"]
+    }
+    
+    function handleCreateUser() {
+        createNewUser(userPayload);
+    }
+    return (
+        <button onClick={createUserHandler}>Create User</button>
+    )
+}
+```
+
+The code will create a new user in the ROQ Platform and also sync on BaaS. We can check this user on the Console and also using BaaS API. 
+
+![create new user api](/screenshots/create-new-user-api.png)
+
+Check user using BaaS API (hooks):
+
+```tsx
+import { useUserFindMany } from "@/lib/roq";
+
+const { data: users } = useUserFindMany();
+```
+
+We can summarize the user data sync as follows:
+
+| System      | Operation   | Data Sync  |
+|-------------|-------------|-----------------------------------------------------------------------|
+| ROQ Platform| Create User | The user is created on ROQ Platform & the user is also created on BaaS |
+| BaaS        | Create User | NOT SUPPORTED  |
 
 
 ## Update user
 
+Update user data can be done on both the ROQ Platform and BaaS. We can update it using the Console or BaaS API.
+
+For example, we can update the user data using the `update` API on the Next.js framework.
+
+```tsx
+import {roqBrowserClient} from "@/lib/roq/roq-client";
+
+const updateData = async () => {
+    const result = await roqBrowserClient.user.update({
+        data: {
+            first_name: "Francis",
+            last_name: "Webb"
+          },
+          where: {
+            email: "Francis.99@roq.dev",
+            id: "32546e0b-eada-48a8-93d9-f6e5d1f85b3d"
+        }
+    })
+}
+```
+
+| System      | Operation   | Data Sync  |
+|-------------|-------------|-----------------------------------------------------------------------|
+| ROQ Platform| Update User | The user is updated on ROQ Platform & the user is also updated on BaaS |
+| BaaS        | Update User | The user is updated on BaaS & the user is also updated on ROQ Platform |
+
+
 ## Delete user
 
+Currently, deleting a user is not supported. However, you can set the user to inactive. This can be done using the Console.
+
+| System      | Operation   | Data Sync  |
+|-------------|-------------|-----------------------------------------------------------------------|
+| ROQ Platform| Delete User | NOT SUPPORTED. The user can be set inactive instead |
+| BaaS        | Delete User | NOT SUPPORTED  |
