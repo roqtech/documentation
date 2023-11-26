@@ -7,8 +7,7 @@
 		"title": "Handling User Data"
 	},
 	"handling-tenant-data": {
-		"title": "Handling Tenant Data",
-		"display": "hidden"
+		"title": "Handling Tenant Data"
 	},
 	"file-handling": "File Handling",
 	"user-invites": "User Invites",
