@@ -289,8 +289,8 @@ const handleSubmit = async (e) => {
 
     const myUserProfile = await roqBrowserClient.user.update({
         data: {
-            firstName: profile.firstName,
-            lastName: profile.lastName,
+            first_name: profile.firstName,
+            last_name: profile.lastName,
         },
         where: {
             id: getUserId[0].id,
