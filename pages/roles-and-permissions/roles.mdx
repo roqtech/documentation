@@ -2,7 +2,7 @@ import { Callout } from 'nextra-theme-docs'
 
 # User Roles
 
-To manage user roles, navigate to the [Console](https://console.roq.tech) and select **Users Roles**. This section allows you to create, modify, adjust and delete user roles.
+To manage user roles, navigate to the [Console](https://console.roq.tech) and select **Users Roles**. This section allows you to create, modify, adjust, and delete user roles.
 
 ![role list](/screenshots/user-roles-console.png)
 
@@ -10,32 +10,32 @@ Roles are explicitly linked to users and are represented by distinctive names. F
 
 ## Role categories
 
-In ROQ, there are two kinds of role-tenants associations:
+In ROQ, there are two kinds of role-tenant associations:
 
-- **Owner of a tenant**: This role is assigned to the user who own a tenant.
+- **Owner of a tenant**: This role is assigned to the user who owns a tenant.
 
-- **Members of a tenant**: This role is assigned to the users who is a member of a tenant.
+- **Members of a tenant**: This role is assigned to the users who are members of a tenant.
 
 On the other hand, there are also two categories of roles: 
 
-- **Roles belonging to Tenant**: This category includes roles that are belong to a tenant. 
+- **Roles belonging to Tenant**: This category includes roles that belong to a tenant. 
 
-- **End User Roles**: This category includes roles that are assigned to end users of a tenant.
+- **End User Roles**: This category includes roles assigned to a tenant's end users.
 
-For example, a user might be assigned the role of "Manager" and have managerial responsibilities within a tenant, such as a restaurant. An end user refers to a typical consumer, like someone making purchases on a platform like Amazon.
+For example, a user might be assigned the **Manager** role and have managerial responsibilities within a tenant, such as a restaurant. An end user refers to a typical consumer, like someone making purchases on a platform like Amazon.
 
 ## Creating roles
 
 By default, ROQ will provide one role: **Owner**. However, you can create additional roles to meet your business needs.
 
-To create a new user role, click the **+ New Role** button. Suppose you aim to establish a **Marketing** role, you'll need to fill in the required fields: 
+Click the **+ New Role** button to create a new user role. Suppose you aim to establish a **Marketing** role, you'll need to fill in the required fields: 
 
 - **Name**: Name of the role
 - **Key**: Unique key of the role
 
 ![Create Role](/screenshots/create-user-roles-console.png)
 
-By default, this new role will lack any platform permissions. Consequently, it's essential to allocate the necessary platform permissions to make the new role functional.
+By default, this new role will lack any platform permissions. Consequently, allocating the necessary platform permissions is essential to make the new role functional.
 
 A role can also invite another user. Go here to learn more about [invited roles](#defining-invited-roles). 
 
@@ -48,11 +48,11 @@ To modify a role, click the **Edit Role** button (depicted by a keylock icon) lo
 
 ## Deleting roles
 
-The role deletion is only allowed when there are no users with that role. However, when a role is deleted, then:
+The role deletion is only allowed when no users have that role. However, when a role is deleted, then:
 
-- Role will be deleted from the invite-roles of other roles. For example, the **Owner** cannot be a marketer anymore, when the **Marketing** role is deleted.
+- Role will be deleted from the invite roles of other roles. For example, the **Owner** cannot be a marketer anymore when the **Marketing** role is deleted.
 
-- Role will be deleted from the default role setting of the signup-forms.
+- Role will be deleted from the default role setting of the sign-up forms.
 
 To delete a role, click the **Delete Role** button (depicted by a trash icon).
 
@@ -70,21 +70,21 @@ A role can always invite another user with the same role.
 
 ## Assigning sign-up forms
 
-A role can be assigned to a sign-up form. When a role is assigned to a sign-up form, then the users who sign-up using that form will be assigned that role.
+A role can be assigned to a sign-up form. When a role is assigned to a sign-up form, then the users who sign up using that form will be assigned that role.
 
 ![assign sign-up forms](/screenshots/assign-signup-forms-user-roles-console.png)
 
-For more information on sign-up forms, how to configure or assign default roles, please go [here](/user-registration/registration-forms).
+For more information on sign-up forms and how to configure or assign default roles, please go [here](/user-registration/registration-forms).
 
 ## Configure role permissions
 
-The user roles page on Console also linked directly to the **Access Management** page. This page allows you to configure the permissions of a role. For more information on how to configure role permissions, please go [here](/roles-and-permissions/access-management).
+The user roles page on the Console is also linked directly to the **Access Management** page. This page allows you to configure the permissions of a role. For more information on how to configure role permissions, please go [here](/roles-and-permissions/access-management).
 
 ## Assigning or unassigning roles
 
-Roles can only be assigned or unassigned within the console and other user invitation.
+Roles can only be assigned or unassigned within the Console and other user invitations.
 
-To assign a role to a user in Console, go to **Users** section and then click the **Edit User** button (represented by a pen icon) in the **Controls** section.
+To assign a role to a user in the Console, go to the **Users** section and then click the **Edit User** button (represented by a pen icon) in the **Controls** section.
 
 ![edit user](/screenshots/edit-user-roles.png)
 
@@ -93,7 +93,3 @@ To illustrate, if you wish to assign the **Marketing** role, choose this role fr
 ![assign a role](/screenshots/assign-user-role.png)
 
 Conversely, to unassign a role from a user, hover over the existing role and click the cross mark appearing next to the role.
-
-
-
-
