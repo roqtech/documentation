@@ -1,0 +1,125 @@
+import { Tabs, Tab, Callout } from 'nextra-theme-docs'
+
+# API
+
+## Introduction
+
+ROQ Platform provides access management API to easily get and apply the access and permission data for the user application. Please refer to the [roles and permission](/roles-and-permissions) for feature guides, tutorials, and more information.
+
+## User roles querys
+
+These APIs are available on generated SDK and can be used on the client-side.
+
+### `role()`
+
+ROQ provides the `role()` API to get the role for the specific role id. For example, to get a role data with the role id.
+
+<Tabs items={["JavaScript"]}>
+<Tab>
+```js
+import { roqBrowserClient } from "lib/roq/roq-client";
+
+const roleData = await roqBrowserClient.roqPlatform.role({
+	id: "8f8a676b-7dea-4a06-a249-55e7f899aeeb", 
+	withUserCount: true
+})
+```
+</Tab>
+</Tabs>
+
+The output for the code example above is a simple JavaScript object:
+
+```js
+{
+  role: {
+    id: '8f8a676b-7dea-4a06-a249-55e7f899aeeb',
+    reference: null,
+    description: '',
+    isSystemManaged: false,
+    key: 'marketing',
+    name: 'Marketing',
+    users: { totalCount: 1 }
+  }
+}
+```
+
+| Parameter      | Type   | Description                                 |
+| -------------- | ------ | --------------------------------------------|
+| `id`         | string | The role id                                   |                             |
+| `withUserCount`  | boolean | Whether to include the user count or not |
+
+### `roles()`
+
+The `roles()` API will return all the available roles on the ROQ Platform. You can filter roles based on the key and limit the result. 
+
+<Tabs items={["JavaScript"]}>
+<Tab>
+```js
+import { roqBrowserClient } from "lib/roq/roq-client";
+
+const rolesData = await roqBrowserClient.roqPlatform.roles({
+	limit: 10,
+	withUserCount: true,
+    filter: {
+	    key: {
+        like: "mar%"
+      }
+  }
+})
+```
+</Tab>
+</Tabs>
+
+| Parameter      | Type   | Description                                 |
+| -------------- | ------ | --------------------------------------------|
+| `limit`         | integer | Limit the results                         |
+| `withUserCount` | boolean | Include the user count for this role |
+| `filter`  | object | Filter the result                                |
+
+## User roles managements
+
+These APIs are available on the generated SDK and can be used on the server-side only.
+
+### `assignRolesToUser()`
+
+The `assignRolesToUser() API will assign a role or roles to a user.
+
+<Tabs items={["JavaScript"]}>
+<Tab>
+```js
+import { roqServerClient } from "lib/roq/roq-server-client";
+
+const assignStatus = await roqServerClient.roqPlatform.asSuperAdmin().assignRolesToUser({
+	userId: "7877d2d0-dea7-473e-a158-57eca3123906",
+	roleKeys: [" channel-owner", "marketing"]
+})
+```
+</Tab>
+</Tabs>
+
+| Parameter      | Type   | Description                                 |
+| -------------- | ------ | --------------------------------------------|
+| `userId` | string | The user id which roles to be applied  |
+| `roleKeys` | array | Key roles |
+
+### `unassignRolesFromUser()`
+
+The `unassignRolesFromUser()` will unassign a role or roles from the user.
+
+<Tabs items={["JavaScript"]}>
+<Tab>
+```js
+import { roqServerClient } from "lib/roq/roq-server-client";
+
+const unassignStatus = await roqServerClient.roqPlatform.asSuperAdmin().unassignRolesFromUser({
+	userId: "7877d2d0-dea7-473e-a158-57eca3123906",
+	roleKeys: ["marketing"]
+})
+```
+</Tab>
+</Tabs>
+
+| Parameter      | Type   | Description                                 |
+| -------------- | ------ | --------------------------------------------|
+| `userId` | string | The user id which a role or roles to be removed  |
+| `roleKeys` | array | Key roles |
