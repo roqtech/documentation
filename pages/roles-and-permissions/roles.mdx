@@ -1,0 +1,73 @@
+import { Callout } from 'nextra-theme-docs'
+
+# User Roles
+
+To manage user roles, navigate to the [Console](https://console.roq.tech) and select **Users Roles**. This section allows you to create, modify, adjust and delete user roles.
+
+![role list](/screenshots/user-roles-console.png)
+
+Roles are explicitly linked to users and are represented by distinctive names. For example, you might designate roles such as **owner** and **member**. However, you can also refine your categorization using terms that directly correspond to your business context, like **manager**, **chef**, **driver**, **marketing**, or **customer**.
+
+## Role categories
+
+In ROQ, there are two categories of roles: 
+
+- **Roles belonging to Tenant**: This category includes roles that are belong to a tenant. Also, there are two kinds of role-tenants associations:
+	1. **Owner of a tenant**: This role is assigned to the user who own a tenant.
+	2. **Members of a tenant**: This role is assigned to the users who is a member of a tenant.
+
+    <br/>	
+- **End User Roles**: This category includes roles that are assigned to end users and are not associated with any tenant.
+
+
+## Creating roles
+
+By default, ROQ will provide one role: **Owner**. However, you can create additional roles to meet your business needs.
+
+To create a new user role, click the **+ New Role** button. Suppose you aim to establish a **Marketing** role, you'll need to fill in the required fields: 
+
+- **Name**: Name of the role
+- **Key**: Unique key of the role
+
+![Create Role](/screenshots/create-user-roles-console.png)
+
+By default, this new role will lack any platform permissions. Consequently, it's essential to allocate the necessary platform permissions to make the new role functional.
+
+A role can also invite another user. Go here to learn more about [invited roles](#defining-invited-roles). 
+
+{/*
+## Editing roles
+
+To modify a role, click the **Edit Role** button (depicted by a keylock icon) located in the **Controls** section.
+
+*/}
+
+## Assigning or unassigning roles
+
+Roles can only be assigned or unassigned within the **Users** console.To assign a role to a user, go to **Users & Access** → **Users** and then click the **Edit User** button (represented by a pen icon) in the **Controls** section.
+
+
+![User list](/users-list.png)
+
+To illustrate, if you wish to assign the **Marketing** role, choose this role from the *Assign a new role* drop-down menu.
+
+![assign a role](/assign-a-role.png)
+
+Conversely, to unassign a role from a user, hover over the existing role and click the cross mark appearing next to the role.
+
+## Deleting roles
+
+
+
+## Defining invited roles
+
+A role can invite another user associated with different roles. To specify which roles can be invited, navigate to **Users & Access** → **Roles**. Select a role, then click on **Edit Role** (represented by the keylock icon) → **Invite Roles**. From here, you can choose any other roles that can be invited.
+
+![define invited roles](/define-invited-role.png)
+
+<Callout type="info">
+A role can always invite another user with the same role.
+</Callout>
+
+
+
