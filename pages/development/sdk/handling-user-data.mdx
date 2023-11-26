@@ -15,7 +15,7 @@ The user data exists on both the BaaS and ROQ Platform, and it is synced. Howeve
 
 ## Create user
 
-Creating new users is only possible through the ROQ Platform. When a new user is created on the ROQ Platform, a corresponding user account is also created on the BaaS. You can create a new user by sending an invitation from the Console, user signup or by using the `createUser` API.
+Creating new users is only possible through the ROQ Platform. When a new user is created on the ROQ Platform, a corresponding user account is also created on the BaaS. You can create a new user by sending an invitation from the Console, user signup or by using the `createUser` from server side API.
 
 Let's take an example of creating a new user using the `createUser` API on the Next.js framework.
 
@@ -88,7 +88,7 @@ We can summarize the user data sync as follows:
 
 ## Update user
 
-Update user data can be done on both the ROQ Platform and BaaS. We can update it using the Console or BaaS API.
+Update user data can be done on both the ROQ Platform and BaaS. We can update it using the Console or BaaS API. From the client side, we can update the user data using the `update` BaaS API method from the generated SDK and from the server side, we can use the `updateUser` API method from the ROQ Platform.
 
 For example, we can update the user data using the `update` API on the Next.js framework.
 
@@ -112,8 +112,7 @@ const updateData = async () => {
 | System      | Operation   | Data Sync  |
 |-------------|-------------|-----------------------------------------------------------------------|
 | ROQ Platform| Update User | The user is updated on ROQ Platform & the user is also updated on BaaS |
-| BaaS        | Update User | The user is updated on BaaS & the user is also updated on ROQ Platform |
-
+| BaaS        | Update User | The user is updated on BaaS & the user is also updated on ROQ Platform |ß
 
 ## Delete user
 
