@@ -1,0 +1,82 @@
+import { Callout, Tab, Tabs } from 'nextra-theme-docs'
+
+# How to use User Invites with Mails
+
+You can utilize the user invites API in conjunction with the [`sendMail()`](/mails/api#sendmail). There are numerous scenarios where using the mail API along with the user invites feature is advantageous. For instance, if you wish to send supplementary details via email after the invitee's acceptance or need to forward information to a different user's email address.
+
+## Get the list of accepted invites
+
+To support emails sent to numerous invitees, we can retrieve the list of invitees and then sort it according to their `status` property. Emails will be sent only to those with an `accepted` status value.
+
+For example, email all invitees who have accepted the invitation using the Next.js framework.
+
+```js filename="pages.tsx"
+"use client"
+
+import { roqBrowserClient } from "@/lib/roq/roq-client"
+import { sendMailToRecipient } from "./actions.ts"
+
+async function sendMailToAcceptedInvites() {
+    const search = await roqBrowserClient.roqPlatform.userInvites();
+    
+    // Iterate over all the invites and send mails
+    for (let invite of search.data.userInvites.data) {
+        if (invite.status === 'accepted') {
+            const email = invite.email;
+            const name = invite.firstName + ' ' + invite.lastName;
+
+            // Send the mail
+            sendMailToRecipient(email, name);
+
+            console.log(`Mail sent for accepted invite: ${invite.id}`);
+        }
+    }
+}
+```
+
+The code above uses App Router and runs on the client side with the `use client` directive. However, the `sendMail()` method can only be used on the server side. Next, we will look into how to call the `sendMail()` method from the server side and then call it from the client side.
+
+## Send an email to an invitee
+
+In the latest framework like Next.js, you can use the [**Server Actions**](https://nextjs.org/docs/app/api-reference/functions/server-actions) feature to execute the `sendMail()` at the server-side and then call the server action from the client-side. 
+
+As an illustration, we aim to provide instructions on using our application once invitations are accepted. To send an email, we will utilize a code similar to this:
+
+```ts filename="actions.ts"
+"use server"
+
+import { roqServerClient } from "@/lib/roq/roq-server-client";
+
+export async function sendMailToRecipient(email, name) => {
+    const sendStatus = await roqServerClient.roqPlatform.asSuperAdmin().sendMail({
+        mail: {
+            key: 'onboarding-getstarted',
+            locale: 'en-US',
+            emails: [email],
+            data: [
+                { 
+                    key: "getting_started_url",
+                    value: "https://docs.roq.dev/getting-started"
+                },
+                {   
+                    key: "your_name", 
+                    value: name 
+                }
+            ]
+        },
+    });
+}
+```
+
+Ensure you have an email template with the key `onboarding-getstarted` on the ROQ Console before sending any emails.
+
+<Callout type="info">
+To create an email template on the ROQ Console. Please look into this [documentation](/mails/email-templates-and-customization).
+</Callout>
+
+From our previous code, to send an onboarding get-started email for an accepted invitation, you can call the `sendMailToAcceptedInvites()` method directly from the client side.
+
+```js
+await sendMailToAcceptedInvites()
+```
+
