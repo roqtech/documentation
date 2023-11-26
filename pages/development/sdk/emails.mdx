@@ -4,19 +4,17 @@ import {Callout} from 'nextra/components'
 
 ## Introduction
 
-The Mail API provides a straightforward way to send emails to users. To send emails, we use the `sendMail()` method, which is available through the generated SDK. This method is housed in the ROQ platform and can be accessed using the `RoqServerClient` object.
+The Mail API provides a straightforward way to send emails to users. To send emails, we use the `sendMail()` method, which is available through the generated SDK. This method is housed in the ROQ platform and can be accessed using the `roqServerClient` object.
 
 ## Code examples
 
 Let's take an example in the Next.js project with the generated SDK installed in the default `src/lib/roq` folder. We can send an email to a user by using the following code: 
 
 ```tsx
-import { RoqServerClient } from '@/lib/roq/roq-server-client';
-
-const roqServerClient = new RoqServerClient()
+import { roqServerClient } from '@/lib/roq/roq-server-client';
 
 const sendMyMail = async() => {
-    roqServerClient.roqPlatform.asSuperAdmin().sendMail({
+    await roqServerClient.roqPlatform.asSuperAdmin().sendMail({
         mail: {
             key: 'onboarding',
             locale: 'en-US',
@@ -27,7 +25,7 @@ const sendMyMail = async() => {
 ```
 
 <Callout type="info">
-In the framework such as Next.js. We only can use the `sendMail()` on the server side. Any method from `RoqServerClient` is always executed on the server side.
+In the framework such as Next.js. We only can use the `sendMail()` on the server side. Any method from `roqServerClient` is always executed on the server side.
 </Callout>
 
 To be able to send an email to a user, we also need to create a mail template in the [ROQ Console](https://console.roq.tech). The mail template is a simple HTML template with some variables. The variables are replaced with the data that we send in the `sendMail()` method. Please check the [mail template](/mails/email-templates-and-customization) section for more information about the mail template.
