@@ -55,7 +55,9 @@ The `roles()` API will return all the available roles on the ROQ Platform. You c
 <Tabs items={["JavaScript"]}>
 <Tab>
 ```js
-const rolesData = await roqBriwserClient.roqPlatform.roles({
+import { roqBrowserClient } from "lib/roq/roq-client";
+
+const rolesData = await roqBrowserClient.roqPlatform.roles({
 	limit: 10,
 	withUserCount: true,
     filter: {
@@ -85,6 +87,8 @@ The `assignRolesToUser() API will assign a role or roles to a user.
 <Tabs items={["JavaScript"]}>
 <Tab>
 ```js
+import { roqServerClient } from "lib/roq/roq-server-client";
+
 const assignStatus = await roqServerClient.roqPlatform.asSuperAdmin().assignRolesToUser({
 	userId: "7877d2d0-dea7-473e-a158-57eca3123906",
 	roleKeys: [" channel-owner", "marketing"]
@@ -105,6 +109,8 @@ The `unassignRolesFromUser()` will unassign a role or roles from the user.
 <Tabs items={["JavaScript"]}>
 <Tab>
 ```js
+import { roqServerClient } from "lib/roq/roq-server-client";
+
 const unassignStatus = await roqServerClient.roqPlatform.asSuperAdmin().unassignRolesFromUser({
 	userId: "7877d2d0-dea7-473e-a158-57eca3123906",
 	roleKeys: ["marketing"]
