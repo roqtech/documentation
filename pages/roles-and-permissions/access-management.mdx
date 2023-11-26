@@ -1,0 +1,28 @@
+# Access Management
+
+The Access Management page serves as a crucial tool for developers to configure and manage access permissions for various roles within the system. It allows for the precise control of who can access specific entities.
+
+## Features
+
+Access management in the Console allows you to:
+
+- Define and manage roles.
+
+- Specify which roles have access to specific entities
+
+- Configure fine-grained permissions for each role.
+
+- Easily review and modify existing access rules.
+
+## Configure roles permissions
+
+To configure role permissions, go to the [Console](https://console.roq.tech) and select the **Access Management** menu.
+
+![access management on console](/screenshots/access-management-console.png)
+
+Any changes made will be applied after you hit the **Publish** button. ROQ will save all permissions to the platform database and redeploy the BaaS with the new permissions.
+
+<Callout type="info">
+Publish new permissions will trigger a new deployment of the BaaS. This process may take a few minutes.
+</Callout>
+
