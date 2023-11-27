@@ -1,0 +1,81 @@
+# Read data in application
+
+## Concepts
+
+There are two kinds of read data in ROQ BaaS: read data with filters and read data without filters.
+
+### Read data with filters
+
+In this example, we demonstrate how to retrieve and count review data from BaaS using the ROQ SDK using filtering criteria.
+
+```tsx
+const fetchProjectCount = async () =>{
+    const projectCount = await roqBrowserClient.project.findManyWithCount({ orderBy: {
+            created_at: 'desc'
+        }
+    })  
+    return projectCount
+}
+    
+fetchReviewCount().then((data) => {
+    console.log(data);
+});
+```
+
+The important thing to note is that the code syntax for the data operation follows a Prisma-like pattern.
+
+```tsx
+await roqBrowserClient.project.findManyWithCount()
+```
+
+The benefit of a Prisma-like pattern is easily understood due to its common format: `roqBrowserClient.[entity].[operation]`. Read more about the Prisma-like pattern [here](/development/sdk/query-syntax).
+
+JSON:API is utilized to create REST APIs in ROQ BaaS, resulting in JSON-format response data. For instance, the data response from our earlier code in the browser console:
+
+```json
+{
+    "data": [
+        {
+            "id": "7edd49af-4f44-4887-b80b-48e279999614",
+            "name": "AI Chatbot",
+            "description": "Develop a conversational AI chatbot designed to enhance customer service interactions, providing real-time responses and support.",
+            "deadline": "2024-01-01T00:00:00.000Z",
+            "status": "open",
+            "company_id": "22d80a45-0cf6-445d-a5db-f1091c6cb5d6",
+            "created_at": "2023-11-11T14:28:12.654Z",
+            "updated_at": "2023-11-11T14:28:12.654Z"
+        },
+        {
+            "id": "8de54627-9f5b-497d-a697-f974c413357d",
+            "name": "Refactor User Signup",
+            "description": "Modernize the user registration process by integrating a new API to streamline user experience and improve system reliability.",
+            "deadline": null,
+            "status": "active",
+            "company_id": "22d80a45-0cf6-445d-a5db-f1091c6cb5d6",
+            "created_at": "2023-11-10T21:49:52.947Z",
+            "updated_at": "2023-11-10T21:49:52.947Z"
+        }
+    ],
+    "count": 2
+}
+```
+
+### Read data without filters
+
+Fetching data without filters means retrieving all records from a particular dataset without any constraints. In the ROQ SDK, this can be done using methods that do not require any arguments that specify filtering criteria.
+
+For example, to retrieve all review data from BaaS:
+
+```tsx {4}
+import { roqBrowserClient } from "@/lib/roq/roq-client";
+
+const fetchReviewCount = async () => {
+    const reviewCount = await roqBrowserClient.review.findManyWithCount();
+    return reviewCount;
+};
+
+fetchReviewCount().then((data) => {
+    console.log(data);
+});
+```
+

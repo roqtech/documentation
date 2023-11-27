@@ -1,7 +1,8 @@
 {
 	"save-data-in-application": "Save Data in Application",
-	"query-data-in-application": "Query Data in Application",
+	"read-data-in-application": "Read Data in Application",
 	"add-the-user-profile": "Add User Profile",
 	"add-user-invites": "Add User Invites",
-	"add-file-uploads": "Add File Uploads in Next.js"
+	"add-file-uploads": "Add File Uploads in Next.js",
+	"build-freelancer-platform": "Build Freelancer Platform"
 }
