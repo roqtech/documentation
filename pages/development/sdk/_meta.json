@@ -1,6 +1,9 @@
 {
 	"overview": "Overview",
-	"installation": "Installation",
+	"installation": {
+		"title": "Installation",
+		"display": "hidden"
+	},
 	"query-syntax": "Query Syntax",
 	"authentication": "Authentication",
 	"handling-user-data": {
