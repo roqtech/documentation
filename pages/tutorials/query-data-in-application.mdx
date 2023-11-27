@@ -10,7 +10,7 @@ This tutorial is about a straightforward Software as a Service (SaaS) platform f
 
 Before we start, make sure to follow the previous tutorial:
 
-- [How to save data in Next.js](/tutorials/accessing-data/save-data-in-nextjs)
+- [How to save data in application](/tutorials/save-data-in-application)
 
     The tutorial will guide you through the process of setting up a Next.js application and connecting it to ROQ BaaS. There are some changes to the code from the previous tutorial. These changes are necessary because we will build the app for the **Freelancer** role this time. The changes are:
 
@@ -224,7 +224,7 @@ const List: React.FC<ProjectListType> = ({ items }) => {
                     </div>
                     <button 
                         onClick={() => handleApply(item.id)}
-                        disabled={item.status !== 'open'} // Disable the button if status is not 'open'
+                        disabled={item.status !== 'open'} 
                         className={`px-3 py-1 rounded shadow font-bold ${
                             item.status === 'open' ? 'bg-indigo-500 text-white' : 'bg-gray-500 text-gray-300'
                         }`}

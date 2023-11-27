@@ -1,5 +1,6 @@
 {
-	"accessing-data": "Accessing Data",
+	"save-data-in-application": "Save Data in Application",
+	"query-data-in-application": "Query Data in Application",
 	"add-the-user-profile": "Add User Profile",
 	"add-user-invites": "Add User Invites",
 	"add-file-uploads": "Add File Uploads in Next.js"
