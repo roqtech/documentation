@@ -97,9 +97,6 @@ import { RoqAuth } from '@roq/nextjs';
 
 const handler = RoqAuth({
   hooks: {
-    // This hook is optional - and can be used to persist user information,
-    // or as in the case below, send them a welcome notification
-
     onRegisterSuccess: async ({ user }) => {
     },
 
@@ -249,9 +246,6 @@ import { RoqAuth } from '@roq/nextjs';
 
 const handler = RoqAuth({
   hooks: {
-    // This hook is optional - and can be used to persist user information,
-    // or as in the case below, send them a welcome notification
-
     onRegisterSuccess: async ({ user }) => {
     },
 
