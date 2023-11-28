@@ -1,17 +1,32 @@
-# Save data in application
+# Save data in an application
 
 ## Concepts
 
-There are two kinds of ways to save data to ROQ: save data with relations and save data without relations.
+There are two ways to save data to ROQ: **save data with relations** and **save data without relations**. 
 
 ### Save data with relations
 
-When dealing with more complex data structures, you should save data that includes relationships with other entities. ROQ SDK supports this operation, allowing you to create or update data and its related entities in a single transaction.
+When dealing with more complex data structures, you should save data that includes relationships with other entities. ROQ's generated SDK supports this operation, allowing you to create or update data and its related entities in a single transaction.
 
-For example, the business owner can create a project with the following code:
+For example, a business owner can create a new project. This project shares a relationship with the company entity and may also relate to the task entity. To create a new project with associated tasks, we must provide the project entity with the company ID and the task data.
+
+Using Next.js 13 or later, we can use the following code to create a new project:
 
 ```tsx
-const company_id = "22d80a45-0cf6-445d-a5db-f1091c6cb5d6"
+"use client"
+
+import { roqBrowserClient } from "@/lib/roq/roq-client";
+
+const companyId = "22d80a45-0cf6-445d-a5db-f1091c6cb5d6";
+
+const taskData = {
+    id: crypto.randomUUID(),
+    name: 'Project setup',
+    description: 'Setup the project',
+    created_at: new Date(),
+    updated_at: new Date(),
+    status: 'open',
+}
 
 const project = await roqBrowserClient.project.create({
     data: {
@@ -21,36 +36,30 @@ const project = await roqBrowserClient.project.create({
         status: 'open',
         created_at: new Date(),
         updated_at: new Date(),
-        company_id: company_id,
+        company_id: companyId,
         deadline: new Date("2024-10-31"),
         task: {
-            create: [
-                {
-                    id: uuidv4(),
-                    name: 'Project setup',
-                    description: 'Setup the project',
-                    created_at: new Date(),
-                    updated_at: new Date(),
-                    status: 'open',
-                }
-            ]
+            create: [taskData]
         }
     }
 });
 ```
 
-{/*
-
-Based on our previous project schema, it's clear that this project shares a relationship with the company entity, while it may also relate to the task entity, depending on the situation. To create a new project with associated tasks, we must provide the project entity with the company ID and the task entity.
-*/}
+The `create()` method is visible on every entity (project, company, task) and fully accessible in the generated SDK.
 
 ### Save data without relations
 
-When dealing with simple data structures, you might need to save data that does not include relationships with other entities. ROQ SDK supports this operation, allowing you to create or update data in a single transaction.
+When dealing with simple data structures, you might need to save data that does not include relationships with other entities. ROQ's generated SDK also supports this operation, allowing you to create or update data in a single transaction.
 
-For example, to update company data, we can use the following code:
+For example, a company entity does not have any relations, so to update company data, we can update it directly. In other words, we can update it without relations.
+
+Using Next.js 13 or later, we can use the following code:
 
 ```tsx
+"use client"
+
+import { roqBrowserClient } from "@/lib/roq/roq-client";
+
 const updateCompany = async () => {
     const updateCompanyResult = await roqBrowserClient.company.update({
         data: { 
@@ -64,6 +73,4 @@ const updateCompany = async () => {
 }
 ```
 
-{/*
-From our previous project schema, this company does not have any relations, so we can update it directly. In other words, we can update it without relations.
-*/}
+The `update()` method is visible on every entity (project, company, task) and fully accessible in the generated SDK.
