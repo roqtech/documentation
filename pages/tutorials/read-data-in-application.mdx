@@ -8,9 +8,11 @@ There are two kinds of read data in ROQ BaaS: **read data without filters** and 
 
 Fetching data without filters means retrieving all records from a particular dataset without any constraints. In the ROQ's generated SDK, this can be done using methods that do not require any arguments that specify filtering criteria.
 
-For example, to retrieve all data from `review` entity using BaaS API, we can use the `findManyWithCount()` method without any arguments:
+For example, to retrieve all data from `review` entity using BaaS API, we can use the `findManyWithCount()` method without any arguments. In Next.js 13 or later, we can use the following code:
 
 ```tsx
+"use client"
+
 import { roqBrowserClient } from "@/lib/roq/roq-client";
 
 const fetchReviewCount = async () => {
@@ -25,9 +27,11 @@ fetchReviewCount().then((data) => {
 
 ### Read data with filters
 
-In this example, we demonstrate how to retrieve and count review data from BaaS using the ROQ SDK using filtering criteria.
+In this example, we demonstrate how to retrieve and count review data from BaaS using the ROQ SDK using filtering criteria. In Next.js 13 or later, we can use the following code:
 
 ```tsx
+"use client"
+
 import { roqBrowserClient } from "@/lib/roq/roq-client";
 
 const fetchProjectCount = async () =>{
