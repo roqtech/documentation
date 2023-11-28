@@ -1,0 +1,80 @@
+# Save data in the application
+
+## Concepts
+
+There are two kinds to save data to ROQ: **save data without relations** and **save data with relations**. 
+
+### Save data without relations
+
+When dealing with simple data structures, you might need to save data that does not include relationships with other entities. ROQ's generated SDK also supports this operation, allowing you to create or update data in a single transaction.
+
+For example, a company entity does not have any relations, so to update company data, we can update it directly. In other words, we can update it without relations.
+
+Using Next.js 13 or later, we can use the following code:
+
+```tsx {6-14}
+"use client"
+
+import { roqBrowserClient } from "@/lib/roq/roq-client";
+
+const updateCompany = async () => {
+    const updateCompanyResult = await roqBrowserClient.company.update({
+        data: { 
+            description: "Top projects marketplace where you can work everywhere.",
+            location: "Worldwide", 
+            industry: "Internet", size: "1001-5000" },
+            where: {
+                id: "22d80a45-0cf6-445d-a5db-f1091c6cb5d6"
+        }
+    },)
+}
+```
+
+The `update()` method is visible on every entity (project, company, task) and fully accessible in the generated SDK.
+
+### Save data with relations
+
+When dealing with more complex data structures, you should save data that includes relationships with other entities. ROQ's generated SDK supports this operation, allowing you to create or update data and its related entities in a single transaction.
+
+For example, a business owner can create a new project. This project shares a relationship with the company entity and may also relate to the task entity. To create a new project with associated tasks, we must provide the project entity with the company ID and the task data.
+
+Using Next.js 13 or later, we can use the following code to create a new project:
+
+```tsx {17-31}
+"use client"
+
+import { roqBrowserClient } from "@/lib/roq/roq-client";
+
+const createPeoject = async () => {
+    const companyId = "22d80a45-0cf6-445d-a5db-f1091c6cb5d6";
+
+    const taskData = {
+        id: crypto.randomUUID(),
+        name: 'Project setup',
+        description: 'Setup the project',
+        created_at: new Date(),
+        updated_at: new Date(),
+        status: 'open',
+    }
+
+    const project = await roqBrowserClient.project.create({
+        data: {
+            id: "id_here",
+            name: 'AI Chatbot',
+            description: 'AI Chatbot for customer service',
+            status: 'open',
+            created_at: new Date(),
+            updated_at: new Date(),
+            company_id: companyId,
+            deadline: new Date("2024-10-31"),
+            task: {
+                create: [taskData]
+            }
+        }
+    });
+
+    return project;
+}
+```
+
+The `create()` method is visible on every entity (project, company, task) and fully accessible in the generated SDK.

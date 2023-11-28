@@ -1,6 +1,6 @@
 import { Steps } from 'nextra/components'
 
-# How to save data in Next.js
+# Create project form in Next.js
 
 In this tutorial, we will build a form to save data to ROQ using Next.js. We will use the ROQ SDK to save data to the database.
 
@@ -80,69 +80,6 @@ export default function Home() {
 
 
 </Steps>
-
-## Basic save data concepts
-
-There are two kinds of ways to save data to ROQ: save data with relations and save data without relations.
-
-### Save data with relations
-
-When dealing with more complex data structures, you should save data that includes relationships with other entities. ROQ SDK supports this operation, allowing you to create or update data and its related entities in a single transaction.
-
-For example, the business owner can create a project with the following code:
-
-```tsx
-const company_id = "22d80a45-0cf6-445d-a5db-f1091c6cb5d6"
-
-const project = await roqBrowserClient.project.create({
-    data: {
-        id: "id_here",
-        name: 'AI Chatbot',
-        description: 'AI Chatbot for customer service',
-        status: 'open',
-        created_at: new Date(),
-        updated_at: new Date(),
-        company_id: company_id,
-        deadline: new Date("2024-10-31"),
-        task: {
-            create: [
-                {
-                    id: uuidv4(),
-                    name: 'Project setup',
-                    description: 'Setup the project',
-                    created_at: new Date(),
-                    updated_at: new Date(),
-                    status: 'open',
-                }
-            ]
-        }
-    }
-});
-```
-
-Based on our previous project schema, it's clear that this project shares a relationship with the company entity, while it may also relate to the task entity, depending on the situation. To create a new project with associated tasks, we must provide the project entity with the company ID and the task entity.
-
-### Save data without relations
-
-When dealing with simple data structures, you might need to save data that does not include relationships with other entities. ROQ SDK supports this operation, allowing you to create or update data in a single transaction.
-
-For example, to update company data, we can use the following code:
-
-```tsx
-const updateCompany = async () => {
-    const updateCompanyResult = await roqBrowserClient.company.update({
-        data: { 
-            description: "Top projects marketplace where you can work everywhere.",
-            location: "Worldwide", 
-            industry: "Internet", size: "1001-5000" },
-            where: {
-                id: "22d80a45-0cf6-445d-a5db-f1091c6cb5d6"
-        }
-    },)
-}
-```
-
-From our previous project schema, this company does not have any relations, so we can update it directly. In other words, we can update it without relations.
 
 ## Building project form
 

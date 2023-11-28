@@ -31,6 +31,39 @@ To simplify this, consider the example of building a restaurant management softw
 
 For more information on Access Management, see the [Access Management](/roles-and-permissions/access-management) page.
 
+## What is Entity?
+
+An entity generally refers to a unique, identifiable, and separate item within a system. They are often used to model real-world objects, acting as a blueprint for creating instances or objects. For example, entities can be used to model a person, place, or thing. In ROQ, entities are used to model data objects, such as a company, user, product, or order.
+
+## What is Scopes?
+
+The **Scope** can be described in a club, like the boundaries set for different members based on their membership cards. It decides the extent of the club they can explore and the events they can join.
+
+Visualize the scopes as follows:
+
+| Scope    | Club Analogy                                                            |
+|----------|-------------------------------------------------------------------------|
+| `All`    | A member can visit all areas and events within the club.                |
+| `Own`    | A member is restricted to their reserved lounge or private event.       |
+| `Tenant` | Access is confined to areas or events designated for their group or party. |
+
+In essence, just like different passes give varying access at a festival or event, these scopes determine how much of the club's experience a member can enjoy.
+
+## What is Operation?
+
+Imagine you're planning a special night at a club and want to determine who gets access to various parts of the club, like the Platinum Lounge. Think of these parts as object types or entities. If a particular area of the club isn't listed, it's because it wasn't considered during the initial planning of the event.
+
+For each club area (entity), you can decide the following access levels, which can be thought of as different privileges or activities members can engage in:
+
+| Level    | Club Analogy                                               |
+|----------|------------------------------------------------------------|
+| `Read`   | Lets the member peek into the area, like viewing the inside of the Platinum Lounge |
+| `Create` | Allows the member to set up a personal spot or reserve a table in that area |
+| `Update` | Lets the member make changes to their spot or order in that area, like changing their drink or adding decorations |
+| `Delete` | Gives the member the authority to clear their space or remove their reservation in the area |
+
+
+
 {/*
 ### AI Autofill
 

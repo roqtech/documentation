@@ -1,1 +1,17 @@
-# Handling tenan data
+# Handling tenant data
+
+Tenant data can be updated using BaaS API and will be synced with the tenant data on ROQ Platform. However, only limited fields can be updated. 
+
+| System       | Operation    | Data Sync   |
+|--------------|--------------|-------------------|
+| ROQ Platform | Create Tenant     | The tenant is created on ROQ Platform. The tenant is also created on BaaS|
+| ROQ Platform | Update Tenant     | The tenant is updated on ROQ Platform. The tenant is also updated on BaaS|
+| ROQ Platform  | Delete Tenant    | NOT SUPPORTED |
+| BaaS         | Create Tenant     | NOT SUPPORTED |
+| BaaS         | Update Tenant     | The tenant is updated on BaaS. The tenant is also updated on ROQ Platform|
+| BaaS         | Delete Tenant     | NOT SUPPORTED |
+
+
+## Create Tenant
+
+Creating new tenant only supported using ROQ Platform API or user signup. ß
