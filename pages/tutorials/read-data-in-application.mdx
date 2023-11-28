@@ -1,4 +1,4 @@
-# Read data in application
+# Read data in the application
 
 ## Concepts
 
@@ -6,11 +6,11 @@ There are two kinds of read data in ROQ BaaS: **read data without filters** and 
 
 ### Read data without filters
 
-Fetching data without filters means retrieving all records from a particular dataset without any constraints. In the ROQ's generated SDK, this can be done using methods that do not require any arguments that specify filtering criteria.
+Fetching data without filters means retrieving all records from a particular dataset without constraints. In the ROQ's generated SDK, this can be done using methods that do not require arguments that specify filtering criteria.
 
-For example, to retrieve all data from `review` entity using BaaS API, we can use the `findManyWithCount()` method without any arguments. In Next.js 13 or later, we can use the following code:
+For example, to retrieve all data from the `review` entity using BaaS API, we can use the `findManyWithCount()` method without arguments. In Next.js 13 or later, we can use the following code:
 
-```tsx
+```tsx {6}
 "use client"
 
 import { roqBrowserClient } from "@/lib/roq/roq-client";
@@ -25,11 +25,15 @@ fetchReviewCount().then((data) => {
 });
 ```
 
+
+
 ### Read data with filters
 
-In this example, we demonstrate how to retrieve and count review data from BaaS using the ROQ SDK using filtering criteria. In Next.js 13 or later, we can use the following code:
+In this example, we demonstrate how to retrieve and count review data from BaaS using the ROQ SDK using filtering criteria. 
 
-```tsx
+For example, to retrieve all data from `project` in descending order of creation date, we can use the `findManyWithCount()` method with the `orderBy` filter. In Next.js 13 or later, we can use the following code:
+
+```tsx {6-9}
 "use client"
 
 import { roqBrowserClient } from "@/lib/roq/roq-client";
@@ -53,9 +57,13 @@ The important thing to note is that the code syntax for the data operation follo
 await roqBrowserClient.project.findManyWithCount()
 ```
 
-The benefit of a Prisma-like pattern is easily understood due to its common format: `roqBrowserClient.[entity].[operation]`. Read more about the Prisma-like pattern [here](/development/sdk/query-syntax).
+The benefit of a Prisma-like pattern is easily understood due to its common format: 
 
-JSON:API is utilized to create REST APIs in ROQ BaaS, resulting in JSON-format response data. For instance, the data response from our earlier code in the browser console:
+```js
+roqBrowserClient.<entity>.<operation>
+```
+
+ROQ using JSON:API for REST APIs in BaaS, resulting in JSON-format response data. For instance, the data response from our earlier code in the browser console:
 
 ```json
 {
@@ -84,3 +92,5 @@ JSON:API is utilized to create REST APIs in ROQ BaaS, resulting in JSON-format r
     "count": 2
 }
 ```
+
+Read more about the Prisma-like pattern [here](/development/sdk/query-syntax) and REST-API [here](/development/rest-api).
