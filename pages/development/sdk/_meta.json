@@ -7,7 +7,8 @@
 	"query-syntax": "Query Syntax",
 	"authentication": "Authentication",
 	"handling-user-data": {
-		"title": "Handling User Data"
+		"title": "Handling User Data",
+		"display": "hidden"
 	},
 	"handling-tenant-data": {
 		"title": "Handling Tenant Data",
