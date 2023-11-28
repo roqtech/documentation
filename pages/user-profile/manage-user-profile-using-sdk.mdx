@@ -9,19 +9,23 @@ To manage user profile using ROQ BaaS SDK, you need to implement the following s
 - [Upload user avatar](#upload-user-avatar)
 - [Update user profile](#update-user-profile)
 
-
 ## Add user profiles to your app
 
-To display the user profile information, you can use the `userProfile()` API. This method needs the user ID as a parameter. The user id can be obtained from the session object `roqUserId`.
+To display the user profile information, you can use the `userProfile()` API from ROQ Platform. This method needs the user ID as a parameter and the user id can be obtained from the session object, specificallt the `roqUserId` value.
 
-For example, in a Next.js app, you can use the `roqBrowserClient` and `useSession()` hooks to get the `userProfile()` API to get the user profile information and the user id.
+Now, suppose we already setup a Next.js app then you can use the `useSession()` hooks  to get the user id and `userProfile()` to get the user profile information. To display the user profile information, let's create a page in a folder  `src/app/profile`:
 
-```tsx
+<Callout type="info">
+This code using Next.js 13 or later with **App Router** feature. To setup Next.js app with ROQ BaaS, please read this [quickstart](/next-js).
+</Callout>
+
+```tsx filename="page.tsx"
+"use client"
+
 import { roqBrowserClient } from '@/lib/roq/roq-client';
 import { useSession } from "@/lib/roq"
 
 const { session } = useSession()
-
 const { roqUserId } = session
 
 const userProfile = async () => {
@@ -67,6 +71,7 @@ import  ProfileFrom from "components/ProfileForm";
 function UserProfile() {
   return <UserProfileSection />;
 }
+
 const UserProfileSection = () => {
   const { session, status } = useSession();
   const [profile, setProfile] = useState({
@@ -79,8 +84,7 @@ const UserProfileSection = () => {
     avatarUrl: "",
   });
 
-  const roq_user_id = session?.roqUserId;
-  const tenant_id = session?.user.tenantId;
+  const userId = session?.roqUserId;
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -102,7 +106,7 @@ const UserProfileSection = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       const myUserProfile = await roqBrowserClient.roqPlatform.userProfile({
-        id: roq_user_id ?? "",
+        id: userId ?? "",
       });
 
       const myprofile = myUserProfile;
@@ -275,6 +279,8 @@ Whether you implement file uploading or use a specific framework component, reme
 To update a user profile, we can use the `update` method from the `user` entity. This `user` entity can be accessed in the `roqBrowserClient.user` properties:
 
 ```tsx
+"use client"
+
 import { roqBrowserClient } from '@/lib/roq/roq-client';
 import { useSession } from "@/lib/roq";
 
